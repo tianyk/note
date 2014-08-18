@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Spring MVC流程</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>SpringMVC 流程</h1>
+<h2>服务器启动阶段（<code>DispatcherServlet</code>初始化阶段）</h2>
+<ol>
+<li>
+<p>启动后<code>ContextLoaderListener</code>首先会在初始化方法<code>contextInitialized(ServletContextEvent event)</code>中调用<code>initWebApplicationContext(event.getServletContext())</code>来在创建一个<code>WebApplicationContext</code>。并将其作为<code>ServletContext</code>的一个属性设置到Servlet环境中。这个上下文对象为跟上下文对象。     <br />
+<strong>ContextLoader#initWebApplicationContext(ServletContext servletContext)</strong></p>
+<pre><code>servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.context);
+</code></pre>
+
+</li>
+<li>
+<p><code>DispatcherServlet</code>初始化过程中中也会创建一个<code>WebApplicationContext</code>对象，并将<code>ContextLoaderListener</code>创建的上下文对象作为父上下文。同样也会将其作为<code>ServletContext</code>的一个属性。  <br />
+<strong>FrameworkServlet#initWebApplicationContext()</strong></p>
+<pre><code>String attrName = getServletContextAttributeName();    
+getServletContext().setAttribute(attrName, wac);
+</code></pre>
+
+<p>创建完上下文对象后还会调用<code>onRefresh</code>进行一系列初始化工作。  <br />
+<strong>DispatcherServlet#initStrategies(ApplicationContext context)</strong></p>
+<pre><code>initMultipartResolver(context); 
+initLocaleResolver(context);
+initThemeResolver(context);
+initHandlerMappings(context);
+initHandlerAdapters(context);
+initHandlerExceptionResolvers(context);
+initRequestToViewNameTranslator(context);
+initViewResolvers(context);
+initFlashMapManager(context);
+</code></pre>
+
+<p>这几个init方法的实现思路基本相同，首先从Bean容器中过的特定类型的类的实例。如果没有找到，则使用默认配置。即<code>DispatcherServlet.properties</code>中的配置。  <br />
+<strong>DispatcherServlet#initHandlerAdapters(ApplicationContext context)</strong></p>
+<pre><code>private void initHandlerAdapters(ApplicationContext context) {
+    this.handlerAdapters = null;
+
+    if (this.detectAllHandlerAdapters) {
+        // Find all HandlerAdapters in the ApplicationContext, including ancestor contexts.
+        Map&lt;String, HandlerAdapter&gt; matchingBeans =
+                BeanFactoryUtils.beansOfTypeIncludingAncestors(context, HandlerAdapter.class, true, false);
+        if (!matchingBeans.isEmpty()) {
+            this.handlerAdapters = new ArrayList&lt;HandlerAdapter&gt;(matchingBeans.values());
+            // We keep HandlerAdapters in sorted order.
+            // 排序后对后来的getHandlerAdapter的结果会有所影响
+            OrderComparator.sort(this.handlerAdapters);
+        }
+    }
+    else {
+        try {
+            HandlerAdapter ha = context.getBean(HANDLER_ADAPTER_BEAN_NAME, HandlerAdapter.class);
+            this.handlerAdapters = Collections.singletonList(ha);
+        }
+        catch (NoSuchBeanDefinitionException ex) {
+            // Ignore, we'll add a default HandlerAdapter later.
+        }
+    }
+
+    // Ensure we have at least some HandlerAdapters, by registering
+    // default HandlerAdapters if no other adapters are found.
+    if (this.handlerAdapters == null) {
+        this.handlerAdapters = getDefaultStrategies(context, HandlerAdapter.class);
+        if (logger.isDebugEnabled()) {
+            logger.debug(&quot;No HandlerAdapters found in servlet '&quot; + getServletName() + &quot;': using default&quot;);
+        }
+    }
+}
+</code></pre>
+
+</li>
+</ol>
+<p>经过一系列的init方法后<code>DispatcherServlet</code>正式初始化完成。</p>
+<h2>请求-响应阶段</h2>
+<ol>
+<li>
+发起请求  <br />
+<code>DispatcherServlet</code>是一个标准的Servlet。当我们发送一个GET请求后，会有<code>DispatcherServlet</code>的<code>doGet(HttpServletRequest request, HttpServletResponse response)</code>来处理。  <br />
+<strong>FrameworkServlet#doGet(HttpServletRequest request, HttpServletResponse response)</strong>  <br />
+	processRequest(request, response);
+在<code>processRequest</code>这一阶段主要调用<code>doService</code>,然后是<code>doDispatch</code>。
+</li>
+<li>
+<p>处理请求 <br />
+在<code>doDispatch</code>主要有一下几步操作。  <br />
+1) 首先调用<code>getHandler</code>首先获得一个<code>HandlerMapping</code>对象，然后调用其<code>getHandler</code>方法返回一个<code>HandlerExecutionChain</code>对象。具体查看<code>HandlerMapping</code>实现类，例如<code>RequestMappingHandlerMapping</code>  <br />
+<strong>DispatcherServlet#getHandler(HttpServletRequest request)</strong></p>
+<pre><code>protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+    for (HandlerMapping hm : this.handlerMappings) {
+        if (logger.isTraceEnabled()) {
+            logger.trace(
+                    &quot;Testing handler map [&quot; + hm + &quot;] in DispatcherServlet with name '&quot; + getServletName() + &quot;'&quot;);
+        }
+        HandlerExecutionChain handler = hm.getHandler(request);
+        if (handler != null) {
+            return handler;
+        }
+    }
+    return null;
+}
+</code></pre>
+
+<p>以<code>RequestMethodHandlerMapping</code>为例，此对象中主要包含一个<code>HandlerMethod</code>实例及处理此请求的拦截器。  <br />
+2) 调用<code>getHandlerAdapter</code>来得到第一个<code>supports(handler)</code>为<code>true</code>的<code>HandlerAdapter</code>。  <br />
+<strong>DispatcherServlet#getHandlerAdapter(Object handler)</strong></p>
+<pre><code>protected HandlerAdapter getHandlerAdapter(Object handler) throws ServletException {
+    for (HandlerAdapter ha : this.handlerAdapters) {
+        if (logger.isTraceEnabled()) {
+            logger.trace(&quot;Testing handler adapter [&quot; + ha + &quot;]&quot;);
+        }
+        if (ha.supports(handler)) {
+            return ha;
+        }
+    }
+    throw new ServletException(&quot;No adapter for handler [&quot; + handler +
+            &quot;]: The DispatcherServlet configuration needs to include a HandlerAdapter that supports this handler&quot;);
+}
+</code></pre>
+
+<p>3) 然后调用<code>HandlerExecutionChain#applyPreHandle(...)</code>开始应用拦截器，一个一个调用其<code>preHandle</code>方法。  <br />
+<strong>HandlerExecutionChain#applyPreHandle(HttpServletRequest request, HttpServletResponse response)</strong></p>
+<pre><code>boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    if (getInterceptors() != null) {
+        for (int i = 0; i &lt; getInterceptors().length; i++) {
+            HandlerInterceptor interceptor = getInterceptors()[i];
+            if (!interceptor.preHandle(request, response, this.handler)) {
+                triggerAfterCompletion(request, response, null);
+                return false;
+            }
+            this.interceptorIndex = i;
+        }
+    }
+    return true;
+}   
+</code></pre>
+
+<p>4) 接着调用<code>HandlerAdapter.handle(...)</code>得到一个<code>ModelAndView</code>对象,里面封装了数据对象及具体的View对象。具体实现需要查看<code>HandlerAdapter</code>实现类。例如：<code>RequestMappingHandlerAdapter</code>,HandlerAdapter里面有一些<code>HandlerMethodArgumentResolver</code>和<code>HandlerMethodReturnValueHandler</code>来负责对方法参数及返回类型的解析。  <br />
+5) 然后调用<code>HandlerExecutionChain#applyPostHandle(...)</code>再次应用拦截器，调用其<code>postHandle</code>方法。  <br />
+<strong>HandlerExecutionChain#applyPreHandleapplyPostHandle(HttpServletRequest request, HttpServletResponse response, ModelAndView mv)</strong>    
+</p>
+<pre><code>void applyPostHandle(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) throws Exception {
+    if (getInterceptors() == null) {
+        return;
+    }
+    for (int i = getInterceptors().length - 1; i &gt;= 0; i--) {
+        HandlerInterceptor interceptor = getInterceptors()[i];
+        interceptor.postHandle(request, response, this.handler, mv);
+    }
+}
+</code></pre>
+
+<p>6) 最后一步<code>processDispatchResult</code>处理结果，相应给客户端。在<code>processDispatchResult</code>首先调用了<code>render</code>方法  <br />
+<strong>DispatcherServlet#processDispatchResult(HttpServletRequest request, HttpServletResponse response, HandlerExecutionChain mappedHandler, ModelAndView mv, Exception exception)</strong></p>
+<pre><code>render(mv, request, response);
+</code></pre>
+
+<p>最后是<code>HandlerExecutionChain#triggerAfterCompletion(...)</code>,调用拦截器的<code>afterCompletion</code>方法。拦截器处理流程至此结束。  <br />
+分析一下<code>reader</code>方法。首先调用<code>resolveViewName</code>，在里面先遍历所有的<code>ViewResolver</code>实例,调用其<code>resolveViewName</code>方法，返回第一不为空的<code>View</code>实例。  <br />
+<strong>DispatcherServlet#resolveViewName(String viewName, Map&lt;String, Object&gt; model, Locale locale, HttpServletRequest request)</strong></p>
+<pre><code>protected View resolveViewName(String viewName, Map&lt;String, Object&gt; model, Locale locale,
+        HttpServletRequest request) throws Exception {
+
+    for (ViewResolver viewResolver : this.viewResolvers) {
+        View view = viewResolver.resolveViewName(viewName, locale);
+        if (view != null) {
+            return view;
+        }
+    }
+    return null;
+}
+</code></pre>
+
+<p><code>ViewResolver#resolveViewName</code>具体可参看<code>InternalResourceViewResolver</code>实现。  <br />
+最后调用<code>View</code>的<code>render</code>方法。<code>render(Map&lt;String, ?&gt; model, HttpServletRequest request, HttpServletResponse response)</code>方法的具体实现可参考<code>View</code>实现类<code>JstlView</code>。 <br />
+在<code>JstlView</code>中主要是调用<code>renderMergedOutputModel</code>，首先Model对象数据放置到<code>request</code>中，然后得到一个<code>RequestDispatcher</code>,最后调用其<code>forward</code>方法响应给客户端。</p>
+</li>
+</ol>
+<p>至此一个请求-响应过程结束。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
