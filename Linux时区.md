@@ -58,7 +58,10 @@ tzselect 选择时区，选着完成不会生效。需要在`.profile`中加入`
     can use the /usr/bin/tzselect command in shell scripts:
     Asia/Shanghai
 
+``` sh
+echo "TZ='Asia/Shanghai'; export TZ" ~/.profile
+source ~/.profile
 ```
-    echo "TZ='Asia/Shanghai'; export TZ" ~/.profile
-    source ~/.profile
-```
+
+参考：[[1]](http://codingstandards.iteye.com/blog/834280) [[2]](http://www.jb51.net/LINUXjishu/158824.html
+)
