@@ -59,7 +59,7 @@ tzselect 选择时区，选着完成不会生效。需要在`.profile`中加入`
     Asia/Shanghai
 
 ``` sh
-echo "TZ='Asia/Shanghai'; export TZ" ~/.profile
+echo "TZ='Asia/Shanghai'; export TZ" >> ~/.profile
 source ~/.profile
 ```
 
