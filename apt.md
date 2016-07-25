@@ -17,7 +17,7 @@
 
 *那個 update 的參數並不是在進行更新， 而是在進行伺服器與用戶端的套件表頭清單更新而已， 但這個動作相當重要，如果你沒有作這個動作的話，你的套件就不會更新了！ 在 apt-get update 後，再使用 apt-get dist-upgrade 這樣就能夠將整個系統給他升級了！*
 
-* apt-cache 
+* apt-cache
 ```
 參數：
 [搜尋項目]：apt-cache 可以搜尋 apt 所列出的套件標頭資料喔！可用項目有：
@@ -45,6 +45,10 @@ deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main contrib non-free r
 deb http://mirrors.zju.edu.cn/raspbian/raspbian/ jessie main contrib non-free rpi
 deb http://mirrors.cqu.edu.cn/Raspbian/raspbian/ jessie main contrib non-free rpi
 ```
+
+### 国内的apt源
+1. [阿里](http://mirrors.aliyun.com/)
+
 
 ### 参考
 [【1】](http://linux.vbird.org/linux_server/0210network-secure/0220upgrade.php#apt_config)[【2】](http://www.tuicool.com/articles/EjMJNz/)[【3】](http://outofmemory.cn/code-snippet/35699/raspberry-pi-apt-get-source-list)[【4】](http://shumeipai.nxez.com/2013/08/31/raspbian-chinese-software-source.html)[【5】](https://www.raspbian.org/RaspbianMirrors)
