@@ -7,9 +7,9 @@ docker pull node:4
 ### 查看本地镜像
 docker images [name:tag]
 
-### 删除镜像
-docker rm [name:id] 正在运行的镜像不能删除，需要先stop
-docker irm
+### 删除镜像/容器
+docker rm [name:id] 删除容器
+docker rmi [id] 删除镜像
 
 ### 列出所有正在运行的镜像
 docker ps
