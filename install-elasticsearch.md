@@ -17,8 +17,19 @@ enabled=1
 3. 安装  
 ```
 yum clean all
-yum install elasticsearch -y
+# 需要jre支持
+yum install java-1.8.0-openjdk.x86_64 elasticsearch -y
 ```
 
-4. 参考  
+4. 配置开机启动
+```
+chkconfig --add elasticsearch
+```
+
+5. 启动服务
+```
+service elasticsearch start
+```
+
+6. 参考  
 [【1】](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html)
