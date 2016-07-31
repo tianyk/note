@@ -20,5 +20,15 @@ yum clean all
 yum install logstash
 ```
 
-4. 参考  
+4. 安装目录介绍
+```
+[root@doog-os ~]# whereis logstash
+logstash: /etc/logstash /opt/logstash/bin/logstash.bat /opt/logstash/bin/logstash
+
+/opt/logstash/bin/logstash      #执行文件
+/etc/logstash/conf.d/           #配置文件目录
+```
+
+
+5. 参考  
 [【1】](https://www.elastic.co/guide/en/logstash/current/installing-logstash.html#package-repositories)
