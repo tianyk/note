@@ -26,9 +26,17 @@ yum install logstash
 logstash: /etc/logstash /opt/logstash/bin/logstash.bat /opt/logstash/bin/logstash
 
 /opt/logstash/bin/logstash      #执行文件
-/etc/logstash/conf.d/           #配置文件目录
+/etc/logstash/conf.d/           #配置文件目录      
+```
+
+5. 添加开机启动
+```
+chkconfig --add kibana
+
+# logstash服务的配置文件
+/etc/sysconfig/logstash   
 ```
 
 
-5. 参考  
+6. 参考  
 [【1】](https://www.elastic.co/guide/en/logstash/current/installing-logstash.html#package-repositories)

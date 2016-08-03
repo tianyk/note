@@ -49,4 +49,4 @@ docker inspect [name:id]
 -f | --format '{{ .key1.key1 }}' 类似获取json对象值的方式来获取值
 
 ### 查看端口绑定短息
-docker port 
+docker port
