@@ -25,4 +25,4 @@ npm version major增加一位大版本号（比如 1.1.1 -> 2.0.0）。
 
 
 ### 参考
-[【1】](1http://blog.csdn.net/ligang2585116/article/details/47703291) [【2】](http://codecloud.net/12932.html)
+[【1】](1http://blog.csdn.net/ligang2585116/article/details/47703291) [【2】](http://codecloud.net/12932.html) [【3】](http://www.admin10000.com/document/6736.html)

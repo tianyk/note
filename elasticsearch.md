@@ -12,7 +12,7 @@ Elasticsearch集群可以包含多个索引(indices)（数据库），每一个�
 
 <https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html>
 
-
+![](images/QQ20160803-0.png)
 
 ### 参考
 [【1】](http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html)
