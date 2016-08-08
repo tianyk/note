@@ -79,7 +79,6 @@ path.logs: /etc/elasticsearch/logs
 #
 # network.host: 192.168.0.1
 # network.host: 127.0.0.1
-network.host: 0.0.0.0  
 #
 # Set a custom port for HTTP:
 #
