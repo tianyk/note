@@ -168,5 +168,9 @@ iptables -t filter -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP
 ```
 
 
+### TIPS
+1. 直接通过命令配置的规则在重启后就丢失了，要想重启后也生效。可以运行`service iptables save`命令保存。
+
+
 ### 参考
 [【1】](http://blog.chinaunix.net/uid-26495963-id-3279216.html) [【2】](http://blog.chinaunix.net/uid-9950859-id-98279.html)
