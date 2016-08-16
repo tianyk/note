@@ -1,4 +1,4 @@
 ### TODO
 - [ ] git-submodules.md
-- [ ] iptables.md
+- [x] iptables.md
 - [ ] atom-keymap.md
