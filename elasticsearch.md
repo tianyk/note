@@ -14,10 +14,6 @@ Elasticsearch集群可以包含多个索引(indices)（数据库），每一个�
 
 ![](images/QQ20160803-0.png)
 
-### 参考
-[【1】](http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html)
-
-
 ### 配置
 ``` yml
 # ======================== Elasticsearch Configuration =========================
@@ -121,3 +117,9 @@ http.port: 9200
 #
 # action.destructive_requires_name: true
 ```
+
+### 常用接口
+1. 创建mapping
+
+### 参考
+[【1】](http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html)
