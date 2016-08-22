@@ -12,7 +12,7 @@ yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pc
 ```
 
 #### 编译
-1. configure
+1、configure
 编译的时候可以指定一些参数。nginx安装目录、配置文件路径、插件等等。  
 nginx大部分常用模块，编译时`./configure --help`以`--without`开头的都默认安装。
 `--prefix=PATH`: 指定nginx的安装目录。默认 `/usr/local/nginx`  
@@ -23,7 +23,7 @@ nginx大部分常用模块，编译时`./configure --help`以`--without`开头�
 `--with-http_ssl_module`: 使用https协议模块。默认情况下，该模块没有被构建。前提是openssl与openssl-devel已安装  
 `--with-http_stub_status_module`: 用来监控 Nginx 的当前状态  
 `--with-http_realip_module`: 通过这个模块允许我们改变客户端请求头中客户端IP地址值(例如X-Real-IP 或 X-Forwarded-For)，意义在于能够使得后台服务器记录原始客户端的IP地址  
-`--add-module=PATH`: 添加第三方外部模块，如nginx-sticky-module-ng或缓存模块。每次添加新的模块都要重新编译（Tengine可以在新加入module时无需重新编译）  
+`--add-module=PATH`: 添加第三方外部模块，如nginx_upstream_check_module或缓存模块。每次添加新的模块都要重新编译（Tengine可以在新加入module时无需重新编译）  
 e.g,
 ```shell
 ./configure \
@@ -31,7 +31,8 @@ e.g,
 --group=nginx \
 --add-module=./plugins/nginx_upstream_check_module/
 ```
-2. make
+
+2、make
 ```
 make & make install
 ```
