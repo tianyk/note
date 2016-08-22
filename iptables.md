@@ -169,7 +169,29 @@ iptables -t filter -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP
 
 
 ### TIPS
-1. 直接通过命令配置的规则在重启后就丢失了，要想重启后也生效。可以运行`service iptables save`命令保存。
+1、 直接通过命令配置的规则在重启后就丢失了，要想重启后也生效。可以运行`service iptables save`命令保存。
+
+
+2、 运行wget命令报不能dns不能解析错误
+这个问题的主要原因是没有开放53端口，这个地方有个需要注意的。这里是从本地发起的请求，所以INPUT规则中应该指定--sport 53，OUTPUT规则中要指定--dport 53  
+
+```
+iptables -A OUTPUT -o eth0 -p udp --dport 53 -j ACCEPT
+
+iptables -A INPUT -i eth0 -p udp --sport 53 -j ACCEPT
+```  
+
+配置完这个发现还是不行，原因类似。还需要开发从本地发起的HTTP，HTTPS请求。下面是完整的配置ssh、http、https的例子
+
+```
+从外部发起的请求
+iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+
+从本机发起的请求
+iptables -A OUTPUT -o eth0 -p tcp -m multiport --dports 22,80,443  -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp -m multiport --sports 22,80,443  -j ACCEPT
+```
 
 
 ### 参考
