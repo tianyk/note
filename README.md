@@ -30,7 +30,7 @@
 - [x] [crontab.md](crontab.md)
 - [x] [ip-mask.md](ip-mask.md)
 - [ ] [python字符编码.md](python字符编码.md)
-- [ ] [安装nginx.md](安装nginx.md)
+- [x] [安装nginx.md](安装nginx.md)
 - [ ] [nginx常用模块.md](nginx常用模块.md)
 - [ ] [tar.md](tar.md)
 - [ ] [yum.md](yum.md)
