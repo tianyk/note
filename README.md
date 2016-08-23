@@ -32,7 +32,7 @@
 - [ ] [python字符编码.md](python字符编码.md)
 - [x] [安装nginx.md](安装nginx.md)
 - [ ] [nginx常用模块.md](nginx常用模块.md)
-- [ ] [tar.md](tar.md)
+- [x] [tar.md](tar.md)
 - [ ] [yum.md](yum.md)
 - [ ] [express-view.md](express-view.md)
 - [ ] [cookie.md](cookie.md)
