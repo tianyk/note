@@ -25,7 +25,7 @@
 - [x] [树莓派安装操作系统.md](树莓派安装操作系统.md)
 - [ ] [git-submodules.md](git-submodules.md)
 - [x] [iptables.md](iptables.md)
-- [ ] [atom-keymap.md](atom-keymap.md)
+- [x] [atom-keymap.md](atom-keymap.md)
 - [ ] [process-thread-coroutine.md](process-thread-coroutine.md)
 - [x] [crontab.md](crontab.md)
 - [x] [ip-mask.md](ip-mask.md)

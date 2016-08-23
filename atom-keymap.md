@@ -19,3 +19,7 @@
 #### CTRL + CMD +
 * [ctrl + cmd + up] 上移当前行
 * [ctrl + cmd + down] 下移当前行
+
+
+### 参考
+[【1】](http://www.jianshu.com/p/b8392151c0cd) [【2】](http://www.imooc.com/article/1370)
