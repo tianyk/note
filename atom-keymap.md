@@ -1,0 +1,21 @@
+> atom大部分快捷键和sublime一样
+
+#### CMD +
+
+#### CMD + K +
+* [cmd + k + b] 打开/关闭侧边栏
+
+#### CMD + SHIFT +
+* [cmd + shift + k] 删除当前行
+
+
+#### CTRL +
+
+
+#### CTRL + SHIFT +
+* [ctrl + shift + c] 复制当前文件路径
+
+
+#### CTRL + CMD +
+* [ctrl + cmd + up] 上移当前行
+* [ctrl + cmd + down] 下移当前行
