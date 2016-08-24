@@ -1,9 +1,7 @@
 ### 原理
-
-
+![](images/QQ20160825-1@2x.jpg)
 
 ### 部署
-
 #### Nginx
 ```
 server {
@@ -31,3 +29,6 @@ httpsServer.listen(443);
 httpsServer.on('error', onError);
 httpsServer.on('listening', onListening);
 ```
+
+### 参考
+【图解HTTPS 第七章】[【1】](http://blog.csdn.net/sean_cd/article/details/6966130) [【2】](https://zhuanlan.zhihu.com/p/22142170)
