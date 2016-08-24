@@ -40,3 +40,4 @@
 - [x] [supervisor.md](supervisor.md)
 - [x] [undefined.md](undefined.md)
 - [x] [typeof&instanceof.md.md](typeof&instanceof.md.md)
+- [ ] [闭包.md](闭包.md)
