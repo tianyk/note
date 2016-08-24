@@ -38,3 +38,5 @@
 - [ ] [cookie.md](cookie.md)
 - [ ] [https.md](https.md)
 - [x] [supervisor.md](supervisor.md)
+- [x] [undefined.md](undefined.md)
+- [x] [typeof&instanceof.md.md](typeof&instanceof.md.md)
