@@ -29,3 +29,6 @@ grep -B 2 root /etc/passwd
 ```
 grep -A 2 root /etc/passwd  
 ```
+
+### 参考
+[【1】](http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html)[【2】](http://www.cnblogs.com/mfryf/p/3336288.html)

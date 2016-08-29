@@ -46,4 +46,4 @@
 - [x] [nginx开机启动.md](nginx开机启动.md)
 - [ ] [linux-chkconfig.md](linux-chkconfig.md)
 - [x] [install-openresty.md](install-openresty.md)
-- [ ] [linux-grep.md](linux-grep.md)
+- [x] [linux-grep.md](linux-grep.md)
