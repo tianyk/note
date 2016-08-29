@@ -42,7 +42,7 @@
 - [x] [typeof&instanceof.md.md](typeof&instanceof.md.md)
 - [ ] [闭包.md](闭包.md)
 - [ ] [etag.md](etag.md)
-- [x] [java-redis-session.md](java-redis.session.md)
+- [x] [java-redis-session.md](java-redis-session.md)
 - [x] [nginx开机启动.md](nginx开机启动.md)
 - [ ] [linux-chkconfig.md](linux-chkconfig.md)
 - [x] [install-openresty.md](install-openresty.md)
