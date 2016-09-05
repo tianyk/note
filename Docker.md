@@ -50,3 +50,20 @@ docker inspect [name:id]
 
 ### 查看端口绑定短息
 docker port
+
+
+----------------
+
+### Docker 镜像
+docker save doog/node:0.0.1 | gzip -c > node-001.tar.gz    # 导出镜像
+gunzip -c node-001.tar.gz | docker load                    # 导入镜像
+
+### Docker 容器
+docker export 6c5563 > ./doog-node.tar.gz                  # 导出容器
+
+
+
+### 注意事项
+* WORKDIR：默认为`/`    
+* ADD命令：如果<src>是一个本地的压缩包且<dest>是以“/”结尾的目录，则会调用“tar -x”命令解压缩，如果<dest>有同名文件则覆盖，但<src>是一个url时不会执行解压缩。
+* ADD比COPY多了2个功能, 下载URL和解压
