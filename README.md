@@ -47,3 +47,5 @@
 - [ ] [linux-chkconfig.md](linux-chkconfig.md)
 - [x] [install-openresty.md](install-openresty.md)
 - [x] [linux-grep.md](linux-grep.md)
+- [x] [http-cache.md](http-cache.md)
+- [ ] [计算机中的时间表示.md](计算机中的时间表示.md)
