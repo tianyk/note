@@ -77,5 +77,13 @@ crontab文件的一些例子：
 2. crontab -l 列出所有的任务
 3. crontab -r 删除所有的任务
 
+
+### 查看crontab输出日志
+#### Linux
+位于/var/log/cron-* 文件中
+
+#### Mac
+
+
 ### 参考
 [【1】](http://www.jb51.net/LINUXjishu/19905.html)
