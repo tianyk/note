@@ -50,3 +50,8 @@
 - [x] [HTTP缓存.md](http-cache.md)
 - [ ] [计算机中的时间表示.md](计算机中的时间表示.md)
 - [x] [Linux内核](linux-kernel.md)
+- [x] [环境变量](环境变量.md)
+- [x] [Linux重定向](Linux重定向.md)
+- [x] [Mac不能清空废纸篓](Mac不能清空废纸篓.md)
+- [x] [mongoose-validation](mongoose-validation.md)
+- [x] [install-docker](install-docker.md)
