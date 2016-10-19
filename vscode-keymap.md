@@ -76,3 +76,7 @@ alt + cmd + o 导入Go package
 ctrl + - 后退
 
 shift + cmd + space 函数参数提示
+
+alt + ⬆ 上移一行
+
+shift + alt + ⬆ 复制当前行到上面
