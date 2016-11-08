@@ -60,3 +60,6 @@
 - [x] [linux-常用命令](linux-常用命令.md)
 - [x] [Docker的镜像存放目录修改与迁移](Docker的镜像存放目录修改与迁移.md)
 - [x] [阿里云docker镜像加速](阿里云docker镜像加速.md)
+- [ ] [OpenResty总结](OpenResty总结.md)
+- [ ] [Node.js性能问题排查](Node.js性能问题排查.md)
+- [x] [Install-Docker-Compose](Install-Docker-Compose.md)
