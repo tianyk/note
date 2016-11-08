@@ -58,3 +58,4 @@
 - [x] [linux-端口](linux-端口.md)
 - [ ] [mac-fish](mac-fish.md)
 - [x] [linux-常用命令](linux-常用命令.md)
+- [x] [Docker的镜像存放目录修改与迁移](Docker的镜像存放目录修改与迁移.md)
