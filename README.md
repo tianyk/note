@@ -55,3 +55,6 @@
 - [x] [Mac不能清空废纸篓](Mac不能清空废纸篓.md)
 - [x] [mongoose-validation](mongoose-validation.md)
 - [x] [install-docker](install-docker.md)
+- [x] [linux-端口](linux-端口.md)
+- [ ] [mac-fish](mac-fish.md)
+- [x] [linux-常用命令](linux-常用命令.md)
