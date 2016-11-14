@@ -32,7 +32,7 @@ docker top [name|id]
 --name 容器名字
 --restart=[always|on-failure:5] 自动重启
 -d 后台运行
--v 共享文件系统
+-v 共享文件系统 e.g, -v /home/doog/app:/root/app
 -i -t 进入交互式环境
 --link 连接到另外一个容器。e.g, --link redis-name:redis_alias
 --rm 运行完删除
