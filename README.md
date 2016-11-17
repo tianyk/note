@@ -66,3 +66,7 @@
 - [ ] [zip](zip.md)
 - [x] [Linux信号机制](http://t.cn/RfGBh0H)
 - [x] [VSCode智能提示](http://t.cn/Rftexm0)
+- [x] [nginx-location](nginx-location.md)
+- [x] [Nginx虚拟主机](nginx-virtual-host.md)
+- [x] [Nginx限流](nginx-http-limit.md)
+- [ ] [Nginx location 正则表达式](nginx-location-regexp.md)
