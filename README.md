@@ -69,4 +69,6 @@
 - [x] [nginx-location](nginx-location.md)
 - [x] [Nginx虚拟主机](nginx-virtual-host.md)
 - [x] [Nginx限流](nginx-http-limit.md)
-- [ ] [Nginx location 正则表达式](nginx-location-regexp.md)
+- [ ] [Nginx location 正则表达式](nginx-location-regexp.md)    
+- [x] [telnet](telnet.md)    
+- [x] [ab](ab.md)    
