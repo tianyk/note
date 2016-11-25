@@ -72,3 +72,6 @@
 - [ ] [Nginx location 正则表达式](nginx-location-regexp.md)    
 - [x] [telnet](telnet.md)    
 - [x] [ab](ab.md)    
+- [x] [pip](pip.md)
+- [x] [python-virtualenv](python-virtualenv.md)
+- [x] [tensorflow](tensorflow.md)
