@@ -75,3 +75,5 @@
 - [x] [pip](pip.md)
 - [x] [python-virtualenv](python-virtualenv.md)
 - [x] [tensorflow](tensorflow.md)
+- [ ] [protobuf](protobuf.md)
+- [ ] [notebook](notebook.md)

@@ -1,6 +1,7 @@
 1. 查看文件夹大小
 ```
 du -h --max-depth=1 ~/
+du -h -d=1 .
 ```
 --max-depth为深度
 
