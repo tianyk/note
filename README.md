@@ -82,3 +82,4 @@
 - [ ] [gnu-paralell](gnu-paralell.md)
 - [ ] [pigz](pigz.md)
 - [x] [VirtualBox-CentOS7](VirtualBox-CentOS7.md)
+- [x] [rsync](rsync.md)
