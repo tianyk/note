@@ -19,26 +19,70 @@ public void doFilter(ServletRequest request, ServletResponse response, FilterCha
 
 在`HttpServletRedisRequest`里面我们重写getSession方法，替换成自己的Session实现。
 ``` java
-@Override
-public HttpSession getSession(boolean create) {
-    if (sid != null && sid.length() > 0) {
-        return sessionManage.get(sid, this.getServletContext());
-    } else if (create) {
-        HttpSession session = sessionManage.newSession(this.getServletContext());
-        this.sid = session.getId();
-        return session;
-    } else {
-        return null;
+public class HttpServletRedisRequest extends HttpServletRequestWrapper {
+    private HttpServletRequest request;
+    private String sid;
+
+    /**
+     * Constructs a request object wrapping the given request.
+     *
+     * @param request
+     * @throws IllegalArgumentException if the request is null
+     */
+    public HttpServletRedisRequest(HttpServletRequest request) {
+        super(request);
+
+        this.request = request;
+        this.sid = request.getHeader(TOKEN_HEADER_NAME);
+    }
+
+
+    @Override
+    public HttpSession getSession() {
+        return this.getSession(true);
+    }
+
+    @Override
+    public HttpSession getSession(boolean create) {
+        if (sid != null && sid.length() > 0) {
+            return sessionManage.get(sid, this.getServletContext());
+        } else if (create) {
+            HttpSession session = sessionManage.newSession(this.getServletContext());
+            this.sid = session.getId();
+            return session;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String getRequestedSessionId() {
+        return this.sid;
+    }
+
+    @Override
+    public void setAttribute(String name, Object o) {
+        super.setAttribute(name, o);
     }
 }
+
 ```
 
 在`HttpServletRedisResponse`中，把SessionID放到响应头或者Cookie中响应给浏览器。
 ``` java
-public HttpServletRedisResponse(HttpServletResponse response, HttpServletRequest request) {
-   super(response);
-   response.setHeader(TOKEN_HEADER_NAME, request.getRequestedSessionId());
+public class HttpServletRedisResponse extends HttpServletResponseWrapper {
+    private HttpServletRequest request;    
+    private HttpServletResponse response;
+
+    public HttpServletRedisResponse(HttpServletResponse response, HttpServletRequest request) {
+       super(response);
+       this.request = request;
+       this.response = response;
+
+       response.setHeader(TOKEN_HEADER_NAME, request.getRequestedSessionId());
+    }
 }
+
 ```
 
 ### 装饰器模式详解
