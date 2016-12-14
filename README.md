@@ -83,3 +83,4 @@
 - [ ] [pigz](pigz.md)
 - [x] [VirtualBox-CentOS7](VirtualBox-CentOS7.md)
 - [x] [rsync](rsync.md)
+- [x] [同步/异步&阻塞&非阻塞](synchronousVSasynchronous&blockingVSnon-blocking.md)
