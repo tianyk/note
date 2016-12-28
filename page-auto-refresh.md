@@ -11,7 +11,7 @@
 2.页面自动跳转： 把如下代码加入<head>区域中
 
 ```html
-<meta http-equiv="refresh" content="20" url="http://www.baidu.com">
+<meta http-equiv="refresh" content="20; URL=http://www.baidu.com">
 ```
 
 其中20指隔20秒后跳转到`http://www.baidu.com`页面
