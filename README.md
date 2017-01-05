@@ -96,3 +96,4 @@
 -	[x] [Node.js最佳实践](nodejs-best-practice.md)
 -   [x] [RabbitMQ](rabbitmq.md)
 -   [ ] [nohup](nohup.md)
+-   [x] [GUID](GUID.md)
