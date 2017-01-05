@@ -91,3 +91,8 @@
 -	[x] [页面自动刷新](page-auto-refresh.md)
 -	[ ] [curl](curl.md)
 -	[x] [mysql](mysql.md)
+-	[ ] [socket常见错误](socket-error.md)
+-	[ ] [linux系统目录](linux-system-directory.md)
+-	[x] [Node.js最佳实践](nodejs-best-practice.md)
+-   [ ] [RabbitMQ](rabbitmq.md)
+-   [ ] [nohup](nohup.md)
