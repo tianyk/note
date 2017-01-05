@@ -63,6 +63,40 @@ iptables -A OUTPUT -p tpc -m multitport --sports 5672,55672 -j ACCEPT
 ```
 
 #### Node.js使用RabbitMQ
+```javascript
+var q = 'tasks';
+
+var open = require('amqplib').connect('amqp://admin:12345@#localhost');
+
+// Publisher
+open
+    .then(function (conn) {
+        return conn.createChannel();
+    })
+    .then(function (ch) {
+        return ch.assertQueue(q).then(function (ok) {
+            return ch.sendToQueue(q, new Buffer('something to do'));
+        });
+    })
+    .catch(console.warn);
+
+// Consumer
+open
+    .then(function (conn) {
+        return conn.createChannel();
+    })
+    .then(function (ch) {
+        return ch.assertQueue(q).then(function (ok) {
+            return ch.consume(q, function (msg) {
+                if (msg !== null) {
+                    console.log(msg.content.toString());
+                    ch.ack(msg);
+                }
+            });
+        });
+    })
+    .catch(console.warn);
+```
 
 ### 参考
 

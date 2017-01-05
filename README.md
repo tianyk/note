@@ -94,5 +94,5 @@
 -	[ ] [socket常见错误](socket-error.md)
 -	[ ] [linux系统目录](linux-system-directory.md)
 -	[x] [Node.js最佳实践](nodejs-best-practice.md)
--   [ ] [RabbitMQ](rabbitmq.md)
+-   [x] [RabbitMQ](rabbitmq.md)
 -   [ ] [nohup](nohup.md)
