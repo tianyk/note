@@ -76,16 +76,18 @@
 	```javascript
 	process.on('uncaughtException', (err) => {
 	    console.error(err);
-		// db.close();
-	    process.exit(1);
+		db.stop(function(err) {
+			process.exit(1);
+		});
 	});
 	```
 
 7. 退出程序
 
 	```javascript
-    process.on('SIGTERM', () => {
-		// db.close();
-		process.exit(0);
-    });
+	process.on('SIGINT', function() {
+		db.stop(function(err) {
+			process.exit(err ? 1 : 0);
+		});
+	});
 	```
