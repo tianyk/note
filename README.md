@@ -98,3 +98,6 @@
 - [ ] [nohup](nohup.md)
 - [x] [GUID](GUID.md)
 - [ ] [Java虚拟机](jvm.md)
+- [x] [网速测试](speedtest.md)
+- [x] [httpstat](httpstat.md)
+- [x] [nodejs-dns-cache](nodejs-dns-cache.md)
