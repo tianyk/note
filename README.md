@@ -101,3 +101,4 @@
 - [x] [网速测试](speedtest.md)
 - [x] [httpstat](httpstat.md)
 - [x] [nodejs-dns-cache](nodejs-dns-cache.md)
+- [x] [修改DNS](modify-dns.md)
