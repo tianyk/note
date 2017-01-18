@@ -1,6 +1,10 @@
 ### Node.js DNS缓存
 
-Node.js默认不会缓存DNS信息，如果需要发大量请求时，使用带缓存的`dns.lookup`可以提高性能。
+Node.js默认不会缓存DNS信息，如果需要发大量请求时，使用带缓存的`dns.lookup`可以提高性能。  
+
+*lookup只支持http，https不会生效*
+
+![](images/QQ20170118-0@2x.jpg)
 
 ### 示例
 
@@ -18,9 +22,7 @@ var options = {
     port: 80,
     path: '/fe0a164b-06f9-4d27-a689-c554e69a9d82.jpg',
     method: 'GET',
-    lookup: function () {
-        dns.lookup.apply(dns, Array.prototype.slice.call(arguments));
-    }
+    lookup: dns.lookup
 };
 
 var req = http.request(options, (res) => {
@@ -55,9 +57,7 @@ var dns = require('dnscache')({
 });
 
 request = request.defaults({
-    lookup: function () {
-        dns.lookup.apply(dns, Array.prototype.slice.call(arguments));
-    }
+    lookup: dns.lookup
 });
 
 request.get('http://www.baidu.com/fe0a164b-06f9-4d27-a689-c554e69a9d82.jpg', function (error, response, body) {
@@ -67,3 +67,6 @@ request.get('http://www.baidu.com/fe0a164b-06f9-4d27-a689-c554e69a9d82.jpg', fun
     console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
 });
 ```
+
+### 参考
+[【1】](https://nodejs.org/api/net.html#net_socket_connect_options_connectlistener)
