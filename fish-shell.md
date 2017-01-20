@@ -5,7 +5,8 @@ curl -L http://get.oh-my.fish | fish
 
 ### 切换脚本
 ```shell
-sudo -u [user] chsh -s /usr/local/bin/fish
+chsh -s /usr/local/bin/fish
+# sudo -u [user] chsh -s /usr/local/bin/fish
 ```
 > 如果不生效，重新打开Terminal
 
@@ -13,6 +14,8 @@ sudo -u [user] chsh -s /usr/local/bin/fish
 ```shell
 omf install [<name>|<url>]
 ```
+
+[主题列表](https://github.com/oh-my-fish/oh-my-fish/blob/master/docs/Themes.md)
 
 ### 配置文件
 ```
