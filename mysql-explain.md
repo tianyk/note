@@ -35,5 +35,95 @@
 | \-               | Using temporary    | 在使用 GROUP BY 或 ORDER BY 时,需要创建临时表,保存中间结果集                                                                                |
 | \-               | Using where        | 利用SELECT语句中的WHERE子句里的条件进行检索操作                                                                                            |
 
+### 实验
+
+#### 实验1
+> 参照物
+
+```sql
+explain select
+    template.id as 'id', ifnull(likes.total, 0) as 'likes', ifnull(ratings.stars, 0) as 'ratings', ifnull(rating.star, 0) as 'rating', if(isnull(iLike.id), 0, 1) as 'isLike'
+from template
+left join (select template_id, avg(star) as 'stars' from rating group by template_id) ratings
+on template.id = ratings.template_id
+left join (select template_id, count(1) as total from `like` group by template_id) as likes
+on template.id = likes.template_id
+left join `like` as iLike
+on template.id = iLike.template_id and iLike.user_id = 10000
+left join rating
+on template.id = rating.template_id and rating.user_id = 10000;
+```
+
+| id | select_type | table      | type  | possible_keys | key     | key_len | ref  | rows | Extra                           |
+|----|-------------|------------|-------|---------------|---------|---------|------|------|---------------------------------|     
+|  1 | PRIMARY     | template   | index | NULL          | PRIMARY | 4       | NULL |   64 | Using index                     |
+|  1 | PRIMARY     | derived2   | ALL   | NULL          | NULL    | NULL    | NULL |    7 |                                 |
+|  1 | PRIMARY     | derived3   | ALL   | NULL          | NULL    | NULL    | NULL |    5 |                                 |
+|  1 | PRIMARY     | iLike      | ALL   | NULL          | NULL    | NULL    | NULL |    5 |                                 |
+|  1 | PRIMARY     | rating     | ALL   | NULL          | NULL    | NULL    | NULL |    7 |                                 |
+|  3 | DERIVED     | like       | ALL   | NULL          | NULL    | NULL    | NULL |    5 | Using temporary; Using filesort |
+|  2 | DERIVED     | rating     | ALL   | NULL          | NULL    | NULL    | NULL |    7 | Using temporary; Using filesort |
+
+
+#### 实验2
+> 调整子句顺序(6,7 -> 4,5) 对比实验1
+
+```sql
+explain select
+    template.id as 'id', ifnull(likes.total, 0) as 'likes', ifnull(ratings.stars, 0) as 'ratings', ifnull(rating.star, 0) as 'rating', if(isnull(iLike.id), 0, 1) as 'isLike'
+from template
+left join (select template_id, count(1) as total from `like` group by template_id) as likes
+on template.id = likes.template_id
+left join (select template_id, avg(star) as 'stars' from rating group by template_id) ratings
+on template.id = ratings.template_id
+left join `like` as iLike
+on template.id = iLike.template_id and iLike.user_id = 10000
+left join rating
+on template.id = rating.template_id and rating.user_id = 10000;
+```
+
+| id | select_type | table      | type  | possible_keys | key     | key_len | ref  | rows | Extra                           |      
+|----|-------------|------------|-------|---------------|---------|---------|------|------|---------------------------------|     
+|  1 | PRIMARY     | template   | index | NULL          | PRIMARY | 4       | NULL |   64 | Using index                     |      
+|  1 | PRIMARY     | derived2   | ALL   | NULL          | NULL    | NULL    | NULL |    5 |                                 |      
+|  1 | PRIMARY     | derived3   | ALL   | NULL          | NULL    | NULL    | NULL |    7 |                                 |      
+|  1 | PRIMARY     | iLike      | ALL   | NULL          | NULL    | NULL    | NULL |    5 |                                 |      
+|  1 | PRIMARY     | rating     | ALL   | NULL          | NULL    | NULL    | NULL |    7 |                                 |      
+|  3 | DERIVED     | rating     | ALL   | NULL          | NULL    | NULL    | NULL |    7 | Using temporary; Using filesort |      
+|  2 | DERIVED     | like       | ALL   | NULL          | NULL    | NULL    | NULL |    5 | Using temporary; Using filesort |      
+
+
+#### 实验3
+> 调整子句顺序(10,11 -> 8,9) 对比实验2
+
+```sql
+explain select
+    template.id as 'id', ifnull(likes.total, 0) as 'likes', ifnull(ratings.stars, 0) as 'ratings', ifnull(rating.star, 0) as 'rating', if(isnull(iLike.id), 0, 1) as 'isLike'
+from template
+left join (select template_id, count(1) as total from `like` group by template_id) as likes
+on template.id = likes.template_id
+left join (select template_id, avg(star) as 'stars' from rating group by template_id) ratings
+on template.id = ratings.template_id
+left join rating
+on template.id = rating.template_id and rating.user_id = 10000
+left join `like` as iLike
+on template.id = iLike.template_id and iLike.user_id = 10000;
+```
+
+| id | select_type | table      | type  | possible_keys | key     | key_len | ref  | rows | Extra                           |
+|----|-------------|------------|-------|---------------|---------|---------|------|------|---------------------------------|     
+|  1 | PRIMARY     | template   | index | NULL          | PRIMARY | 4       | NULL |   65 | Using index                     |
+|  1 | PRIMARY     | derived2   | ALL   | NULL          | NULL    | NULL    | NULL |    5 |                                 |
+|  1 | PRIMARY     | derived3   | ALL   | NULL          | NULL    | NULL    | NULL |    7 |                                 |
+|  1 | PRIMARY     | rating     | ALL   | NULL          | NULL    | NULL    | NULL |    7 |                                 |
+|  1 | PRIMARY     | iLike      | ALL   | NULL          | NULL    | NULL    | NULL |    5 |                                 |
+|  3 | DERIVED     | rating     | ALL   | NULL          | NULL    | NULL    | NULL |    7 | Using temporary; Using filesort |
+|  2 | DERIVED     | like       | ALL   | NULL          | NULL    | NULL    | NULL |    5 | Using temporary; Using filesort |
+
+
+1. 表连接中有子查询的先执行(对比实验1、2、3)，相同情况下排在后面的优先级高(对比实验1、2)。
+2. 表连接，从上到下执行(对比实验2、3)
+
+
 ### 参考
 [【1】](https://github.com/Yhzhtk/note/issues/39)
