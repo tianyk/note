@@ -95,7 +95,7 @@
 - [ ] [linux系统目录](linux-system-directory.md)
 - [x] [Node.js最佳实践](nodejs-best-practice.md)
 - [x] [RabbitMQ](rabbitmq.md)
-- [ ] [nohup](nohup.md)
+- [x] [nohup](nohup.md)
 - [x] [GUID](GUID.md)
 - [ ] [Java虚拟机](jvm.md)
 - [x] [网速测试](speedtest.md)
