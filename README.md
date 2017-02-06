@@ -106,4 +106,4 @@
 - [ ] [理解Docker](understand-docker.md)
 - [ ] [NPM配置](npm-config.md)
 - [ ] [软连接与硬链接](soft-link&hard-link.md)
-- [ ] [localtunnel](localtunnel.md)
+- [x] [localtunnel](localtunnel.md)
