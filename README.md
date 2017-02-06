@@ -104,6 +104,6 @@
 - [x] [修改DNS](modify-dns.md)
 - [x] [Mysql Explain 解释](mysql-explain.md)
 - [ ] [理解Docker](understand-docker.md)
-- [ ] [NPM配置](npm-config.md)
-- [ ] [软连接与硬链接](soft-link&hard-link.md)
+- [x] [NPM配置](npm-config.md)
+- [x] [软连接与硬链接](soft-link&hard-link.md)
 - [x] [localtunnel](localtunnel.md)
