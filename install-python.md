@@ -43,3 +43,8 @@ python -V
 #### 升级后YUM不能使用
 
 编辑`/usr/bin/yum`，将头部的`#!/usr/bin/python`改为`#!/usr/bin/python2.6`
+
+### [zipimport.ZipImportError](https://github.com/pypa/pip/issues/1919)
+```shell 
+./configure --prefix= --with-zlib-dir=/usr/local/lib
+```
