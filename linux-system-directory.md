@@ -1,6 +1,8 @@
 ### Linux目录树
 
-文件系统层次结构标准（英语：Filesystem Hierarchy Standard，FHS）定义了Linux操作系统中的主要目录及目录内容。在大多数情况下，它是一个传统BSD文件系统层次结构的形式化与扩充。
+文件系统层次结构标准（英语：Filesystem Hierarchy Standard，FHS）定义了Linux操作系统中的主要目录及目录内容。在大多数情况下，它是一个传统BSD文件系统层次结构的形式化与扩充。  
+
+[百度脑图](http://naotu.baidu.com/file/e1901e0ff8626dab7aa0a0030c49a443?token=f36657e586143cc9)
 
 ![](images/directory_tree.png)
 
