@@ -42,8 +42,8 @@ node --debug-brk[=port] filename （这种方式在监听的同时，会在代�
 2. 开启debug模式
 
     ```
-    $ node -e "process._debugProcess(3084)"
+    > node -e "process._debugProcess(3084)"
     ```
 
 ### 参考
-[【1】](https://github.com/node-inspector/node-inspector)
+[【1】](https://github.com/node-inspector/node-inspector) [【2】](http://zqdevres.qiniucdn.com/data/20130414223730/index.html)
