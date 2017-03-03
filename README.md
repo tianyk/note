@@ -36,7 +36,7 @@
 - [x] [tar.md](tar.md)
 - [x] [yum.md](yum.md)
 - [ ] [express-view.md](express-view.md)
-- [ ] [cookie.md](cookie.md)
+- [x] [cookie.md](cookie.md)
 - [x] [https.md](https.md)
 - [x] [supervisor.md](supervisor.md)
 - [x] [undefined.md](undefined.md)
