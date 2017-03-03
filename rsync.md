@@ -97,5 +97,10 @@ rsync -azve ssh root@10.0.1.4:/root/logs .
 rsync -azve ssh data root@10.0.1.4:/root/
 ```
 
+#### 指定SSH端口
+```shell
+rsync -azve 'ssh -p 9922' data root@10.0.1.4:/root/
+```
+
 ### 参考
 [【1】](http://man.linuxde.net/rsync)

@@ -108,3 +108,6 @@
 - [x] [localtunnel](localtunnel.md)
 - [x] [Spring 核心框架体系结构](spring-framework.md)
 - [x] [Node.js调试](node-debugger.md)
+- [ ] [网站预加载技术](prefetching-preloading-prebrowsing.md)
+- [ ] [HTML5 应用程序缓存](html5-application-cache.md)
+- [ ] [跨域资源共享 CORS](cors.md)
