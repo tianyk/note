@@ -51,6 +51,29 @@ memwatch.on('leak', function(info) {
 ![](images/QQ20170228-183949@2x.jpg)
 ![](images/QQ20170228-184005@2x.jpg)
 
+```
+[11631:0x102001c00]        7 ms: Scavenge 2.1 (6.0) -> 2.1 (7.0) MB, 0.5 / 0.0 ms [allocation failure].
+[11631:0x102001c00] Memory allocator,   used:   7204 KB, available: 1459164 KB
+[11631:0x102001c00] New space,          used:    957 KB, available:     50 KB, committed:   2048 KB
+[11631:0x102001c00] Old space,          used:    888 KB, available:      0 KB, committed:    980 KB
+[11631:0x102001c00] Code space,         used:    242 KB, available:      0 KB, committed:   1024 KB
+[11631:0x102001c00] Map space,          used:     49 KB, available:      0 KB, committed:     80 KB
+[11631:0x102001c00] Large object space, used:      0 KB, available: 1458123 KB, committed:      0 KB
+[11631:0x102001c00] All spaces,         used:   2137 KB, available: 1458173 KB, committed:   4132 KB
+[11631:0x102001c00] External memory reported:      0 KB
+[11631:0x102001c00] Total time spent in GC  : 0.5 ms
+```
+上面日志的
+
+V8内存结构图
+![V8内存结构图](images/caf3b69c-afbe-4426-99c6-25f5ab6203c9.png)
+配置参数
+```
+--max-old-space-size
+--max-new-space-size
+```
+
+
 
 ### 参考
 [【1】](http://taobaofed.org/blog/2016/04/15/how-to-find-memory-leak/) [【2】](https://w3ctech.com/topic/842) [【3】](https://www.w3ctech.com/topic/1711)

@@ -111,3 +111,5 @@
 - [ ] [网站预加载技术](prefetching-preloading-prebrowsing.md)
 - [ ] [HTML5 应用程序缓存](html5-application-cache.md)
 - [ ] [跨域资源共享 CORS](cors.md)
+- [x] [压缩稀疏镜像](compact-sparse-bundle-image.md)
+- [x] [Git 清理大文件](git-delete-large-file.md)
