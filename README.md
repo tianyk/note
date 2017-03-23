@@ -113,3 +113,4 @@
 - [ ] [跨域资源共享 CORS](cors.md)
 - [x] [压缩稀疏镜像](compact-sparse-bundle-image.md)
 - [x] [Git 清理大文件](git-delete-large-file.md)
+- [x] [位运算和权限管理系统](bitwise-permission.md)
