@@ -90,9 +90,9 @@ MySQL 主从同步是在 MySQL 主从复制(Master-Slave Replication)基础上�
     show slave status\G
     ```
 
-    > Slave_IO_Running: Yes # 从库IO进程(从master服务器取log的线程)
-    > Slave_SQL_Running: Yes # 从库SQL进程(读取relaylog 写数据)
-    > Seconds_Behind_Master: 0 # 落后主库的秒数
+    > Slave_IO_Running: Yes # 从库IO进程(从master服务器取log的线程)    
+    > Slave_SQL_Running: Yes # 从库SQL进程(读取relaylog 写数据)    
+    > Seconds_Behind_Master: 0 # 落后主库的秒数    
 
 ### 参考
 [【1】](http://wangwei007.blog.51cto.com/68019/965575)[【2】](http://blog.csdn.net/mycwq/article/details/17136001) [【3】](https://www.kancloud.cn/curder/mysql/71977)[【4】](http://www.cnblogs.com/martinzhang/p/3454386.html)
