@@ -114,3 +114,8 @@
 - [x] [压缩稀疏镜像](compact-sparse-bundle-image.md)
 - [x] [Git 清理大文件](git-delete-large-file.md)
 - [x] [位运算和权限管理系统](bitwise-permission.md)
+- [ ] [WebP](webp.md)
+- [ ] [MySQL Binlog](mysql-binlog.md)
+- [x] [MySQL 主从同步](mysql-master-slave.md)
+- [ ] [make&Makefile&cmake](make-makefile-cmake.md)
+- [ ] [算法复杂度分析](algorithmic-analysis.md)
