@@ -32,4 +32,4 @@ service elasticsearch start
 ```
 
 6. 参考  
-[【1】](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html)
+[【1】](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html) [【2】](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)

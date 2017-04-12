@@ -1,5 +1,7 @@
 ### 安装
 ```shell
+brew install fish
+
 curl -L http://get.oh-my.fish | fish
 ```
 
@@ -26,4 +28,4 @@ vim ~/.config/fish/config.fish
 
 
 ### 参考
-[【1】](https://github.com/oh-my-fish/oh-my-fish) [【2】](http://doabit.com/posts/3-from-oh-my-zsh-to-oh-my-fish)[【3】](http://www.jianshu.com/p/7ffd9d1af788)
+[【1】](https://github.com/oh-my-fish/oh-my-fish) [【2】](http://doabit.com/posts/3-from-oh-my-zsh-to-oh-my-fish)[【3】](http://www.jianshu.com/p/7ffd9d1af788) [【4】](https://github.com/oh-my-fish/oh-my-fish/blob/master/docs/zh-CN/FAQ.md)
