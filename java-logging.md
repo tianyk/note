@@ -14,7 +14,7 @@ Java 拥有功能和性能都非常强大的日志库。比较常见的有 java.
 ![](images/v2-57092397ff9d7a69d359856ef19e769d_r.png)
 > 项目中引用日志类库时注意不要造成日志流转的死循环
 
-我们可以用 jcl-over-slf4j 来替换 jcl，使用 log4j-over-slf4j 来替换 log4j。可以通过 ` mvn dependency:tree | nl -ba` 来打印出依赖关系。排除依赖的第三方库中的 Log  依赖。
+我们可以用 jcl-over-slf4j 来替换 jcl，使用 log4j-over-slf4j 来替换 log4j。可以通过 ` mvn dependency:tree` 来打印出依赖关系。排除依赖的第三方库中的 Log  依赖。
 
 下面的例子是把 log4j、jcl 全部通过桥接器将日志输出到 SLF4J，最后通过 Logback 输出。
 ``` xml
