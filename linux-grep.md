@@ -30,5 +30,10 @@ grep -B 2 root /etc/passwd
 grep -A 2 root /etc/passwd  
 ```
 
+### 补充
+1. [Linux中查看文件时显示行号](http://blog.sina.com.cn/s/blog_716844910100tfxv.html)
+
+
+
 ### 参考
-[【1】](http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html)[【2】](http://www.cnblogs.com/mfryf/p/3336288.html)
+[【1】](http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html)[【2】](http://www.cnblogs.com/mfryf/p/3336288.html) [【3】](http://blog.sina.com.cn/s/blog_716844910100tfxv.html)
