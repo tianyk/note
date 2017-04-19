@@ -89,17 +89,22 @@ rsync://[USER@]HOST[:PORT]/SRC [DEST]
 ### 示例
 #### 拉取远程文件到本地
 ```shell
-rsync -azve ssh root@10.0.1.4:/root/logs .
+rsync -azve 'ssh' root@10.0.1.4:/root/logs .
 ```
 
 #### 传送本地文件到远程
 ```shell
-rsync -azve ssh data root@10.0.1.4:/root/
+rsync -azve 'ssh' data root@10.0.1.4:/root/
 ```
 
 #### 指定SSH端口
 ```shell
 rsync -azve 'ssh -p 9922' data root@10.0.1.4:/root/
+```
+
+#### 删除远程有本地没有的文件
+```shell
+rsync -azve 'ssh' --delete data root@10.0.1.4:/root/
 ```
 
 ### 参考
