@@ -120,5 +120,5 @@
 - [ ] [make&Makefile&cmake](make-makefile-cmake.md)
 - [ ] [算法复杂度分析](algorithmic-analysis.md)
 - [x] [Intellij快捷键](intellij-keymap.md)
-- [ ] [两步验证](2fa.md)
+- [x] [两步验证](2fa.md)
 - [x] [Java 中的日志库](java-logging.md)

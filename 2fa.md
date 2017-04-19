@@ -6,7 +6,7 @@ Google Authenticator 是一种 APP 方式的两步验证。谷歌验证应用的
 
 #### Google 两步验证的原理
 服务器首先要给每个用户生成一个 KEY，然后按照 `HOTP`（HMAC-based One-time Password） 或者 `TOTP`（Time-Based One-Time Password） 协议生成 `CODE`，根据协议不同，生成的 `CODE` 分别是`基于计数`的或者`基于时间`的。
-![](images/WechatIMG44.jpeg)
+![](images/WechatIMG47.jpeg)
 
 #### TOTP
 
