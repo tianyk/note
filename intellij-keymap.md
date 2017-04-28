@@ -14,8 +14,6 @@
 | cmd + alt + t | 包裹(if/try-catch/for)代码 | ⭐️ |
 | cmd + alt + j | 弹出模板选择窗口，将选定的代码使用动态模板包住 | |
 | cmd + shift + enter | 自动完成 | ⭐️ |
-| cmd + shift + f | 全局查找 | |
-| cmd + shift + r | 全局替换 | |
 | cmd + shift + u | 大小写转换 | |
 | cmd + shift + ]/[ |选择直到代码块结束/开始 | |
 | cmd + shift + h | 显示方法层次结构 | |
@@ -33,8 +31,9 @@
 | cmd + e | 显示最近打开的文件记录列表 | ⭐️ |
 | cmd + b/鼠标点击 | 进入光标所在的方法/变量的接口或是定义处 | ⭐️ |
 | cmd + j | 插入自定义动态代码模板 | ⭐️ |
+| cmd + f12/7 | 显示类结构（属性、方法） | |
 | ctrl + j | 显示帮助文档 | |
-| ctrl + h | 显示当前类的层次结构 | ⭐️ |
+| ctrl + h | 显示当前类/接口的子类或者实现 | ⭐️ |
 | ctrl + enter | 自动生成(get/set) | ⭐️ |
 | cmd + shift + n | 查找文件 | |
 | alt + shfit + ↑ | 上移一行 | |
@@ -43,8 +42,9 @@
 | shift + f6 | 重命名类、变量 | ⭐️ |
 | shift + cmd | 开始新的一行 | |
 | ctrl + shift + j | 将代码拼接成一行 | |
+| ctrl + shift + f | 全局查找 | |
+| ctrl + shift + r | 全局替换 | |
 | ctrl + alt + h | 显示调用层次结构 | |
-
 
 ### 参考
 [【1】](http://wiki.jikexueyuan.com/project/intellij-idea-tutorial/keymap-mac-introduce.html)

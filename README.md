@@ -122,3 +122,6 @@
 - [x] [Intellij快捷键](intellij-keymap.md)
 - [x] [两步验证](2fa.md)
 - [x] [Java 中的日志库](java-logging.md)
+- [x] [Vim 入门](vim.md)
+- [x] [Zookeeper 快速开始](zookeeper.md)
+- [ ] [Kafka 快速开始](kafka.md)
