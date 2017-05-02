@@ -164,7 +164,97 @@ syncLimit：表示 Leader 与 Follower 之间发送消息时请求和应答时�
     ./bin/zkServer.sh start /etc/zookeeper/zoo.cfg
     ```
 
-### 使用场景
+### 客户端命令
+
+#### 链接到 Zookeeper
+```
+$ bin/zkCli.sh -server 127.0.0.1:2181
+```
+
+#### Zookeeper 目录树操作
+Zookeeper，内部是一个分层的文件系统目录树结构，每一个节点对应一个Znode。[参考](https://zookeeper.apache.org/doc/trunk/zookeeperStarted.html)
+
+查看根目录
+```
+[zkshell: 8] ls /
+[zookeeper]
+```
+
+创建一个新的Znode
+```
+[zkshell: 9] create /zk_test my_data
+Created /zk_test
+```
+
+再次查看就能看到新创建的Znode了
+```
+[zkshell: 11] ls /
+[zookeeper, zk_test]
+```
+
+读取内容
+```
+[zkshell: 12] get /zk_test
+my_data
+cZxid = 5
+ctime = Fri Jun 05 13:57:06 PDT 2009
+mZxid = 5
+mtime = Fri Jun 05 13:57:06 PDT 2009
+pZxid = 5
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0
+dataLength = 7
+numChildren = 0
+```
+
+重新设置值
+```
+[zkshell: 14] set /zk_test junk
+cZxid = 5
+ctime = Fri Jun 05 13:57:06 PDT 2009
+mZxid = 6
+mtime = Fri Jun 05 14:01:52 PDT 2009
+pZxid = 5
+cversion = 0
+dataVersion = 1
+aclVersion = 0
+ephemeralOwner = 0
+dataLength = 4
+numChildren = 0
+[zkshell: 15] get /zk_test
+junk
+cZxid = 5
+ctime = Fri Jun 05 13:57:06 PDT 2009
+mZxid = 6
+mtime = Fri Jun 05 14:01:52 PDT 2009
+pZxid = 5
+cversion = 0
+dataVersion = 1
+aclVersion = 0
+ephemeralOwner = 0
+dataLength = 4
+numChildren = 0
+```
+
+删除Znode
+```
+[zkshell: 16] delete /zk_test
+[zkshell: 17] ls /
+[zookeeper]
+[zkshell: 18]`
+
+```
+
+
+### 使用场景分析
+
+### Hadoop
+
+### Kafka
+
+### Dubbo
 
 
 ### 参考
