@@ -5,7 +5,7 @@ wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz
 ```
 解压
 ```
-tar -zxvf kafka_2.10-0.10.2.0.tgz -C /var/local/kafka
+tar -zxvf kafka_2.10-0.10.2.0.tgz -C /usr/local
 ```
 
 > Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考[Zookeeper快速开始](zookeeper.md)

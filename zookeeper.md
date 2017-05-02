@@ -243,7 +243,7 @@ numChildren = 0
 [zkshell: 16] delete /zk_test
 [zkshell: 17] ls /
 [zookeeper]
-[zkshell: 18]`
+[zkshell: 18]
 
 ```
 
