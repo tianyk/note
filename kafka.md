@@ -1,11 +1,18 @@
 ### 安装与配置
-
-http://kafka.apache.org/
-
+从[官网](http://kafka.apache.org/)下载最新的二进制包。
+```
 wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz
-
+```
+解压
+```
+tar -zxvf kafka_2.10-0.10.2.0.tgz -C /var/local/kafka
+```
 
 [Kafka 数据在 Zookeeper 中的存储结构](https://cwiki.apache.org/confluence/display/KAFKA/Kafka+data+structures+in+Zookeeper)
+
+新旧版本的存储结构不同，主要在于 Consumer offset 的保存，旧版保存在 Zookeeper 中，新版保存在 kafka 中。
+
+0.8 等早期版本在 Zookeeper 中的存储结构
 ![](images/hW6hL.png)
 
 ### 名词解释
@@ -44,8 +51,8 @@ wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz
     java -cp KafkaOffsetMonitor-assembly-0.3.0-SNAPSHOT.jar \
         com.quantifind.kafka.offsetapp.OffsetGetterWeb \
         --offsetStorage kafka \
-        --zk 192.168.0.112:2181 \
-        --port 8080 \
+        --zk 127.0.0.1:2181 \
+        --port 8989 \
         --refresh 10.seconds \
         --retain 2.days
     ```
@@ -76,12 +83,69 @@ wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz
 正常的情况下 LogSize = Offset + Lag。LogSize 和 Offset 线重合表示消费完毕。Lag 斜率持续比 Offset 大，需要此时应该考虑添加 consumer 。
 
 
-bin/kafka-console-consumer.sh --bootstrap-server 172.16.0.107:10011,172.16.0.107:10012,172.16.0.107:10013 --topic test --from-beginning --property group.id=print-test
+### Kafka 命令行工具
+
+#### Topic 相关
+1. 创建 Topic
+    ```
+    bin/kafka-topics.sh --create --zookeeper zk01.example.com:2181 --replication-factor 1 --partitions 3 --topic your_topic_name
+    ```
+    - replication-factor 副本数量
+    - partitions Partition 数量
+2. 列出所有的 Topic
+    ```
+    bin/kafka-topics.sh --zookeeper zk01.example.com:2181 --list
+    ```
+
+3. 删除 Topic
+    ```
+    bin/kafka-topics.sh --delete --zookeeper zk01.example.com:2181 --topic your_topic_name
+    ```
+    > 需要在 `server.properties` 中设置 `delete.topic.enable=true`
+    > 另外需要注意：如果当前 Topic 没有传输过信息是彻底删除。如果已经传输过数据，只是将此 Topic 标记为删除。
 
 
-bin/kafka-console-producer.sh --broker-list 172.16.0.107:10011,172.16.0.107:10012,172.16.0.107:10013 --topic test
+#### Producer 相关
+1. 生产消息
+    ```
+    bin/kafka-console-producer.sh --broker-list broker1:9092 --topic your_topic_name
+    ```
+    或者直接从文件中读
+    ```
+    bin/kafka-console-producer.sh --broker-list broker1:9092 --topic streams-file-input < file-input.txt
+    ```
+    > 通过 `--producer.config` 参数指定 Producer 配置文件。[配置参考](https://kafka.apache.org/documentation/#producerconfigs)
+
+#### Consumer 相关
+1. 消费消息
+    ```
+    bin/kafka-console-consumer.sh  --bootstrap-server broker1:9092 --topic your_topic_name --from-beginning
+    ```
+    - --from-beginning 设置消费者偏置位为最开始（默认为末尾）。
+
+    > Consumer 其它配置信息可以通过 `--consumer-property` 参数配置，或者使用 `--consumer.config` 指定配置文件路径。e.g. `--consumer-property group.id=print` [配置参数](https://kafka.apache.org/documentation/#consumerconfigs)
 
 
+#### Consumer Group
+1. 列出所有的 Consumer Group
+    ```
+    bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --list
+    ```
+
+2. 列出来消费者的 offset
+    ```
+    bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --describe --group test-consumer-group
+    ```
+    > 这里只显示客户端直接链接到 Kafka 集群上面的消费者信息，通过 zookeeper 连接的需要使用 `--zookeeper` 参数来代替 `--bootstrap-server`。
+    ```
+    TOPIC      PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG      CONSUMER-ID     HOST     CLIENT-ID
+    tp         1          38192           38192           0        -               -        -
+    tp         0          37775           37775           0        -               -        -
+    tp         2          37927           37927           0        -               -        -
+    ```
+    CURRENT-OFFSET：当前消费到的位置
+    LOG-END-OFFSET：队列最后的位置
+    LAG：未被消费的个数
 
 ### 参考
 [【1】](https://mos.meituan.com/library/32/how-to-install-kafka-on-centos7/) [【2】](http://blog.csdn.net/suifeng3051/article/details/38321043)

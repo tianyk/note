@@ -124,4 +124,4 @@
 - [x] [Java 中的日志库](java-logging.md)
 - [x] [Vim 入门](vim.md)
 - [x] [Zookeeper 快速开始](zookeeper.md)
-- [ ] [Kafka 快速开始](kafka.md)
+- [x] [Kafka 快速开始](kafka.md)
