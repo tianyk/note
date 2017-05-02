@@ -8,6 +8,8 @@ wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz
 tar -zxvf kafka_2.10-0.10.2.0.tgz -C /var/local/kafka
 ```
 
+> Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考[Zookeeper快速开始](zookeeper.md)
+
 [Kafka 数据在 Zookeeper 中的存储结构](https://cwiki.apache.org/confluence/display/KAFKA/Kafka+data+structures+in+Zookeeper)
 
 新旧版本的存储结构不同，主要在于 Consumer offset 的保存，旧版保存在 Zookeeper 中，新版保存在 kafka 中。
@@ -148,4 +150,4 @@ tar -zxvf kafka_2.10-0.10.2.0.tgz -C /var/local/kafka
     LAG：未被消费的个数
 
 ### 参考
-[【1】](https://mos.meituan.com/library/32/how-to-install-kafka-on-centos7/) [【2】](http://blog.csdn.net/suifeng3051/article/details/38321043)
+[【1】](https://kafka.apache.org/documentation/)[【2】](https://mos.meituan.com/library/32/how-to-install-kafka-on-centos7/) [【3】](http://blog.csdn.net/suifeng3051/article/details/38321043)
