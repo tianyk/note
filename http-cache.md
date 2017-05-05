@@ -32,5 +32,27 @@ If-Modified-Since: <cached last-modified date>
 ```
 
 
+### 浏览器缓存再验证
+
+1. 检查本地有没有缓存。如果没有直接发出请求，如果有则检查缓存是否过期。
+
+2. 服务器用 HTTP/1.0+ 的 Expires 首部或 HTTP/1.1 的 Cache-Control: max-age 响应首部来指定过期日期。如果响应中没有 Cache-Control: max-age 首部，也没有 Expires 首部，缓存可以计算出一个`试探性最大使用期`。LM-Factor 算法是一种很常用的试探性过期算法，算法的逻辑如下所示。
+    - 如果已缓存文档最后一次修改发生在很久以前，它可能会是一份稳定的文档，不 太会突然发生变化，因此将其继续保存在缓存中会比较安全。
+    - 如果已缓存文挡最近被修改过，就说明它很可能会频繁地发生变化，因此在与服 务器进行再验证之前，只应该将其缓存很短一段时间。  
+    [![](images/QQ20170505-140727@2x.jpg)](https://tools.ietf.org/html/rfc2616#section-13.2.2)
+    > 这个 `试探性最大使用期` 的值和文档修改日期有关，也就是响应头中的 `Last-Modified` 首部。如果 `Last-Modified` 日期距今比较久，就会算出来一个比较长的 `试探性最大使用期` 。
+
+3. 如果缓存已经没有过期，直接使用缓存，不再发出请求。如果仅仅是已缓存文档过期了并不意味着它和原始服务器上目前处于活跃状态的文档有实际的区别，这只是意味着到了要进行核对的时间了。这种情况被称为`服务器再验证`，说明缓存需要询问原始服务器文档是否发生了变化。最常见的缓存再验证首部是 If-Modified-Since 和 If-None-Match 。If-Modified-Since 与 Last-Modified 服务器响应首部配合工作，If-None-Match 与 ETag 服务器响应首部配合工作。如果服务器验证文档没被修改过，条件就为假，会向客户端返回一个小的 304 Not Modified 响应报文，为了提高有效性，不会返回文档的主体。如果文档呗修改了，服务器会在一个 200 OK 响应中返回新的内容以及相应的新 Last-Modified 和 Etag。
+
+> 正常情况下服务器都应该明确指定过期时间，如果没有提供过期时间并且提供了 Last-Modified time 浏览器就会给我们算出来一个过期时间。这个时间是隐式的，再次发出请求时浏览器回去根据这个 `试探性最大使用期` 检查文档是否过期。如果没有过期，就不会再进行 revalidated ，我们也就不会看到发出请求响应 304 的情况（304 是进行在验证的结果）。如果我们希望浏览器都回去服务器进行 revalidated，可以设置响应头 `Cache-Control: max-age=0`。
+
+[![](images/QQ20170505-142938@2x.jpg)](https://tools.ietf.org/html/rfc2616#section-13.2.6)
+
+
 ### 参考
-《HTTP权威指南》《图解HTTP》
+《HTTP权威指南》 《图解HTTP》
+
+[Google developers HTTP 缓存](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)    
+[Heuristic Expiration](https://tools.ietf.org/html/rfc2616#section-13.2.2)   
+[revalidate cache use Cache-Control](https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.6)   
+[Caching best practices](https://jakearchibald.com/2016/caching-best-practices/)     

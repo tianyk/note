@@ -149,5 +149,11 @@ tar -zxvf kafka_2.10-0.10.2.0.tgz -C /usr/local
     LOG-END-OFFSET：队列最后的位置
     LAG：未被消费的个数
 
+3. 删除 Consumer Group
+    ```
+    bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --delete --group <group-name>
+    ```
+
+
 ### 参考
 [【1】](https://kafka.apache.org/documentation/)[【2】](https://mos.meituan.com/library/32/how-to-install-kafka-on-centos7/) [【3】](http://blog.csdn.net/suifeng3051/article/details/38321043)
