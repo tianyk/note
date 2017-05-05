@@ -56,3 +56,4 @@ If-Modified-Since: <cached last-modified date>
 [Heuristic Expiration](https://tools.ietf.org/html/rfc2616#section-13.2.2)   
 [revalidate cache use Cache-Control](https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.6)   
 [Caching best practices](https://jakearchibald.com/2016/caching-best-practices/)     
+[浅谈Web缓存](http://www.alloyteam.com/2016/03/discussion-on-web-caching/)
