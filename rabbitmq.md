@@ -57,8 +57,8 @@ rabbitmqctl set_permissions -p / admin '.*' '.*' '.*' # 授权
 开放防火墙端口
 
 ```
-iptables -A INPUT -p tcp -m multitport --dports 5672,55672 -j ACCEPT
-iptables -A OUTPUT -p tpc -m multitport --sports 5672,55672 -j ACCEPT
+iptables -A INPUT -p tcp -m multitport --dports 5672,15672 -j ACCEPT
+iptables -A OUTPUT -p tpc -m multitport --sports 5672,15672 -j ACCEPT
 
 ```
 
@@ -71,6 +71,7 @@ var open = require('amqplib').connect('amqp://admin:12345@#localhost');
 // Publisher
 open
     .then(function (conn) {
+        process.once('SIGINT', conn.close.bind(conn));
         return conn.createChannel();
     })
     .then(function (ch) {
