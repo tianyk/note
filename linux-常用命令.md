@@ -1,10 +1,26 @@
 1. 查看文件夹大小
-```
-du -h --max-depth=1 ~/
-du -h -d=1 .
-```
---max-depth为深度
+    ```
+    du -h --max-depth=1 ~/
+    du -h -d=1 .
 
+    du -sh file_path
+    ```
+
+    ```
+    --max-depth为深度
+
+    -s, --summarize
+        display only a total for each argument
+
+    -h, --human-readable
+        print sizes in human readable format (e.g., 1K 234M 2G)
+
+    To check more than one directory and see the total, use du -sch:
+    -c, --total
+        produce a grand total
+    ```
+    [Link](https://unix.stackexchange.com/questions/185764/how-do-i-get-the-size-of-a-directory-on-the-command-line)
+    
 2. 查看磁盘使用情况
 ```
 df -h
@@ -30,4 +46,7 @@ df -h
     ```
     grep -v -e ^$ is to remove blank lines from the result.
 
-4.
+4. Argument list too long 错误
+    ```
+    find src -name '*.*' -exec mv {} dest \;
+    ```

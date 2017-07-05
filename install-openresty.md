@@ -44,6 +44,11 @@ make install
 ### Linux包安装
 [参考](https://openresty.org/cn/linux-packages.html)
 
+### 常见问题
+#### 缺少pcre模块
+[安装文档](http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html)      
+> http://www.micmiu.com/enterprise-app/server/nginx-libpcre-so-1/    
+> 缺少头文件 `yum whatprovides */bzlib.h` 搜索、安装
 
 ### 参考
 [【1】](http://blog.csdn.net/guowenyan001/article/details/48250427) [【2】](https://github.com/openresty/lua-nginx-module#installation) [【3】](http://openresty.org/cn/linux-packages.html)

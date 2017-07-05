@@ -13,11 +13,11 @@ apt-get install iotop
 #### CentOS
 
 ``` shell
-yun install iotop
+yum install iotop
 ```
 
 #### 编译安装
-``` shell 
+``` shell
 wget http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
 tar zxf iotop-0.4.4.tar.gz
 python setup.py build
