@@ -5,7 +5,15 @@
 ```shell
 mysqldump db_1 -uroot -ppassword -h10.0.1.4 --add-drop-table | mysql db_2 -uroot -ppassword -h10.0.1.4
 ```
+> --add-drop-table 先删除后创建表    
+> --skip-add-drop-table 直接创建表    
+> --skip-extended-insert 如果记录存在则不插入（每条数据一个insert语句）  
+> --no-create-info 不创建表，只导入   
 
+```
+mysqldump -u [user] -p [db_name] | gzip > [filename_to_compress.sql.gz]
+gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasename]
+```
 
 2. 修改MySQL用户密码安全等级
 [参考](http://www.cnblogs.com/ivictor/p/5142809.html)
@@ -25,7 +33,7 @@ mysqldump db_1 -uroot -ppassword -h10.0.1.4 --add-drop-table | mysql db_2 -uroot
 
     * Install the downloaded release package with the following command
     ``` bash
-    yum localinstall mysql57-community-release-el7-9.noarch.rpm
+    yum localinstall mysql57-community-release-el6-11.noarch.rpm
     ```
 
     ```
@@ -82,9 +90,10 @@ mysqldump db_1 -uroot -ppassword -h10.0.1.4 --add-drop-table | mysql db_2 -uroot
     CREATE USER 'username'@'host' IDENTIFIED BY 'password';
     GRANT privileges ON databasename.tablename TO 'username'@'host'
 
-    e.g. 
+    e.g.
     CREATE USER 'pig'@'%' IDENTIFIED BY 'pig2017';
-    GRANT ALL ON *.* TO 'pig'@'%' WITH GRANT OPTION;;
+    GRANT ALL ON *.* TO 'pig'@'%' WITH GRANT OPTION;
+    flush privileges;   
     ```
 
     ```

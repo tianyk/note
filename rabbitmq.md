@@ -62,6 +62,39 @@ iptables -A OUTPUT -p tpc -m multitport --sports 5672,15672 -j ACCEPT
 
 ```
 
+### 管理命令
+
+#### rabbitmqadmin-cli
+默认是没有`rabbitmqadmin`命令的。首先安装rabbitmqadmin-cli [点击去下载页](https://www.rabbitmq.com/management-cli.html)。
+```
+wget https://raw.githubusercontent.com/rabbitmq/rabbitmq-management/rabbitmq_v3_6_10/bin/rabbitmqadmin
+```
+然后修改权限`chmod +x rabbitmqadmin`，移动到`/usr/local/bin`。
+
+使用实例
+```
+# 列出来host下面的所有exchanges
+rabbitmqadmin --username user --password pass --host host -V / list exchanges
+```
+
+```
+# 新声明一个exchange
+rabbitmqadmin declare exchange name=my-new-exchange type=fanout
+```
+
+```
+# 声明一个queue
+rabbitmqadmin declare queue name=my-new-queue durable=false
+```
+
+```
+rabbitmqadmin declare binding source=my-new-exchange destination=my-new-queue routing_key=routing_key
+```
+
+```
+rabbitmqadmin delete binding source=my-new-exchange destination=my-new-queue destination_type=queue properties_key=routing_key
+```
+
 #### Node.js使用RabbitMQ
 ```javascript
 var q = 'tasks';

@@ -33,8 +33,8 @@ list：显示软件包的信息；
 search：检查软件包的信息；
 info：显示指定的rpm软件包的描述信息和概要信息；
 clean：清理yum过期的缓存；
-shell：进入yu
-m的shell提示符；
+makecache：生成缓存；
+shell：进入yum的shell提示符；
 resolvedep：显示rpm软件包的依赖关系；
 localinstall：安装本地的rpm软件包；
 localupdate：显示本地rpm软件包进行更新；
