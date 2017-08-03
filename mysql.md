@@ -9,11 +9,17 @@ mysqldump db_1 -uroot -ppassword -h10.0.1.4 --add-drop-table | mysql db_2 -uroot
 > --skip-add-drop-table 直接创建表    
 > --skip-extended-insert 如果记录存在则不插入（每条数据一个insert语句）  
 > --no-create-info 不创建表，只导入   
+> --lock-tables=false 不锁表
+
+import 
+> -f skip-errors
 
 ```
 mysqldump -u [user] -p [db_name] | gzip > [filename_to_compress.sql.gz]
 gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasename]
 ```
+
+mysqldump -uroot -pdoog library links link_referers --add-drop-table | gzip > library.sql.gz
 
 2. 修改MySQL用户密码安全等级
 [参考](http://www.cnblogs.com/ivictor/p/5142809.html)
@@ -28,7 +34,7 @@ gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasen
 
     * Select and download the release package for your platform.
     ``` bash
-    wget https://repo.mysql.com//mysql57-community-release-el7-9.noarch.rpm
+    wget https://repo.mysql.com/mysql57-community-release-el6-11.noarch.rpm
     ```
 
     * Install the downloaded release package with the following command
@@ -117,3 +123,13 @@ gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasen
 -DDEFAULT_CHARSET=utf8　　　　　　　　　　　　　　　　　　　　　　[设置默认字符集为utf8]    
 -DDEFAULT_COLLATION=utf8_general_ci　　　　　　　　　　　　　　　[设置默认排序字符集规则]   
 <https://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html>
+
+
+### 常见问题
+#### 1. mysqldump: Couldn't execute 'SHOW VARIABLES LIKE 'gtid\_mode'': Table 'performance_schema.session_variables' doesn't exist (1146)
+
+先停止数据库，然后运行
+```
+mysql_upgrade -u root -p --force
+```
+重启服务

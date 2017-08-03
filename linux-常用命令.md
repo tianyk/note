@@ -22,9 +22,9 @@
     [Link](https://unix.stackexchange.com/questions/185764/how-do-i-get-the-size-of-a-directory-on-the-command-line)
     
 2. 查看磁盘使用情况
-```
-df -h
-```
+    ```
+    df -h
+    ```
 
 3. 列出文件
     ```
@@ -49,4 +49,10 @@ df -h
 4. Argument list too long 错误
     ```
     find src -name '*.*' -exec mv {} dest \;
+    ```
+
+5. 查看内核及发行版
+    ```
+    cat /etc/issue
+    uname -a
     ```

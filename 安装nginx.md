@@ -3,7 +3,7 @@
 去[download](http://nginx.org/en/download.html)页面选着合适的版本，下载源码
 ```
 wget http://nginx.org/download/nginx-1.11.3.tar.gz
-tar -zxvf nginx-1.8.1.tar.gz
+tar -zxvf nginx-1.11.3.tar.gz
 ```
 
 #### 安装依赖
