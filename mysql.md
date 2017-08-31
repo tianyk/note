@@ -10,6 +10,7 @@ mysqldump db_1 -uroot -ppassword -h10.0.1.4 --add-drop-table | mysql db_2 -uroot
 > --skip-extended-insert 如果记录存在则不插入（每条数据一个insert语句）  
 > --no-create-info 不创建表，只导入   
 > --lock-tables=false 不锁表
+> --set-gtid-purged=OFF 全局事物
 
 import 
 > -f skip-errors
@@ -18,8 +19,6 @@ import
 mysqldump -u [user] -p [db_name] | gzip > [filename_to_compress.sql.gz]
 gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasename]
 ```
-
-mysqldump -uroot -pdoog library links link_referers --add-drop-table | gzip > library.sql.gz
 
 2. 修改MySQL用户密码安全等级
 [参考](http://www.cnblogs.com/ivictor/p/5142809.html)
