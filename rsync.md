@@ -107,5 +107,13 @@ rsync -azve 'ssh -p 9922' data root@10.0.1.4:/root/
 rsync -azve 'ssh' --delete data root@10.0.1.4:/root/
 ```
 
+#### 短线续传
+-P 
+```
+rsync -azvPe 'ssh' root@10.0.1.4:/root/logs .
+```
+
+--bwlimit // 限速
+
 ### 参考
 [【1】](http://man.linuxde.net/rsync)

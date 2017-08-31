@@ -121,5 +121,10 @@ http.port: 9200
 ### 常用接口
 1. 创建mapping
 
+
+
+plugin install delete-by-query
+
+
 ### 参考
 [【1】](http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html)
