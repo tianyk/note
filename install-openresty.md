@@ -2,6 +2,10 @@
 [OpenResty](https://openresty.org)是一个叫[lua-nginx-module](https://github.com/openresty/lua-nginx-module)的nginx模块发展来的，这个模块能让我们在config文件中编写lua脚本来构建Web应用系统。OpenResty可以让你的Web服务直接跑在 Nginx 服务内部。
 
 ### 安装
+
+#### Linux包安装
+[参考](https://openresty.org/cn/linux-packages.html)
+
 #### 作为nginx模块安装
 准备
 1. [下载](http://luajit.org/download.html)LuaJIT
@@ -40,9 +44,6 @@ make install
 ```
 > 和正常编译nginx差别不大，多了点lua环境的配置
 
-
-### Linux包安装
-[参考](https://openresty.org/cn/linux-packages.html)
 
 ### 常见问题
 #### 缺少pcre模块
