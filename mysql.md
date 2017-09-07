@@ -15,7 +15,7 @@ mysqldump db_1 -uroot -ppassword -h10.0.1.4 --add-drop-table | mysql db_2 -uroot
 import 
 > -f skip-errors
 
-```
+``` 
 mysqldump -u [user] -p [db_name] | gzip > [filename_to_compress.sql.gz]
 gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasename]
 ```

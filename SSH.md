@@ -24,6 +24,8 @@ Host api
 
 访问的时候只需运行`ssh www`就能访问`182.159.15.88`服务器了
 
+### SSH配置
+/etc/ssh/sshd_config
 
 ### 问题
 1. 已经在`authorized_keys`加入过publicKey，但是还是要求输入密码。
