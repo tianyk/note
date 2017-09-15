@@ -56,3 +56,13 @@
     cat /etc/issue
     uname -a
     ```
+
+6. 文件分割
+    ```
+    split [-bl] file [prefix]  
+    -b, --bytes=SIZE：对file进行切分，每个小文件大小为SIZE。可以指定单位b,k,m。
+    -l, --lines=NUMBER：对file进行切分，每个文件有NUMBER行。
+    prefix：分割后产生的文件名前缀。
+
+    split -l 1000 urls.txt url_
+    ```
