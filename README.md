@@ -133,3 +133,5 @@
 - [ ] [dig](dig.md)
 - [ ] [分布式系统]
 - [ ] [分布式数据库]
+- [ ] [一致性Hash](consistent-hashing.md)
+- [ ] [nginx-root-alias](nginx-root-alias.md)
