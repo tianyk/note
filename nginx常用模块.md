@@ -9,7 +9,7 @@ printf "username:$(openssl passwd -crypt password)\n" >> conf/htpasswd
 ```
 server {
     listen 80;
-    server_name elk.my-guide.cc;
+    server_name elk.kekek.cc;
 
     location / {
          auth_basic            "elk.my-guide.cc";
