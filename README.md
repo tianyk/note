@@ -128,9 +128,9 @@
 - [ ] [select vs poll vs epoll](select-vs-poll-vs-epoll.md)
 - [ ] [Java Lambda](java-lambda.md)
 - [ ] [http2](http2.md)
-- [ ] [git](git.md)
+- [x] [git-install](git-install.md)
 - [x] [async/await](async-await.md)
-- [ ] [dig](dig.md)
+- [x] [dig](dig.md)
 - [ ] [分布式系统]
 - [ ] [分布式数据库]
 - [ ] [一致性Hash](consistent-hashing.md)
