@@ -4,7 +4,6 @@
 - [x] [JavaScript==中的类型转换.md](JavaScript==中的类型转换.md)
 - [x] [JavaScript类型转换.md](JavaScript类型转换.md)
 - [x] [Linux时区.md](Linux时区.md)
-- [x] [README.md](README.md)
 - [x] [SSH.md](SSH.md)
 - [x] [apt.md](apt.md)
 - [x] [cdn.md](cdn.md)
