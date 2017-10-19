@@ -2,7 +2,7 @@
 
 使用rewrite指令我们可以改写URL，实现外部和内部重定向。
 
-| | |
+|||
 |---|---|
 |语法 | rewrite regex replacement flag |
 |默认值 | none |
@@ -16,10 +16,11 @@
 
 #### flag
 flag 一共四种，用来说明匹配到后内部如何处理。
-|flag|解释|
+
+|flag|解释|  
 |---|---|
-|permanent|301 永久重定向|
-|redirect |302 临时重定向|
+|permanent|301 永久重定向|    
+|redirect |302 临时重定向|    
 |last     |内部重定向，会在内部重新发起请求。|
 |break    |不会像last一样重新发起请求，终止匹配。直接使用新URL在当前location中请求。|
 
