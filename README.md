@@ -29,7 +29,7 @@
 - [ ] [process-thread-coroutine.md](process-thread-coroutine.md)
 - [x] [crontab.md](crontab.md)
 - [x] [ip-mask.md](ip-mask.md)
-- [ ] [python字符编码.md](python字符编码.md)
+- [ ] [python字符编码.md](python字符编码.md)c
 - [x] [安装nginx.md](安装nginx.md)
 - [ ] [nginx常用模块.md](nginx常用模块.md)
 - [x] [tar.md](tar.md)
@@ -39,7 +39,7 @@
 - [x] [https.md](https.md)
 - [x] [supervisor.md](supervisor.md)
 - [x] [undefined.md](undefined.md)
-- [x] [typeof&instanceof.md.md](typeof&instanceof.md.md)
+- [x] [typeof&instanceof.md](typeof&instanceof.md)
 - [ ] [闭包.md](闭包.md)
 - [ ] [etag.md](etag.md)
 - [x] [java-redis-session.md](java-redis-session.md)
