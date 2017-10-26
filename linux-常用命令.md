@@ -66,3 +66,12 @@
 
     split -l 1000 urls.txt url_
     ```
+    
+7. 读取文件N行
+    ```
+    # 第二行到最后一行
+    sed -n '2,$p' file
+
+    # 第二行到第100行
+    sed -n '2,100p' file
+    ```

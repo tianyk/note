@@ -20,6 +20,7 @@ rsync://[USER@]HOST[:PORT]/SRC [DEST]
 5. 从本地机器拷贝文件到远程rsync服务器中。当DST路径信息包含"::"分隔符时启动该模式。如：rsync -av /databack root@192.168.78.192::www
 6. 列远程机的文件列表。这类似于rsync传输，不过只要在命令中省略掉本地机信息即可。如：rsync -v rsync://192.168.78.192/www
 
+> 注意：使用`rsync`时要求双方机器都要安装`rsync`
 
 ### 选项
 ```
@@ -91,10 +92,11 @@ rsync://[USER@]HOST[:PORT]/SRC [DEST]
 ```shell
 rsync -azve 'ssh' root@10.0.1.4:/root/logs .
 ```
+> 使用ssh方式后台传输时可以配合sshpass指定密码
 
 #### 传送本地文件到远程
 ```shell
-rsync -azve 'ssh' data root@10.0.1.4:/root/
+rsync -azve 'ssh' . @10.0.1.4:/root/logs
 ```
 
 #### 指定SSH端口
@@ -107,13 +109,14 @@ rsync -azve 'ssh -p 9922' data root@10.0.1.4:/root/
 rsync -azve 'ssh' --delete data root@10.0.1.4:/root/
 ```
 
-#### 短线续传
+#### 断线续传
 -P 
 ```
 rsync -azvPe 'ssh' root@10.0.1.4:/root/logs .
 ```
 
 --bwlimit // 限速
+
 
 ### 参考
 [【1】](http://man.linuxde.net/rsync)

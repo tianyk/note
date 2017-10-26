@@ -27,6 +27,14 @@ Host api
 ### SSH配置
 /etc/ssh/sshd_config
 
+1. 禁止密码登陆
+
+    vim /etc/ssh/sshd_config
+    ```
+    PasswordAuthentication no 
+    ```
+    修改后重新加载配置
+
 ### 问题
 1. 已经在`authorized_keys`加入过publicKey，但是还是要求输入密码。
     ```
@@ -35,7 +43,7 @@ Host api
 
     restorecon -r -vv /root/.ssh
     ```
-
+VThqfMJAGJMgu4Kf
 2. `ssh-copy-id` 命令  
     `ssh-copy-id`命令可以把本地主机的公钥复制到远程主机的 authorized_keys 文件上，ssh-copy-id 命令也会给远程主机的用户主目录（home）和 ~/.ssh, 和~/.ssh/authorized_keys设置合适的权限。
     ```shell
