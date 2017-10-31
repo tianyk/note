@@ -137,3 +137,4 @@
 - [x] [nginx-rewrite](nginx-rewrite.md)
 - [x] [viewport](viewport.md)
 - [x] [v8堆内存分析](v8-heapdump.md)
+- [ ] [Nginx缓存配置](nginx-proxy-cache.md)
