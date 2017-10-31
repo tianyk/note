@@ -36,6 +36,32 @@ service elasticsearch start
 [【1】](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html) [【2】](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
 
 
+### elasticsearch和传统数据库对照关系
+
+> 在Elasticsearch中，文档归属于一种类型(type),而这些类型存在于索引(index)中，我们可以画一些简单的对比图来类比传统关系型数据库：
+
+```
+Relational DB -> Databases -> Tables -> Rows -> Columns
+Elasticsearch -> Indices   -> Types  -> Documents -> Fields
+```                                                                                                                                                                                                                
+Elasticsearch集群可以包含多个索引(indices)（数据库），每一个索引可以包含多个类型(types)（表），每一个类型包含多个文档(documents)（行），然后每个文档包含多个字段(Fields)（列）。
+
+### logstash elasticsearch output 配置
+
+<https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html>
+
+![](images/QQ20160803-0.png)
+
+
+### 插件
+plugin install delete-by-query
+
+### elasticsearch 配置
+编辑 `vim /etc/elasticsearch/elasticsearch.yml`
+``` yml
+
+```
+
 ### 常见问题
 1. system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk
 
@@ -85,7 +111,14 @@ service elasticsearch start
     permission javax.management.MBeanTrustPermission "register";
     ```
 
+7. Fielddata is disabled on text fields by default.
+
+    - <https://www.elastic.co/guide/en/elasticsearch/reference/current/fielddata.html>
+    - <http://blog.csdn.net/u011403655/article/details/71107415>
+
 
 ### 参考
 - <http://blog.csdn.net/feifantiyan/article/details/54614614>  
 - <http://blog.csdn.net/cardinalzbk/article/details/54924511>
+- <https://yemengying.com/2016/03/18/Elasticsearch%E9%85%8D%E7%BD%AE%E9%A1%B9-Local-gateway-HTTP-Indices-Network-Settings%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE/>
+- <http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html>

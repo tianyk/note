@@ -37,11 +37,37 @@ memwatch.on('leak', function(info) {
 - Containment 该视图可以探测堆的具体内容，它提供了一个更适合的视图来查看对象结构，有助于分析对象的引用情况，使用它可以分析闭包和进行更深层次的对象分析。
 - Statistics 统计视图。
 
-更详细的介绍可以查看[Take Heap Snapshot 简介](http://zhuchenglin.me/chrome-devtools-in-depth-4#take-heap-snapshot简介)
+
+```javascript
+require('heapdump');
+const execSync = require('child_process').execSync;
+
+function User(name, age) {
+    this.name = name;
+    this.age = age;
+}
+
+users = [];
+for (let i = 0; i < 1024; i++) {
+    let user = new User(`name ${i}`, i);
+    users.push(user);
+}
+
+students = users;
+employees = users;
+
+execSync(`kill -USR2 ${process.pid}`);
+
+setTimeout(function() { process.exit(0); }, 3000);
+```
+![](images/QQ20171031-150928@2x.jpg)
+
+更详细的介绍可以查看[Take Heap Snapshot 简介](http://zhuchenglin.me/2016-10-21-chrome-devtools-in-depth-4/#take-heap-snapshot简介)
 
 
 ### GC
 在启动时加上 `--trace_gc` 或者 `--trace_gc_nvp` 后每次垃圾回收时都会打印出GC日志。这两日志的格式不太相同。
+> node --v8-options | grep gc 
 
 
 #### GC简介
@@ -68,6 +94,7 @@ memwatch.on('leak', function(info) {
 V8内存结构图
 ![V8内存结构图](images/caf3b69c-afbe-4426-99c6-25f5ab6203c9.png)
 配置参数
+node --v8-options | grep space
 ```
 --max-old-space-size
 --max-new-space-size
