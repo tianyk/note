@@ -18,10 +18,10 @@ Network\r\n
 
 ### 头信息
 
-- TE
+- TE    
 用在请求首部中，告知服务器可以使用哪些传输编码扩展。如果这个首部起名叫 `Accept-Transfer-Encoding`，它的意义就会更直白。
 
-- Transfer-Encoding 
+- Transfer-Encoding    
 告知接收方为了可靠地传输报文，已经对其进行了何种编码。
 
 
