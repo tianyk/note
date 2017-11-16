@@ -126,8 +126,8 @@ kmem:x:9:
 
 - chsh [-ls]
     ```
-    \-l  ：列出目前系統上面可用的 shell ，其實就是 /etc/shells 的內容！
-    \-s  ：設定修改自己的 Shell 囉
+    -l  ：列出目前系統上面可用的 shell ，其實就是 /etc/shells 的內容！
+    -s  ：設定修改自己的 Shell 囉
     ```
 ### 文件权限
 
