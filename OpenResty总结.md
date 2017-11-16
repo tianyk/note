@@ -1,4 +1,6 @@
 <https://gist.github.com/tianyk/e50ba80444cd114962493589a9efd3fa>
+<http://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API>
+<http://www.londonlua.org/scripting_nginx_with_lua/slides.html>
 
 ### 
 ```

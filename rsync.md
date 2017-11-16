@@ -96,7 +96,7 @@ rsync -azve 'ssh' root@10.0.1.4:/root/logs .
 
 #### 传送本地文件到远程
 ```shell
-rsync -azve 'ssh' . @10.0.1.4:/root/logs
+rsync -azve 'ssh' . root@10.0.1.4:/root/logs
 ```
 
 #### 指定SSH端口

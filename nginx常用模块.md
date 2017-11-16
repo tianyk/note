@@ -78,3 +78,28 @@ nginx -s reload
     ```
 #### 参考
 [Nginx编译安装第三方模块http_substitutions_filter_module](http://rmingwang.com/install-nginx-third-modules-http_sub_module.html)
+
+
+### [NGINX-HTTP-CONCAT](https://github.com/alibaba/nginx-http-concat)
+用于 css、js 合并。
+
+```
+http://example.com/static/??foo.css,bar/foobaz.js
+```
+
+```
+<link rel="stylesheet" href="??foo1.css,foo2.css,subdir/foo3.css?v=2345" />
+<script src="??bar1.js,bar22.css,subdir/bar3.js?v=3245" />
+```
+
+### HTTP_IMAGE_FILTER_MODULE
+
+
+### NGINX-HTTP-FOOTER-FILTER
+<http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/>
+
+
+### LIMIT_UPLOAD_RATE
+限制客户端上传速率
+
+### NGINX-HTTP-GEO-IP-MODULE
