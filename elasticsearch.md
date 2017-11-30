@@ -185,7 +185,7 @@ shard = hash(routing) % number_of_primary_shards
 分析器实际上是将三个功能封装到了一个包里：
 
 - 字符过滤器    
-    首先，字符串按顺序通过每个 字符过滤器 。他们的任务是在分词前整理字符串。一个字符过滤器可以用来去掉HTML，或者将 & 转化成 `and`。
+    首先，字符串按顺序通过每个字符过滤器 。他们的任务是在分词前整理字符串。一个字符过滤器可以用来去掉HTML，或者将 & 转化成 `and`。
 - 分词器    
     其次，字符串被 分词器 分为单个的词条。一个简单的分词器遇到空格和标点的时候，可能会将文本拆分成词条。
 - Token 过滤器    
@@ -383,4 +383,70 @@ PUT /my_index_v1/_alias/my_index
         "minimum_should_match": "70%" // 至少匹配多少个关键词
     }
 }
+```
+
+
+### 同义词
+> `synonyms_path`相对于`elasticsearch`的`config`文件目录，一般位于`/etc/elasticsearch`。
+```
+PUT /[index_name]
+{
+    "settings": {
+        "analysis": {
+            "filter":      { 
+                "synonym_filter": {
+                    "type": "synonym", 
+                    "synonyms_path": "analysis/synonyms.txt"
+                }
+            }
+        }
+    }
+}
+```
+
+### 拼音
+> 汉字转拼音是不可逆的过程。`汉字`，`汗渍` 两者的拼音都是`hanzi`。当用户输入`汉字`是我们明确知道用户想搜什么，但是如果是拼音`hanzi`，这时无法准确推断用户的真实想法。这时搜索结果中可能`汉字`、`汗渍`都会出现。
+<https://github.com/medcl/elasticsearch-analysis-pinyin>
+```
+PUT /[index_name]
+{
+    "settings": {
+        "number_of_shards" :   4,
+        "number_of_replicas" : 1,
+        "index.mapping.single_type": true,
+        "analysis": {
+            "filter":      { 
+                "synonym_filter": {
+                    "type": "synonym", 
+                    "synonyms_path": "analysis/synonyms.txt"
+                },
+                "pinyin_filter": {
+                    "type": "pinyin",
+                    "keep_first_letter": false,
+                    "keep_full_pinyin": false,
+                    "keep_joined_full_pinyin": true,
+                    "keep_separate_first_letter": false,
+                    "keep_original": true
+                }
+            },
+            "analyzer":    {
+                "ik_smart_pinyin": {
+                    "type": "custom",
+                    "tokenizer": "ik_smart",
+                    "filter": ["synonym_filter", "pinyin_filter"]
+                },
+                "ik_max_word_pinyin": {
+                    "type": "custom",
+                    "tokenizer": "ik_max_word",
+                    "filter": ["synonym_filter", "pinyin_filter"]
+                }
+            }
+        }
+    }
+}
+```
+
+### 查看所有index
+```
+/_cat/indices
 ```

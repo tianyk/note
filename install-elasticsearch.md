@@ -83,7 +83,7 @@ plugin install delete-by-query
     elasticsearch hard nofile 65536    
     ```
 
-3. max number of threads [1024] for user [hadoop] is too low, increase to at least [2048]
+3. max number of threads [1024] for user [elasticsearch] is too low, increase to at least [2048]
 
     编辑90-nproc.conf 追加
     vim /etc/security/limits.d/90-nproc.conf 
@@ -100,6 +100,7 @@ plugin install delete-by-query
     # Elasticsearch Java path
     JAVA_HOME=/usr/local/java/
     ```
+
 5. can not run elasticsearch as root
 
     不能以root用户启动ES服务器。新建elasticsearch运行。
