@@ -11,7 +11,7 @@ dubbo、thrift、grpc <http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-fr
     1. 序列化协议
         json/thrift/protobuf
     2. 传输层
-        http netty/vert.x(防止主循环阻塞)
+        http netty/sun-httpServer/vert.x(防止主循环阻塞)
     
 
 ### json和thrift/protobuf比较
