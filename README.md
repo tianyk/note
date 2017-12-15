@@ -142,4 +142,4 @@
 - [x] [Linux 用户和用户组](linux-user-group.md)
 - [x] [迷你RPC](mini-rpc.md)
 - [x] [路由诊断](traceroute.md)
-- [x] [SOCK5](sock5.md)
+- [x] [SOCKS5](socks5.md)
