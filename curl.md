@@ -12,4 +12,3 @@ curl -XGET 'http:/example.com/_search?pretty=true' -d '
 ```
 
 <http://dbajun.iteye.com/blog/1813801>
-<http://dbajun.iteye.com/blog/1813801>
