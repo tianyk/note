@@ -20,3 +20,8 @@ sudo make prefix=/usr/local install
     git config --global https.proxy http://127.0.0.1:1080
     git config --global --unset http.proxy
     ```
+
+2. 中文编码
+    ``` shell
+    git config --global core.quotepath false
+    ```

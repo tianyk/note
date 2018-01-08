@@ -81,3 +81,16 @@
     ```
     echo -e "第一行\n第二行"
     ```
+
+9. 查找和删除失效的软链接 
+    ```
+    查找当前目录
+    find -L -type l
+    复制代码
+    查找指定目录
+    find -L ur_path -type l
+    复制代码
+    删除
+    find -L ur_path -type l -delete
+    复制代码
+    ```

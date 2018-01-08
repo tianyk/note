@@ -193,6 +193,15 @@ iptables -A OUTPUT -o eth0 -p tcp -m multiport --dports 22,80,443  -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp -m multiport --sports 22,80,443  -j ACCEPT
 ```
 
+<!-- 端口转发 -->
+```
+iptables -t nat -A PREROUTING -p tcp  --dport [local_port] -j DNAT --to [remote_ip]:[remote_port]
+iptables -t nat -A POSTROUTING -j MASQUERADE
+```
+
+阿里云-北京-纽约
 
 ### 参考
-[【1】](http://blog.chinaunix.net/uid-26495963-id-3279216.html) [【2】](http://blog.chinaunix.net/uid-9950859-id-98279.html)
+- [iptables详解](http://blog.chinaunix.net/uid-26495963-id-3279216.html)
+- [iptables命令详解和举例](http://blog.chinaunix.net/uid-9950859-id-98279.html)
+- [linux下用iptables做本机端口转发方法](http://blog.csdn.net/zzhongcy/article/details/42738285)

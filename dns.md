@@ -13,10 +13,10 @@ DNS协议头共12字节，分六大部分。
     - RA(Recursion available)是1bit字段，表示“可用递归”。如果名字服务器支持递归查询，则在响应中将该比特设置为1。
     - Reserved 随后的3bit字段必须为0。
     - rcode(Return code)是一个4bit的返回码字段。通常的值为0（没有差错）和3（名字差错）。
-- 第三部分2字节`Question Resource Record count`(请求和响应)
-- 第四部分2字节`Answer Resource Record count`(响应)
-- 第五部分2字节`Authority Resource Record count`
-- 第六部分2字节`Additional Resource Record count`
+- 第三部分2字节`Question Resource Record count`(请求和响应)。
+- 第四部分2字节`Answer Resource Record count`(响应)。
+- 第五部分2字节`Authority Resource Record count`。
+- 第六部分2字节`Additional Resource Record count`。
 
 #### Question Resource Record
 ![](images/QQ20180108-122315@2x.jpg)
@@ -34,11 +34,14 @@ DNS协议头共12字节，分六大部分。
 ![](images/QQ20180108-123107@2x.jpg)  
 
 这三部分结构类似，简称`Resource Record (RR)`，共六大部分。
-- 第一部分可变长度的域名。域名部分和查询部分域数据格式一样`长度-域名值`，不同的一点是此处域名可以压缩。如果第一个长度位前2字节为`11`表示后面的数据不再是数据长度，而是一个引用地址。引用地址为域名部分前2位（16字节）中除去前2位`11`剩下的14个位，它的的十进制数表示偏移位（一般为`c0 0c`，因为DNS报文12字节固定头，后面紧跟着就是查询问题的域名部分。12的二进制形式为`00001100`，完整的二进制位`11000000 00001100`，十六进制形式即为`c0 0c`）。    
+- 第一部分为可变长度的域名。域名部分和查询部分域数据格式一样`长度-域名值`，不同的一点是此处域名可以压缩。如果第一个长度位前2字节为`11`表示后面的数据不再是数据长度，而是一个引用地址。引用地址为域名部分前2位（16字节）中除去前2位`11`剩下的14个位，它的的十进制数表示偏移位（一般为`c0 0c`，因为DNS报文12字节固定头，后面紧跟着就是查询问题的域名部分。12的二进制形式为`00001100`，完整的二进制位`11000000 00001100`，十六进制形式即为`c0 0c`）。    
 - 第二三部分查询域名、查询类，各2字节。同`Question Resource Record`记录格式。
 - 第四部分生存时间(Time-to-Live ttl)共4字节(32bit)形式。
 - 第五部分2字节表示剩下部分的数据长度。
 - 第六部分为数据，不同的Resource Record区别主要在第六部分数据。
+
+> 通过Wireshark抓取的网络包
+![](images/QQ20180108-125553@2x.jpg) ![](images/QQ20180108-125622@2x.jpg)
 
 ### 查看
 1. dig

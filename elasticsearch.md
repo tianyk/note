@@ -450,3 +450,226 @@ PUT /[index_name]
 ```
 /_cat/indices
 ```
+
+### 示例
+1. 创建索引
+``` shell 
+curl -XPUT 'http://es.kekek.cc/library_20171204?pretty=true' -d '
+{
+    "settings": {
+        "number_of_shards" :   4,
+        "number_of_replicas" : 1,
+        "index.mapping.single_type": true,
+        "analysis": {
+            "filter":      { 
+                "synonym_filter": {
+                    "type": "synonym", 
+                    "synonyms_path": "analysis/synonyms.txt"
+                },
+                "pinyin_filter": {
+                    "type": "chinese-pinyin"
+                },
+                "length_filter": {
+                    "type": "length",
+                    "min": 2
+                }
+            },
+            "analyzer":    {
+                "ik_smart_pinyin": {
+                    "type": "custom",
+                    "tokenizer": "ik_smart",
+                    "filter": ["length_filter", "synonym_filter", "pinyin_filter"]
+                },
+                "ik_max_word_pinyin": {
+                    "type": "custom",
+                    "tokenizer": "ik_max_word",
+                    "filter": ["length_filter", "synonym_filter", "pinyin_filter"]
+                }
+            }
+        }
+    }
+} '
+```
+
+2. 创建 mapping
+``` shell
+curl -XPUT 'http://es.kekek.cc/library_20171204/_mapping/book?pretty=true' -d '
+{
+    "dynamic": false,
+    "properties": {
+        "title": {
+            "type": "string",
+            "analyzer": "ik_smart_pinyin",
+            "search_analyzer": "ik_max_word_pinyin"
+        },
+        "subtitle": {
+            "type": "string",
+            "analyzer": "ik_smart_pinyin",
+            "search_analyzer": "ik_max_word_pinyin"
+        },
+        "author": {
+            "type": "string",
+            "analyzer": "ik_smart_pinyin"
+        },
+        "translator": {
+            "type": "string",
+            "analyzer": "ik_smart_pinyin"
+        },
+        "rating": {
+            "type": "object",
+            "properties": {
+                "max": { "type": "integer", "index": "no" },
+                "num_raters": {"type": "integer" },
+                "average": {"type": "float" },
+                "min": {"type": "integer", "index": "no"  }
+            }
+        },
+        "pubdate": {
+            "type": "date",
+            "index": "no"
+        },
+        "tags": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "isbn": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "isbn10": {
+            "type": "string",
+            "index": "no"
+        },
+        "isbn13": {
+            "type": "string",
+            "index": "no"
+        },
+        "origin_title": {
+            "type": "string",
+            "index": "no"
+        },
+        "image": {
+            "type": "string",
+            "index": "no"
+        },
+        "binding": {
+            "type": "string",
+            "index": "no"
+        },
+        "pages": {
+            "type": "integer",
+            "index": "no"
+        },
+        "images": {
+            "type": "object",
+            "properties": {
+                "small": {
+                    "type": "string",
+                    "index": "no"
+                },
+                "large": {
+                    "type": "string",
+                    "index": "no"
+                },
+                "medium": {
+                    "type": "string",
+                    "index": "no"
+                }
+            }
+        },
+        "alt": {
+            "type": "string",
+            "index": "no"
+        },
+        "origin_id": {
+            "type": "integer"
+        },
+        "publisher": {
+            "type": "string",
+            "index": "no"
+        },
+        "url": {
+            "type": "string",
+            "index": "no"
+        },
+        "alt_title": {
+            "type": "string",
+            "index": "no"
+        },
+        "series_id": {
+            "type": "integer",
+            "index": "no"
+        }, 
+        "series_title": {
+            "type": "string",
+            "index": "no"
+        },
+        "price": {
+            "type": "string",
+            "index": "no"
+        },
+        "created_at": {
+            "type": "date"
+        },
+        "updated_at": {
+            "type": "date"
+        }
+        
+    }
+} '
+```
+
+3. 重建索引
+```shell 
+curl -POST 'http://es.kekek.cc/_reindex' -d '
+{
+    "source": {
+        "index": "books"
+    },
+    "dest": {
+        "index": "library_20171204"
+    }
+}
+'
+```
+
+4. 索引别名
+```
+curl -XPUT /library_20171204/_alias/library
+curl -XDELETE /library_20171129/_alias/library
+
+curl -POST 'http://es.kekek.cc/_aliases' -d '
+{
+    "actions" : [
+        { "remove" : { "index" : "library_20171129", "alias" : "library" } },
+        { "add" : { "index" : "library_20171204", "alias" : "library" } }
+    ]
+} ' 
+```
+
+5. 测试分词器
+```
+curl -XGET 'http:/es.kekek.cc/library/_analyze?pretty=true' -d ' 
+{
+  "analyzer": "ik_max_word_pinyin",  
+  "text": "白鹿原"  
+} '
+```
+
+6. 查看查询计划
+```
+curl -XGET 'http:/es.kekek.cc/library/_search?pretty=true' -d ' 
+{
+    "query": {
+        "bool": {
+            "must": {
+                "match": {
+                    "title": {
+                        "query": "白鹿原"
+                    }
+                }
+            }
+        }
+    }
+} '
+```
