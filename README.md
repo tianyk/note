@@ -148,3 +148,5 @@
 - [ ] [HTTP协议](http.md)
 - [x] [Chrome使用及配置](chrome.md)
 - [x] [DNS协议](dns.md)
+- [x] [GCC](install-gcc.md)
+- [x] [Shadowsocks](shadowsocks.md)

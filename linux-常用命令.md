@@ -94,3 +94,8 @@
     find -L ur_path -type l -delete
     复制代码
     ```
+
+10. 查看文件编码
+    ```
+    file --mime-encoding [filename]
+    ```
