@@ -78,6 +78,11 @@ crontab文件的一些例子：
 3. crontab -r 删除所有的任务
 
 
+#### 服务管理
+```
+service crond [start|stop|restart|status]
+```
+
 ### 查看crontab输出日志
 #### Linux
 位于/var/log/cron-* 文件中

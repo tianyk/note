@@ -43,6 +43,8 @@ DNS协议头共12字节，分六大部分。
 > 通过Wireshark抓取的网络包
 ![](images/QQ20180108-125553@2x.jpg) ![](images/QQ20180108-125622@2x.jpg)
 
+> yum install bind-utils
+
 ### 查看
 1. dig
     ```

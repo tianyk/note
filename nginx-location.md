@@ -25,62 +25,62 @@
 ```
 # RULE_1 精确匹配
 location = / {
-    return 600;
+    echo "600";
 }
 
 # RULE_2 精确匹配
 location = /images/favicon.ico {
-    return 601;
+    echo "601";
 }
 
 # RULE_4 无前缀匹配 不能和`^~ /images/`一起配置，冲突。
 # location /images/ {
-#   return 602;     
+#   echo "602;    " 
 # }
 
 # RULE_5 普通字符匹配 字符匹配优先级大于正则
 location ^~ /images/ {
-    return 602;
+    echo "602";
 }
 
 # RULE_6 普通字符匹配
 location ^~ /images/fruit/ {
-    return 603;
+    echo "603";
 }
 
 # RULE_7 正则匹配
 location ~ ^/images/ {
-    return 604;
+    echo "604";
 }
 
 # RULE_8 正则匹配
 location ~ \.(jpg|png|ico)$ {
-    return 605;
+    echo "605";
 }
 
 # RULE_9 正则匹配
 location ~ /^documents/ {   
-    return 606;
+    echo "606";
 }
 
 # RULE_10 正则匹配 **正则匹配时和顺序有关**
 location ~ \.(docx|pptx|pdf)$ {
-    return 607;
+    echo "607";
 }
 
 # RULE_11 无前缀
 location /files/ {
-    return 608;
+    echo "608";
 }
 
 # RULE_12 无前缀
 location /files/videos/ {
-    return 609;
+    echo "609";
 }
 
 # 无前缀 RULE_13
 location / {
-        return 699;
+    echo "699";
 }
 ```
 
@@ -104,4 +104,7 @@ location / {
 
 
 ### 参考
-[【1】](http://www.bo56.com/nginx-location%E5%9C%A8%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7/) [【2】](https://gist.github.com/luxixing/7262911)[【3】](http://eyesmore.iteye.com/blog/1141660)[【4】](http://denglz.blog.51cto.com/3617037/1341841)
+- [nginx location在配置中的优先级](http://www.bo56.com/nginx-location在配置中的优先级/) 
+- [ginx-location](https://gist.github.com/luxixing/7262911)
+- [Nginx 关于 location 的匹配规则详解](http://eyesmore.iteye.com/blog/1141660)
+- [NGINX 的 location 语法规则](http://denglz.blog.51cto.com/3617037/1341841)
