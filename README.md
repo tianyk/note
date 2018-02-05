@@ -126,6 +126,7 @@
 - [x] [Kafka 快速开始](kafka.md)
 - [ ] [select vs poll vs epoll](select-vs-poll-vs-epoll.md)
 - [ ] [Java Lambda](java-lambda.md)
+- [x] [http](http.md)
 - [ ] [http2](http2.md)
 - [x] [git-install](git-install.md)
 - [x] [async/await](async-await.md)

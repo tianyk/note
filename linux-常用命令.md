@@ -99,3 +99,13 @@
     ```
     file --mime-encoding [filename]
     ```
+
+11. 生成指定大小文件
+    ```
+    dd if=/dev/zero of=50M.file bs=1M count=50
+    ```
+
+12. 网卡流量分析
+    ```
+    sar -n DEV 2 10 每2秒刷新一次，共10次
+    ```
