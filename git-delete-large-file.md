@@ -61,4 +61,4 @@ git gc --prune=now
 至此，我们已经彻底的删除了我们不想要的文件。
 
 ### 参考
-[【1】](http://www.hollischuang.com/archives/1708)
+- [记一次删除Git记录中的大文件的过程](http://www.hollischuang.com/archives/1708)
