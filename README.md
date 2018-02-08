@@ -151,3 +151,4 @@
 - [x] [DNS协议](dns.md)
 - [x] [GCC](install-gcc.md)
 - [x] [Shadowsocks](shadowsocks.md)
+- [x] [Http Vary](http-vary.md)
