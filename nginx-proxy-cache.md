@@ -14,7 +14,7 @@ proxy_cache_path /usr/local/openresty/nginx/proxy_cache/ levels=1:2 keys_zone=my
 | 参数 | 说明 |
 |----|----|
 | `/usr/local/openresty/nginx/proxy_cache/` |  表示缓存文件目录。 |
-| `levels=1:2` | 将大量的文件放置在单个目录中会导致文件访问缓慢。这里指定缓存空间有两层hash目录，第一层目录为1个字母，第二层为2个字母，保存的文件名会类似 `/usr/local/openresty/nginx/proxy_cache/c/29/01524fae79697630d0454ba3fabd9414`。 |
+| `levels=1:2` | 将大量的文件放置在单个目录中会导致文件访问缓慢。这里指定缓存空间有两层hash目录，第一层目录为1个字母，第二层为2个字母，保存的文件名会类似 `/usr/local/openresty/nginx/proxy_cache/`**c**`/`**29**`/01524fae79697630d0454ba3fabd9`**29c**。 |
 | `keys_zone=my_cache:5m` | 设置一个共享内存区，该内存区用于存储缓存键和元数据，有些类似计时器的用途。将键的拷贝放入内存可以使NGINX在不检索磁盘的情况下快速决定一个请求是`HIT`还是`MISS`，这样大大提高了检索速度。一个1MB的内存空间可以存储大约8000个key。|
 | `max_size=1g` | 设置了缓存的上限。 | 
 | `inactive=7d` | inactive 指定了项目在不被访问的情况下能够在内存中保持的时间。在上面的例子中，如果一个文件在7天之内没有被请求，则缓存管理将会自动将其在内存中删除，不管该文件是否过期。该参数默认值为10分钟（10m）。注意，非活动内容有别于过期内容。NGINX不会自动删除由缓存控制头部指定的过期内容（本例中Cache-Control:max-age=120）。过期内容只有在`inactive`指定时间内没有被访问的情况下才会被删除。如果过期内容被访问了，那么NGINX就会将其从原服务器上刷新，并更新对应的`inactive`计时器。 |
