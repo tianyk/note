@@ -102,6 +102,10 @@
 
 11. 生成指定大小文件
     ```
+    truncate -s 50M 50M.file
+    ```
+
+    ```
     dd if=/dev/zero of=50M.file bs=1M count=50
     ```
 

@@ -36,7 +36,7 @@ location / {
 ```
 location / {
     ...
-    proxy_cache_methods GET;
+    proxy_cache_methods GET HEAD;
 }
 ```
 
