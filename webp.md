@@ -25,4 +25,8 @@ function check_webp_feature(feature, callback) {
 
 
 ### 参考
-[【1】](https://developers.google.com/speed/webp/faq) [【2】](http://zmx.im/blog?bname=webp) [【3】](http://www.btorange.com/2013/06/14/webp.html) [【4】](http://blog.csdn.net/u013063153/article/details/52677737) [【5】](https://optimus.keycdn.com/support/webp-support/)
+- [What is WebP? Why should I use it?](https://developers.google.com/speed/webp/faq) 
+- [美团在webp方面的实践](http://zmx.im/blog?bname=webp) 
+- [WEBP是什么呢？](http://www.btorange.com/2013/06/14/webp.html) 
+- [扒一扒“WEBP格式”的图片](http://blog.csdn.net/u013063153/article/details/52677737) 
+- [WebP Support – It’s More Than You Think](https://optimus.keycdn.com/support/webp-support/)
