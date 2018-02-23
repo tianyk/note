@@ -9,7 +9,7 @@ dubbo、thrift、grpc <http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-fr
 
 2. RPC服务
     1. 序列化协议
-        json/thrift/protobuf
+        json/[JSON-RPC](http://wiki.geekdream.com/Specification/json-rpc_2.0.html)/thrift/protobuf
     2. 传输层
         http netty/sun-httpServer/vert.x(防止主循环阻塞)
     
