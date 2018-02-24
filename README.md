@@ -152,3 +152,4 @@
 - [x] [GCC](install-gcc.md)
 - [x] [Shadowsocks](shadowsocks.md)
 - [x] [Http Vary](http-vary.md)
+- [x] [Linux服务](linux-service.md)
