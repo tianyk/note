@@ -119,3 +119,15 @@ sar -n DEV 2 10 每2秒刷新一次，共10次
 
 #### 宽口使用查看
 [linux 端口](linux-端口.md)
+
+#### 进程检查
+```shell
+#!/bin/sh
+PID=$$ # $BASHPID
+
+if kill -0 $PID 2>/dev/null; then 
+    echo "process $PID existence" 
+else 
+    echo "process $PID nexistence"
+fi
+```
