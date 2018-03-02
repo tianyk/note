@@ -43,7 +43,6 @@ Host api
 
     restorecon -r -vv /root/.ssh
     ```
-VThqfMJAGJMgu4Kf
 2. `ssh-copy-id` 命令  
     `ssh-copy-id`命令可以把本地主机的公钥复制到远程主机的 authorized_keys 文件上，ssh-copy-id 命令也会给远程主机的用户主目录（home）和 ~/.ssh, 和~/.ssh/authorized_keys设置合适的权限。
     ```shell
@@ -55,7 +54,18 @@ VThqfMJAGJMgu4Kf
     ```shell
     sshpass -p 'passwd' ssh user@domain
     ```
-
+4. 连接自动断开
+    修改`/etc/ssh/sshd_config``ClientAliveInterval`和`ClientAliveInterval`参数
+    ```
+    # 指定了服务器端向客户端请求消息的时间间隔。默认是0，不发送，而ClientAliveInterval 60表示每分钟发送一次。
+    ClientAliveInterval 60
+    # ClientAliveCountMax表示服务器发出请求后客户端没有响应的次数达到一定值, 就自动断开。
+    ClientAliveCountMax 3
+    ```
 
 ### 参考
-[【1】](https://segmentfault.com/q/1010000000445726) [【2】](http://serverfault.com/questions/321534/public-key-authentication-fails-only-when-sshd-is-daemon) [【3】](http://www.cnblogs.com/qcly/archive/2013/07/27/3219535.html) [【4】](http://www.2cto.com/os/201212/173257.html) [【5】](http://blog.csdn.net/wangjunjun2008/article/details/19993395)
+- [CentOS SSH公钥登录问题](https://segmentfault.com/q/1010000000445726)
+- [public key authentication fails ONLY when sshd is daemon](http://serverfault.com/questions/321534/public-key-authentication-fails-only-when-sshd-is-daemon)
+- [一次由SELinux引起的ssh公钥认证失败问题](https://web.archive.org/web/20170801031147/http://www.cnblogs.com/qcly/archive/2013/07/27/3219535.html) 
+- [ssh免密码登录(公钥登录)失败的原因](http://www.2cto.com/os/201212/173257.html) 
+- [Linux命令之非交互SSH密码验证-sshpass](http://blog.csdn.net/wangjunjun2008/article/details/19993395)
