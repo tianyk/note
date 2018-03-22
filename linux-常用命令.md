@@ -131,3 +131,8 @@ else
     echo "process $PID nexistence"
 fi
 ```
+
+#### fuser
+fuser 1080/tcp
+fuser -k 1080/tcp
+fkill

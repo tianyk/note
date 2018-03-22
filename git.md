@@ -14,6 +14,9 @@ sudo make prefix=/usr/local install
 ```
 > 指定 prefix 为 /usr/local 会安装到 /usr/local/bin 下，指定 prefix 为 /use 会安装到/usr/bin 下。
 
+### 私有git仓库
+<https://www.liaoxuefeng.com/article/001373894410719a19c79d040c84fd4a7492efc60081be1000>
+
 ### 配置
 1. 设置代理
     ``` shell 
