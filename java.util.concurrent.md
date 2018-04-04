@@ -39,6 +39,7 @@ public class NoViisibility {
 
 ### 线程
 
+
 #### 中断
 `interrupted` 是一种协商机制，中断机制是一种协作机制，也就是说通过中断并不能直接终止另一个线程，而需要被中断的线程自己处理中断。可以理解为一种类似`kill -n`的信号。`interrupt`信号是通知线程应该中断了，具体到底中断还是继续运行，应该由被通知的线程自己处理。
 
@@ -178,6 +179,132 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 }));
 ```
 
+#### 内置条件队列
+这里的条件是一种状态，当达到这种状态后我们可以进行后面的操作。例如，`队列空`、`队列满`都是一种状态，当队列为空时我们不能take操作，当队列满时我们不能push操作。当遇到上述状态时，我们可以可能需要等待，等待状态变更我们能进一步执行。等待的方式有多种，我们可以`自旋`也可以`休眠`。如果等待时间过久，`自旋`会浪费大量的CPU资源。如果`休眠`我们系统将不够灵敏。如果能有一种`通知机制`，当状态变更时通知我们的线程醒来再次检查状态。
+
+Java里面wait/notify就是这种机制。当我们在一个把锁上wait时，线程将释放锁和CPU资源处于休眠状态。当在一把锁上调用notify/notifyAll时将唤醒前面等待的线程。这既避免了`自旋`过久对于CPU的浪费，也解决了`休眠`时不能立即唤醒的问题。
+
+我们可以看做每一把锁上面都有一个队列，队列里面存放的是这把锁上的`wait`事件。当在这把锁上调用`notify`/`notifyAll`时会唤醒队列里面的线程。
+
+``` java 
+public class Queue<T> {
+    private final ArrayList<T> list = new ArrayList<>();
+    private int capacity;
+
+    public Queue() {
+        this(Integer.MAX_VALUE);
+    }
+
+    public Queue(int capacity) {
+        this.capacity = capacity;
+    }
+
+    private boolean isFull() {
+        return list.size() >= capacity;
+    }
+
+    private boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    private T take() throws InterruptedException {
+        return take(0);
+    }
+
+    private T take(long timeout) throws InterruptedException {
+        // 封闭条件队列
+        synchronized (list) {
+            while (isEmpty()) list.wait(timeout);
+
+            T t = list.remove(0);
+            list.notifyAll();
+            return t;
+        }
+    }
+
+    private void push(T t) throws InterruptedException {
+        push(t, 0);
+    }
+
+    private void push(T t, long timeout) throws InterruptedException {
+        synchronized (list) {
+            while (isFull()) {
+                list.wait(timeout);
+            }
+
+            list.add(t);
+            list.notifyAll();
+        }
+    }
+}
+```
+
+自Java 1.5开始，Java并发包提供了新的选择，我们可以使用`Condition`来实现条件队列。它与传统的不同之处在于，在同一把锁上，我们可以创建多个条件队列，不同的条件可以放到不同的队列中。上例中有个弊端，当我们`notifyAll`时`isEmpty`和`isFull`条件等待的线程都会被唤醒。另外一个弊端是所有线程都会被唤醒，但是不是所有的线程获取锁再继续执行时就能满足条件，有可能会再次进入等待。例如对于生产者消费者模型，有多个消费者等待而此时只有一个生产者只生产了一个，那么所有消费者都被唤醒时，只有一个会成功抢到任务。其它会在唤醒后再次等待。还有一种情况是由于所有条件都在一个队列中，这个队列中可能既`队列空`又有`队列满`两种等待条件。我们一个`notifyAll`会唤醒两者，而实际情况是我们只想唤醒一种条件。例如，`push`时只想唤醒`队列空`条件的等待，而`take`时只想唤醒`队列满`条件的等待。这种无差别的唤醒同样会造成一种浪费。
+
+``` java 
+public class Queue<T> {
+    private final ArrayList<T> list = new ArrayList<>();
+    private final ReentrantLock lock = new ReentrantLock();
+    // 为队列满和队列空分别创建条件队列
+    private final Condition isFull = lock.newCondition();
+    private final Condition isEmpty = lock.newCondition();
+
+    private int capacity;
+
+    public Queue() {
+        this(Integer.MAX_VALUE);
+    }
+
+    public Queue(int capacity) {
+        this.capacity = capacity;
+    }
+
+    private boolean isFull() {
+        return list.size() >= capacity;
+    }
+
+    private boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    private T take() throws InterruptedException {
+        return take(0);
+    }
+
+    private T take(long timeout) throws InterruptedException {
+        lock.lock();
+        try {
+            while (isEmpty()) isEmpty.await(timeout, TimeUnit.MILLISECONDS);
+
+            T t = list.remove(0);
+            // 不同等待条件分队列后就不需要全部唤醒（signalAll）了
+            // 以前我们不能使用的原因两种条件等待都在一个队列里，由于我们不能控制唤醒谁就可能会唤醒一个我们不想唤醒的等待。
+            // 例如我们在take后push操作上的等待应该可以执行了，由于无差别的唤醒可能我们会又唤醒一个take操作上的等待。
+            isFull.signal();
+            return t;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void push(T t) throws InterruptedException {
+        push(t, 0);
+    }
+
+    private void push(T t, long timeout) throws InterruptedException {
+        lock.lock();
+        try {
+            while (isFull()) isFull.await(timeout, TimeUnit.MILLISECONDS);
+
+            list.add(t);
+            isEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
 ### 同步工具
 #### 同步容器 
 - Vector
@@ -188,10 +315,65 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
 #### 并发容器
 - CopyOnWriteArrayList
+
+    写入时复制的思想，每次更新时都会重新copy一份新的数据。由于每次修改都会复制底层数组，当容器规模较大时将会产生较大的开销。对于容器修改尽量调用批量操作的API，减少容器数据复制操作。
+
+    多线程可以同时对容器进行迭代，不会彼此干扰或与修改容器的线程相互干扰。写入时复制不会抛出`ConcurrentModificationException`异常，迭代的是创建迭代器时的元素，修改操作不会对迭代的数据有影响（修改后被迭代的数组和容器此时的数组已经不是同一个了）。
+
+    ``` java 
+    // CopyOnWriteArrayList.add 
+    public boolean add(E e) {
+        // 排它锁保证了并发的安全性(可见性/原子性)，所有的更新操作使用同一把锁
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            // 容器底层数组
+            Object[] elements = getArray();
+            int len = elements.length;
+            // 复制原数组到新数组中
+            Object[] newElements = Arrays.copyOf(elements, len + 1);
+            // 将元素添加到新数组中
+            newElements[len] = e;
+            // 重置容器底层数组
+            setArray(newElements);
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    // 遍历操作
+    // 遍历的是创建迭代器时的数组，后面再修改已经不是修改的此数组了。
+    public ListIterator<E> listIterator() {
+        return new COWIterator<E>(getArray(), 0);
+    }
+    ```
+    
 - ConcurrentHashMap
+
+    `ConcurrentHashMap`使用`锁分段`的思想，将原来的一个锁应用在整个容器上拆分为多个锁每个锁锁定容器一部分数据的形式。这能减少锁竞争，提高程序的可伸缩性。
 
 #### 队列 
 Queue、Deque
+
+|  -   |            -             |                         -                          |
+| ------- | ------------------------ | -------------------------------------------------- |
+| add     | 增加一个元索             | 如果队列已满，则抛出一个IIIegaISlabEepeplian异常   |
+| remove  | 移除并返回队列头部的元素 | 如果队列为空，则抛出一个NoSuchElementException异常 |
+| element | 返回队列头部的元素       | 如果队列为空，则抛出一个NoSuchElementException异常 |
+| offer   | 添加一个元素并返回true   | 如果队列已满，则返回false                          |
+| poll    | 移除并返问队列头部的元素 | 如果队列为空，则返回null                           |
+| peek    | 返回队列头部的元素       | 如果队列为空，则返回null                           |
+| put     | 添加一个元素             | 如果队列满，则阻塞                                 |
+| take    | 移除并返回队列头部的元素 | 如果队列为空，则阻塞                               |
+
+- LinkedBlockingQueue
+
+- ArrayBlockingQueue
+
+- DelayQueue
+    
+    
 
 #### 同步工具类
 - CountDownLatch
@@ -263,7 +445,7 @@ Queue、Deque
                 System.out.printf("%d + %d = %d\n", revOne, revTwo, revOne + revTwo);
                 System.out.println(queryOne.get() + queryTwo.get());
             } catch (InterruptedException ignore) {
-                //e.printStackTrace();
+                // e.printStackTrace();
             } catch (ExecutionException e) {
                 Throwable cause = e.getCause();
                 //if (cause instanceof ) {
@@ -351,9 +533,240 @@ Queue、Deque
     }
     ```
 
+- ForkJoin
+    
+    ForkJoin采用分治算法，将大任务拆分成小任务来处理。通常情况下我们不需要直接继承ForkJoinTask类，而只需要继承它的子类，Fork/Join框架提供了以下两个子类：
+    
+    - RecursiveAction：用于没有返回结果的任务。
+    - RecursiveTask ：用于有返回结果的任务。
+    
+    常用模式：
+    ``` Java
+    Result solve(Problem problem) {
+        if (problem is small) {
+            // 直接解决
+            directly solve problem
+        } else {
+            // 拆分问题
+            split problem into independent parts
+            fork new subtasks to solve each part
+            join all subtasks
+            compose result from subresults
+        }
+    }
+    ```
+
+    Fork/Join求和
+    ``` java 
+    public class ForkJoinSum extends RecursiveTask<Long> {
+        private int[] nums;
+        private int low;
+        private int high;
+        private int THRESHOLD = 10;
+
+        public ForkJoinSum(int[] nums) {
+            this(nums, 0, nums.length);
+        }
+
+        public ForkJoinSum(int[] nums, int low, int high) {
+            this.nums = nums;
+            this.low = low;
+            this.high = high;
+        }
+
+        @Override
+        protected Long compute() {
+            // 小任务直接处理
+            if (high - low < THRESHOLD) {
+                return Arrays.stream(Arrays.copyOfRange(nums, low, high)).asLongStream().sum();
+            } else {
+                // 大人物先拆分再合并结果
+                ForkJoinSum left = new ForkJoinSum(nums, low, low + (high - low) / 2);
+                ForkJoinSum right = new ForkJoinSum(nums, low + (high - low) / 2, high);
+
+                // ！！！不要两个线程都fork，不然当前线程将无任务可做。
+                // invokeAll其中left会在当前线程内执行，right会fork在线程池中另一个线程中执行。
+                invokeAll(left, right);
+                return left.join() + right.join();
+            }
+        }
+
+        public static void main(String[] args) {
+            int count = 100;
+            int[] nums = new int[count];
+            Random random = new Random();
+            for (int i = 0; i < count; i++) nums[i] = random.nextInt(count);
+
+            ForkJoinPool pool = new ForkJoinPool(4); // 最大并发数4
+            ForkJoinSum task = new ForkJoinSum(nums);
+
+            long ret = pool.invoke(task);
+            System.out.println(ret);
+        }
+    }
+    ```
+    
 ### 锁
 
 - 内置锁 
+    
+    内置锁能同时保证`原子性`和`可见性`。内置锁是独占锁，会增加串行代码比例，降低程序的可伸缩性。
+    
+    内置锁是一种可重入锁，如果已经获得了锁，后面在遇到相同的锁时可以直接进入。
+
+    是用不用的锁组合时一定要注意加锁的顺序，避免交叉造成死锁的问题。
+
+    ``` java 
+    // 锁为实例(this)对象 
+    synchronized (this) {
+
+    }
+    
+    public synchronized void fun() {
+
+    }
+    ```
+
+    ``` java
+    // 特定的锁对象，可以将锁对象封闭在程序内部。
+    synchronized (lock) {
+        
+    }
+    ```
+    
+
+    ``` java 
+    // 锁为class对象
+    public static synchronized fun() {
+        
+    }
+    ```
+
+- ReentrantLock 
+
+    `ReentrantLock`提供了和`synchronized`一样的互斥性及内存可见性。在大多数场景下使用`synchronized`就够了，但是内置锁有一些局限性。例如，我们无法中断一个等待获取锁的线程。但是使用`ReentrantLock`也有缺点，我们必须手动释放锁。`ReentrantLock`和内置锁性能相当，仅当内置锁不能满足需求时才考虑使用`ReentrantLock`。就性能而言，我们也应当首选内置锁，因为内置锁的JVM的内置属性，它能执行一些优化。
+    
+    `ReentrantLock`可以提供公平锁，线程按照它们发出请求的顺序来获得锁。非公平锁允许`插队`行为，当请求一把非公平锁时，如果在发出请求时同时改锁状态变为可用，那么这个线程将跳过所有等待线程而获得这个锁。由于公平锁所有线程在等待锁时都要排队，这将会增加线程切换降低性能，而`插队`将减少一次上下文切换。当持有锁的时间较长时，应该使用公平锁。
+
+    `ReentrantLock`实现了`Lock`接口。
+    ```java 
+    public interface Lock {
+
+        // 获得一把锁
+        void lock();
+
+        // 获得一把锁，锁获取时可以中断
+        void lockInterruptibly() throws InterruptedException;
+
+        // 获取一把锁，获得返回true
+        boolean tryLock();
+
+        // 尝试获得一把锁，等待一定的时间。获得返回true
+        boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
+
+        // 释放锁
+        void unlock();
+
+        // 条件队列
+        Condition newCondition();
+    }
+    ```
+
+    组合运用
+    ```java
+    public class ConcurrentIncrease {
+
+        private int total = 0;
+        private ReentrantLock lock = new ReentrantLock();
+
+        public int incr() {
+            lock.lock();
+            try {
+                ++total;
+                // 内部输出后会发生IO阻塞，会放弃CPU资源
+                // System.out.printf("total: %d\n", total);
+                return total;
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        public static void main(String[] args) {
+            int count = 100;
+            final ConcurrentIncrease increase = new ConcurrentIncrease();
+
+            CountDownLatch start = new CountDownLatch(count);
+            CyclicBarrier done = new CyclicBarrier(count, () -> {
+                System.out.printf("total: %d\n", increase.total);
+            });
+
+            for (int i = 0; i < count; i++) {
+                new Thread(() -> {
+                    try {
+                        start.await();
+                    } catch (InterruptedException ignored) { }
+
+                    System.out.println(increase.incr());
+
+                    try {
+                        done.await();
+                    } catch (InterruptedException | BrokenBarrierException ignored) { }
+                }).start();
+
+                start.countDown();
+            }
+        }
+    }
+    ```
+
+- ReadWriteLock 
+
+    `ReentrantLock`和内置锁都是互斥锁，每次只能有一个线程持有锁。互斥锁是一种保守的加锁策略，它可以避免`写\写`和`读\写`的冲突，但它同时也限制了`读\读`。读写锁正是来解决这一问题的，只要能保证每个线程都能读到最新的数据，并且读数据时不会有其它线程来修改数据，那就不会发生问题。使用了读写锁后，一个资源可以同时被多个读操作或者一个写操作，但二者不能同时进行。
+
+    读写锁实现方式
+    - **释放优先**。当写入线程释放写锁时，如果正在排队的同时存在读和写线程，改优先选择读线程还是写线程。
+    - **读线程插队**。如果锁有读线程获取，但是有写线程等待，那么新到的读线程是否能立即获得锁，还是排队在写线程后面。
+    - **重入性**。读取锁和写入锁是否可重入。
+    - **降级**。如果一个线程持有写入锁，它是否能再不释放该锁的情况下获取读锁。这个线程将同时拥有读写锁，同时将阻止其它线程对被保护资源的读写。
+    - **升级**。读锁能否由于其它正在等待的读线程和写线程升级为一个写入锁。（这协商不好将发生死锁的情况，如果两个读锁同时要升级为写锁）。
+
+    ``` java 
+    public class ReadWriteMap <K,V> {
+        private final Map<K, V> map;
+        private final ReadWriteLock lock = new ReentrantReadWriteLock();
+        private final Lock r = lock.readLock();
+        private final Lock w = lock.writeLock();
+
+        public ReadWriteMap(Map<K, V> map) {
+            this.map = map;
+        }
+
+        public V put(K key, V value) {
+            w.lock();
+            try {
+                return map.put(key, value);
+            } finally {
+                w.unlock();
+            }
+        }
+
+        public V get(Object key) {
+            r.lock();
+            try {
+                return map.get(key);
+            } finally {
+                r.unlock();
+            }
+        }
+
+        ... 
+        // remove/putAll/clear/size/isEmpty/containsKey/containsValue
+    }
+    ```
+    
+
+#### 原子变量
+
 
 ### 线程池
 - ThreadPoolExecutor
@@ -485,7 +898,7 @@ for (int i = 0; i < strs.size(); i++) {
 
 调用这些容器的修改操作(add/remove)时会抛出UnsupportedOperationException异常。
 
-另外：`Arrays.asList`方法返回的是一个`fixed-size`list，我们调用它的修改成操作时也会抛出`UnsupportedOperationException`异常。对齐重新封装`new ArrayList<>(Arrays.asList("a", "b", "c"))`后就不会出现此问题。
+另外：`Arrays.asList`方法返回的是一个`fixed-size`list，我们调用它的修改成操作时也会抛出`UnsupportedOperationException`异常。对其重新封装`new ArrayList<>(Arrays.asList("a", "b", "c"))`后就不会出现此问题。
 
 ``` java 
 List<String> strs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("a", "b", "c")));
