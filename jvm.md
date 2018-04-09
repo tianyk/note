@@ -166,7 +166,7 @@
     
     设置栈的大小。
     
-- PretenureSizeThreshold
+- -XX:PretenureSizeThreshold
     
     直接晋升到老年代的对象大小，设置这个参数后，大于这个参数的对象将直接在老年代分配。
     
@@ -178,11 +178,15 @@
     
     在这种模式下，新生代的大小、eden 和 survivor 的比例、晋升老年代的对象年龄等参数会被自动调整，以达到在堆大小、吞吐量和停顿时间之间的平衡点。在手工调优比较困难的场合，可以直接使用这种自适应的方式，仅指定虚拟机的最大堆、目标的吞吐量 (GCTimeRatio) 和停顿时间 (MaxGCPauseMills)，让虚拟机自己完成调优工作。
     
-- -XX:SurvivorRattio
+- -XX:SurvivorRatio
     
     新生代Eden区域与Survivor区域的容量比值，默认为8，代表Eden: Suvivor= 8: 1。
+
+- –XX:TargetSurvivorRatio=90
     
-- XX:ParallelGCThreads
+    设置 Survivor 区的可使用率。这里设置为 90%，则允许 90%的 Survivor 空间被使用。默认值是 50%。故该设置提高了 Survivor 区的使用率。当存放的对象超过这个百分比，则对象会向年老代压缩。因此，这个选项更有助于将对象留在年轻代。
+
+- -XX:ParallelGCThreads
 
     设置用于垃圾回收的线程数。通常情况下可以和 CPU 数量相等。但在 CPU 数量比较多的情况下，设置相对较小的数值也是合理的。
     
@@ -193,6 +197,11 @@
 - XX:GCTimeRatio
     
     设置吞吐量大小，它的值是一个 0-100 之间的整数。假设 GCTimeRatio 的值为 n，那么系统将花费不超过 1/(1+n) 的时间用于垃圾收集。
+
+- -XX:+PrintGCDetails
+
+    打印GC日志。
+
 
 ### 类加载阶段
 1. 加载和验证
