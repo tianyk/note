@@ -39,6 +39,33 @@ public class NoViisibility {
 
 ### 线程
 
+- start 
+
+    启动一个线程。
+
+- run 
+
+    直接在当前线程内运行。可用于线程封装，比如线程池内运行线程可以直接在线程池线程中调用被传入线程的run方法。
+
+- sleep
+
+    线程休眠，会释放CPU资源但是不会释放锁。
+    
+- yield 
+
+    短暂让出CPU资源，不像sleep有固定的时间。同样不会释放锁。
+
+- join 
+
+    用于线程协调。调用t.join()当前线程会等待线程t执行完再继续执行。
+
+- interrupt
+
+    中断，类似一种信号，是一种协商机制。具体查看下面的中断机制。
+
+- wait、notify/notifyAll 
+
+    这两者属于Object类上的方法，用于线程*通讯*（其实没有讯息，类似一个通知机制）。具体查看下面的内置条件队列。
 
 #### 中断
 `interrupted` 是一种协商机制，中断机制是一种协作机制，也就是说通过中断并不能直接终止另一个线程，而需要被中断的线程自己处理中断。可以理解为一种类似`kill -n`的信号。`interrupt`信号是通知线程应该中断了，具体到底中断还是继续运行，应该由被通知的线程自己处理。
@@ -308,7 +335,13 @@ public class Queue<T> {
 ### 同步工具
 #### 同步容器 
 - Vector
+
+    最初版本的同步集合，所有方法均使用synchronized加锁同步。
+
 - HashTable 
+
+    最初版本的同步哈希表，所有方法均加锁同步。
+    
 - Collections.synchronized(Collection|List|Map|Set|SortMap|SortSet)
     
     以上同步容器主要将实际容器封闭在同步容器内部，通过同一把锁（同步容器本身）保护对对象的所有访问。这种方式最重要的一点是防止被封闭的对象逸出。
@@ -767,6 +800,75 @@ Queue、Deque
 
 #### 原子变量
 
+CAS 伪类
+``` java 
+/**
+ * CAS 的典型使用模式是：首先从 V 中读取值 A ，并根据 A 计算新值 B ，
+ * 然后再通过 CAS 以原子方式将 V 中的值由 A 变成 B （只要在这期间没有任何线程将 V 的值修改为其他值）。
+ * 由于 CAS 能检测到来自其他线程的干扰，因此即使不使用锁也能够实现原子的读一改一写操作序列。
+ */
+public class CAS<T> {
+    private T value;
+
+    public CAS(T value) {
+        this.value = value;
+    }
+
+    public synchronized T get() {
+        return value;
+    }
+
+    /**
+     * 比较成功则换值
+     *
+     * 对于 i = 1; i = i + 1
+     * 我们的预期是1，操作后应该结果是2；
+     * 如果此时i确实是1，那就说明没人修改，那就直接将预期结果2赋值给它。
+     * @param expectedValue 期望值，即我们看到的值
+     * @param newValue      新值
+     * @return
+     */
+    public synchronized T compareAndSwap(T expectedValue, T newValue) {
+        T oldValue = value;
+        if (value == expectedValue)
+            value = newValue;
+        return oldValue;
+    }
+
+    /**
+     * {@link #compareAndSwap(int, int)} 返回的是旧值，也就是我们期望的那个值的。
+     * <br>
+     * 如果它的返回值和我们的期望值一样，说明此时交换成功了。
+     * @param expectedValue 期望值
+     * @param newValue      新值
+     * @return
+     */
+    public synchronized boolean compareAndSet(T expectedValue, T newValue) {
+        return (expectedValue == compareAndSwap(expectedValue, newValue));
+    }
+}
+
+class CASCounter {
+    private CAS<Integer> value;
+
+    public CASCounter(int value) {
+        this.value = new CAS<>(value);
+    }
+
+    public int getValue() {
+        return value.get();
+    }
+
+    public int increment() {
+        int v;
+        do {
+            v = value.get();
+            // 相等表示替换成功，失败则重试
+        } while (v == value.compareAndSwap(v, v + 1));
+        return v + 1;
+    }
+}
+```
 
 ### 线程池
 - ThreadPoolExecutor
@@ -869,17 +971,93 @@ Queue、Deque
 ### 常见异常
 
 #### ConcurrentModificationException
-对容器迭代的时候如果同时对其进行修就会抛出`ConcurrentModificationException`。这类似一种预警机制，它将计数器与容器变化关联。如果迭代期间计数器被修改那么`hasNext`或者`next`将抛出异常。在迭代期间迭代器可能并没有意识到容器已经修改了，这是一种权衡机制来尽量避免并发修改操作对程序的影响。
+对容器迭代的时候如果同时对其进行修就会抛出`ConcurrentModificationException`。这类似一种**预警机制**，它将计数器与容器变化关联。如果迭代期间计数器被修改那么`hasNext`或者`next`将抛出异常。在迭代期间迭代器可能并没有意识到容器已经修改了，这是一种权衡机制来尽量避免并发修改操作对程序的影响。
 
 `modCount`是List的一个成员变量，表示容器修改(add/remove)次数。    
 `expectedModCount`是`Iterator`内部变量，这个值的初始值就是`modCount`的值。如果迭代过程中修改了容器，`modCount`就会改变，而此时`expectedModCount`还是`modCount`的旧值。    
 
+> 不管是简单的for，还是增强for循环编译后都是Iterator迭代。
 > 直接调用`Iterator.remove`来删除元素不会出现`ConcurrentModificationException`异常，其方法内部会重新修正`modCount`和`expectedModCount`的值。
 
-``` java 
-final void checkForComodification() {
-    if (modCount != expectedModCount)
-    throw new ConcurrentModificationException();
+``` java    
+public Iterator<E> iterator() {
+    return new Itr();
+}
+
+/**
+* An optimized version of AbstractList.Itr
+* 内部类，可以直接访问宿主类属性。用于容器迭代。
+*/
+private class Itr implements Iterator<E> {
+    int cursor;       // index of next element to return
+    int lastRet = -1; // index of last element returned; -1 if no such
+    // 保留原始的modCount值，可以看做是oldModCount
+    int expectedModCount = modCount;
+
+    public boolean hasNext() {
+        return cursor != size;
+    }
+
+    @SuppressWarnings("unchecked")
+    public E next() {
+        // 每次迭代是都检查 
+        checkForComodification();
+        
+        int i = cursor;
+        if (i >= size)
+            throw new NoSuchElementException();
+        Object[] elementData = ArrayList.this.elementData;
+        if (i >= elementData.length)
+            throw new ConcurrentModificationException();
+        cursor = i + 1;
+        return (E) elementData[lastRet = i];
+    }
+
+    public void remove() {
+        if (lastRet < 0)
+            throw new IllegalStateException();
+        checkForComodification();
+
+        try {
+            ArrayList.this.remove(lastRet);
+            cursor = lastRet;
+            lastRet = -1;
+            // 直接调用it.remove()后不会触发ConcurrentModificationException异常
+            // 这里会重置expectedModCount的值
+            expectedModCount = modCount;
+        } catch (IndexOutOfBoundsException ex) {
+            throw new ConcurrentModificationException();
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void forEachRemaining(Consumer<? super E> consumer) {
+        Objects.requireNonNull(consumer);
+        final int size = ArrayList.this.size;
+        int i = cursor;
+        if (i >= size) {
+            return;
+        }
+        final Object[] elementData = ArrayList.this.elementData;
+        if (i >= elementData.length) {
+            throw new ConcurrentModificationException();
+        }
+        while (i != size && modCount == expectedModCount) {
+            consumer.accept((E) elementData[i++]);
+        }
+        // update once at end of iteration to reduce heap write traffic
+        cursor = i;
+        lastRet = i - 1;
+        checkForComodification();
+    }
+
+    final void checkForComodification() {
+        // modCount 为宿主类属性，实时的
+        // expectedModCount 为创建迭代器时的 modCount
+        if (modCount != expectedModCount)
+            throw new ConcurrentModificationException();
+    }
 }
 ```
 

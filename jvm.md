@@ -125,6 +125,8 @@
 
     不幸的是，它作为老年代的收集器，却无法与jdk1.4中已经存在的新生代收集器Parallel Scavenge配合工作，所以在jdk1.5中使用CMS来收集老年代的时候，新生代只能选择ParNew或Serial收集器中的一个。
 
+    `-XX:CMSInitiatingOccupancyFraction`配置可以设置老年代使用了多少空间后才进行GC。默认是68%，这是一个偏保守的设置，我们可以适当的调高这个参数。除了前面的配置外，我们还需要配置`-XX:+UseCMSInitiatingOccupancyOnly`这要求JVM不基于运行时的数据来进行GC，每次JVM都通过CMSInitiatingOccupancyFraction的值进行CMS收集。
+
 - G1收集器
 
     G1收集器是一款面向服务端应用的垃圾收集器。HotSpot团队赋予它的使命是在未来替换掉JDK1.5中发布的CMS收集器。与其他GC收集器相比，G1具备如下特点：
@@ -202,6 +204,115 @@
 
     打印GC日志。
 
+下面是ElasticSearch的一份初始化配置
+```
+## JVM configuration
+
+################################################################
+## IMPORTANT: JVM heap size
+################################################################
+## ElasticSearch 要求堆最小内存等于堆最大内存，初始化时就一次性初始化好整个堆，避免频繁重新扩展堆内存。
+## You should always set the min and max JVM heap
+## size to the same value. For example, to set
+## the heap to 4 GB, set:
+##
+## -Xms4g
+## -Xmx4g
+##
+## See https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html
+## for more information
+##
+################################################################
+
+# Xms represents the initial size of total heap space
+# Xmx represents the maximum size of total heap space
+
+-Xms2G
+-Xmx2G
+
+################################################################
+## Expert settings
+################################################################
+##
+## All settings below this section are considered
+## expert settings. Don't tamper with them unless
+## you understand what you are doing
+##
+################################################################
+
+## GC configuration
+# 使用CMS收集器（新生代默认的收集器为ParNew）
+-XX:+UseConcMarkSweepGC
+# 老年代容量到大75开始进行垃圾回收
+-XX:CMSInitiatingOccupancyFraction=75
+# 不基于运行时收集的数据来启动CMS垃圾收集周期，强制每次都使用CMSInitiatingOccupancyFraction的配置。
+-XX:+UseCMSInitiatingOccupancyOnly
+# 垃圾回收线程数（本机只有一个核心）
+-XX:ParallelGCThreads=1
+
+## optimizations
+
+# disable calls to System#gc
+# 屏蔽掉System.gc()
+-XX:+DisableExplicitGC
+
+# pre-touch memory pages used by the JVM during initialization
+-XX:+AlwaysPreTouch
+
+## basic
+
+# force the server VM
+# 以Server模式启动
+-server
+
+# set to headless, just in case
+-Djava.awt.headless=true
+
+# ensure UTF-8 encoding by default (e.g. filenames)
+-Dfile.encoding=UTF-8
+
+# use our provided JNA always versus the system one
+-Djna.nosys=true
+
+# flag to explicitly tell Netty to not use unsafe
+-Dio.netty.noUnsafe=true
+
+## heap dumps
+
+# generate a heap dump when an allocation from the Java heap fails
+# heap dumps are created in the working directory of the JVM
+# 虚拟机在出现内存溢出异常时Dump出当前的内存堆转储快照
+-XX:+HeapDumpOnOutOfMemoryError
+
+# specify an alternative path for heap dumps
+# ensure the directory exists and has sufficient space
+#-XX:HeapDumpPath=${heap.dump.path}
+
+## GC logging
+# GC 日志
+
+# 输出GC的详细日志
+#-XX:+PrintGCDetails
+# 输出GC的时间戳（以基准时间的形式）
+#-XX:+PrintGCTimeStamps
+# 输出GC的时间戳（以日期的形式，如 2013-05-04T21:53:59.234+0800）
+#-XX:+PrintGCDateStamps
+#-XX:+PrintClassHistogram
+#-XX:+PrintTenuringDistribution
+#-XX:+PrintGCApplicationStoppedTime
+
+# log GC status to a file with time stamps
+# ensure the directory exists
+#-Xloggc:${loggc}
+
+# Elasticsearch 5.0.0 will throw an exception on unquoted field names in JSON.
+# If documents were already indexed with unquoted fields in a previous version
+# of Elasticsearch, some operations may throw errors.
+#
+# WARNING: This option will be removed in Elasticsearch 6.0.0 and is provided
+# only for migration purposes.
+#-Delasticsearch.json.allow_unquoted_field_names=true
+```
 
 ### 类加载阶段
 1. 加载和验证
@@ -305,3 +416,4 @@ public class SecureClassLoader extends ClassLoader {
 - [Java中的逃逸分析和TLAB以及Java对象分配](https://blog.csdn.net/yangzl2008/article/details/43202969)
 - [JVM垃圾回收算法及回收器详解](https://www.ziwenxie.site/2017/07/24/java-jvm-gc/)
 - [JVM源码分析之线程局部缓存TLAB](https://www.jianshu.com/p/cd85098cca39)
+- [JVM实用参数（七）CMS收集器](http://ifeve.com/useful-jvm-flags-part-7-cms-collector/)
