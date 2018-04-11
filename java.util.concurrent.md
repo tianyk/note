@@ -37,6 +37,15 @@ public class NoViisibility {
 
 并发在同时应对多种任务时，需要去处理同步的问题。
 
+### 并发编程中的问题
+
+- 死锁
+
+- 饥饿
+
+- 活锁
+
+
 ### 线程
 
 - start 
@@ -344,7 +353,44 @@ public class Queue<T> {
     
 - Collections.synchronized(Collection|List|Map|Set|SortMap|SortSet)
     
-    以上同步容器主要将实际容器封闭在同步容器内部，通过同一把锁（同步容器本身）保护对对象的所有访问。这种方式最重要的一点是防止被封闭的对象逸出。
+    以上同步容器使用装饰器模式实现，将一个线程不安全的List/Map封闭在容器内部，通过同一把锁（同步容器本身）保护对对象的所有操作。这种方式最重要的一点是防止被封闭的对象逸出。
+
+    ``` java 
+    static class SynchronizedList<E>
+        extends SynchronizedCollection<E>
+        implements List<E> {
+        private static final long serialVersionUID = -7754090372962971524L;
+
+        final List<E> list;
+
+        SynchronizedList(List<E> list) {
+            super(list);
+            this.list = list;
+        }
+        SynchronizedList(List<E> list, Object mutex) {
+            super(list, mutex);
+            this.list = list;
+        }
+        
+        ...
+    
+        public E get(int index) {
+            // 所有操作上都使用锁同步
+            synchronized (mutex) {return list.get(index);}
+        }
+        public E set(int index, E element) {
+            synchronized (mutex) {return list.set(index, element);}
+        }
+        public void add(int index, E element) {
+            synchronized (mutex) {list.add(index, element);}
+        }
+        public E remove(int index) {
+            synchronized (mutex) {return list.remove(index);}
+        }
+
+        ...
+    }
+    ```
 
 #### 并发容器
 - CopyOnWriteArrayList
@@ -406,7 +452,9 @@ Queue、Deque
 
 - DelayQueue
     
-    
+- SynchronousQueue 
+
+    `SynchronousQueue`并不是一个真正的队列，它没有存储功能，不缓存元素。它维护的是是一组工作线程，任务直接从生产者到消费者手中，中间没有延迟。`newCachedThreadPool`使用的正是这种队列。
 
 #### 同步工具类
 - CountDownLatch
@@ -796,7 +844,6 @@ Queue、Deque
         // remove/putAll/clear/size/isEmpty/containsKey/containsValue
     }
     ```
-    
 
 #### 原子变量
 
