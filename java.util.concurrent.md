@@ -62,7 +62,7 @@ public class NoViisibility {
     
 - yield 
 
-    短暂让出CPU资源，不像sleep有固定的时间。同样不会释放锁。
+    短暂让出CPU资源，不像sleep时间结束后进入`RUNNABLE`状态，它会立即进入`RUNNABLE`状态等待CPU资源。它同样不会释放锁。
 
 - join 
 
@@ -75,6 +75,11 @@ public class NoViisibility {
 - wait、notify/notifyAll 
 
     这两者属于Object类上的方法，用于线程*通讯*（其实没有讯息，类似一个通知机制）。具体查看下面的内置条件队列。
+
+
+#### 线程状态
+
+![](images/thread-state.jpg)
 
 #### 中断
 `interrupted` 是一种协商机制，中断机制是一种协作机制，也就是说通过中断并不能直接终止另一个线程，而需要被中断的线程自己处理中断。可以理解为一种类似`kill -n`的信号。`interrupt`信号是通知线程应该中断了，具体到底中断还是继续运行，应该由被通知的线程自己处理。
