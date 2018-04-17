@@ -214,7 +214,7 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
     
 - -XX:SurvivorRatio
     
-    新生代Eden区域与Survivor区域的容量比值，默认为8，代表Eden: Suvivor= 8: 1。
+    新生代`Eden`区域与`Survivor`区域的容量比值，默认为8，代表Eden: Suvivor= 8: 1。
 
 - –XX:TargetSurvivorRatio=90
     
