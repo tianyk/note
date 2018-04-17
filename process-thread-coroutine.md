@@ -10,5 +10,6 @@
 
 
 ### 参考
-[【1】](http://blog.csdn.net/whinah/article/details/3501276)[【2】](http://blog.ez2learn.com/2010/07/17/talk-about-coroutine-and-gevent/)
-[【3】](https://www.zhihu.com/question/20511233/answer/24260355)
+- [process-->thread-->coroutine](http://blog.csdn.net/whinah/article/details/3501276)
+- [淺談coroutine與gevent](http://blog.ez2learn.com/2010/07/17/talk-about-coroutine-and-gevent/)
+- [协程的好处有哪些？](https://www.zhihu.com/question/20511233/answer/24260355)
