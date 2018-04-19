@@ -1002,6 +1002,20 @@ class CASCounter {
 
     创建一个可延迟执行的线程池。注意：线程池大小为`Integer.MAX_VALUE`。
 
+
+#### 线程池停止
+- shutdown 
+
+    非阻塞方法。停止线程，会等待所有工作及排队线程都执行完毕。
+
+- shutdownNow
+
+    非阻塞。先停止正在执行的线程，然后返回正在等待的任务。
+
+- awaitTermination(timeout, unit)
+
+    阻塞等待最长`timeout`等待线程池结束。
+
 #### 饱和策略
 - Abort 
 
