@@ -199,20 +199,40 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
 - Xss
     
     设置栈的大小。
+
+- -XX:PermSize=10M
+
+    表示JVM初始分配的永久代的容量，必须以M为单位。
+
+- -XX:MaxPermSize=10M
+
+    表示JVM允许分配的永久代的最大容量，必须以M为单位，大部分情况下这个参数默认为64M。
+
+- -XX:+PrintTLAB
+
+    表示可以看到TLAB的使用情况。
     
-- -XX:PretenureSizeThreshold
+- -XX:PretenureSizeThreshold=3M
     
-    直接晋升到老年代的对象大小，设置这个参数后，大于这个参数的对象将直接在老年代分配。
+    直接晋升到老年代的对象大小，设置这个参数后，大于这个参数（3M）的对象将直接在老年代分配。
     
-- -XX:MaxTenuringThrehold
+- -XX:MaxTenuringThrehold=1
     
     晋升到老年代的对象年龄。每个对象在坚持过一次Minor GC之后，年龄就会加1，当超过这个参数值时就进入老年代。
-    
+
+- -XX:CompileThreshold=1000
+
+    表示一个方法被调用1000次之后，会被认为是热点代码，并触发即时编译(JIT)。
+
 - -XX:UseAdaptiveSizePolicy
     
     在这种模式下，新生代的大小、eden 和 survivor 的比例、晋升老年代的对象年龄等参数会被自动调整，以达到在堆大小、吞吐量和停顿时间之间的平衡点。在手工调优比较困难的场合，可以直接使用这种自适应的方式，仅指定虚拟机的最大堆、目标的吞吐量 (GCTimeRatio) 和停顿时间 (MaxGCPauseMills)，让虚拟机自己完成调优工作。
-    
-- -XX:SurvivorRatio
+
+- -XX:NewRatio=4
+
+    表示设置年轻代：老年代的大小比值为1：4，这意味着年轻代占整个堆的1/5。
+
+- -XX:SurvivorRatio=8
     
     新生代`Eden`区域与`Survivor`区域的容量比值，默认为8，代表Eden: Suvivor= 8: 1。
 
@@ -227,10 +247,34 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
 - XX:MaxGCPauseMills
 
     设置最大垃圾收集停顿时间。它的值是一个大于 0 的整数。收集器在工作时，会调整 Java 堆大小或者其他一些参数，尽可能地把停顿时间控制在 MaxGCPauseMills 以内。
-    
-- XX:GCTimeRatio
+
+- -XX:GCTimeRatio
     
     设置吞吐量大小，它的值是一个 0-100 之间的整数。假设 GCTimeRatio 的值为 n，那么系统将花费不超过 1/(1+n) 的时间用于垃圾收集。
+
+- -Xnoclassgc
+
+    表示关闭JVM对类的垃圾回收。
+
+- -XX:+TraceClassLoading
+
+    表示查看类的加载信息。
+
+- -XX:+TraceClassUnLoading
+
+    表示查看类的卸载信息。
+
+- -XX:+PrintHeapAtGC
+
+    表示可以看到每次GC前后堆内存布局。
+
+- -XX:+HeapDumpOnOutOfMemoryError
+
+    表示可以让虚拟机在出现内存溢出异常时Dump出当前的堆内存转储快照。
+
+- -XX:+PrintGC
+
+    表示在控制台上打印出GC信息，等同于`-verbose:gc`。
 
 - -XX:+PrintGCDetails
 
