@@ -508,6 +508,9 @@ Queue、Deque
     
     多个耗时的任务可以异步执行，通过`get`拿到执行后的结果。任务只会执行一次。
     
+    ![FutureTask](images/FutureTask.png)
+    ![Future](images/future.png)
+
     ``` java 
     public class FutureTaskTest {
         public static void main(String[] args) {
@@ -526,6 +529,8 @@ Queue、Deque
                 new Thread(queryOne).start();
                 new Thread(queryTwo).start();
                 
+                // 未执行完的情况下，get时会阻塞。
+                // 最终执行时间取决于执行时间最长的任务。
                 int revOne = queryOne.get();
                 int revTwo = queryTwo.get();
                 System.out.printf("%d + %d = %d\n", revOne, revTwo, revOne + revTwo);
@@ -549,9 +554,7 @@ Queue、Deque
     Semaphore中管理者一组虚拟的许可证，许可证的数量通过构造函数指定。获得操作前只有获得许可证后才能继续执行，执行结束后释放许可证。常用于连接池等类似的场景。
     
     ``` java 
-    /**
-    * 模拟银行窗口
-    */
+    // 模拟银行窗口
     public class BankWindow {
         public static void main(String[] args) {
             Random random = new Random();
@@ -583,11 +586,9 @@ Queue、Deque
     同`CountDownLatch`不同的地方是`CyclicBarrier`是先干后集合，而`CountDownLatch`一般是先集合后开始干。
 
     ``` java 
-    /**
-    * 模拟银行金库。
-    * 金库大门共三把锁，分别有三个经理拿着钥匙。
-    * 只有三个经理人都开锁时，金库大门才会开。
-    */
+    // 模拟银行金库。
+    // 金库大门共三把锁，分别有三个经理拿着钥匙。
+    // 只有三个经理人都开锁时，金库大门才会开。
     public class BankVault {
         public static void main(String[] args) {
             Random random = new Random();
