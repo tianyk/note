@@ -202,11 +202,11 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
 
 - -XX:PermSize=10M
 
-    表示JVM初始分配的永久代的容量，必须以M为单位。
+    表示JVM初始分配的永久代的容量，必须以M为单位。从Java8开始使用`-XX:MetaspaceSize`参数。
 
 - -XX:MaxPermSize=10M
 
-    表示JVM允许分配的永久代的最大容量，必须以M为单位，大部分情况下这个参数默认为64M。
+    表示JVM允许分配的永久代的最大容量，必须以M为单位，大部分情况下这个参数默认为64M。从Java8开始使用`-XX:MaxMetaspaceSize`参数。
 
 - -XX:+PrintTLAB
 
@@ -251,6 +251,10 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
 - -XX:GCTimeRatio
     
     设置吞吐量大小，它的值是一个 0-100 之间的整数。假设 GCTimeRatio 的值为 n，那么系统将花费不超过 1/(1+n) 的时间用于垃圾收集。
+
+- -XX:ReservedCodeCacheSize
+
+    代码缓存区。如果代码缓存被占满，JIT编译器被停用，字节码将不再会被编译成机器码。`-XX:InitialCodeCacheSize`用来设置初始大小。
 
 - -Xnoclassgc
 
