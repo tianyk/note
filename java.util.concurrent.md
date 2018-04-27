@@ -1011,7 +1011,7 @@ class CASCounter {
 
 - shutdownNow
 
-    非阻塞。先停止正在执行的线程，然后返回正在等待的任务。
+    非阻塞。先停止（`interrupt`）正在执行的线程，然后返回正在等待的任务。通过检测`Thread.currentThread().isInterrupted()`适时结束正在执行的线程。
 
 - awaitTermination(timeout, unit)
 

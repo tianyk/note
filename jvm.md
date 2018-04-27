@@ -184,6 +184,8 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
 
 #### 与GC相关的常用参数
 
+> 以 -X 开头的选项是非标准选项。不过，有些选项也开始变成标准了（尤其是 -Xms 和 -Xmx）。与此同时，不同的 Java 版本不断引入 -XX: 选项。这些选项是实验性质的，不要在生产中使用。
+
 - Xmx
     
     设置堆内存的最大值。
@@ -488,6 +490,93 @@ public class SecureClassLoader extends ClassLoader {
     }
 }
 ```
+
+### 命令行工具
+
+- javac
+
+    java 编译命令，将java源文件编译成字节码（.class）文件。
+
+    ```
+    javac cc/kekek/demo/Hello.java
+    ```
+
+    - -classpath
+
+        提供编译时需要（依赖）的类。
+
+    - -d some/dir
+
+        告诉 javac 把编译得到的类文件放在哪儿。
+
+     - -source <version>
+        
+        设定 javac 能接受的 Java 版本。
+
+     - -target <version>
+
+        设定 javac 编译得到的类文件版本。
+
+- java 
+
+    java 是启动 Java 虚拟机的可执行文件。程序的首个入口点是指定类中的 main() 方法。
+    
+    ```
+    java <options> cc.kekek.demo.Hello <args>
+    java -jar my-packaged.jar
+    ```
+
+    - -cp <classpath>
+
+        定义从哪个路径读取类。默认配置的`CLASSPATH`环境变量，这个环境变量的一般以`.`开头，代表当前目录。
+
+    - -D<property=value>
+
+        设定 Java 系统属性，在 Java 程序中能取回`System.getProperty("property")`设定的属性。使用这种方式可以设定任意个属性。
+
+- jar 
+
+    实用工具 jar 用于处理 Java 档案（.jar）文件。这是 ZIP 格式的文件，包含 Java 类、附加的资源和元数据（通常会有）。
+
+    ```
+    jar cvf my.jar someDir/
+    ```
+
+    - e
+
+        把 JAR 文件变成可执行文件，而且使用指定的类作为入口点。
+
+- jps
+
+    显示所有的jvm进程。
+
+- jstat
+
+    查看的通常是本地进程，不过，如果远程设备中运行着合适的 jstatd 进程，也能查看这台远程设备中的进程。
+
+    ```
+    # 每10s打印一下垃圾回收信息
+    jstat -gcutil <vmid> 10ms
+    ```
+
+- jstatd
+
+    jstatd 能让本地 JVM 的信息通过网络传出去。想传递信息，需要特殊的安全设置，这和 JVM 的默认设置有所不同。启动 jstatd 之前要先创建下述文件，并将其命名为 jstatd.policy。
+    ```
+    grant codebase "file:${java.home}/../lib/tools.jar" {
+        permission java.security.AllPermission;
+    };
+    ```
+
+    ```
+    jstatd -J-Djava.security.policy=<path to jstat.policy> 
+    ```
+
+    - -p <port>
+        
+- jstack <process id>
+
+    jstack 实用工具用于输出进程中每个 Java 线程的堆栈跟踪。
 
 ### 参考
 - 深入理解Java虚拟机
