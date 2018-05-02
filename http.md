@@ -7,10 +7,10 @@ touch index.html
 
 body="<h1>Hello, World.</h1>"
 
-echo -e "HTTP/1.1 200 OK\r" >> index.html
-echo -e "content-type: text/html; charset=utf-8\r" >> index.html
-echo -e "content-length: ${#body}\r" >> index.html
-echo -e "connection: close\r" >> index.html
+echo -e "HTTP/1.1 200 OK\r\n" >> index.html
+echo -e "content-type: text/html; charset=utf-8\r\n" >> index.html
+echo -e "content-length: ${#body}\r\n" >> index.html
+echo -e "connection: close\r\n" >> index.html
 echo -e "\r\n" >> index.html
 
 echo "${body}" >> index.html

@@ -549,6 +549,11 @@ public class SecureClassLoader extends ClassLoader {
 - jps
 
     显示所有的jvm进程。
+    
+    ```
+    # 查看远程机器
+    jsp <ip>
+    ```
 
 - jstat
 
@@ -562,6 +567,9 @@ public class SecureClassLoader extends ClassLoader {
 - jstatd
 
     jstatd 能让本地 JVM 的信息通过网络传出去。想传递信息，需要特殊的安全设置，这和 JVM 的默认设置有所不同。启动 jstatd 之前要先创建下述文件，并将其命名为 jstatd.policy。
+
+    > `Could not contact registry`错误。一般所在环境DNS有问题，会有一个默认的指向。一般用户需要查看`hostname`，然后配置`/etc/hosts`配置IP。
+
     ```
     grant codebase "file:${java.home}/../lib/tools.jar" {
         permission java.security.AllPermission;

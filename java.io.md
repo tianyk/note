@@ -65,7 +65,7 @@ try (FileChannel read = FileChannel.open(Paths.get(args[0]));
 
 
 ### ECHO
-- 传统IO
+- OIO 
 
     ``` java 
     public class OIOEchoServer {
@@ -221,7 +221,7 @@ try (FileChannel read = FileChannel.open(Paths.get(args[0]));
     }
     ```
 
-- NIO2
+- AIO
 
     ``` java
     public class NIO2EchoServer {
