@@ -1,3 +1,0 @@
-```
-sudo rm -rf ~/.Trash/
-```
