@@ -6,6 +6,9 @@ yum install apr-util
 ```
 
 ### 使用
+
+> 并发数太大会有`Too many open files`错误。我们需要`ulimit -n 1024`设置打开最大文件句柄数即可。
+
 ``` shell
 > ab -n 10000 -c 200 http://10.0.1.4/redis # -n 后面的10000代表总共发出10000个请求；-c后面的200表示采用200个并发（模拟200个人同时访问），后面的网址表示测试的目标URL。
 This is ApacheBench, Version 2.3 <$Revision: 1748469 $>
@@ -68,4 +71,5 @@ Percentage of the requests served within a certain time (ms)
 ```
 
 ### 参考
-[【1】](http://www.jianshu.com/p/43d04d8baaf7) [【2】](http://www.ha97.com/4617.html)
+- [超实用压力测试工具－ab工具](http://www.jianshu.com/p/43d04d8baaf7)
+- [Web性能压力测试工具之ApacheBench（ab）详解](http://www.ha97.com/4617.html)
