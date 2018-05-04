@@ -29,7 +29,6 @@ tags:
 
     真正处理数据的类。ChannelHandler有两种ChannelInboundHandler（入站）和ChannelOutboundHandler（出站）
 
-
     - ChannelInboundHandler 
     
         处理进站数据和所有状态更改事件
