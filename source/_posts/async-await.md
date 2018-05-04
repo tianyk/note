@@ -1,7 +1,7 @@
 ---
 title: async/await
 date: 2017-07-19 13:39:12
-updated: 2018-05-04 12:02:31
+updated: 2018-05-04 12:04:16
 tags: 
 - nodejs
 - async
@@ -20,15 +20,6 @@ function f1(ret) {
     });
 }
 
-// similar code 
-co(function* () {
-    let rets = yield Promise.all([f1('f1_1'), f1('f1_2')]);
-    return rets;
-})
-    .then(console.log)
-    .catch(console.error);
-
-
 // async function return a promise;
 async function f2() {
     // you can use Promise.all to parallel execute function.
@@ -40,6 +31,16 @@ async function f2() {
 // you can use catch function to catch async function error.
 // also you can use try-catch to catch error in async function inner. 
 f2()
+    .then(console.log)
+    .catch(console.error);
+
+
+// -----------------------
+// similar code 
+co(function* () {
+    let rets = yield Promise.all([f1('f1_1'), f1('f1_2')]);
+    return rets;
+})
     .then(console.log)
     .catch(console.error);
 ```
