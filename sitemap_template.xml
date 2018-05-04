@@ -8,6 +8,9 @@
     {% elif post.date %}
     <lastmod>{{ post.date.toISOString() }}</lastmod>
     {% endif %}
+    {% if post.priority %}
+    <priority>{{ post.priority }}</priority>
+    {% endif %}
   </url>
   {% endfor %}
 </urlset>
