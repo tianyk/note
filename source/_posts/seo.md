@@ -41,7 +41,7 @@ Sitemap: https://kekek.cc/sitemap.xml
 次规则适用于所有爬虫，`/search`下的内容不可以被抓去，其它所有网址都可以被抓去。站点地图地址为`https://kekek.cc/sitemap.xml`。
 
 ### sitemap 
-站点地图。主要为xml格式。里面包含站内网页的连接。
+站点地图。主要为xml格式，里面包含站内网页的连接。
 
 主要属性：
 - lastmod
