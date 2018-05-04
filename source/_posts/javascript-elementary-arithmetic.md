@@ -7,7 +7,7 @@ tags:
 - bind
 ---
 
-![](/images/elementary_arithmetic.jpg)
+![](/images/elementary-arithmetic.jpg)
 
 ``` javascript 
 function add(num) {
