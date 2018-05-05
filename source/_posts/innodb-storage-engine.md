@@ -1,6 +1,7 @@
 ---
 title: innodb-storage-engine
 date: 2018-04-13 18:43:04
+updated: 2018-05-06 00:13:26
 tags: 
 - innodb
 - mysql
@@ -44,7 +45,7 @@ InnoDB数据页内部存储结构，InnoDB数据页由以下7个部分组成：
 
     在InnoDB存储引擎中，每个数据页中有两个虚拟的行记录，用来限定记录的边界。Infimum记录是比该页中任何主键值都要小的值，Supremum指比任何可能大的值还要大的值。
 
-    ![](/images/infimun&supremum-records.png)
+    ![](/images/infimun-supremum-records.png)
 
 - User Records（用户记录，即行记录）
 

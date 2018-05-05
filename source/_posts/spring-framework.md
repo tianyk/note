@@ -1,6 +1,7 @@
 ---
 title: Spring 核心框架体系结构
 date: 2017-02-09 17:34:02
+updated: 2018-05-06 00:13:11
 tags: 
 ---
 ### 简介
@@ -69,7 +70,7 @@ test部分只有一个模块，我将spring-context-support也放在这吧
 - spring-websocket：为web应用提供的高效通信工具
 - spring-messaging：用于构建基于消息的应用程序
 
-![](/images/spring-framework-websocket&messaging-dependencies.jpg)
+![](/images/spring-framework-websocket-messaging-dependencies.jpg)
 
 ### 参考
 [【1】](http://mp.weixin.qq.com/s/_T8QQbJrKl6exvF4RcIGFg)
