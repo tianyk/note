@@ -1,6 +1,7 @@
 ---
 title: README
 date: 2016-08-16 10:44:29
+sitemap: false
 tags: 
 ---
 - [x] [brew.md](brew.md)
