@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /search
+Disallow: /tags
 Allow: /
 Sitemap: https://kekek.cc/sitemap.xml
