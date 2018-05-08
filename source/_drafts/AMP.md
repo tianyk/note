@@ -6,3 +6,4 @@ tags:
 ---
 <https://www.toobug.net/article/migrate-blog-to-amp.html>
 <https://imququ.com/post/amp-project.html>
+https://validator.ampproject.org/#url=url
