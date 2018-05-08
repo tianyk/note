@@ -90,6 +90,6 @@ DNS协议头共12字节，分六大部分。
 
 ### 参考
 - [如何在 Linux/Unix/Mac 下清除 DNS 查询缓存](https://linux.cn/article-3341-1.html)
-- [dig](dig.md)
+- [dig](/2017/08/31/dig/)
 - [TCP/IP详解 卷1：协议](http://docs.52im.net/extend/docs/book/tcpip/vol1/14/)
 - 网络是怎样连接的

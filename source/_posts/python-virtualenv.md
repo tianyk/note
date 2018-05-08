@@ -16,7 +16,7 @@ Virtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版�
 [sudo] pip install https://github.com/pypa/virtualenv/tarball/develop
 ```
 
-> pip安装参考[pip](pip.md)
+> pip安装参考[pip](/2016/11/25/pip/)
 
 ### 基本使用
 

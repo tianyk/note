@@ -4,7 +4,7 @@ date: 2016-11-25 15:42:15
 tags: 
 ---
 ### 环境搭建
-> 建议首先创建一个python虚拟环境。参考：[python-virtualenv](python-virtualenv.md)
+> 建议首先创建一个python虚拟环境。参考：[python-virtualenv](/2016/11/25/python-virtualenv/)
 
 #### 不同的平台及架构
 ``` shell

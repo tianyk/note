@@ -32,4 +32,4 @@ sudo nc -l 80 < index.html
 #### Content-Length
 
 #### Transfer-Encoding
-[HTTP 分块传输编码](chunked-transfer-encoding.md)
+[HTTP 分块传输编码](/2017/11/13/chunked-transfer-encoding/)

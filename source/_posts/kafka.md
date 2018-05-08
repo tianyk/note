@@ -13,7 +13,7 @@ wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz
 tar -zxvf kafka_2.10-0.10.2.0.tgz -C /usr/local
 ```
 
-> Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考[Zookeeper快速开始](zookeeper.md)
+> Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考[Zookeeper快速开始](/2017/04/28/zookeeper/)
 
 [Kafka 数据在 Zookeeper 中的存储结构](https://cwiki.apache.org/confluence/display/KAFKA/Kafka+data+structures+in+Zookeeper)
 

@@ -83,11 +83,13 @@ chkconfig --level 2345 nginx on
 ```
 
 ### 注意事项
-有时间运行chkconfig --add 时会报`服务不支持 chkconfig`错误，这种情况下需要在脚本上面添加下面俩个配置[？](linux-chkconfig.md)
+有时间运行chkconfig --add 时会报`服务不支持 chkconfig`错误，这种情况下需要在脚本上面添加下面俩个配置
 ```
 # chkconfig:         2345 80 20
 # description:       Starts and stops a single nginx instance on this system
 ```
 
 ### 参考
-[【1】](http://blog.csdn.net/gebitan505/article/details/17606735) [【2】](http://www.cnblogs.com/meteoric_cry/archive/2011/01/27/1945882.html) [【3】](http://blog.csdn.net/blueman2012/article/details/6706572)
+- [nginx开机自动启动脚本](http://blog.csdn.net/gebitan505/article/details/17606735)
+- [Linux下的Nginx安装(开机自启动)](http://www.cnblogs.com/meteoric_cry/archive/2011/01/27/1945882.html) 
+- [服务不支持 chkconfig　的解决方法](http://blog.csdn.net/blueman2012/article/details/6706572)
