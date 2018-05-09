@@ -50,3 +50,134 @@ tags:
     Netty中所有的操作都是异步的，操作结果我们只能从`ChannelFuture`获取。
 
 
+### Decoder 
+解码器
+- ByteToMessageDecoder
+    用于将字节转化为消息。你不能确定远端是否会一次发送完一个完整的“信息”,因此这个类会缓存入站的数据,直到准备好了用于处理。
+    ``` java 
+    // Server
+    public class IntegerServer {
+        private final String host;
+        private final int port;
+        private static final Random random = new Random();
+
+        public IntegerServer(String host, int port) {
+            this.host = host;
+            this.port = port;
+        }
+
+        static class IntServerHandler extends ChannelInboundHandlerAdapter {
+            @Override
+            public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                int w = random.nextInt();
+                System.out.printf("write: %d\n", w);
+                ctx.writeAndFlush(w).addListener(ChannelFutureListener.CLOSE);
+            }
+        }
+
+        static class IntegerEncode extends MessageToByteEncoder<Integer> {
+            @Override
+            protected void encode(ChannelHandlerContext ctx, Integer msg, ByteBuf out) throws Exception {
+                out.writeInt(msg);
+            }
+        }
+
+        // in  ----->  IntServerHandler -------+
+        //                                     |
+        // out <------  IntegerEncode   <------+
+        public void start() {
+            EventLoopGroup bossEventLoop = new NioEventLoopGroup();
+            EventLoopGroup workerEventLoop = new NioEventLoopGroup();
+            try {
+                ServerBootstrap server = new ServerBootstrap();
+                server.group(bossEventLoop, workerEventLoop)
+                        .channel(NioServerSocketChannel.class)
+                        .childHandler(new ChannelInitializer<SocketChannel>() {
+                            @Override
+                            protected void initChannel(SocketChannel ch) throws Exception {
+                                ch.pipeline().addFirst(new IntegerEncode(), new IntServerHandler());
+                            }
+                        })
+                        .option(ChannelOption.SO_BACKLOG, 128)
+                        .childOption(ChannelOption.SO_KEEPALIVE, true);
+
+                try {
+                    ChannelFuture f = server.bind(new InetSocketAddress(host, port)).sync();
+                    f.channel().closeFuture().sync();
+                } catch (InterruptedException ignored) {
+                }
+
+            } finally {
+                bossEventLoop.shutdownGracefully();
+                workerEventLoop.shutdownGracefully();
+            }
+        }
+
+        public static void main(String[] args) {
+            new IntegerServer("127.0.0.1", 8080).start();
+        }
+    }
+
+
+    // Client
+    public class IntegerClient {
+        private final String host;
+        private final int port;
+
+        public IntegerClient(String host, int port) {
+            this.host = host;
+            this.port = port;
+        }
+
+        static class IntegerDecoder extends ByteToMessageDecoder {
+            @Override
+            protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+                // int 32位 4个字节
+                // 如果接受不到4个字节则持续接收
+                if (in.readableBytes() < 4) return;
+
+                // 如果buf中已经读到了4个或者超过4个字节就读取4个作为一个整体封装一下放到list中传给后面的handler
+                //out.add(in.readBytes(4));
+                out.add(in.readInt());
+            }
+        }
+
+        static class IntegerClientHandler extends ChannelInboundHandlerAdapter {
+            @Override
+            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                int r = (int) msg;
+                System.out.printf("read: %d\n", r);
+            }
+        }
+
+        public void start() {
+            EventLoopGroup worker = new NioEventLoopGroup();
+            try {
+                Bootstrap bootstrap = new Bootstrap();
+                bootstrap.group(worker)
+                        .channel(NioSocketChannel.class)
+                        .handler(new ChannelInitializer<SocketChannel>() {
+                            @Override
+                            protected void initChannel(SocketChannel ch) throws Exception {
+                                ch.pipeline().addFirst(new IntegerDecoder(), new IntegerClientHandler());
+                            }
+                        });
+
+                ChannelFuture f = bootstrap.connect(new InetSocketAddress(host, port)).sync();
+                f.channel().closeFuture().sync();
+            } catch (InterruptedException ignored) {
+            } finally {
+                worker.shutdownGracefully();
+            }
+        }
+
+        public static void main(String[] args) {
+            new IntegerClient("127.0.0.1", 8080).start();
+        }
+    }
+    ```
+- ReplayingDecoder
+
+- MessageToMessageDecoder
+
+    

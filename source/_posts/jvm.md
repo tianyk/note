@@ -187,6 +187,31 @@ Java内存模型规定了所有的变量都存储在主内存（Main Memory）�
     在使用G1收集器时，Java堆的内存布局和其他收集器有很大的差别，它将这个Java堆分为多个大小相等的独立区域，虽然还保留新生代和老年代的概念，但是新生代和老年代不再是物理隔离的了，它们都是一部分Region（不需要连续）的集合。
     虽然G1看起来有很多优点，实际上CMS还是主流。
 
+#### 逃逸分析
+分析程序中指针的动态作用域，看某个指针是否指向某个固定的对象并且没有“逃逸”出某个函数/方法或者线程的范围。如果没有逃逸则可知该指针只在某个局部范围内可见，外部（别的函数/方法或线程）无法看到它。
+``` java 
+public StringBuffer craeteStringBuffer(String s1, String s2) {
+    StringBuffer sb = new StringBuffer();
+    sb.append(s1);
+    sb.append(s2);
+    return sb;
+}
+```
+此时方法内部的局部变量有可能被其他方法所改变，这样它的作用域就不只是在方法内部。虽然它是一个局部变量，称其逃逸到了方法外部。
+
+#### GC roots
+
+> - 所有Java线程当前活跃的栈帧里指向GC堆里的对象的引用；换句话说，当前所有正在被调用的方法的引用类型的参数/局部变量/临时值。
+> - VM的一些静态数据结构里指向GC堆里的对象的引用，例如说HotSpot VM里的Universe里有很多这样的引用。
+> - JNI handles，包括global handles和local handles
+> - （看情况）所有当前被加载的Java类
+> - （看情况）Java类的引用类型静态变量
+> - （看情况）Java类的运行时常量池里的引用类型常量（String或Class类型）（
+> - 看情况）String常量池（StringTable）里的引用
+> 
+> 作者：RednaxelaFX      
+> 链接：<https://www.zhihu.com/question/53613423/answer/135743258>
+
 #### 与GC相关的常用参数
 
 > 以 -X 开头的选项是非标准选项。不过，有些选项也开始变成标准了（尤其是 -Xms 和 -Xmx）。与此同时，不同的 Java 版本不断引入 -XX: 选项。这些选项是实验性质的，不要在生产中使用。
