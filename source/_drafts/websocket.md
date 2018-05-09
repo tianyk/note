@@ -123,17 +123,17 @@ WebSocket数据包不像HTML是纯文本形式的，它是一个二进制的协�
  |                     Payload Data continued ...                |
  +---------------------------------------------------------------+
 ```
-- FIN 
+- FIN: 1 bit
 
-    1位。
+    指示这个是消息的最后片段。第一个片段可能也是最后的片段。
 
-- RSV1, RSV2, RSV3
+- RSV1, RSV2, RSV3: 1 bit each
 
-    每个1位。预留字段，默认为0。
+    预留字段，默认为0。
 
-- Opcode
+- Opcode: 4 bits
 
-    4位。表示数据的类型。
+    表示数据的类型。
     
     *  %x0 denotes a continuation frame
 
@@ -151,21 +151,19 @@ WebSocket数据包不像HTML是纯文本形式的，它是一个二进制的协�
 
     *  %xB-F are reserved for further control frames
 
-- Mask 
+- Mask: 1 bit
 
     1位。
 
     标识这个数据帧的数据是否使用掩码，值为1表示使用掩码。从客户端发送的数据都为1。
 
-- Payload length
+- Payload length: 7 bits, 7+16 bits, or 7+64 bits
 
     7位。表示数据的长度。
 
-    但是PayloadLen只有7位，换成无符号整型的话只有0到127的取值，这么小的数值当然无法描述较大的数据，因此规定当数据长度小于或等于125时候它才作为数据长度的描述，如果这个值为126，则时候后面的两个字节（16位）来储存储存数据长度，如果为127则用后面八个字节（64位）来储存数据长度。
+    PayloadLength只有7位，换成无符号整型的话只有0到127的取值，这么小的数值当然无法描述较大的数据，因此规定当数据长度小于或等于125时候它才作为数据长度的描述，如果这个值为126，则时候后面的两个字节（16位）来储存储存数据长度，如果为127则用后面八个字节（64位，最高有效位必须是0）来储存数据长度。
 
-- Masking-key
-
-    0或者4字节。
+- Masking-key: 0 or 4 bytes
 
     `Mask`的值为`1`时才有`Masking-key`。
 
@@ -181,18 +179,81 @@ WebSocket数据包不像HTML是纯文本形式的，它是一个二进制的协�
     ```
 
 示例：
+``` javascript
+let ws = new WebSocket('ws://example.com/');
 ws.send('ok');
 ```
+
+```  
 bits: 1000 0001 1 0000010 00101011-01101000-10101000-11100111 0100010000000011
 
-FIN            1 
-Opcode         0001
-Mask           1
-PayloadLength  0000010
-Masking-key    00101011-01101000-10101000-11100111
-Payload        0100010000000011
+FIN                1 
+Opcode             0001
+Mask               1
+PayloadLength      0000010
+Masking-key        00101011-01101000-10101000-11100111
+Payload            0100010000000011
+```
+
+``` javascript
+function decodeWebSocketFrame (msg) {
+    var pos = 0;
+    // 读取前16位（帧头）
+    let headerDecimal = msg.readUInt16BE(pos);
+    post += 2;
+    // 转为二进制
+    // let headerBits = headerDecimal.toString(2).padStart(16, '0');
+    // let fin = headerBits.slice(0, 1);
+    // let opcode = headerBits.slice(4, 8);
+    // let mask = headerBits.slice(8, 9);
+    // let payloadLength = parseInt(headerBits.slice(9, 16), 2);
+    let fin = headerDecimal >> 15;
+    let opcode = (headerDecimal & 0b0000111100000000) >> 8; 
+    let mask = headerDecimal & 0b0000000010000000;
+    let payloadLength = headerDecimal & 0b0000000001111111;
+
+    // 127
+    if (payloadLength === 127) {
+        // 最高有效位必须为0
+        // 头32位补零到64位加后32位
+        // let first32 = msg.readUInt32BE(pos) & 0b01111111111111111111111111111111 << 32;
+        let first32 = msg.readUInt32BE(pos) << 32;
+        post += 4;
+        let second32 = msg.readUInt32BE(pos);
+        pos += 4;
+        payloadLength = first32 + second32;
+    } else if (payloadLength === 126) {
+        payloadLength = msg.readUInt16BE(pos);
+        pos += 2;
+    }
+    
+    let maskingKey = [];
+    if (mask === 1) {
+        // 4位掩码
+        for (let i = 0; i < 4; i++) {
+            maskingKey.push(msg.readUInt8BE(pos++));
+        }
+    }
+
+    let payload = msg.slice(pos, pos + payloadLength);
+    for (let i = 0; i < payloadLength; i++) {
+        payload[i] = payload[i] ^ maskingKey[i % 4];
+    }
+    
+    // fin = 1 表示结束
+    if (fin === 1) payload = payload.toString();
+    
+    return {
+        fin
+        opcode,
+        mask,
+        maskingKey,
+        payload
+    };
+}
 ```
 
 ### 参考
 - [谈谈 HTTP/2 的协议协商机制](https://imququ.com/post/protocol-negotiation-in-http2.html)
 - [The WebSocket Protocol](https://tools.ietf.org/html/rfc6455)
+- [WebSocket(壹) 握手连接](https://www.web-tinker.com/article/20305.html)
