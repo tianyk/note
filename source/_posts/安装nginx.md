@@ -42,5 +42,48 @@ e.g,
 make & make install
 ```
 
+### 常用命令
+1. 启动
+
+    ``` shell
+    nginx -c filename # 默认 conf/nginx.conf
+    ```
+
+2. 停止
+
+    ``` shell 
+    nginx -s stop 
+
+    kill -QUIT `cat /nginx/logs/nginx.pid`
+    ```
+    
+3. 平滑升级
+    
+    ``` shell 
+    kill -USR2 `cat /nginx/logs/nginx.pid.oldbin`
+    kill -WINCH `cat /nginx/logs/nginx.pid.oldbin` # 逐步旧Server的停止工作进程
+    ```
+    
+4. 重新加载文件
+
+    ``` shell
+    nginx -s relaod 
+
+    kill -HUP `cat /nginx/logs/nginx.pid`
+    ```
+
+5. 检验配置文件
+
+    ``` shell
+    nginx -t -c filename 
+    ```
+
+6. 日志切割
+
+    ``` shell 
+    kill -USR1 `cat /nginx/logs/nginx.pid`
+    ```
+
+6. 
 ### 参考
 [【1】](https://segmentfault.com/a/1190000002797601)

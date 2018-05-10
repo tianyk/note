@@ -196,21 +196,22 @@ Payload            0100010000000011
 ```
 
 ``` javascript
-function decodeWebSocketFrame (msg) {
+function decodeWebSocketFrame(msg) {
     var pos = 0;
     // 读取前16位（帧头）
-    let headerDecimal = msg.readUInt16BE(pos);
-    post += 2;
+    let header = msg.readUInt16BE(pos);
+    pos += 2;
     // 转为二进制
-    // let headerBits = headerDecimal.toString(2).padStart(16, '0');
+    // let headerBits = header.toString(2).padStart(16, '0');
     // let fin = headerBits.slice(0, 1);
     // let opcode = headerBits.slice(4, 8);
     // let mask = headerBits.slice(8, 9);
     // let payloadLength = parseInt(headerBits.slice(9, 16), 2);
-    let fin = headerDecimal >> 15;
-    let opcode = (headerDecimal & 0b0000111100000000) >> 8; 
-    let mask = headerDecimal & 0b0000000010000000;
-    let payloadLength = headerDecimal & 0b0000000001111111;
+    let fin = header >> 15;
+    let opcode = (header & 0b0000111100000000) >> 8;
+    console.log((header & 0b0000000010000000).toString(2));
+    let mask = (header & 0b0000000010000000) >> 7;
+    let payloadLength = header & 0b0000000001111111;
 
     // 127
     if (payloadLength === 127) {
@@ -218,7 +219,7 @@ function decodeWebSocketFrame (msg) {
         // 头32位补零到64位加后32位
         // let first32 = msg.readUInt32BE(pos) & 0b01111111111111111111111111111111 << 32;
         let first32 = msg.readUInt32BE(pos) << 32;
-        post += 4;
+        pos += 4;
         let second32 = msg.readUInt32BE(pos);
         pos += 4;
         payloadLength = first32 + second32;
@@ -226,12 +227,12 @@ function decodeWebSocketFrame (msg) {
         payloadLength = msg.readUInt16BE(pos);
         pos += 2;
     }
-    
+
     let maskingKey = [];
     if (mask === 1) {
         // 4位掩码
         for (let i = 0; i < 4; i++) {
-            maskingKey.push(msg.readUInt8BE(pos++));
+            maskingKey.push(msg.readUInt8(pos++));
         }
     }
 
@@ -239,14 +240,15 @@ function decodeWebSocketFrame (msg) {
     for (let i = 0; i < payloadLength; i++) {
         payload[i] = payload[i] ^ maskingKey[i % 4];
     }
-    
+
     // fin = 1 表示结束
     if (fin === 1) payload = payload.toString();
-    
+
     return {
-        fin
+        fin,
         opcode,
         mask,
+        payloadLength,
         maskingKey,
         payload
     };
