@@ -63,6 +63,8 @@ upgrade: websocket
 - Origin字段是可选的，通常用来表示在浏览器中发起此WebSocket连接所在的页面，类似于Referer。但是，与Referer不同的是，Origin只包含了协议和主机名称。
 - 其他一些定义在HTTP协议中的字段，如Cookie等，也可以在WebSocket中使用。
 
+#### 握手
+
 要使用WebSocket首先得让客户端和服务器建立连接，首先需要通过验证KEY来做握手工作。
 
 这个握手协议使用的是HTTP格式的请求，并再头部分带上一个`Sec-WebSocket-Key`字段，服务器对这个字段加上一个特定的字符串后做一次sha1运算，然后把结果用Base64的形式以同样的方式发送回去就可以完成握手的工作了。
@@ -101,6 +103,8 @@ server.on('error', console.error);
 
 server.listen(8124, () => console.log('server bound'));
 ```
+
+#### 解析数据帧
 
 WebSocket数据包不像HTML是纯文本形式的，它是一个二进制的协议包。
 ```
@@ -252,6 +256,39 @@ function decodeWebSocketFrame(msg) {
         maskingKey,
         payload
     };
+}
+```
+
+#### 生成数据帧
+
+```javascript
+function encodeWebSocketFrame(frame) {
+    let data = [];
+    let mask = 0; // 不做掩码
+    let payload = Buffer.from(frame.payloadData);
+    // 16bits 2bytes
+    let headerBuf = Buffer.alloc(2);
+    data.push(headerBuf);
+
+    headerBuf.writeUInt8(frame.fin << 7 | frame.opcode);
+    if (payload.length > 0xFFFF) {
+        headerBuf.writeUInt8(mask << 7 | 127, 1);
+
+        let extendedPayloadLengthBuf = Buffer.alloc(4);
+        data.push(extendedPayloadLengthBuf);
+        extendedPayloadLengthBuf.writeUInt32BE(payload.length >> 32);
+        extendedPayloadLengthBuf.writeUInt32BE(payload.length & 0xFFFFFFFF, 2);
+    } else if (payload.length > 125) {
+        headerBuf.writeUInt8(mask << 7 | 126, 1);
+
+        let extendedPayloadLengthBuf = Buffer.alloc(2);
+        data.push(extendedPayloadLengthBuf);
+        extendedPayloadLengthBuf.writeUInt16BE(payload.length);
+    } else {
+        headerBuf.writeUInt8(mask << 7 | payload.length, 1);
+    }
+    data.push(payload);
+    return Buffer.concat(data);
 }
 ```
 
