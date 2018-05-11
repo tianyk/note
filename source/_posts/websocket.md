@@ -1,10 +1,11 @@
 ---
 title: WebSocket
 author: tyk
-date: 2018-05-09 16:55:59
+date: 2018-05-09 19:55:59
 tags:
 ---
-# TODO 
+
+
 ## WebSocket
 HTTP是`请求响应`模型，在这个模型下服务器端是不能主动发消息给客户端的。这在很多场景下有诸多不便，例如消息通知等。为了解决这个问题，`WebSocket`应运而生。
 
@@ -246,7 +247,7 @@ function decodeWebSocketFrame(msg) {
     }
 
     // fin = 1 表示结束
-    if (fin === 1) payload = payload.toString();
+    if (fin === 1 && opcode == 0x1) payload = payload.toString();
 
     return {
         fin,
@@ -276,7 +277,9 @@ function encodeWebSocketFrame(frame) {
 
         let extendedPayloadLengthBuf = Buffer.alloc(4);
         data.push(extendedPayloadLengthBuf);
+        // 头32位
         extendedPayloadLengthBuf.writeUInt32BE(payload.length >> 32);
+        // 后32位
         extendedPayloadLengthBuf.writeUInt32BE(payload.length & 0xFFFFFFFF, 2);
     } else if (payload.length > 125) {
         headerBuf.writeUInt8(mask << 7 | 126, 1);
@@ -291,6 +294,67 @@ function encodeWebSocketFrame(frame) {
     return Buffer.concat(data);
 }
 ```
+
+#### 关闭连接
+WebSocket连接关闭时需要两者协商。客户端调用`close`方法会给服务器端先发送一个数据帧，该数据帧`opcode`为`0x8`。如果`payload`不为空，它的`payload`头两个字节为状态码，后面的是关闭连接的原因。服务器断开连接后才会触发`close`事件。
+
+- 1000
+
+    1000表示正常关闭，意思是建议的连接已经完成了。
+
+- 1001
+
+    1001表示端点“离开”（going away），例如服务器关闭或浏览器导航到其他页面。
+
+- 1002
+
+    1002表示端点因为协议错误而终止连接。
+
+- 1003
+
+    1003表示端点由于它收到了不能接收的数据类型（例如，端点仅理解文本数据，但接收到了二进制消息）而终止连接。
+
+- 1004 保留。可能在将来定义其具体的含义。
+
+- 1005
+
+    1005是一个保留值，且不能由端点在关闭控制帧中设置此状态码。它被指定用在期待一个用于表示没有状态码是实际存在的状态码的应用中。
+
+- 1006
+
+    1006是一个保留值，且不能由端点在关闭控制帧中设置此状态码。它被指定用在期待一个用于表示连接异常关闭的状态码的应用中。
+
+- 1007
+
+    1007表示端点因为消息中接收到的数据是不符合消息类型而终止连接（比如，文本消息中存在非UTF-8[RFC3629]数据）。
+
+- 1008
+
+    1008表示端点因为接收到的消息违反其策略而终止连接。这是一个当没有其他合适状态码（例如1003或1009）或如果需要隐藏策略的具体细节时能被返回的通用状态码。
+
+- 1009
+
+    1009表示端点因接收到的消息对它的处理来说太大而终止连接。
+
+- 1010
+
+    1010表示端点（客户端）因为它期望服务器协商一个或多个扩展，但服务器没有在WebSocket握手响应消息中返回它们而终止连接。 所需要的扩展列表应该出现在关闭帧的/reason/部分。
+
+    注意，这个状态码不能被服务器端使用，因为它可以失败WebSocket握手。
+
+- 1011
+
+    1011表示服务器端因为遇到了一个不期望的情况使它无法满足请求而终止连接。
+
+- 1015
+
+    1015是一个保留值，且不能由端点在关闭帧中被设置为状态码。它被指定用在期待一个用于表示连接由于执行TLS握手失败而关闭的状态码的应用中（比如，服务器证书不能验证）。
+
+#### 状态转变
+
+客户端共有四种状态`CONNECTING`(0)、`OPEN`(1)、`CLOSEING`(2)、`CLOSED`(3)，调用`readyState`可以查看具体的状态。
+
+创建`WebSocket`对象后处于`CONNECTING`状态，完成协议升级后变为`OPEN`状态。调用`close()`方法后处于`CLOSEING`状态，连接断开后变为`CLOSED`状态。
 
 ### 参考
 - [谈谈 HTTP/2 的协议协商机制](https://imququ.com/post/protocol-negotiation-in-http2.html)
