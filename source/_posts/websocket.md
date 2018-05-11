@@ -2,7 +2,7 @@
 title: WebSocket
 author: tyk
 date: 2018-05-09 19:55:59
-tags:
+tags: websocket
 ---
 
 
@@ -355,6 +355,10 @@ WebSocket连接关闭时需要两者协商。客户端调用`close`方法会给�
 客户端共有四种状态`CONNECTING`(0)、`OPEN`(1)、`CLOSEING`(2)、`CLOSED`(3)，调用`readyState`可以查看具体的状态。
 
 创建`WebSocket`对象后处于`CONNECTING`状态，完成协议升级后变为`OPEN`状态。调用`close()`方法后处于`CLOSEING`状态，连接断开后变为`CLOSED`状态。
+
+
+[完整测试代码](https://gist.github.com/tianyk/de89f1f70d229861384126c417ab6138)
+{% gist de89f1f70d229861384126c417ab6138 %}
 
 ### 参考
 - [谈谈 HTTP/2 的协议协商机制](https://imququ.com/post/protocol-negotiation-in-http2.html)
