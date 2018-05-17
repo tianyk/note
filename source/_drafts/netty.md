@@ -38,9 +38,25 @@ tags:
         
         处理出站数据，允许拦截各种操作
 
-- ChannelPipeline
+- Codec
+    
+    编写一个网络应用程序需要实现某种 codec (编解码器)，codec的作用就是将原始字节数据与目标程序数据格式进行互转。网络中都是以字节码的数据形式来传输数据的，codec 由两部分组成：decoder(解码器)和encoder(编码器)。
 
-    ChannelHandler链条。数据从一个ChannelHandler流向另外一个。
+    - Encoder 编码器
+
+        Encoder 将数据帧转换为字节。
+
+    - Decoder 解码器
+
+        Decoder 将字节转换为数据帧。
+
+- ChannelPipeline
+    
+    每一次创建了新的Channel ,都会新建一个新的 `ChannelPipeline`并绑定到`Channel`上。这个关联是 永久性的。`ChannelHandler`链条。数据从一个`ChannelHandler`流向另外一个。
+
+- ChannelHandlerContext 
+    
+    接口 ChannelHandlerContext 代表 ChannelHandler 和ChannelPipeline 之间的关联,并在 ChannelHandler 添加到 ChannelPipeline 时创建一个实例。
 
 - EventLoop
 
@@ -49,6 +65,7 @@ tags:
 - ChannelFuture
 
     Netty中所有的操作都是异步的，操作结果我们只能从`ChannelFuture`获取。
+
 
 
 ### Decoder 

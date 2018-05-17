@@ -1,4 +1,4 @@
----
+w---
 title: MySQL Binlog
 date: 2017-04-08 11:01:09
 tags: 
