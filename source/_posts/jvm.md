@@ -1,4 +1,4 @@
-w---
+---
 title: Java虚拟机
 date: 2017-01-12 17:02:23
 updated: 2018-05-09 16:55:35
@@ -555,6 +555,7 @@ public class SecureClassLoader extends ClassLoader {
     ```
     java <options> cc.kekek.demo.Hello <args>
     java -jar my-packaged.jar
+    java -cp my-packaged.jar cc.kekek.demo.Hello <args>
     ```
 
     - -cp <classpath>

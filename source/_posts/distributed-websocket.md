@@ -1,11 +1,13 @@
 ---
 title: WebSocket服务集群
 author: tyk
+tags:
+  - websocket
+  - distributed
 date: 2018-05-11 17:07:08
-tags: 
-- websocket
-- distributed
 ---
+
+
 ## WebSocket服务集群
 
 网络套接字只能在内存中维护，多实例时就会遇到一个问题。如果A和B发消息，如果AB在一台机器。找到B的套接字就可以发送消息了，如果AB不在同一台机器就需要消息转发。我们要记录AB分别在哪台机器，当A要给B发消息时先查到B所在的机器，直接将此消息转发给B所在的机器，然后有它给B发消息。
@@ -31,6 +33,7 @@ http {
         server 127.0.0.1:8081;
         server 127.0.0.1:8082;
 
+        # 一致性Hash
         hash $request_uri consistent;
         # hash_method crc32;
     }
