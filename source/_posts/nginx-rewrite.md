@@ -1,7 +1,7 @@
 ---
 title: nginx-rewrite
 date: 2017-10-16 17:42:41
-tags: 
+tags: nginx
 ---
 ### rewrite指令
 

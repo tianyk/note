@@ -1,7 +1,7 @@
 ---
 title: Nginx虚拟主机
 date: 2016-11-17 18:23:50
-tags: 
+tags: nginx
 ---
 ### 基于名字的虚拟主机
 

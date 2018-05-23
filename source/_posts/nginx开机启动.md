@@ -1,7 +1,7 @@
 ---
 title: nginx开机启动.md
 date: 2016-08-29 14:27:00
-tags: 
+tags: nginx
 ---
 ### 开机启动Nginx
 新建nginx开机启动配置文件

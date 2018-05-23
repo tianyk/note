@@ -1,7 +1,7 @@
 ---
 title: 安装nginx.md
 date: 2016-08-22 14:45:24
-tags: 
+tags: nginx
 ---
 ### 源码安装
 #### 下载

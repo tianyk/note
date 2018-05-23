@@ -1,7 +1,7 @@
 ---
 title: nginx-location
 date: 2016-11-17 18:23:50
-tags: 
+tags: nginx
 ---
 ### location 表达式类型
 

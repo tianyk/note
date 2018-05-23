@@ -2,6 +2,8 @@
 title: Nginx缓存配置
 date: 2017-10-31 19:17:15
 tags: 
+- nginx
+- cache
 ---
 ## Nginx 缓存
 

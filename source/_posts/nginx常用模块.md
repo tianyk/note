@@ -1,7 +1,7 @@
 ---
 title: nginx常用模块.md
 date: 2016-08-22 14:45:24
-tags: 
+tags: nginx
 ---
 ### NGX_HTTP_AUTH_BASIC_MODULE
 这个模块用来做Basic Auth认证的，默认就已经安装过了。

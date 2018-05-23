@@ -1,7 +1,7 @@
 ---
 title: nginx-root-alias
 date: 2017-10-15 19:24:32
-tags: 
+tags: nginx
 ---
 ### nginx root & alias
 
