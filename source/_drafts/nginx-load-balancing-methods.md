@@ -10,21 +10,66 @@ tags:
 
 ## Nginx负载均衡算法
 
-### round-robin 
+- round-robin 
 
-循环评价分配到每台机器。
+默认的算法，循环平均分配到每台机器。
 
-### least-connected
+``` nginx 
+http {
+    upstream myapp1 {
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
+}
+```
+
+- least-connected
 
 分配到连接最少的机器。
 
-### ip-hash 
+``` nginx 
+upstream myapp1 {
+    least_conn;
+    server srv1.example.com;
+    server srv2.example.com;
+    server srv3.example.com;
+}
+```
+
+- ip-hash 
 
 根据ip算Hash，同一个ip的请求会被分发到同一个节点。
 
-### consistent_hash
+``` nginx 
+upstream myapp1 {
+    ip_hash;
+    server srv1.example.com;
+    server srv2.example.com;
+    server srv3.example.com;
+}
+```
+
+- consistent_hash
 
 会有少量连接会备份发的新节点。
+
+``` nginx 
+upstream myapp1 {
+    hash $request_uri consistent;
+    server srv1.example.com;
+    server srv2.example.com;
+    server srv3.example.com;
+}
+```
 
 > 测试随着新节点的添加，老节点上部分请求会被重新分发到新节点。
 
@@ -45,7 +90,6 @@ server.listen(PORT, () => {
 
 ``` javascript
 // client.js
-
 const http = require('http');
 const URL = require('url').URL;
 
@@ -72,3 +116,7 @@ batchRequest()
     .then(console.log)
     .catch(console.error);
 ```
+
+### 参考
+- [Using nginx as HTTP load balancer](http://nginx.org/en/docs/http/load_balancing.html)
+- [Module ngx_http_upstream_module](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)

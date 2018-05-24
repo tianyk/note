@@ -108,3 +108,6 @@ http://example.com/static/??foo.css,bar/foobaz.js
 限制客户端上传速率
 
 ### NGINX-HTTP-GEO-IP-MODULE
+
+### NGX_DYNAMIC_UPSTREAM
+Dynamic upstream for nginx
