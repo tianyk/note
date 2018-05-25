@@ -782,7 +782,6 @@ Queue、Deque
         ...
     }
     ```
-    
 
     ``` java 
     // 锁为class对象
