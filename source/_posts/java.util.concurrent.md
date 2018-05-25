@@ -6,7 +6,8 @@ tags:
 ## 并发编程
 多线程在多核心机器中能减少资源浪费，充分利用多核性能。在单核心机器中能提高吞吐率。
 
-`内存屏蔽`和`指令重排`是编发编程中出现问题的原因所在。Java内存模型分为`主内存`和`工作内存`两部分。JMM规定，线程写值时只能写到`工作内存`，不能直接写到`主内存`。JVM定期将`工作内存`的值刷会主内存。同样，读取`共享变量`的值时只能从`工作内存`中读取，`工作内存`不能直接读取`主内存`。
+`可见性`和`指令重排`是编发编程中出现问题的原因所在。Java内存模型分为`主内存`和`工作内存`两部分。JMM规定，线程写值时只能写到`工作内存`，不能直接写到`主内存`。JVM定期（内存屏障）将`工作内存`的值刷会主内存。同样，读取`共享变量`的值时只能从`工作内存`中读取，`工作内存`不能直接读取`主内存`。
+
 ``` java
 public class NoViisibility {
     private static boolean ready;
@@ -37,6 +38,53 @@ public class NoViisibility {
 }
 ```
 
+### 内存屏障
+Java有`工作内存`和`主内存`，工作内存要定期将内容刷回主内存才能保证可见。那什么时候刷回去呢？在Java里面遇到内存屏障指令时就会将工作内存和主内存进行同步。例如，我们使用`synchronized`可以保证可见性，这是因为在`synchronized`代码块的第一行和最后一行会插入内存屏障，进入`synchronized`代码块时会从主内存获取一遍变量，退出`synchronized`代码块时会将工作内存刷回主存。
+
+### synchronized与volatile
+`synchronized`能保证可见性和原子性，`volatile`只能保证可见性。看下面的例子：
+
+``` java 
+@NotThreadSafe
+public class Counter {
+    private volatile int count = 0;
+
+    public int incr() {
+        return count++;
+    }
+}
+```
+
+上例不是并发安全的。虽然我们能看到`count`的新值，但是`count++`是一个符合操作。要将`incr`变为原子操作只能使用`synchronized`关键字。
+
+``` java 
+@ThreadSafe
+public class Counter {
+    private int count = 0;
+
+    public synchronized int incr() {
+        return count++;
+    }
+}
+```
+
+`volatile`一般应用在标志位变量
+``` java
+public class Loop {
+    private volatile boolean shutdown;
+
+    public void start() {
+        while(!shutdown) {
+            ...
+        }
+    }
+
+    public void shutdown() {
+        shutdown = true;
+    }
+}
+```
+
 ### 并发与同步
 并发程序可以并行执行任务也可以串行来执行。并发是去同时应对多个任务，并行是同时去做多种任务。
 
@@ -45,11 +93,16 @@ public class NoViisibility {
 ### 并发编程中的问题
 
 - 死锁
+    
+    主要产生原因是要获取多把锁，不同线程加锁顺序不同。
 
 - 饥饿
 
+    一直等待某种状态。
+    
 - 活锁
 
+    是指线程1可以使用资源，但它很礼貌，让其他线程先使用资源。线程2也可以使用资源，但它很绅士，也让其他线程先使用资源。这样你让我，我让你，最后两个线程都无法使用资源。
 
 ### 线程
 
@@ -86,7 +139,7 @@ public class NoViisibility {
 
 ![](/images/thread-state.jpg)
 
-#### 中断
+#### 线程中断
 `interrupted` 是一种协商机制，中断机制是一种协作机制，也就是说通过中断并不能直接终止另一个线程，而需要被中断的线程自己处理中断。可以理解为一种类似`kill -n`的信号。`interrupt`信号是通知线程应该中断了，具体到底中断还是继续运行，应该由被通知的线程自己处理。
 
 - public void interrupt()
@@ -157,7 +210,7 @@ public class NoViisibility {
     }
     ```
 
-#### 中断任务
+#### 如何中断任务？
 可中断任务
 ``` java 
 try {
@@ -209,7 +262,7 @@ public class SocketThread extends Thread {
                 buffer.clear();
             }
 
-        } catch (IOException ignore) {
+        } catch (IOException ignored) {
             // socket.close() 触发 IOException 线程退出
         }
     }
@@ -217,7 +270,7 @@ public class SocketThread extends Thread {
 ```
 
 #### Shutdown Hook
-JVM在退出前会首先调用所有注册的关闭钩子。JVM不保证调用顺序，钩子必须是线程安全的。我们在钩子里面可以做清理工作。钩子应当尽快退出，它会延迟JVM结束时间。
+JVM在退出前会首先调用所有注册的关闭钩子。JVM不保证调用顺序（可以注册多个钩子），钩子必须是线程安全的。我们在钩子里面可以做清理工作。钩子应当尽快退出，它会延迟JVM结束时间。
 ``` java 
 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
     // 清理工作
@@ -352,6 +405,7 @@ public class Queue<T> {
 ```
 
 ### 同步工具
+
 #### 同步容器 
 - Vector
 
@@ -363,7 +417,7 @@ public class Queue<T> {
     
 - Collections.synchronized(Collection|List|Map|Set|SortMap|SortSet)
     
-    以上同步容器使用装饰器模式实现，将一个线程不安全的List/Map封闭在容器内部，通过同一把锁（同步容器本身）保护对对象的所有操作。这种方式最重要的一点是防止被封闭的对象逸出。
+    以上同步容器使用装饰器模式实现，将一个线程不安全的List/Map封闭在容器内部，通过同一把锁（同步容器本身）保护对对象的所有操作（和Vector类似）。这种方式最重要的一点是防止被封闭的对象逸出。
 
     ``` java 
     static class SynchronizedList<E>
@@ -419,6 +473,7 @@ public class Queue<T> {
             // 容器底层数组
             Object[] elements = getArray();
             int len = elements.length;
+            // !!!重点
             // 复制原数组到新数组中
             Object[] newElements = Arrays.copyOf(elements, len + 1);
             // 将元素添加到新数组中
@@ -511,7 +566,7 @@ Queue、Deque
 
 - FutureTask    
     
-    多个耗时的任务可以异步执行，通过`get`拿到执行后的结果。任务只会执行一次。
+    多个耗时的任务可以异步执行，通过`get`拿到执行后的结果。任务只会执行一次，最终状态不会改变（类似Promise）。
     
     ![](/images/FutureTask.png)
     ![](/images/future.png)
@@ -632,7 +687,7 @@ Queue、Deque
     - RecursiveAction：用于没有返回结果的任务。
     - RecursiveTask ：用于有返回结果的任务。
     
-    常用模式：
+    常用模式（分治）：
     ``` Java
     Result solve(Problem problem) {
         if (problem is small) {
@@ -711,18 +766,18 @@ Queue、Deque
     ``` java 
     // 锁为实例(this)对象 
     synchronized (this) {
-
+        ...
     }
     
     public synchronized void fun() {
-
+        ...
     }
     ```
 
     ``` java
     // 特定的锁对象，可以将锁对象封闭在程序内部。
     synchronized (lock) {
-        
+        ...
     }
     ```
     
@@ -730,7 +785,7 @@ Queue、Deque
     ``` java 
     // 锁为class对象
     public static synchronized fun() {
-        
+        ...
     }
     ```
 
@@ -753,7 +808,7 @@ Queue、Deque
         // 获取一把锁，获得返回true
         boolean tryLock();
 
-        // 尝试获得一把锁，等待一定的时间。获得返回true
+        // 尝试获得一把锁，等待一定的时间（获取锁时可中断）。获得返回true
         boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
 
         // 释放锁
@@ -930,6 +985,7 @@ class CASCounter {
 
 ### 线程池
 - ThreadPoolExecutor
+
     + corePoolSize 初始线程池大小
     + maximumPoolSize 最大线程池大小
     + keepAliveTime 不活动线程存活时间
@@ -942,6 +998,7 @@ class CASCounter {
     
     ``` java 
     ThreadPoolExecutor executorService = new ThreadPoolExecutor(1, 3, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(5));
+    // 饱和策略
     //executorService.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
     //executorService.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
     //executorService.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
@@ -1008,20 +1065,6 @@ class CASCounter {
 
     创建一个可延迟执行的线程池。注意：线程池大小为`Integer.MAX_VALUE`。
 
-
-#### 线程池停止
-- shutdown 
-
-    非阻塞方法。停止线程，会等待所有工作及排队线程都执行完毕。
-
-- shutdownNow
-
-    非阻塞。先停止（`interrupt`）正在执行的线程，然后返回正在等待的任务。通过检测`Thread.currentThread().isInterrupted()`适时结束正在执行的线程。
-
-- awaitTermination(timeout, unit)
-
-    阻塞等待最长`timeout`等待线程池结束。
-
 #### 饱和策略
 - Abort 
 
@@ -1039,6 +1082,19 @@ class CASCounter {
 
     及不抛弃，也不会抛异常。线程池和队列都满时会在调用了`execute`的线程中执行，这种情况主线程可能会被阻塞。
 
+#### 线程池停止
+- shutdown 
+
+    非阻塞方法。停止线程，会等待所有工作及排队线程都执行完毕。
+
+- shutdownNow
+
+    非阻塞。先停止（`interrupt`）正在执行的线程，然后返回正在等待的任务。通过检测`Thread.currentThread().isInterrupted()`适时结束正在执行的线程。
+
+- awaitTermination(timeout, unit)
+
+    阻塞等待最长`timeout`等待线程池结束。
+    
 
 ### 常见异常
 
@@ -1154,3 +1210,6 @@ for (int i = 0; i < strs.size(); i++) {
 List<String> strs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("a", "b", "c")));
 strs.remove("b");
 ```
+
+### 参考
+- [Java并发编程实战](https://book.douban.com/subject/10484692/)
