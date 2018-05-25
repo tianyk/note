@@ -111,3 +111,5 @@ http://example.com/static/??foo.css,bar/foobaz.js
 
 ### NGX_DYNAMIC_UPSTREAM
 Dynamic upstream for nginx
+
+### HTTP_UPSTREAM_CONSISTENT_HASH_MODULE
