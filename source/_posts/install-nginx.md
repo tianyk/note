@@ -1,5 +1,5 @@
 ---
-title: 安装nginx.md
+title: 安装nginx
 date: 2016-08-22 14:45:24
 tags: nginx
 ---

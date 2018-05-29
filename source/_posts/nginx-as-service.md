@@ -1,5 +1,5 @@
 ---
-title: nginx开机启动.md
+title: nginx开机启动
 date: 2016-08-29 14:27:00
 tags: nginx
 ---

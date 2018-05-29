@@ -1,7 +1,7 @@
 ---
-title: 树莓派安装操作系统.md
+title: 树莓派安装操作系统
 date: 2016-07-13 19:28:40
-tags: 
+tags: RaspberryPi
 ---
 ### 安装步骤
 

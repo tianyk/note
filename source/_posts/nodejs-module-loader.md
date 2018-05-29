@@ -1,5 +1,5 @@
 ---
-title: node模块查找策略.md
+title: node模块查找策略
 date: 2016-08-08 16:07:49
 tags: 
 ---

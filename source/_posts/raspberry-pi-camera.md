@@ -1,7 +1,7 @@
 ---
-title: 树莓派摄像头挂载.md
+title: 树莓派摄像头挂载
 date: 2016-07-15 22:49:05
-tags: 
+tags: RaspberryPi
 ---
 ### 树莓派摄像头挂载
 

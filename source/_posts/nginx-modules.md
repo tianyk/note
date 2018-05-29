@@ -1,5 +1,5 @@
 ---
-title: nginx常用模块.md
+title: nginx常用模块
 date: 2016-08-22 14:45:24
 tags: nginx
 ---

@@ -1,7 +1,7 @@
 ---
-title: 树莓派蓝牙.md
+title: 树莓派蓝牙
 date: 2016-07-16 19:43:54
-tags: 
+tags: RaspberryPi
 ---
 ### Linux中蓝牙管理
 蓝牙管理工具`bluetoothctl`
