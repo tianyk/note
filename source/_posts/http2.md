@@ -17,7 +17,7 @@ Link: </css/styles.css>; rel=preload; as=style, </js/main.js;>; rel=preload; as=
 
 nginx > 1.13.9 & **[最新版openssl](https://www.openssl.org/source/)**
 
-``` 
+``` nginx
 # nginx自己处理
 location / {
     ...
@@ -29,7 +29,7 @@ location / {
 
 ``` nginx 
 # 后端实现
-location = /api {
+location ^~ /backend {
     ...
     proxy_pass http://upstream;
     http2_push_preload on;
