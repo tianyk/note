@@ -45,9 +45,26 @@ location ^~ /backend {
 ![](/images/http2-binary-framing.png)
 
 ### 多路复用
-HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用连接（前一个处理完后复用）。HTTP2可以一个连接同时处理多个请求响应（最大的一个目标是在用户和网站间只用一个连接），客户端和服务器可以将 HTTP 消息分解为互不依赖的帧，然后交错发送，最后再在另一端把它们重新组装起来。
+HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用连接（前一个处理完后复用）。HTTP2可以一个连接同时处理多个请求响应，最大的一个目标是在用户和网站间只用一个连接，这将突破浏览器对于同一个域名最大连接数的限制。客户端和服务器可以将 HTTP 消息分解为互不依赖的帧，然后交错发送，最后再在另一端把它们重新组装起来。
 
 ![](/images/http2-multi-plexing.png)
+
+下面我们做一个测试，在`http/1.1`模式和`http2`协议下分别访问下面页面：
+``` html
+<body>
+    <img src="img.png?_=1" alt="img_1" width="10"/>
+    <img src="img.png?_=2" alt="img_2" width="10"/>
+    ...
+    <!-- 共加载100张图片 -->
+    <img src="img.png?_=100" alt="img_100" width="10"/>
+</body>
+```
+
+我们查看服务器连接，可以看到443端口（http2）只有1个连接，而80端口（http/1.1）有6（Chrome下）个连接。
+
+![](/images/http2-connections.png)
+
+> 测试时发现http/1.1下多个连接比http2的多路复用更稳定，http2测试过程中没有能加载出来100张全部图片。
 
 ### 参考
 - [HTTP/2 资料汇总](https://imququ.com/post/http2-resource.html)
