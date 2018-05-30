@@ -45,7 +45,7 @@ location ^~ /backend {
 ![](/images/http2-binary-framing.png)
 
 ### 多路复用
-HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用连接（前一个处理完后复用）。HTTP2可以一个连接同时处理多个请求响应，最大的一个目标是在用户和网站间只用一个连接，这将突破浏览器对于同一个域名最大连接数的限制。客户端和服务器可以将 HTTP 消息分解为互不依赖的帧，然后交错发送，最后再在另一端把它们重新组装起来。
+HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用连接（前一个处理完后复用），HTTP2可以一个连接同时处理多个请求响应。对于每个域名浏览器打开一个连接就能同时处理多个请求响应，这将突破http/1.1协议下浏览器对于同一个域名最大连接数的限制。客户端和服务器可以将 HTTP 消息分解为互不依赖的帧，然后交错发送，最后再在另一端把它们重新组装起来。
 
 ![](/images/http2-multiplexing.png)
 
@@ -72,4 +72,5 @@ HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用�
 - [HTTP/2 简介](https://developers.google.com/web/fundamentals/performance/http2/?hl=zh-cn)
 - [HTTP2简介和基于HTTP2的Web优化](https://github.com/creeperyang/blog/issues/23)
 - [借助 HTTP/2 打造更迅捷的 Web 体验](https://w3ctech.com/topic/862)
+- [HTTP2特性预览和抓包分析](http://www.cnblogs.com/etoah/p/5891285.html)
 - [HTTP2.0关于多路复用的研究](https://www.nihaoshijie.com.cn/index.php/archives/698/)
