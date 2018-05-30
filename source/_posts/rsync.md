@@ -124,4 +124,4 @@ rsync -azvPe 'ssh' root@10.0.1.4:/root/logs .
 
 
 ### 参考
-[【1】](http://man.linuxde.net/rsync)
+- [rsync命令](http://man.linuxde.net/rsync)
