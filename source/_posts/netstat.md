@@ -157,7 +157,7 @@ netstat(选项)
     ``` shell
     $ netstat -ie
     Kernel Interface table
-    eth0      Link encap:Ethernet  HWaddr 00:16:3E:16:15:19  
+    eth0    Link encap:Ethernet  HWaddr 00:16:3E:16:15:19  
             inet addr:172.22.203.148  Bcast:172.22.203.255  Mask:255.255.240.0
             UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
             RX packets:66299089 errors:0 dropped:0 overruns:0 frame:0
@@ -165,7 +165,7 @@ netstat(选项)
             collisions:0 txqueuelen:1000 
             RX bytes:34498067027 (32.1 GiB)  TX bytes:96455017529 (89.8 GiB)
 
-    lo        Link encap:Local Loopback  
+    lo      Link encap:Local Loopback  
             inet addr:127.0.0.1  Mask:255.0.0.0
             UP LOOPBACK RUNNING  MTU:65536  Metric:1
             RX packets:490435979 errors:0 dropped:0 overruns:0 frame:0
