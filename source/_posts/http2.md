@@ -44,6 +44,90 @@ location ^~ /backend {
 ### 协议帧
 ![](/images/http2-binary-framing.png)
 
+使用[nghttp](https://nghttp2.org/)调试：
+> 本例中我们服务器端会使用ServerPUSH推送`/css/index.css`
+
+``` shell 
+$ nghttp -nvu  https://h2.kekek.cc/
+[  0.012] Connected
+The negotiated protocol: h2                                                               -- 协议升级到h2
+[  0.019] recv SETTINGS frame <length=18, flags=0x00, stream_id=0>                        -- 设置帧 此处为服务器端的设置参数，客户端发送时使用
+          (niv=3)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):128]                                     -- 允许最大的并发流
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65536]                                      -- 流量控制的初始窗口大小
+          [SETTINGS_MAX_FRAME_SIZE(0x05):16777215]
+[  0.019] recv WINDOW_UPDATE frame <length=4, flags=0x00, stream_id=0>                    -- 更新窗口帧 可以为每个单独的流或者整个连接 
+          (window_size_increment=2147418112)                                              -- 用于更新流量控制窗口
+[  0.019] send SETTINGS frame <length=12, flags=0x00, stream_id=0>                        -- 设置帧 此处为客户端的设置参数，服务器发送时使用
+          (niv=2)
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
+[  0.019] send SETTINGS frame <length=0, flags=0x01, stream_id=0>
+          ; ACK
+          (niv=0)
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=3>                          -- 优先级帧 
+          (dep_stream_id=0, weight=201, exclusive=0)                                       -- dep_stream_id 依赖的流  weight 权重
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=5>
+          (dep_stream_id=0, weight=101, exclusive=0)
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=7>
+          (dep_stream_id=0, weight=1, exclusive=0)
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=9>
+          (dep_stream_id=7, weight=1, exclusive=0)
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=11>
+          (dep_stream_id=3, weight=1, exclusive=0)
+[  0.019] send HEADERS frame <length=43, flags=0x25, stream_id=13>                         -- 报头帧 用来打开一个流
+          ; END_STREAM | END_HEADERS | PRIORITY       
+          (padlen=0, dep_stream_id=11, weight=16, exclusive=0)
+          ; Open new stream
+          :method: GET
+          :path: /
+          :scheme: https
+          :authority: h2.kekek.cc
+          accept: */*
+          accept-encoding: gzip, deflate
+          user-agent: nghttp2/1.32.0
+[  0.020] recv SETTINGS frame <length=0, flags=0x01, stream_id=0>
+          ; ACK
+          (niv=0)
+[  0.020] recv (stream_id=13) :method: GET
+[  0.021] recv (stream_id=13) :path: /css/index.css
+[  0.021] recv (stream_id=13) :scheme: https
+[  0.021] recv (stream_id=13) :authority: h2.kekek.cc
+[  0.021] recv (stream_id=13) accept-encoding: gzip, deflate
+[  0.021] recv (stream_id=13) user-agent: nghttp2/1.32.0
+[  0.021] recv PUSH_PROMISE frame <length=71, flags=0x04, stream_id=13>                     -- 承诺推送帧
+          ; END_HEADERS
+          (padlen=0, promised_stream_id=2)
+[  0.021] recv (stream_id=13) :status: 200
+[  0.021] recv (stream_id=13) server: nginx/1.13.12
+[  0.021] recv (stream_id=13) date: Thu, 31 May 2018 06:17:14 GMT
+[  0.021] recv (stream_id=13) content-type: text/html
+[  0.021] recv (stream_id=13) last-modified: Thu, 24 May 2018 07:28:34 GMT
+[  0.021] recv (stream_id=13) etag: W/"5b0669a2-67c"
+[  0.021] recv (stream_id=13) content-encoding: gzip
+[  0.021] recv HEADERS frame <length=107, flags=0x04, stream_id=13>
+          ; END_HEADERS
+          (padlen=0)
+          ; First response header
+[  0.021] recv DATA frame <length=638, flags=0x01, stream_id=13>                            -- DATA 数据帧，用来携带HTTP请求或响应
+          ; END_STREAM                                                                      -- END_STREAM 0x01用来表示当前帧是当前流的最后一帧
+[  0.021] recv (stream_id=2) :status: 200
+[  0.021] recv (stream_id=2) server: nginx/1.13.12
+[  0.021] recv (stream_id=2) date: Thu, 31 May 2018 06:17:14 GMT
+[  0.021] recv (stream_id=2) content-type: text/css
+[  0.021] recv (stream_id=2) last-modified: Thu, 24 May 2018 07:28:32 GMT
+[  0.021] recv (stream_id=2) etag: W/"5b0669a0-1bcd"
+[  0.021] recv (stream_id=2) content-encoding: gzip
+[  0.021] recv HEADERS frame <length=106, flags=0x04, stream_id=2>
+          ; END_HEADERS
+          (padlen=0)
+          ; First push response header
+[  0.021] recv DATA frame <length=1857, flags=0x01, stream_id=2>
+          ; END_STREAM
+[  0.021] send GOAWAY frame <length=8, flags=0x00, stream_id=0>
+          (last_stream_id=2, error_code=NO_ERROR(0x00), opaque_data(0)=[])
+```
+
 ### 多路复用
 HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用连接（前一个处理完后复用），HTTP2可以一个连接同时处理多个请求响应。对于每个域名浏览器打开一个连接就能同时处理多个请求响应，这将突破http/1.1协议下浏览器对于同一个域名最大连接数的限制。客户端和服务器可以将 HTTP 消息分解为互不依赖的帧，然后交错发送，最后再在另一端把它们重新组装起来。
 
