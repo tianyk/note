@@ -1064,7 +1064,15 @@ class CASCounter {
 
 - newScheduledThreadPool   
 
-    创建一个可延迟执行的线程池。注意：线程池大小为`Integer.MAX_VALUE`。
+    创建一个可定时及周期性任务执行任务的线程池。注意：线程池大小为`Integer.MAX_VALUE`。
+
+- newWorkStealingPool 
+
+    这个线程池是1.8引入的。该线程池使用`ForkJoinPool`实现，参数`parallelism`为线程的并行数量其继承自`AbstractExecutorService`。`ForkJoinPool`实现了一个`工作窃取`算法，使得空闲线程能够窃取别的线程分解出来的子任务，从而让所有的线程都尽可能处于满负荷，提高执行效率。有一个无参数版本，其将`parallelism`设为`Runtime.getRuntime().availableProcessors()`,即处理器核数。
+    
+- ForkJoinPool
+
+    TODO 
 
 #### 饱和策略
 - Abort 
