@@ -31,7 +31,7 @@ Header section format
 编码器是将消息转换为适合于传输的格式（最有可能的就是字节流）；而对应的解码器则是将网络字节流转换回应用程序的消息格式。编码器操作出站数据，而解码器处理入站数据。
 
 ### 解码器
-由于你不可能知道远程节点是否会一次性地发送一个完整的消息，所以这个类会对入站数据进行缓冲，直到它准备好处理。例如上面DNS协议，协议头是96字节，但是我们一次读取时可能读到是80个字节或者100个字节，这就需要我们将读到的字节每96个分成一组。
+由于你不可能知道远程节点是否会一次性地发送一个完整的消息，所以这个类会对入站数据进行缓冲，直到它准备好处理。例如上面DNS协议，协议头是12字节，但是我们一次读取时可能读到是10个字节或者15个字节，这就需要我们将读到的字节每12个分成一组。
 
 因为解码器是负责将入站数据从一种格式转换到另一种格式的，所以Netty的解码器都实现了ChannelInboundHandler。
 
@@ -47,31 +47,31 @@ Netty提供下面两个不同用处的解码器：
         private DNSHeaderFrame decodeDNSHeaderFrame(ByteBuf msg) {
             DNSHeaderFrame header = new DNSHeaderFrame();
 
-            header.setId(msg.readLong());
+            header.setId(msg.readUnsignedShort());
 
-            long flags = msg.readLong();
-            header.setQr((short) (flags >> 15));
-            header.setOpcode((short) (flags & 0x7800 >> 11));
-            header.setAa((short) (flags & 0x0400 >> 10));
-            header.setTc((short) (flags & 0x0200 >> 9));
-            header.setRd((short) (flags & 0x0100 >> 8));
-            header.setRa((short) (flags & 0x0080 >> 7));
-            header.setZero((short) (flags & 0x0070 >> 4));
-            header.setRcode((short) (flags & 0x000f));
+            long flags = msg.readUnsignedShort();
+            header.setQr((byte) (flags >> 15));
+            header.setOpcode((byte) (flags & 0x7800 >> 11));
+            header.setAa((byte) (flags & 0x0400 >> 10));
+            header.setTc((byte) (flags & 0x0200 >> 9));
+            header.setRd((byte) (flags & 0x0100 >> 8));
+            header.setRa((byte) (flags & 0x0080 >> 7));
+            header.setZero((byte) (flags & 0x0070 >> 4));
+            header.setRcode((byte) (flags & 0x000f));
 
-            header.setQdCount(msg.readLong());
-            header.setAnCount(msg.readLong());
-            header.setNsCount(msg.readLong());
-            header.setArCount(msg.readLong());
+            header.setQdCount(msg.readUnsignedShort());
+            header.setAnCount(msg.readUnsignedShort());
+            header.setNsCount(msg.readUnsignedShort());
+            header.setArCount(msg.readUnsignedShort());
 
             return header;
         }
 
         @Override
         protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-            // 如果缓存区消息少于96字节先不处理
-            // 读到的消息大于96字节后从缓冲区读出来96个字节重新封装成消息放到out中传给后面的handler
-            if (in.readableBytes() >= 96) out.add(decodeDNSHeaderFrame(in.readBytes(96)));
+            // 如果缓存区消息少于12字节先不处理
+            // 读到的消息大于12字节后从缓冲区读出来12个字节重新封装成消息放到out中传给后面的handler
+            if (in.readableBytes() >= 12) out.add(decodeDNSHeaderFrame(in.readBytes(12)));
         }
     }
     ```
@@ -86,9 +86,9 @@ Netty提供下面两个不同用处的解码器：
         @Override
         protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
             // 从ByteBuf中提取的头信息将会被添加到List中。
-            // 如果没有足够的字节可用，这个readBytes(96)方法的实现将会抛出一个Error，其将在基类中被捕获并处理。
+            // 如果没有足够的字节可用，这个readBytes(12)方法的实现将会抛出一个Error，其将在基类中被捕获并处理。
             // 当有更多的数据可供读取时，该decode()方法将会被再次调用。
-            out.add(decodeDNSHeaderFrame(in.readBytes(96)));
+            out.add(decodeDNSHeaderFrame(in.readBytes(12)));
         }
     }
     ```
