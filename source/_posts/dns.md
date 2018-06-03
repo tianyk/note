@@ -48,17 +48,19 @@ DNS协议头共12字节，分六大部分。
 - 第五部分2字节表示剩下部分的数据长度。
 - 第六部分为数据，不同的Resource Record区别主要在第六部分数据。
 
+[代码实现](https://github.com/tianyk/mini-dns)
+
 > 通过Wireshark抓取的网络包
 ![](/images/QQ20180108-125622@2x.jpg)
-
-> yum install bind-utils
-
 
 ### DNS查询
 
 ![](/images/dns.png)
 
 ### 查看
+
+> yum install bind-utils
+
 1. dig
     ```
     dig @114.114.114.114 www.baidu.com A
