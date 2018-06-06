@@ -4,3 +4,100 @@ title: tcp-ip
 date: 2018-06-05 14:57:39
 tags:
 ---
+## 连接
+
+以太网的网线都是一直连接的状态，我们并不需要来回插拔网线，那么这里`连接`到底是什么意思呢？连接实际上是通信双方交换控制信息，在套接字中记录这些必要信息并准备数据收发的一连串操作。
+
+网络是怎样连接的
+
+打开浏览器，输入网址。首先经过一个dns查询将网址解析为IP。然后程序调用socket库建立连接，socket委托操作系统发送信息（这里有不同的协议TCP、UDP）。信息在tcp层拆包，加上tcp头部，交给ip层。ip层加上ip头部，
+
+1. 准备
+2. 连接
+3. 发送
+4. 接收
+5. 断开
+
+![](/images/wireshark.png)
+
+1. Frame:   物理层的数据帧概况
+2. Ethernet II: 数据链路层以太网帧头部信息
+3. Internet Protocol Version 4: 互联网层IP包头部信息
+4. Transmission Control Protocol:  传输层的数据段头部信息，此处是TCP
+5. Hypertext Transfer Protocol:  应用层的信息，此处是HTTP协议
+
+
+[ TCP Header Format](https://tools.ietf.org/html/rfc793#section-3.1)
+``` 
+0                   1                   2                   3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          Source Port          |       Destination Port        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        Sequence Number                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Acknowledgment Number                      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Data |           |U|A|P|R|S|F|                               |
+| Offset| Reserved  |R|C|S|S|Y|I|            Window             |
+|       |           |G|K|H|T|N|N|                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           Checksum            |         Urgent Pointer        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Options                    |    Padding    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                             data                              |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+- Source Port 源端口号 16位
+
+- Destination Port 目标端口号 16位
+
+- Sequence Number 序列号 32位
+    
+    初始值不是1，初始值在握手阶段发送给对方
+
+- Acknowledgment Number 确认号 32位 
+    
+    被确认的包序列号+1
+    
+- Data Offset 4位
+
+    表示数据部分的起始位置，也可以认为表示头部的长度。`The number of 32 bit words in the TCP Header.` 它的基数是32 bit（即4个字节），例如`1011`表示头部共`0b0111 * 32 = 352 bits`(44 bytes)。其中主要是`Options`部分为可变长度，不足部分补0。
+
+- Reserved 预留6位
+
+- Control Bits:  控制位 6 bits (from left to right):
+
+    - URG:  Urgent Pointer field significant
+    - ACK:  Acknowledgment field significant
+    - PSH:  Push Function
+    - RST:  Reset the connection
+    - SYN:  Synchronize sequence numbers
+    - FIN:  No more data from sender
+
+- Window 窗口 16位
+
+    接收方告知发送方窗口大小（即无需等待确认可一起发送的数据量）
+
+- Checksum 校验和 16位
+
+    用来检查是否出现错误
+
+- Urgent Pointer 紧急指针 16位
+
+    表示应紧急处理的数据位置
+
+- Options 可选字段
+
+    除了上面的固定头部字段之外，还可以添加可选字段，但除了连接操作之外，很少使用可选字段。
+
+
+```
+0000   d2 e6 00 50 f5 e9 1f 49 00 00 00 00 b0 02 ff ff
+0010   5a 79 00 00 02 04 05 b4 01 03 03 05 01 01 08 0a
+0020   ba 87 34 a1 00 00 00 00 04 02 00 00
+```
+
+上图中`Source Port`为`0xd2e6`对应十进制为`53990`，`Destination Port`为`0x0050`十进制为`80`。`Sequence Number`为`0xf5ef1f49`对应十进制为`4126089033`，`Acknowledgment Number`为`0x000000`。`Data Offset`、`Reserved`及`Control Bits`合并为`0xb002`，对应二进制`1011000000000010`其中`Data Offset`为`1011`则头部长度为44 bytes，`Control Bits`为`000010`对照为`SYN`类型。`Window`为`0xffff`。`Checksum`为为`0x5a79`。`Urgent Pointer`为`0x0000`。`Options`为`02:04:05:b4:01:03:03:05:01:01:08:0a:ba:87:34:a1:00:00:00:00:04:02:00:00`（24 bytes）
