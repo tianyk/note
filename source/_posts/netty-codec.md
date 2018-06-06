@@ -78,6 +78,66 @@ Netty提供下面两个不同用处的解码器：
     }
     ```
 
+> 注意：每次调用`decode`方法后即没新message产生缓冲区也无变化，缓存区数据将在下一轮`channelRead`事件触发后处理。原因也很好理解，如果一次`decoder`后没新message产生也没缓存消耗，再执行一次`decoder`将还是同样的结果（所有条件都没变化），处理不好这会造成死循环。[代码32行](https://github.com/netty/netty/blob/4.1/codec/src/main/java/io/netty/handler/codec/ByteToMessageDecoder.java#L438)
+
+``` java 
+protected void callDecode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
+    try {
+        while (in.isReadable()) {
+            int outSize = out.size();
+
+            if (outSize > 0) {
+                fireChannelRead(ctx, out, outSize);
+                out.clear();
+
+                // Check if this handler was removed before continuing with decoding.
+                // If it was removed, it is not safe to continue to operate on the buffer.
+                //
+                // See:
+                // - https://github.com/netty/netty/issues/4635
+                if (ctx.isRemoved()) {
+                    break;
+                }
+                outSize = 0;
+            }
+
+            int oldInputLength = in.readableBytes();
+            decodeRemovalReentryProtection(ctx, in, out);
+
+            // Check if this handler was removed before continuing the loop.
+            // If it was removed, it is not safe to continue to operate on the buffer.
+            //
+            // See https://github.com/netty/netty/issues/1664
+            if (ctx.isRemoved()) {
+                break;
+            }
+
+            if (outSize == out.size()) {
+                if (oldInputLength == in.readableBytes()) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            if (oldInputLength == in.readableBytes()) {
+                throw new DecoderException(
+                        StringUtil.simpleClassName(getClass()) +
+                                ".decode() did not read anything but decoded a message.");
+            }
+
+            if (isSingleDecode()) {
+                break;
+            }
+        }
+    } catch (DecoderException e) {
+        throw e;
+    } catch (Exception cause) {
+        throw new DecoderException(cause);
+    }
+}
+```
+
 #### TooLongFrameException 
 
 我们需要在字节可以解码之前在内存中缓冲它们。因此，不能让解码器缓冲大量的数据以至于耗尽可用的内存。为了解除这个常见的顾虑，Netty提供了`TooLongFrameException`类，如果缓冲区超出指定大小限制时（手动）抛出。如果你正在使用一个可变帧大小的协议，那么这种保护措施将是尤为重要的。
