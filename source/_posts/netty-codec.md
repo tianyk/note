@@ -195,7 +195,7 @@ public class WebSocketFrameDecoder extends ByteToMessageDecoder {
             fin = (byte) (header >> 15);
             opcode = (byte) (header & 0b0000111100000000 >> 8);
             mask = (byte) ((header & 0b0000000010000000) >> 7);
-            payloadLen = (byte) (header & 0b0000000001111111);
+            payloadLen = header & 0b0000000001111111;
 
             if (payloadLen == 127) STATE = READ_EXT_PAYLOAD_LEN_64;
             else if (payloadLen == 126) STATE = READ_EXT_PAYLOAD_LEN_16;
@@ -207,6 +207,7 @@ public class WebSocketFrameDecoder extends ByteToMessageDecoder {
             STATE = READ_MASK_KEY;
         } else if (STATE == READ_EXT_PAYLOAD_LEN_64) {
             if (in.readableBytes() < 8) return;
+            // 协议规定64位时最高有效位必须是0
             payloadLen = in.readLong();
 
             STATE = READ_MASK_KEY;
@@ -222,10 +223,10 @@ public class WebSocketFrameDecoder extends ByteToMessageDecoder {
             STATE = READ_PAYLOAD;
         } else if (STATE == READ_PAYLOAD) {
             if (payloadLen > MAX_FRAME_SIZE) {
-                in.skipBytes(in.readableBytes());
-                reset();
+                //bad frame. you should close the channel.
                 throw new TooLongFrameException("Frame too big!");
             }
+
             if (in.readableBytes() < payloadLen) return;
 
             payload = new byte[(int) payloadLen];
@@ -236,10 +237,8 @@ public class WebSocketFrameDecoder extends ByteToMessageDecoder {
                 payloadLen--;
             }
 
-            System.out.println(new String(payload));
             out.add(new WebSocketFrame(fin, opcode, mask, payload.length, maskKey, payload));
-
-            reset();
+            reset(); // next frame
         }
     }
 }

@@ -18,6 +18,11 @@ tags:
 4. 接收
 5. 断开
 
+```
+curl http://css.kekek.cc
+```
+(tcp.dstport == 80 and ip.dst == 47.94.202.145) or (ip.addr == 47.94.202.145 and tcp.port == 80)
+
 ![](/images/wireshark.png)
 
 1. Frame:   物理层的数据帧概况
@@ -56,7 +61,7 @@ tags:
 
 - Sequence Number 序列号 32位
     
-    初始值不是1，初始值在握手阶段发送给对方
+    代表偏移量，本包在整个信息中的偏移量。初始值不是1，初始值在握手阶段发送给对方。
 
 - Acknowledgment Number 确认号 32位 
     
@@ -79,7 +84,7 @@ tags:
 
 - Window 窗口 16位
 
-    接收方告知发送方窗口大小（即无需等待确认可一起发送的数据量）
+    接收方告知发送方窗口大小（即无需等待确认可一起发送的数据量）。提高效率的一种方式，不用每次发包都要`ack`一下，可以发多个包后一次`ack`。
 
 - Checksum 校验和 16位
 
