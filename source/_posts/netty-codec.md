@@ -224,6 +224,7 @@ public class WebSocketFrameDecoder extends ByteToMessageDecoder {
         } else if (STATE == READ_PAYLOAD) {
             if (payloadLen > MAX_FRAME_SIZE) {
                 //bad frame. you should close the channel.
+                in.skipBytes(in.readableBytes());
                 throw new TooLongFrameException("Frame too big!");
             }
 
