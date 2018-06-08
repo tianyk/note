@@ -112,6 +112,9 @@ location / {
     proxy_ignore_headers Expires;
 }
 
+### ngx_cache_purge
+如果要想更灵活点，我们可能还需要清理缓存功能。默认Nginx缓存模块没提供这个功能，我们需要使用一个第三方的模块来实现[ngx_cache_purge](https://github.com/FRiCKLE/ngx_cache_purge)
+
 
 ### 示例
 ```

@@ -38,7 +38,6 @@ http缓存主要有两个地方，浏览器和缓存服务器。
 If-Modified-Since: <cached last-modified date>
 ```
 
-
 ### 浏览器缓存再验证
 
 1. 检查本地有没有缓存。如果没有直接发出请求，如果有则检查缓存是否过期。
