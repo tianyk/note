@@ -208,3 +208,11 @@ curl http://css.kekek.cc
 | 409           |                                                        | <--  | ACK:787213379,FIN SN:4125695894 Window:4096 |                                       |
 | 411           | ACK:4125695895,FIN SN:787213379 Window:227             | -->  |                                             |   这步是一个合并操作，效果等同于四次握手    |
 | 412           |                                                        | <--  | ACK:787213380 SN:4125695895 Window:4096     |                                        |
+
+
+### 参考
+- [TRANSMISSION CONTROL PROTOCOL](https://tools.ietf.org/html/rfc793#section-3.1)
+- [网络是怎么连接的](https://book.douban.com/subject/26941639/)
+- [TCP/IP详解 卷1：协议](https://book.douban.com/subject/1088054/)
+- [TCP/IP网络与协议-第二版](https://book.douban.com/subject/1683696/)
+- [为什么标准以太网接口缺省的MTU为1500？](https://www.zhihu.com/question/21524257)
