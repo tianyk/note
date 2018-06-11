@@ -149,6 +149,17 @@ public class Loop {
     + 将调用者线程的中断状态设为true。
     + 被通知中断的线程在阻塞时，会抛出`InterruptedException`异常，同时**将中断状态修改为false**。
 
+        如果线程被中断`interrupt()`后，我们并不想立即中断它那么我们需要重置中断状态为`未中断`。不然很多依赖中断状态`isInterrupted()`的方法会出问题。
+
+        ``` java 
+        try {
+            ... 
+        } catch (InterruptedException ignored) {
+            // 重置中断状态为 true
+            Thread.currentThread().interrupt();
+        }
+        ```
+
 - public boolean isInterrupted() 
 
     + 判断调用者线程的中断状态。
@@ -179,38 +190,60 @@ public class Loop {
     }
     ```
 
-    ``` java 
-    public class Interrupted {
-        public static void main(String[] args) throws InterruptedException {
-            Thread t = new Thread(() -> {
-                // 中断后结束循环
-                while (!Thread.currentThread().isInterrupted()) {
-                    System.out.println(".");
-                }
+``` java 
+public class Interrupted {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t = new Thread(() -> {
+            //中断后结束循环
+            //while (!Thread.currentThread().isInterrupted()) {
+            //    System.out.println(".");
+            //}
+            
+            // 如果线程被中断后，我们并不想立即中断它那么我们需要重置中断状态为`未中断`。
+            // 不然很多依赖中断状态的方法会出错，例如后面的sleep。
+            // 重置中断状态，置线程状态为未中断。
+            // Thread.interrupted();
 
-                // 重置中断状态，置线程状态为未中断。不然后续sleep报错
-                Thread.interrupted();
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                // 阻塞的线程被中断后，会抛出InterruptedException异常。并且中断状态会重置为未中断
+                // 很多时候我们为了中断保证状态的正确，需要在捕获异常后将状态重置为已中断
 
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    // 恢复中断 置线程状态为中断
-                    Thread.currentThread().interrupt();
-                }
-            });
+                // 恢复中断(状态) 置线程状态为中断
+                System.out.printf("catch1: %b\n", Thread.currentThread().isInterrupted());
+                Thread.currentThread().interrupt();
+                System.out.printf("catch2: %b\n", Thread.currentThread().isInterrupted());
+            }
+        });
 
-            t.start();
+        t.start();
+        // Thread.sleep(4);
+        // 中断线程
+        t.interrupt();
+    
+        System.out.printf("outer1: %b\n", t.isInterrupted());
+        System.out.printf("outer2: %b\n", t.isInterrupted());
+        System.out.printf("outer3: %b\n", t.isInterrupted());
 
-            Thread.sleep(4);
-            // 中断线程
-            t.interrupt();
+        // 两个线程，打印顺序每次可能不同
+        // out >>
+        //outer1: true   // 刚被中断，状态变为已中断
+        //outer2: false  // 中断被catch后状态变为未中断
+        //outer3: false  // 已中断
+        //catch1: false  // 捕获异常后，状态为未中断
+        //catch2: true   // 捕获异常后，重置中断状态后
 
-            System.out.println(t.isInterrupted());
-            System.out.println(t.isInterrupted());
-            System.out.println(t.isInterrupted());
-        }
+        //out >>
+        //outer1: true   // 刚被中断，状态变为已中断
+        //catch1: false  // 捕获异常后，状态为未中断
+        //outer2: false  // 中断被catch后状态变为未中断
+        //catch2: true   // 捕获异常后，重置中断状态后
+        //outer3: true   // catch里面重置状态中断状态后
     }
-    ```
+}
+```
 
 #### 如何中断任务？
 可中断任务
