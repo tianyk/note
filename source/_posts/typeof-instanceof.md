@@ -1,8 +1,9 @@
 ---
-title: typeof&instanceof.md
+title: typeof和instanceof
 date: 2016-08-24 18:36:49
 updated: 2018-06-12 18:08:02
 tags: 
+- javascript
 - typeof
 - instanceof
 ---
