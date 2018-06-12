@@ -4,6 +4,8 @@ nav:
   articles: 归档
   projects: 项目
   search: 搜索
+  tags: 标签
+  categories: 分类
 
 footer:
   copyright: Copyright

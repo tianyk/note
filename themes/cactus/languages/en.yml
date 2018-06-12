@@ -4,6 +4,8 @@ nav:
   articles: Writing
   projects: Projects
   search: Search
+  tags: Tags
+  categories: Categories
 
 footer:
   copyright: Copyright

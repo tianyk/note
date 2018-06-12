@@ -17,6 +17,8 @@ nav:
   home: /
   # about: /about/
   articles: /archives/
+  tags: /tags/
+  # categories: /categories/
   CSS: http://css.kekek.cc/
   search: /search/
   RSS: /atom.xml
