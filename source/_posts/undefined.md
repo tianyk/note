@@ -2,6 +2,7 @@
 title: undefined
 date: 2016-08-24 18:36:49
 updated: 2018-06-12 18:14:23
+author: tyk
 tags: 
 - javascript
 - undefined
@@ -33,4 +34,4 @@ typeof null;         // 'object'
 可以看到`null`的类型是`object`，它表示的意思是一个为空的值。
 
 ### 参考
-[【1】](http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html)
+- [undefined与null的区别](http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html)
