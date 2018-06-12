@@ -5,15 +5,12 @@ function _parse_options(options) {
     while(_readerIndex < options.length) {
         let kid = options.readUInt8(_readerIndex);
         _readerIndex++;
-        // console.log('kid: %d, _readerIndex: %d', kid, _readerIndex);
 
         if (kid === 0) {
             // 结束
-            // end 
-            // return;
+            return;
         } else if (kid === 1) {
-            // 无操作
-            // 补齐用
+            // 无操作 补齐用
             continue;
         } else if (kid === 2) {
             // MSS
@@ -33,17 +30,18 @@ function _parse_options(options) {
 
              sackOK = true;
         } else if (kid === 5) {
+            // SACK 
             let len = options.readUInt8(_readerIndex);
             _readerIndex++;
 
             _readerIndex += (len -2); // skip 
         } else if (kid === 8) {
+            // 
             _readerIndex++; // skip length 值固定为10
              tsVal = options.readUInt32BE(_readerIndex);
             _readerIndex += 4;
              tsEcr = options.readUInt32BE(_readerIndex);
             _readerIndex += 4;
-
         }else {
             // unknow
             let len = options.readUInt8(_readerIndex);
