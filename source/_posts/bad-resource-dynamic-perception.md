@@ -14,7 +14,7 @@ tags:
 ``` javascript
 document.addEventListener('error', function (e) {
     var target = e.target;
-    if (target.tagName === 'IMG' && -1 !== target.src.indexOf('www.example.com/report')) return;
+    if (target.tagName === 'IMG' && -1 !== target.src.indexOf('bad-resource.example.com/report')) return;
 
     // 上报
     var img = document.createElement('img');
