@@ -3,6 +3,8 @@ title: 页面损坏资源动态感知
 author: tyk
 date: 2018-06-13 16:13:08
 tags:
+- addEventListener
+- useCapture
 ---
 
 ## 页面损坏资源动态感知
