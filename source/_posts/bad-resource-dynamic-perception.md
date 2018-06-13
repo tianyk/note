@@ -23,7 +23,7 @@ document.addEventListener('error', function (e) {
 }, true);
 ```
 
-除了捕获加载失败的资源，我们还可以捕获加载了那些资源。例如检查页面有没有被注入脚本。
+除了捕获加载失败的资源，我们还可以捕获页面加载了哪些资源。例如检查页面有没有被注入脚本。
 > 对于页面被注入恶意脚本这种情况，我们使用[Content Security Policy](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP)添加资源加载白名单更方便。下图为微信使用的内容安全策略：
 ![微信 Content Security Policy](/images/wechat-content-security-policy.png)
 
