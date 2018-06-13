@@ -1,9 +1,13 @@
 ---
-title: Linux信号机制
+title: Linux信号机制与信号处理
 date: 2016-11-14 11:45:25
+updated: 2018-06-13 23:09:01
+categories: linux
 tags: 
+- kill 
+- signal
 ---
-### Linux信号机制与信号处理
+## Linux信号机制与信号处理
 信号(signal)是Linux进程间通信的一种机制，全称为软中断信号，也被称为软中断。信号本质上是在软件层次上对硬件中断机制的一种模拟。
 
 ### 常见信号
@@ -11,11 +15,11 @@ tags:
 每种信号都会有一个默认动作。默认动作就是脚本或程序接收到该信号所做出的默认操作。常见的默认动作有终止进程、退出程序、忽略信号、重启暂停的进程等，上表中也对部分默认动作进行了说明。
 
 ### 发送信号
-有多种方式可以向程序或脚本发送信号，例如按下``<Ctrl+C>``组合键会发送`SIGINT`信号，终止当前进程。
+有多种方式可以向程序或脚本发送信号，例如按下`<Ctrl+C>`组合键会发送`SIGINT`信号，终止当前进程。
 
 还可以通过 kill 命令发送信号，语法为：
 ```shell
- kill -signal pid
+kill -signal pid
 ```
 signal为要发送的信号，可以是信号名称或数字；pid为接收信号的进程ID。例如：
 ```shell
@@ -40,5 +44,20 @@ setInterval(() => console.log(new Date()), 2000);
 > 如果需要退出，需要手动调用`process.exit(0)`。*（非0代表异常退出）*        
 > `SIGKILL`信号无法监听，无法被进程捕获，进程会立即退出。**慎用kill -9**
 
+### 例子
+1. 使用`kill -0`检查进程
+
+    `kill -0`不会给进程发送任何信号，但是仍会检查进程是否存在。如果进程存在返回0，不存在返回1。
+    
+    ```bash
+    #!/bin/sh
+
+    if kill -0 $BASHPID 2>/dev/null; then 
+        echo "process $BASHPID existence" 
+    else 
+        echo "process $BASHPID nexistence"
+    fi
+    ```
+
 ### 参考
-[【1】](http://c.biancheng.net/cpp/html/2784.html)
+- [Linux信号机制与信号处理](http://c.biancheng.net/cpp/html/2784.html)
