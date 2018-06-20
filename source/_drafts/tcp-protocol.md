@@ -281,7 +281,7 @@ $ curl http://css.kekek.cc
 
 - IHL:  4 bits
 
-    IP 头部的长度。可选字段可导致头部长度变化，因此这里需要指定头部的长度。不是字节数，是32位的个数。头长度为 IHL * 32 bits or IHL * 4 bytes。
+    IP 头部的长度。可选字段可导致头部长度变化，因此这里需要指定头部的长度。不是字节数，是32位的个数。头长度为`IHL * 32 bits or IHL * 4 bytes`。
 
 - Type of Service:  8 bits
 
@@ -331,6 +331,106 @@ $ curl http://css.kekek.cc
 
     除了上面的头部字段之外，还可以添加可选字段用于记录其他控制信息，但可选字段很少使用。
 
+查看路由表
+```
+netstat -nr
+```
+
+## 以太网协议
+![](/images/ip-mac.png)
+- MAC 头部（用于以太网协议）
+- IP 头部（用于 IP 协议）
+
+Medium Access Control
+
+```
+ 0                   1
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          Destination          |
++-                             -+
+|            Ethernet           |
++-                             -+
+|            Address            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|             Source            |
++-                             -+
+|            Ethernet           |
++-                             -+
+|            Address            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|         Ethernet Type         |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|             IPv6              |
++-                             -+
+|            header             |
++-                             -+
+|             and               |
++-                             -+
+/            payload ...        /
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+- Destination Ethernet Address: 48 bits
+
+    接收方 MAC 地址
+
+- Source Ethernet Address: 48 bits
+
+    发送方 MAC 地址
+
+- Ethernet Type: 16 bits
+
+    以太网类型。下面是一些常见的类型，一般在 TCP/IP 通信中只使用 0800 和 0806 这两种。
+    + 0000-05DC：IEEE 802.3
+    + 0800　　　：IP 协议
+    + 0806　　　：ARP 协议
+    + 86DD 　  ：　IPv6
+
+
+### ARP（Address Resolution Protocol）
+
+- 查看所有缓存
+
+    ``` shell
+    $ arp -a 
+    bogon (10.0.1.1) at c:51:1:e2:ab:64 on en0 ifscope [ethernet]
+    bogon (10.0.1.5) at 68:ef:43:2c:7b:7e on en0 ifscope [ethernet]
+    bogon (10.0.1.15) at 70:1c:e7:47:ef:50 on en0 ifscope [ethernet]
+    localhost (10.0.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]
+    ...
+    ```
+
+- 查询指定网络接口的缓存
+
+    ``` shell
+    $ arp -i en0 -a
+    bogon (10.0.1.1) at c:51:1:e2:ab:64 on en0 ifscope [ethernet]
+    bogon (10.0.1.15) at 70:1c:e7:47:ef:50 on en0 ifscope [ethernet]
+    localhost (10.0.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]
+    ? (224.0.0.251) at 1:0:5e:0:0:fb on en0 ifscope permanent [ethernet]
+    ? (239.255.255.250) at 1:0:5e:7f:ff:fa on en0 ifscope permanent [ethernet]
+    ...
+    ```
+
+- 查询指定主机的arp条目
+
+    ``` shell 
+    $ arp -a 172.16.0.108
+    ```
+
+- 删除指定主机的arp条目
+
+    ``` shell 
+    $ sudo arp -d 10.0.1.8
+    10.0.1.8 (10.0.1.8) deleted
+    ```
+
+- 设置指定主机与MAC地址的映射
+
+    ``` shell 
+    $ arp -s 172.16.0.108 00:50:56:82:52:2c
+    ```
 
 ### 参考
 - [TRANSMISSION CONTROL PROTOCOL](https://tools.ietf.org/html/rfc793#section-3.1)
