@@ -1,13 +1,16 @@
 ---
-layout: drafts
 title: TCP 协议
 date: 2018-06-05 14:57:39
 tags:
+- tcp 
+- ip
+- mac
+- arp
+- icmp
 ---
 ## TCP 协议
 
 TRANSMISSION CONTROL PROTOCOL
-
 
 ### 连接-收发-断开
 
@@ -215,6 +218,7 @@ $ curl http://css.kekek.cc
     }
     ```
 
+示例：
 
 ```
 0000   d2 e6 00 50 f5 e9 1f 49 00 00 00 00 b0 02 ff ff
@@ -257,6 +261,8 @@ $ curl http://css.kekek.cc
 
 封装好的包会传递给网卡，传递给网卡的网络包是由一连串 0 和 1 组成的数字信息，网卡会将这些数字信息转换为电信号或光信号，并通过网线（或光纤）发送出去，然后这些信号就会到达集线器、路由器等转发设备，再由转发设备一步一步地送达接收方。
 
+![](/images/tcp-ip-mac.png)
+
 ```
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -289,7 +295,7 @@ $ curl http://css.kekek.cc
 
 - Total Length:  16 bits
 
-    表示 IP 消息的总长度。TCP包的大小就是（Total Length - IHL）。
+    表示 IP 消息的总长度（最大65535 bytes）。TCP包的大小就是（Total Length - IHL）。
 
 - Identification:  16 bits
 
@@ -321,7 +327,7 @@ $ curl http://css.kekek.cc
 
 - Source Address:  32 bits
 
-    网络包发送方的 IP 地址。
+    网络包发送方的 IP 地址。 TODO 根据路由表查询
 
 - Destination Address:  32 bits
 
@@ -331,30 +337,79 @@ $ curl http://css.kekek.cc
 
     除了上面的头部字段之外，还可以添加可选字段用于记录其他控制信息，但可选字段很少使用。
 
+
+``` javascript
+function parseIP(ip) {
+    let _readerIndex = 0;
+    let version, ihl, type, len, id, flags, offset, ttl, protocol, checksum, source = [], dest = [], options;
+
+    version = ip.readUInt8(_readerIndex) >> 4;
+    ihl = ip.readUInt8(_readerIndex) & 0x0f;
+    _readerIndex++;
+
+    type = ip.readUInt8(_readerIndex);
+    _readerIndex++;
+
+    len = ip.readUInt16BE(_readerIndex);
+    _readerIndex += 2;
+
+    id = ip.readUInt16BE(_readerIndex);
+    _readerIndex += 2;
+
+    flags = ip.readUInt16BE(_readerIndex) >> 13;
+    offset = ip.readUInt16BE(_readerIndex) & 0x1fff;
+    _readerIndex += 2;
+
+    ttl = ip.readUInt8(_readerIndex);
+    _readerIndex++;
+
+    protocol = ip.readUInt8(_readerIndex);
+    _readerIndex++;
+
+    checksum = ip.readUInt16BE(_readerIndex);
+    _readerIndex += 2;
+
+    for (let p = 0; p < 4; p++) source[p] = ip.readUInt8(_readerIndex++);
+
+    for (let p = 0; p < 4; p++) dest[p] = ip.readUInt8(_readerIndex++);
+
+    if (_readerIndex < ihl * 4) options = ip.toString('hex', _readerIndex);
+
+    return {
+        version, ihl, type, len, id, flags, offset, ttl, protocol, checksum, source, dest, options
+    };
+}
+
+console.log(parseIP(Buffer.from('4500004000004000400635c70a0001022f5eca91', 'hex')));
+```
+
 查看路由表
 ```
 netstat -nr
 ```
 
-## ICMP
+### ICMP
 ICMP（Internet Control Message Protocol）它是TCP/IP协议族的一个子协议，用于在IP主机、路由器之间传递控制消息。控制消息是指网络通不通、主机是否可达、路由是否可用等网络本身的消息。这些控制消息虽然并不传输用户数据，但是对于用户数据的传递起着重要的作用。
 
-|消息|类型|含义|
-|----|----|----|
-|Echo reply|0| 响应 Echo 消息 |
-| Destination unreachable |3| 出于某些原因包没有到达目的地而是被丢弃，则通过此消息通知发送方。可能的原因包括目标 IP 地址在路由表中不存在；目标端口号不存在对应的套接字；需要分片，但分片被禁用 |
-|Source quench|4| 当发送的包数量超过路由器的转发能力时，超过的部分会被丢弃，这时会通过这一消息通知发送方。但是，并不是说遇到这种情况一定会发送这一消息。当路由器的性能不足时，可能连这条消息都不发送，就直接把多余的包丢弃了。当发送方收到这条消息时，必须降低发送速率 |
-|Redirect|5| 当查询路由表后判断该包的入口和出口为同一个网络接口时，则表示这个包不需要该路由器转发，可以由发送方直接发送给下一个路由器。遇到这种情况时，路由器会发送这条消息，给出下一个路由器的 IP 地址，指示发送方直接发送过去 |
-| Echo |8 | ping 命令发送的消息。收到这条消息的设备需返回一个 Echo reply 消息，以便确认通信对象是否存在 | 
-| Time exceeded | 11 | 由于超过了 IP 头部中的 TTL 字段表示的存活时间而被路由器丢弃，此时路由器会向发送方发送这条消息 | 
-| Parameter problem | 12 | 由于 IP 头部字段存在错误而被丢弃，此时会向发送方发送这条消息 | 
+|          消息            | 类型 |   含义                                |
+| ----------------------- | ---- | ------------------------------------ |
+| Echo reply              | 0    | 响应 Echo 消息                        |
+| Destination unreachable | 3    | 出于某些原因包没有到达目的地而是被丢弃，则通过此消息通知发送方。可能的原因包括目标 IP 地址在路由表中不存在；目标端口号不存在对应的套接字；需要分片，但分片被禁用 |
+| Source quench           | 4    | 当发送的包数量超过路由器的转发能力时，超过的部分会被丢弃，这时会通过这一消息通知发送方。但是，并不是说遇到这种情况一定会发送这一消息。当路由器的性能不足时，可能连这条消息都不发送，就直接把多余的包丢弃了。当发送方收到这条消息时，必须降低发送速率 |
+| Redirect                | 5    | 当查询路由表后判断该包的入口和出口为同一个网络接口时，则表示这个包不需要该路由器转发，可以由发送方直接发送给下一个路由器。遇到这种情况时，路由器会发送这条消息，给出下一个路由器的 IP 地址，指示发送方直接发送过去  |
+| Echo                    | 8    | **ping** 命令发送的消息。收到这条消息的设备需返回一个 `Echo reply` 消息，以便确认通信对象是否存在 |
+| Time exceeded           | 11   | 由于超过了 IP 头部中的 TTL 字段表示的存活时间而被路由器丢弃，此时路由器会向发送方发送这条消息 |
+| Parameter problem       | 12   | 由于 IP 头部字段存在错误而被丢弃，此时会向发送方发送这条消息 |
 
 ## 以太网协议
 ![](/images/ip-mac.png)
 - MAC 头部（用于以太网协议）
 - IP 头部（用于 IP 协议）
 
-Medium Access Control
+首先，发送方将包的目的地，也就是要访问的服务器的 IP 地址写入 IP 头部中。这样一来，我们就知道这个包应该发往哪里，IP 协议就可以根据这一地址查找包的传输方向，从而找到下一个路由器的位置，也就是图中的路由器 R1。接下来，IP 协议会**委托**以太网协议将包传输过去。这时，IP 协议会查找下一个路由器的以太网地址（MAC 地址），并将这个地址写入 MAC 头部中。这样一来，以太网协议就知道要将这个包发到哪一个路由器上了。路由器中有一张 IP 协议的表，可根据这张表以及 IP 头部中记录的目的地信息查出接下来应该发往哪个路由器。为了将包发到下一个路由器，我们还需要查出下一个路由器的 MAC 地址，并记录到 MAC 头部中，大家可以理解为改写了 MAC 头部。这样，网络包就又被发往下一个节点了。
+
+### MAC（Medium Access Control）协议
+MAC 地址是在网卡生产时写入 ROM 里的，只要将这个值读取出来写入 MAC 头部就可以了。
 
 ```
  0                   1
@@ -400,6 +455,25 @@ Medium Access Control
     + 0806　　　：ARP 协议
     + 86DD 　  ：　IPv6
 
+``` javascript
+function parseMAC(mac) {
+    let _readerIndex = 0;
+    let srcMac = [], dstMac = [], type;
+
+    for (let pos = 0; pos < 6; pos ++) dstMac.push(mac.readUInt8(_readerIndex++));
+    for (let pos = 0; pos < 6; pos ++) srcMac.push(mac.readUInt8(_readerIndex++));
+
+    type = mac.readUInt16BE(_readerIndex);
+
+    return {
+        srcMac: srcMac.map(v => v.toString(16)).join(':'),
+        dstMac: dstMac.map(v => v.toString(16)).join(':'),
+        type: type.toString(16)
+    }
+}
+
+console.log(parseMAC(Buffer.from('01005e7ffffa507b9d0bd1f40800', 'hex')));
+```
 
 ### ARP（Address Resolution Protocol）
 
@@ -451,5 +525,6 @@ Medium Access Control
 - [TRANSMISSION CONTROL PROTOCOL](https://tools.ietf.org/html/rfc793#section-3.1)
 - [网络是怎么连接的](https://book.douban.com/subject/26941639/)
 - [TCP/IP详解 卷1：协议](https://book.douban.com/subject/1088054/)
-- [TCP/IP网络与协议-第二版](https://book.douban.com/subject/1683696/)
+- [TCP/IP网络与协议（第二版）](https://book.douban.com/subject/1683696/)
 - [为什么标准以太网接口缺省的MTU为1500？](https://www.zhihu.com/question/21524257)
+- [细说TCP确认机制](https://community.emc.com/message/842879#842879)
