@@ -51,6 +51,8 @@ pip install shadowsocks
 ip=`curl -s https://api.ipify.org`;
 # 服务端口
 port=4433
+# 密码
+pass="password"
 
 # 配置文件
 # 如果无法启动尝试绑定服务器IP为0.0.0.0
@@ -60,7 +62,7 @@ echo -e "{ \n \
     \"server\": \"$ip\", \n \
     \"server_port\": $port, \n \
     \"local_port\": 1080, \n \
-    \"password\": \"8V4s0xgtwDq3\", \n \
+    \"password\": \"$pass\", \n \
     \"timeout\": 600, \n \
     \"method\": \"aes-256-cfb\" \n \
 }" > /etc/ss.json 
