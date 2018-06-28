@@ -1,12 +1,26 @@
 ---
-title: http2
+title: HTTP2
 date: 2017-07-05 11:43:41
-updated: 2018-05-29 21:20:15
+updated: 2018-06-27 23:58:14
 tags: 
 - http
 - http2
 ---
 ## HTTP2
+
+重要概念：
+
+- 流
+
+    流是连接中的一个虚拟信道，可以承载双向的消息。可以认为一个流代表着一个请求-响应的数据。
+
+- 消息
+
+    与逻辑消息对应的完整的一系列数据帧。
+
+- 帧
+
+    HTTP 2.0 通信的最小单位，每个帧包含帧首部，至少也会标识出当前帧所属的流。
 
 ### Server Push
 
@@ -42,7 +56,43 @@ location ^~ /backend {
 > macOS/10.13.4 Chrome/66.0.3359.181 nginx/1.13.12 中测试发现最多支持10个Server Push。
 
 ### 协议帧
+帧的类型有HEADERS帧、DATA帧、SETTINGS帧、PRIORITY帧等等。
+
 ![](/images/http2-binary-framing.png)
+
+帧的头部
+```
++-----------------------------------------------+
+|                 Length (24)                   |
++---------------+---------------+---------------+
+|   Type (8)    |   Flags (8)   |
++-+-------------+---------------+-------------------------------+
+|R|                 Stream Identifier (31)                      |
++=+=============================================================+
+|                   Frame Payload (0...)                      ...
++---------------------------------------------------------------+
+```
+
+- Length： 24 bits
+    
+    帧的载荷（不包括头部的9 bytes）。除非`SETTINGS_MAX_FRAME_SIZE`设置有更大值，否则不能大于2^14（16,384）。
+
+- Type： 8 bits
+
+    帧类型，未知类型会被丢弃。
+
+- Flags：8 bits
+
+    具体帧的标识，默认值0x00。（查看后面例子中的SETTINGS帧的flags）
+
+- R：1 bits
+
+    预留。
+
+- Stream Identifier：31 bits
+
+    流ID。
+
 
 使用[nghttp](https://nghttp2.org/)调试：
 > 本例中我们服务器端会使用ServerPUSH推送`/css/index.css`
@@ -50,23 +100,23 @@ location ^~ /backend {
 ``` shell 
 $ nghttp -nvu  https://h2.kekek.cc/
 [  0.012] Connected
-The negotiated protocol: h2                                                               -- 协议升级到h2
-[  0.019] recv SETTINGS frame <length=18, flags=0x00, stream_id=0>                        -- 设置帧 此处为服务器端的设置参数，客户端发送时使用
+The negotiated protocol: h2                                                 -- 协议升级到h2
+[  0.019] recv SETTINGS frame <length=18, flags=0x00, stream_id=0>          -- 设置帧 此处为服务器端的设置参数，客户端发送时使用
           (niv=3)
-          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):128]                                     -- 允许最大的并发流
-          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65536]                                      -- 流量控制的初始窗口大小
-          [SETTINGS_MAX_FRAME_SIZE(0x05):16777215]
-[  0.019] recv WINDOW_UPDATE frame <length=4, flags=0x00, stream_id=0>                    -- 更新窗口帧 可以为每个单独的流或者整个连接 
-          (window_size_increment=2147418112)                                              -- 用于更新流量控制窗口
-[  0.019] send SETTINGS frame <length=12, flags=0x00, stream_id=0>                        -- 设置帧 此处为客户端的设置参数，服务器发送时使用
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):128]                       -- 允许最大的并发流
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65536]                        -- 流量控制的初始窗口大小
+          [SETTINGS_MAX_FRAME_SIZE(0x05):16777215]                          -- 帧的最大有效负荷
+[  0.019] recv WINDOW_UPDATE frame <length=4, flags=0x00, stream_id=0>      -- 更新窗口帧（可以针对单个流或者整个连接） 指定了流ID和窗口大小的递增值
+          (window_size_increment=2147418112)                                -- 用于更新流量控制窗口
+[  0.019] send SETTINGS frame <length=12, flags=0x00, stream_id=0>          -- 设置帧 此处为客户端的设置参数，服务器发送时使用
           (niv=2)
           [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
           [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
 [  0.019] send SETTINGS frame <length=0, flags=0x01, stream_id=0>
           ; ACK
           (niv=0)
-[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=3>                          -- 优先级帧 
-          (dep_stream_id=0, weight=201, exclusive=0)                                       -- dep_stream_id 依赖的流  weight 权重
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=3>            -- 优先级帧 
+          (dep_stream_id=0, weight=201, exclusive=0)                         -- dep_stream_id 依赖的流  weight 权重
 [  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=5>
           (dep_stream_id=0, weight=101, exclusive=0)
 [  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=7>
@@ -75,7 +125,7 @@ The negotiated protocol: h2                                                     
           (dep_stream_id=7, weight=1, exclusive=0)
 [  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=11>
           (dep_stream_id=3, weight=1, exclusive=0)
-[  0.019] send HEADERS frame <length=43, flags=0x25, stream_id=13>                         -- 报头帧 用来打开一个流
+[  0.019] send HEADERS frame <length=43, flags=0x25, stream_id=13>           -- 报头帧 用来打开一个流
           ; END_STREAM | END_HEADERS | PRIORITY       
           (padlen=0, dep_stream_id=11, weight=16, exclusive=0)
           ; Open new stream
@@ -95,7 +145,7 @@ The negotiated protocol: h2                                                     
 [  0.021] recv (stream_id=13) :authority: h2.kekek.cc
 [  0.021] recv (stream_id=13) accept-encoding: gzip, deflate
 [  0.021] recv (stream_id=13) user-agent: nghttp2/1.32.0
-[  0.021] recv PUSH_PROMISE frame <length=71, flags=0x04, stream_id=13>                     -- 承诺推送帧
+[  0.021] recv PUSH_PROMISE frame <length=71, flags=0x04, stream_id=13>       -- 承诺推送帧
           ; END_HEADERS
           (padlen=0, promised_stream_id=2)
 [  0.021] recv (stream_id=13) :status: 200
@@ -109,8 +159,8 @@ The negotiated protocol: h2                                                     
           ; END_HEADERS
           (padlen=0)
           ; First response header
-[  0.021] recv DATA frame <length=638, flags=0x01, stream_id=13>                            -- DATA 数据帧，用来携带HTTP请求或响应
-          ; END_STREAM                                                                      -- END_STREAM 0x01用来表示当前帧是当前流的最后一帧
+[  0.021] recv DATA frame <length=638, flags=0x01, stream_id=13>              -- DATA 数据帧，用来携带HTTP请求或响应
+          ; END_STREAM                                                        -- END_STREAM 0x01用来表示当前帧是当前流的最后一帧
 [  0.021] recv (stream_id=2) :status: 200
 [  0.021] recv (stream_id=2) server: nginx/1.13.12
 [  0.021] recv (stream_id=2) date: Thu, 31 May 2018 06:17:14 GMT
@@ -158,3 +208,4 @@ HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用�
 - [借助 HTTP/2 打造更迅捷的 Web 体验](https://w3ctech.com/topic/862)
 - [HTTP2特性预览和抓包分析](http://www.cnblogs.com/etoah/p/5891285.html)
 - [HTTP2.0关于多路复用的研究](https://www.nihaoshijie.com.cn/index.php/archives/698/)
+- [Hypertext Transfer Protocol Version 2 (HTTP/2)](https://httpwg.org/specs/rfc7540.html)
