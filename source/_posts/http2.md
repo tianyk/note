@@ -209,3 +209,4 @@ HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用�
 - [HTTP2特性预览和抓包分析](http://www.cnblogs.com/etoah/p/5891285.html)
 - [HTTP2.0关于多路复用的研究](https://www.nihaoshijie.com.cn/index.php/archives/698/)
 - [Hypertext Transfer Protocol Version 2 (HTTP/2)](https://httpwg.org/specs/rfc7540.html)
+- [Web性能权威指南](https://book.douban.com/subject/25856314/)

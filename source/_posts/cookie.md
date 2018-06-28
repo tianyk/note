@@ -1,10 +1,13 @@
 ---
-title: cookie.md
+title: HTTP Cookies
 date: 2016-08-23 09:48:54
+updated: 2018-06-28 18:47:19
 tags: 
 - http
 - cookie
 ---
+## HTTP Cookies
+
 ### 简介
 HTTP Cookie（也叫Web cookie或者浏览器Cookie）是服务器发送到用户浏览器并保存在浏览器上的一块数据，它会在浏览器下一次发起请求时被携带并发送到服务器上。
 
@@ -111,4 +114,6 @@ xhr.withCredentials = false;
 
 
 ### 参考
-[【1】](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies) [【2】](http://bubkoo.com/2014/04/21/http-cookies-explained/) [【3】](http://www.ruanyifeng.com/blog/2016/04/cors.html)
+- [HTTP cookies](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies) 
+- [HTTP cookies 详解](http://bubkoo.com/2014/04/21/http-cookies-explained/) 
+- [CORS](http://www.ruanyifeng.com/blog/2016/04/cors.html)
