@@ -1,6 +1,7 @@
 ---
-title: curl
+title: cURL
 date: 2016-12-28 16:30:44
+updated: 2018-06-28 23:54:54
 tags: curl 
 ---
 ## cURL
@@ -16,6 +17,7 @@ tags: curl
 -s/--slient                           减少输出的信息，比如进度
 -o/--output <file>                    指定输出文件名称
 -e/--referer                          <URL> 指定引用地址
+-L                                    重定向
 
 --resolve HOST:PORT:ADDRESS          设置解析地址
 --retry <num>                        指定重试次数
