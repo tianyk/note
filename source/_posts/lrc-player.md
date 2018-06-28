@@ -47,7 +47,7 @@ function play({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric)
 
 ### TODO 
 - 使用RAF模拟setInterval
-- 封装为对象，支持play、pause、seek、reset等功能
+- 封装为对象，支持play、pause、resume、seek、reset等功能
 
     ``` javascript 
     class LRCPlayer {
@@ -65,6 +65,11 @@ function play({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric)
             // TODO
         }
 
+        // 继续播放
+        resume() {
+
+        }
+        
         // 重新开始
         reset() {
             // TODO
