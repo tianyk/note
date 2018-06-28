@@ -29,7 +29,7 @@ function play({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric)
     lyrics = lyrics.map(lyric => [toSecond(lyric[0]), lyric[1]]).sort((lyric1, lyric2) => lyric1[0] - lyric2[0]).filter(lyric => lyric[0] >= seek);
 
     // setInterval和setTimeout在浏览器窗口非激活的状态下会停止工作或者以极慢的速度工作
-    // 可以使用Web Worker解决或者requestAnimationFrame解决
+    // 可以使用 Web Worker 解决或者 requestAnimationFrame 解决[更新：经过测试窗口处于非激活状态下 requestAnimationFrame 也会停止工作]
     // [RAF replacements for setTimeout and setInterval](https://bl.ocks.org/joyrexus/7304146)
     // @see https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
     const timer = setInterval(() => {
@@ -81,3 +81,5 @@ function play({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric)
 - [RAF replacements for setTimeout and setInterval](https://bl.ocks.org/joyrexus/7304146)
 - [requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
 - [Better Performance With requestAnimationFrame](https://dev.opera.com/articles/better-performance-with-requestanimationframe/)
+- [How do browsers pause/change Javascript when tab or window is not active?](https://stackoverflow.com/a/16033979/4942848)
+- [Using requestAnimationFrame](https://css-tricks.com/using-requestanimationframe/)
