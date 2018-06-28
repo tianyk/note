@@ -75,3 +75,4 @@ function play({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric)
 ### 参考
 - [RAF replacements for setTimeout and setInterval](https://bl.ocks.org/joyrexus/7304146)
 - [requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
+- [Better Performance With requestAnimationFrame](https://dev.opera.com/articles/better-performance-with-requestanimationframe/)
