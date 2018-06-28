@@ -1,5 +1,5 @@
 ---
-title: netstat
+title: Netstat
 author: tyk
 date: 2018-05-30 10:23:28
 updated: 2018-06-03 10:39:20
