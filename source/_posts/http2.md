@@ -75,7 +75,7 @@ location ^~ /backend {
 
 - Length： 24 bits
     
-    帧的载荷（不包括头部的9 bytes）。除非`SETTINGS_MAX_FRAME_SIZE`设置有更大值，否则不能大于2^14（16,384）。
+    帧的载荷（不包括头部的9 bytes）。除非`SETTINGS_MAX_FRAME_SIZE`设置有更大值，否则不能大于2^14（16,384）16kb。
 
 - Type： 8 bits
 
@@ -101,21 +101,22 @@ location ^~ /backend {
 $ nghttp -nvu  https://h2.kekek.cc/
 [  0.012] Connected
 The negotiated protocol: h2                                                 -- 协议升级到h2
-[  0.019] recv SETTINGS frame <length=18, flags=0x00, stream_id=0>          -- 设置帧 此处为服务器端的设置参数，客户端发送时使用
-          (niv=3)
-          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):128]                       -- 允许最大的并发流
-          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65536]                        -- 流量控制的初始窗口大小
-          [SETTINGS_MAX_FRAME_SIZE(0x05):16777215]                          -- 帧的最大有效负荷
-[  0.019] recv WINDOW_UPDATE frame <length=4, flags=0x00, stream_id=0>      -- 更新窗口帧（可以针对单个流或者整个连接） 指定了流ID和窗口大小的递增值
-          (window_size_increment=2147418112)                                -- 用于更新流量控制窗口
-[  0.019] send SETTINGS frame <length=12, flags=0x00, stream_id=0>          -- 设置帧 此处为客户端的设置参数，服务器发送时使用
+[  0.019] recv SETTINGS frame <length=18, flags=0x00, stream_id=0>          -- 设置帧 此处为服务器端的设置参数，给客户端时使用。
+          (niv=3)                                                           -- 设置帧被应用于整个连接，而不是一个单独的流。SETTINGS帧的流标识必须是0。
+          [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):128]                       -- 允许打开流的最大值。
+          [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65536]                        -- 流量控制的初始窗口大小。默认2^16-1 (65,535)字节
+          [SETTINGS_MAX_FRAME_SIZE(0x05):16777215]                          -- 单帧最大值。
+                                                                            -- 默认为2^14（16384）个字节，值区间为2^14（16384）-2^24-1(16777215)。 
+[  0.019] recv WINDOW_UPDATE frame <length=4, flags=0x00, stream_id=0>      -- 流量控制帧，作用于单个流以及整个连接，但只能影响两个端点之间传输的DATA数据帧。
+          (window_size_increment=2147418112)                                -- 流标识符为0，影响整个连接，非单个流。
+[  0.019] send SETTINGS frame <length=12, flags=0x00, stream_id=0>          -- 设置帧 此处为客户端的设置参数，给服务器使用。
           (niv=2)
           [SETTINGS_MAX_CONCURRENT_STREAMS(0x03):100]
           [SETTINGS_INITIAL_WINDOW_SIZE(0x04):65535]
-[  0.019] send SETTINGS frame <length=0, flags=0x01, stream_id=0>
+[  0.019] send SETTINGS frame <length=0, flags=0x01, stream_id=0>           -- ACK (0x1)：设置这个标志位表明当前帧确认接收和应用了对端的SETTINGS帧。
           ; ACK
           (niv=0)
-[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=3>            -- 优先级帧 
+[  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=3>            -- 优先级帧 stream_id为0x00时返回PROTOCOL_ERROR。
           (dep_stream_id=0, weight=201, exclusive=0)                         -- dep_stream_id 依赖的流  weight 权重
 [  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=5>
           (dep_stream_id=0, weight=101, exclusive=0)
@@ -125,7 +126,7 @@ The negotiated protocol: h2                                                 -- �
           (dep_stream_id=7, weight=1, exclusive=0)
 [  0.019] send PRIORITY frame <length=5, flags=0x00, stream_id=11>
           (dep_stream_id=3, weight=1, exclusive=0)
-[  0.019] send HEADERS frame <length=43, flags=0x25, stream_id=13>           -- 报头帧 用来打开一个流
+[  0.019] send HEADERS frame <length=43, flags=0x25, stream_id=13>           -- 报头帧 请求头或响应头，同时也用于打开一个流。
           ; END_STREAM | END_HEADERS | PRIORITY       
           (padlen=0, dep_stream_id=11, weight=16, exclusive=0)
           ; Open new stream
