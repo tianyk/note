@@ -12,6 +12,18 @@ if (!!$.prototype.justifiedGallery) {
 
 
 $(document).ready(function() {
+  /**
+   * 心点击控制
+   */
+  $(".heart").on('click touchstart', function(){
+    $(this).toggleClass('is_animating');
+  });
+  
+  /*when the animation is over, remove the class*/
+  $(".heart").on('animationend', function(){
+    $(this).toggleClass('is_animating');
+  });
+  
 
   /**
    * Shows the responsive navigation menu on mobile.
