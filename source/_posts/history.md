@@ -7,6 +7,22 @@ tags:
 ---
 ## 网站变更历史
 
+### 2018-07-03
+1. footer部分❤点击
+
+    ```
+    cactus/layout/_partial/footer.ejs
+    cactus/source/css/_partial/footer.styl
+    cactus/source/js/main.js
+    ```
+
+参考：
+- [How Did They Do That? The Twitter “Like” Animation](https://medium.com/@chrismabry/how-did-they-do-that-the-twitter-like-animation-2a473b658e43)
+- [css | twitter heart animation](https://codepen.io/mindstorm/pen/aZZvKq)
+- [重新创建Twitter点赞动效](http://www.w3cplus.com/animation/recreating-the-twitter-heart-animation.html)
+- [Twitter heart button animation](https://codepen.io/yisi/pen/LpXVJb)
+- [Twitter’s Heart Animation in Full CSS](https://blog.prototypr.io/twitter-s-heart-animation-in-full-css-b1c00ca5b774)
+
 ### 2018-06-14
 1. 添加创作许可
 
