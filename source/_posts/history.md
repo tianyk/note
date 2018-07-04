@@ -7,6 +7,14 @@ tags:
 ---
 ## 网站变更历史
 
+### 2018-07-04
+
+1. footer对齐
+
+    ```
+    cactus/source/css/_partial/footer.styl
+    ```
+
 ### 2018-07-03
 1. footer部分❤点击
 
