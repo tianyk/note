@@ -1,10 +1,10 @@
 ---
-title: 自建一个全球CDN网络
+title: 部署全球CDN网络
 author: tyk
 date: 2018-07-04 22:49:21
 tags:
 ---
-## 自建一个全球CDN网络
+## 部署全球CDN网络
 
 我们现在除了大陆的还有美国及东南亚的用户，在国内可以使用[阿里](https://www.aliyun.com/product/cdn)或者[腾讯](https://cloud.tencent.com/product/cdn)的CDN服务。但是上面两家在国外的节点不是很多，而国外厂商有[Amazon CloudFront](https://aws.amazon.com/cloudfront/)和[Cloudflare](https://www.cloudflare.com/)在大陆地区的服务又不好。那有没有办法让一个域名大陆用户使用阿里的服务，国外的用户是用CloudFront服务呢？
 
