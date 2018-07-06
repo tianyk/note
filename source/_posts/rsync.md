@@ -1,9 +1,10 @@
 ---
 title: rsync
 date: 2016-12-07 18:55:28
+updated: 2018-07-06 11:25:22
 tags: 
 ---
-### rsync
+## Rsync
 rsync命令常用工具命令 rsync命令是一个远程数据同步工具，可通过LAN/WAN快速同步多台主机间的文件。rsync使用所谓的“rsync算法”来使本地和远程两个主机之间的文件达到同步，这个算法只传送两个文件的不同部分，而不是每次都整份传送，因此速度相当快。
 
 ### 语法
@@ -93,35 +94,51 @@ rsync://[USER@]HOST[:PORT]/SRC [DEST]
 ```
 
 ### 示例
-#### 拉取远程文件到本地
-```shell
-rsync -azve 'ssh' root@10.0.1.4:/root/logs .
-```
-> 使用ssh方式后台传输时可以配合sshpass指定密码
+1. 同步本地文件夹
 
-#### 传送本地文件到远程
-```shell
-rsync -azve 'ssh' . root@10.0.1.4:/root/logs
-```
+    ``` shell
+    rsync -avz src dest
+    ```
 
-#### 指定SSH端口
-```shell
-rsync -azve 'ssh -p 9922' data root@10.0.1.4:/root/
-```
+2. 拉取远程文件到本地
 
-#### 删除远程有本地没有的文件
-```shell
-rsync -azve 'ssh' --delete data root@10.0.1.4:/root/
-```
+    ```shell
+    rsync -azve 'ssh' root@10.0.1.4:/root/logs .
+    ```
+    > 使用ssh方式后台传输时可以配合sshpass指定密码
 
-#### 断线续传
--P 
-```
-rsync -azvPe 'ssh' root@10.0.1.4:/root/logs .
-```
+3. 传送本地文件到远程
 
---bwlimit // 限速
+    ```shell
+    rsync -azve 'ssh' . root@10.0.1.4:/root/logs
+    ```
 
+4. 指定SSH端口
 
+    ```shell
+    rsync -azve 'ssh -p 9922' data root@10.0.1.4:/root/
+    ```
+
+5. 删除远程有本地没有的文件
+
+    ```shell
+    rsync -azve 'ssh' --delete data root@10.0.1.4:/root/
+    ```
+
+6. 断线续传
+
+    -P 
+    ```
+    rsync -azvPe 'ssh' root@10.0.1.4:/root/logs .
+    ```
+
+    --bwlimit // 限速
+
+7. 排除文件夹
+
+    ```
+    rsync -avz --exclude ".git" src dest
+    ```
+    
 ### 参考
 - [rsync命令](http://man.linuxde.net/rsync)
