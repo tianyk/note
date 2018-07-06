@@ -10,7 +10,7 @@ tags:
 
 答案是有的，我们知道现在主流的CDN都是采用CNAME的形式配置DNS。CNAME的核心就是智能DNS，那我们如果搭建一个DNS让它给国内外用户返回不同的CNAME不就解决了吗，也就是CDN的DNS。所幸，不用我们麻烦自己去搭建这个智能DNS，现在像阿里的云DNS和DNSPod都提供了比我们需求更强大的功能。下面是具体网络拓扑图：
 
-![暂缺]()
+![暂缺](/images/global-dns.png)
 
 ### 具体操作
 > 由于暂时没有Amazon CloudFront和Cloudflare账号，国外CDN我就用腾讯CDN模拟了。实际操作时将腾讯CDN换成Amazon CloudFront或Cloudflare即可。
