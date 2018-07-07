@@ -1,10 +1,10 @@
 ---
-title: install-logstash
+title: 安装Logstash
 date: 2016-07-30 20:07:24
-tags: 
-- elasticsearch
-- logstash
+tags: logstash
 ---
+## 安装Logstash
+
 1. 导入密钥
 ```
 rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
@@ -46,4 +46,4 @@ chkconfig --add kibana
 
 
 6. 参考  
-[【1】](https://www.elastic.co/guide/en/logstash/current/installing-logstash.html#package-repositories)
+- [Installing Logstash](https://www.elastic.co/guide/en/logstash/current/installing-logstash.html#package-repositories)
