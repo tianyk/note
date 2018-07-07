@@ -79,7 +79,7 @@ kill -USR1 `cat /var/run/nginx.pid`
 2. logrotate
 
     ```
-    /var/log/nginx/access.log {
+    /var/log/nginx/*.log {
         daily
         dateext
         rotate 30
@@ -94,7 +94,7 @@ kill -USR1 `cat /var/run/nginx.pid`
         endscript
     }
     ```
-    > logrotate -vf /etc/logrotate.d/nginx 
+    > 执行后面的命令能立即看到效果：`logrotate -vf /etc/logrotate.d/nginx`
 
 ### 参考
 - [Module ngx_http_log_module](http://nginx.org/en/docs/http/ngx_http_log_module.html)
