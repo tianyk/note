@@ -1,7 +1,7 @@
 ---
 title: Nginx日志配置与切割
 author: tyk
-date: 2018-07-06 17:35:44
+date: 2018-07-07 10:37:30
 tags: nginx
 ---
 ## Nginx日志配置与切割
