@@ -2,7 +2,11 @@
 title: Nginx日志配置与切割
 author: tyk
 date: 2018-07-07 10:37:30
-tags: nginx
+category: nginx 
+tags: 
+- nginx
+- logrotate
+- log 
 ---
 ## Nginx日志配置与切割
 
@@ -94,7 +98,17 @@ kill -USR1 `cat /var/run/nginx.pid`
         endscript
     }
     ```
-    > 执行后面的命令能立即看到效果：`logrotate -vf /etc/logrotate.d/nginx`
+    > - 第一行要处理的日志，可以使用通配符。后面`{}`包裹日志切割的配置项。
+    > - daily：表示每天执行一次，类似的配置还有weekly,monthly每周和每月。
+    > - dateext：文件后缀使用日期命名。
+    > - rotate 30：保留最近30天的日志。
+    > - compress：对日志进行压缩。
+    > - delaycompress：延迟压缩，分割完成后延迟一天压缩此日志。
+    > - notifempty：忽略空日志。
+    > - sharedscripts：执行脚本。
+    > - postrotate：日志被切割后执行的脚本。
+    > - endscript：标记脚本结束。
+    > - 执行后面的命令能立即看到效果：`logrotate -vf /etc/logrotate.d/nginx`
 
 ### 参考
 - [Module ngx_http_log_module](http://nginx.org/en/docs/http/ngx_http_log_module.html)
