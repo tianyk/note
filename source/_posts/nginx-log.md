@@ -108,7 +108,8 @@ kill -USR1 `cat /var/run/nginx.pid`
     > - sharedscripts：执行脚本。
     > - postrotate：日志被切割后执行的脚本。
     > - endscript：标记脚本结束。
-    > - 执行后面的命令能立即看到效果：`logrotate -vf /etc/logrotate.d/nginx`
+    > - 测试一下脚本：`logrotate -d /etc/logrotate.d/nginx`。
+    > - 执行后面的命令能立即看到效果：`logrotate -vf /etc/logrotate.d/nginx`。
 
 ### 参考
 - [Module ngx_http_log_module](http://nginx.org/en/docs/http/ngx_http_log_module.html)
