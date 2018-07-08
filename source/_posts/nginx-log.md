@@ -106,7 +106,7 @@ kill -USR1 `cat /var/run/nginx.pid`
     > - delaycompress：延迟压缩，分割完成后延迟一天压缩此日志。
     > - notifempty：忽略空日志。
     > - sharedscripts：执行脚本。
-    > - postrotate：日志被切割后执行的脚本。
+    > - postrotate：日志被切割后执行的脚本，对应的`prerotate`表示在切割前执行的脚本。
     > - endscript：标记脚本结束。
     > - 测试一下脚本：`logrotate -d /etc/logrotate.d/nginx`。
     > - 执行后面的命令能立即看到效果：`logrotate -vf /etc/logrotate.d/nginx`。
