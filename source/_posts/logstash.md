@@ -1,12 +1,16 @@
 ---
-title: logstash.md
+title: logstash
 date: 2016-08-08 15:53:59
 tags: 
+- logstash
+- log
 ---
+## Logstash
+
 ### 配置示例
 适配
 ```
-[2016-02-04 00:00:12.653] [INFO] access - pid: 12792 from 101.51.18.127:59983 at: 2016-02-03T16:00:09.516Z - ["Wed, 03 Feb 2016 16:00:09 GMT \"GET /api/dosomething 304 1 ms - - - 1.0\" \"xOXp3I1tHwXMyD2oA0MlWpYqD-PiCBhL 13471600000 171.139.119.147\" \"\" \"Mozilla/5.0 (Linux; Android 4.4.4; 2014811 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36 YunFarm/2.0/Cordovar\""]
+[2016-02-04 00:00:12.653] [INFO] access - pid: 12792 from 101.51.18.127:59983 at: 2016-02-03T16:00:09.516Z - ["Wed, 03 Feb 2016 16:00:09 GMT \"GET /api/dosomething 304 1 ms - - - 1.0\" \"xOXp3I1tHwXMyD2oA0MlWpYqD-PiCBhL 13471600000 171.139.119.147\" \"\" \"Mozilla/5.0 (Linux; Android 4.4.4; 2014811 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36\""]
 ```
 
 ```

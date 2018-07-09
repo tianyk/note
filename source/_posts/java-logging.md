@@ -1,9 +1,8 @@
 ---
 title: Java 中的日志库
 date: 2017-04-18 22:48:51
-tags: 
-- java 
-- logging
+category: java
+tags: log
 ---
 ### Java 日志库
 Java 拥有功能和性能都非常强大的日志库。比较常见的有 java.util.logging（jul）、Apache Common Logging（jcl）、Apache Log4j 1.x、Apache Log4j 2、SLF4J、Logback。
