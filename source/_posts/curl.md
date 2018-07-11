@@ -1,28 +1,29 @@
 ---
 title: cURL
 date: 2016-12-28 16:30:44
-updated: 2018-06-28 23:54:54
+updated: 2018-07-11 13:22:07
 tags: curl 
 ---
 ## cURL
 
 ```
--X/--request [GET|POST|PUT|DELETE|…]  使用指定的http method發出 http request
--H/--header                           設定request裡的header
--i/--include                          顯示response的header
--d/--data                             設定 http parameters 
+-X/--request [GET|POST|PUT|DELETE|…]  使用指定的http method发出 http request
+-H/--header                           设置request里的header
+-i/--include                          显示response的header
+-d/--data                             设置 http parameters 
 -v/--verbose                          小写的v参数，用于打印更多信息，包括发送的请求信息，这在调试脚本是特别有用。
--u/--user                             使用者帳號、密碼
+-u/--user                             使用者账号、密码
 -b/--cookie                           cookie  
 -s/--slient                           减少输出的信息，比如进度
 -o/--output <file>                    指定输出文件名称
 -e/--referer                          <URL> 指定引用地址
 -L                                    重定向
 
---resolve HOST:PORT:ADDRESS          设置解析地址
---retry <num>                        指定重试次数
---retry-delay SECONDS When retrying, wait this many seconds between each
---retry-max-time SECONDS  Retry only within this period>
+--resolve HOST:PORT:ADDRESS           设置解析地址
+--retry <num>                         指定重试次数
+--retry-delay SECONDS                 When retrying, wait this many seconds between each
+--retry-max-time SECONDS              Retry only within this period>
+--raw                                 raw response
 ```
 
 ### 示例
