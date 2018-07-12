@@ -9,17 +9,17 @@ tags:
 http缓存主要有两个地方，浏览器和缓存服务器。
 ![](/images/QQ20160906-0@2x.jpg)
 
-|参数  |含义|
-|-----|-----|
-|Age | Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。|
-|Date | Date 表明创建 HTTP 报文的日期和时间。|
-|Cache-Control:max-age|定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存时间(以秒为单位) Cache-Control: max-age=484200|
-|Expires| 指定一个绝对的过期日期。如果过期日期已经过了,就说明文档不再新鲜了 Expires: Fri, 05 Jul 2002, 05:00:00 GMT。如果是缓存服务器，缓存服务器在这段时间内不会再去请求源服务器。Expires是HTTP/1.0的写法，HTTP/1.1使用Cache-Control:max-age。|
-|Pragma | Pragma 是 HTTP/1.1 之前版本的历史遗留字段。 Cache-Control: no-cache和  Pragma: no-cache含义一样。|
-|Last-Modified | 资源的最新修改时间，和If-Modified-Since是一对。|
-|If-Modified-Since:date|客户端再次发送请求时会带上响应时Last-Modified的值，服务端会根据日期去比对资源是否是旧的。|
-|ETag |它是一种可将资源以字符串形式做唯一性标识的方式。服务器会为每份资源分配对应的 ETag 值。客户端再发请求时会在If-None-Match带上ETag的值，服务器端回去比对是否一致，如果一致则响应304，不再发送响应体。|
-|If-None-Match:tags|和Etag是一对|
+|          参数          |                                                 含义                                        |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| Age                    | Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。      |
+| Date                   | Date 表明创建 HTTP 报文的日期和时间。                      |
+| Cache-Control:max-age  | 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存时间(以秒为单位) Cache-Control: max-age=484200     |
+| Expires                | 指定一个绝对的过期日期。如果过期日期已经过了,就说明文档不再新鲜了 Expires: Fri, 05 Jul 2002, 05:00:00 GMT。如果是缓存服务器，缓存服务器在这段时间内不会再去请求源服务器。Expires是HTTP/1.0的写法，HTTP/1.1使用Cache-Control:max-age。 |
+| Pragma                 | Pragma 是 HTTP/1.1 之前版本的历史遗留字段。 Cache-Control: no-cache和  Pragma: no-cache含义一样。  |
+| Last-Modified          | 资源的最新修改时间，和If-Modified-Since是一对。          |
+| If-Modified-Since:date | 客户端再次发送请求时会带上响应时Last-Modified的值，服务端会根据日期去比对资源是否是旧的。    |
+| ETag                   | 它是一种可将资源以字符串形式做唯一性标识的方式。服务器会为每份资源分配对应的 ETag 值。客户端再发请求时会在If-None-Match带上ETag的值，服务器端回去比对是否一致，如果一致则响应304，不再发送响应体。                                    |
+| If-None-Match:tags     | 和Etag是一对   |
 
 ### 备注
 
@@ -48,7 +48,7 @@ If-Modified-Since: <cached last-modified date>
     [![](/images/QQ20170505-140727@2x.jpg)](https://tools.ietf.org/html/rfc2616#section-13.2.2)
     > 这个 `试探性最大使用期` 的值和文档修改日期有关，也就是响应头中的 `Last-Modified` 首部。如果 `Last-Modified` 日期距今比较久，就会算出来一个比较长的 `试探性最大使用期` 。
 
-3. 如果缓存已经没有过期，直接使用缓存，不再发出请求。如果仅仅是已缓存文档过期了并不意味着它和原始服务器上目前处于活跃状态的文档有实际的区别，这只是意味着到了要进行核对的时间了。这种情况被称为`服务器再验证`，说明缓存需要询问原始服务器文档是否发生了变化。最常见的缓存再验证首部是 If-Modified-Since 和 If-None-Match 。If-Modified-Since 与 Last-Modified 服务器响应首部配合工作，If-None-Match 与 ETag 服务器响应首部配合工作。如果服务器验证文档没被修改过，条件就为假，会向客户端返回一个小的 304 Not Modified 响应报文，为了提高有效性，不会返回文档的主体。如果文档呗修改了，服务器会在一个 200 OK 响应中返回新的内容以及相应的新 Last-Modified 和 Etag。
+3. 如果缓存没有过期，直接使用缓存，不再发出请求。如果仅仅是已缓存文档过期了并不意味着它和原始服务器上目前处于活跃状态的文档有实际的区别，这只是意味着到了要进行核对的时间了。这种情况被称为`服务器再验证`，说明缓存需要询问原始服务器文档是否发生了变化。最常见的缓存再验证首部是 If-Modified-Since 和 If-None-Match 。If-Modified-Since 与 Last-Modified 服务器响应首部配合工作，If-None-Match 与 ETag 服务器响应首部配合工作。如果服务器验证文档没被修改过，条件就为假，会向客户端返回一个小的 304 Not Modified 响应报文，为了提高有效性，不会返回文档的主体。如果文档呗修改了，服务器会在一个 200 OK 响应中返回新的内容以及相应的新 Last-Modified 和 Etag。
 
 > 正常情况下服务器都应该明确指定过期时间，如果没有提供过期时间并且提供了 Last-Modified time 浏览器就会给我们算出来一个过期时间。这个时间是隐式的，再次发出请求时浏览器回去根据这个 `试探性最大使用期` 检查文档是否过期。如果没有过期，就不会再进行 revalidated ，我们也就不会看到发出请求响应 304 的情况（304 是进行在验证的结果）。如果我们希望浏览器都回去服务器进行 revalidated，可以设置响应头 `Cache-Control: max-age=0`。
 
