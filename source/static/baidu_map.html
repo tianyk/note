@@ -14,12 +14,12 @@
 </head>
 <body>
 	<div id="allmap"></div>
-	<p>在地图上添加一个椭圆，圆的颜色为蓝色、线宽6px、透明度为1，填充颜色为白色，透明度为0.5</p>
+	<p>在地图上添加一个圆，圆的颜色为蓝色、线宽6px、透明度为1，填充颜色为白色，透明度为0.5</p>
 </body>
 </html>
 <script type="text/javascript">
 	// 百度地图API功能
-	var map = new BMap.Map("allmap");
+	var map = new BMap.Map('allmap');
 	var center = new BMap.Point(116.404, 39.915);
 	map.centerAndZoom(center, 14); // 初始化地图
   	map.enableContinuousZoom();
