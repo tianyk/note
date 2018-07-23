@@ -1,7 +1,7 @@
 ---
 title: Java并发
 date: 2018-01-08 12:51:13
-updated: 2018-06-11 17:13:44
+updated: 2018-07-24 00:21:29
 author: tyk
 tags: 
 ---
@@ -96,7 +96,7 @@ public class Loop {
 
 - 死锁
     
-    主要产生原因是要获取多把锁，不同线程加锁顺序不同。
+    根本原因是要获取多把锁，但是不同线程**加锁顺序不同**。
 
 - 饥饿
 
@@ -114,7 +114,7 @@ public class Loop {
 
 - run 
 
-    直接在当前线程内运行。可用于线程封装，比如线程池内运行线程可以直接在线程池线程中调用被传入线程的run方法。
+    直接在当前线程内运行。可用于线程封装，比如线程池内运行线程可以直接在线程池线程中调用被传入线程的`run`方法。
 
 - sleep
 
@@ -126,7 +126,7 @@ public class Loop {
 
 - join 
 
-    用于线程协调。调用t.join()当前线程会等待线程t执行完再继续执行。
+    用于线程协调。调用`t.join()`当前线程会等待线程`t`执行完再继续执行。
 
 - interrupt
 
@@ -142,7 +142,7 @@ public class Loop {
 ![](/images/thread-state.jpg)
 
 #### 线程中断
-`interrupted` 是一种协商机制，中断机制是一种协作机制，也就是说通过中断并不能直接终止另一个线程，而需要被中断的线程自己处理中断。可以理解为一种类似`kill -n`的信号。`interrupt`信号是通知线程应该中断了，具体到底中断还是继续运行，应该由被通知的线程自己处理。
+`interrupted`是一种协商机制，中断机制是一种协作机制，也就是说通过中断并不能直接终止另一个线程，而需要被中断的线程自己处理中断。可以理解为进程通信中的信号，例如`kill -n pid`。`interrupt`信号是通知线程应该中断了，具体到底中断还是继续运行，应该由被通知的线程自己处理。
 
 - public void interrupt()
 
@@ -291,6 +291,7 @@ public class SocketThread extends Thread {
         try (ReadableByteChannel channel = Channels.newChannel(socket.getInputStream())) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(1024 * 10);
 
+            // 这里会阻塞
             while (-1 != channel.read(buffer)) {
                 buffer.flip();
                 // write
@@ -314,11 +315,11 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 ```
 
 #### 内置条件队列
-这里的条件是一种状态，当达到这种状态后我们可以进行后面的操作。例如，`队列空`、`队列满`都是一种状态，当队列为空时我们不能take操作，当队列满时我们不能push操作。当遇到上述状态时，我们可以可能需要等待，等待状态变更我们能进一步执行。等待的方式有多种，我们可以`自旋`也可以`休眠`。如果等待时间过久，`自旋`会浪费大量的CPU资源。如果`休眠`我们系统将不够灵敏。如果能有一种`通知机制`，当状态变更时通知我们的线程醒来再次检查状态。
+这里的条件是一种**状态**，当达到某种状态后我们可以继续后面的操作。例如，`队列空`、`队列满`都是一种状态，当队列为空时我们不能`take`操作，当队列满时我们不能`push`操作。当遇到上述状态时，我们可以可能需要等待，等待状态变更我们能进一步执行。等待的方式有多种，我们可以`自旋`也可以`休眠`。如果等待时间过久，`自旋`会浪费大量的CPU资源。如果`休眠`我们系统将不够灵敏。如果能有一种`通知机制`，当状态变更时通知我们的线程醒来再次检查状态。
 
-Java里面wait/notify就是这种机制。当我们在一个把锁上wait时，线程将释放锁和CPU资源处于休眠状态。当在一把锁上调用notify/notifyAll时将唤醒前面等待的线程。这既避免了`自旋`过久对于CPU的浪费，也解决了`休眠`时不能立即唤醒的问题。
+Java里面wait/notify就是这种机制。当我们在一个把锁上`wait`时，线程将释放锁和CPU资源处于休眠状态。当在一把锁上调用`notify/notifyAll`时将唤醒在同一把锁上等待的线程。这既避免了`自旋`过久对于CPU的浪费，也解决了`休眠`时不能立即唤醒的问题。
 
-我们可以看做每一把锁上面都有一个队列，队列里面存放的是这把锁上的`wait`事件。当在这把锁上调用`notify`/`notifyAll`时会唤醒队列里面的线程。
+我们可以看做每一把锁上面都有一个队列，队列里面存放的是这把锁上`wait`的线程，当在这把锁上调用`notify/notifyAll`时会唤醒队列里面的线程。
 
 ``` java 
 public class Queue<T> {
@@ -342,29 +343,32 @@ public class Queue<T> {
     }
 
     private T take() throws InterruptedException {
-        return take(0);
+        return take(Long.MAX_VALUE); // 默认最大值，避免wait无意义的自动唤醒
     }
 
     private T take(long timeout) throws InterruptedException {
-        // 封闭条件队列
+        // 锁一个私有的对象用来封闭条件队列
         synchronized (list) {
             while (isEmpty()) list.wait(timeout);
 
             T t = list.remove(0);
+            // 注意：此处必须是notifyAll，因为在list这把锁上除了等待`isEmpty`条件还有等待`isFull`条件等待的线程
+            // 如果仅仅是notify将会只唤醒一个线程，我们本意是想唤醒`isFull`条件省等待的线程。如果唤醒的恰恰又是`isEmpty`条件上等待的线程，
+            // 那么将会出现虽然`isFull`条件已经满足，但是在上述条件上等待的线程将不能被唤醒。
+            // 要解决上述问题现在只有用notifyAll唤醒所有等待线程（惊群效应），让它们重新检查条件。如果符合则向下执行，如果不符合继续休眠。
+            // 要完美解决上述问题需要后面的`Condition`条件队列支持。
             list.notifyAll();
             return t;
         }
     }
 
     private void push(T t) throws InterruptedException {
-        push(t, 0);
+        push(t, Long.MAX_VALUE);
     }
 
     private void push(T t, long timeout) throws InterruptedException {
         synchronized (list) {
-            while (isFull()) {
-                list.wait(timeout);
-            }
+            while (isFull()) list.wait(timeout);
 
             list.add(t);
             list.notifyAll();
@@ -402,7 +406,7 @@ public class Queue<T> {
     }
 
     private T take() throws InterruptedException {
-        return take(0);
+        return take(Long.MAX_VALUE);
     }
 
     private T take(long timeout) throws InterruptedException {
@@ -422,7 +426,7 @@ public class Queue<T> {
     }
 
     private void push(T t) throws InterruptedException {
-        push(t, 0);
+        push(t, Long.MAX_VALUE);
     }
 
     private void push(T t, long timeout) throws InterruptedException {
@@ -494,9 +498,9 @@ public class Queue<T> {
 #### 并发容器
 - CopyOnWriteArrayList
 
-    写入时复制的思想，每次更新时都会重新copy一份新的数据。由于每次修改都会复制底层数组，当容器规模较大时将会产生较大的开销。对于容器修改尽量调用批量操作的API，减少容器数据复制操作。
+    写入时复制的思想，每次更新时都会重新copy一份新的数据。由于每次修改都会复制底层数组，当容器规模较大时将会产生较大的开销。对于容器修改尽量调用批量操作的API，减少容器数据复制操作。这种容器主要用在读多写少的场景中。
 
-    多线程可以同时对容器进行迭代，不会彼此干扰或与修改容器的线程相互干扰。写入时复制不会抛出`ConcurrentModificationException`异常，迭代的是创建迭代器时的元素，修改操作不会对迭代的数据有影响（修改后被迭代的数组和容器此时的数组已经不是同一个了）。
+    多线程可以同时对容器进行迭代，不会彼此干扰或与修改容器的线程相互干扰。写入时复制不会抛出`ConcurrentModificationException`异常，迭代的是创建迭代器时的元素，修改操作不会对迭代的数据有影响（修改后被迭代的数组和容器此时的数组已经不是同一个了，因此也不可能读到最新容器的变化）。
 
     ``` java 
     // CopyOnWriteArrayList.add 
@@ -548,9 +552,15 @@ Queue、Deque
 
 - LinkedBlockingQueue
 
+    底层有链表实现。
+
 - ArrayBlockingQueue
 
+    底层有数组实现。
+
 - DelayQueue
+
+    延迟队列，只有延迟期满时才能从中提取元素。
     
 - SynchronousQueue 
 
@@ -690,7 +700,7 @@ Queue、Deque
             int lockNumber = 3;
             // 保险库大门有三把锁
             CyclicBarrier bankVaultDoor = new CyclicBarrier(lockNumber, () -> {
-                System.out.println("大门已开");
+                System.out.println("金库已开");
             });
 
             for (int i = 0; i < lockNumber; i++) {
@@ -766,7 +776,7 @@ Queue、Deque
                 ForkJoinSum left = new ForkJoinSum(nums, low, low + (high - low) / 2);
                 ForkJoinSum right = new ForkJoinSum(nums, low + (high - low) / 2, high);
 
-                // ！！！不要两个线程都fork，不然当前线程将无任务可做。
+                // 注意：不要两个线程都fork，不然当前线程将无任务可做。
                 // invokeAll其中left会在当前线程内执行，right会fork在线程池中另一个线程中执行。
                 invokeAll(left, right);
                 return left.join() + right.join();

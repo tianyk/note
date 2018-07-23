@@ -204,14 +204,14 @@ public StringBuffer craeteStringBuffer(String s1, String s2) {
 
 #### GC roots
 
-> - 所有Java线程当前活跃的栈帧里指向GC堆里的对象的引用；换句话说，当前所有正在被调用的方法的引用类型的参数/局部变量/临时值。
-> - VM的一些静态数据结构里指向GC堆里的对象的引用，例如说HotSpot VM里的Universe里有很多这样的引用。
-> - JNI handles，包括global handles和local handles
-> - （看情况）所有当前被加载的Java类
-> - （看情况）Java类的引用类型静态变量
-> - （看情况）Java类的运行时常量池里的引用类型常量（String或Class类型）（
-> - 看情况）String常量池（StringTable）里的引用
-> 
+- 所有Java线程当前活跃的栈帧里指向GC堆里的对象的引用；换句话说，当前所有正在被调用的方法的引用类型的参数/局部变量/临时值。
+- VM的一些静态数据结构里指向GC堆里的对象的引用，例如说HotSpot VM里的Universe里有很多这样的引用。
+- JNI handles，包括global handles和local handles
+- （看情况）所有当前被加载的Java类
+- （看情况）Java类的引用类型静态变量
+- （看情况）Java类的运行时常量池里的引用类型常量（String或Class类型）
+- （看情况）String常量池（StringTable）里的引用
+
 > 作者：RednaxelaFX      
 > 链接：<https://www.zhihu.com/question/53613423/answer/135743258>
 
@@ -265,7 +265,7 @@ public StringBuffer craeteStringBuffer(String s1, String s2) {
 
 - -XX:NewRatio=4
 
-    表示设置年轻代：老年代的大小比值为1：4，这意味着年轻代占整个堆的1/5。
+    表示设置年轻代:老年代的大小比值为1:4，这意味着年轻代占整个堆的1/5。
 
 - -XX:SurvivorRatio=8
     
@@ -445,7 +445,8 @@ public StringBuffer craeteStringBuffer(String s1, String s2) {
 ### ClassLoader
 类加载采用`双亲委派模型`，`双亲委派模型`要求除了顶层的启动类加载器外，其余的类加载器都应当有自己的父类（不是继承关系，使用组合实现）加载器。`双亲委派模型`要求类加载器收到了类加载的请求要先委派给父类加载器去完成，只有当父加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。
 
-这保证了虚拟机的安全性，我们不能自定义一个类加载器去加载我们自己写的`java.lang.Object`。
+这保证了虚拟机的安全性，正是有这种机制我们才不能自定义一个类加载器去加载我们自己写的`java.lang.Object`类。
+
 1. Bootstrap ClassLoader
 
     负责加载`＜JAVA_HOME＞\lib`中的类。
