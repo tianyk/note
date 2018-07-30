@@ -54,6 +54,18 @@ tags:
 
     散列函数可以用于验证数据完整性，但仅在数据的散列与数据本身分开传输的条件下如此。否则攻击者可以同时修改数据和散列，从而轻易地避开检测。消息验证代码（message authentication code，MAC）或者使用密钥的散列（keyed-hash）是以身份验证扩展了散列函数的密码学函数。
     
+4. 分组密码模式
+分组密码模式是为了加密任意长度的数据而设计的密码学方案，是对分组密码的扩展。
+
+ECB、CBC、CFB、OFB、CTR、GCM
+
+5. 非对称加密
+非对称加密（asymmetric encryption）又称为公钥加密（public key cryptography），它是另一种方法，使用两个密钥，而不是一个；其中一个密钥是私密的，另一个是公开的。
+
+RSA（得名于三个人的姓氏首字母：Ron Rivest、Adi Shamir和Leonard Adleman）是目前最普遍部署的非对称加密算法。
+
+6. 数字签名
+
 
 
 ### 密码分类
