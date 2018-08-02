@@ -37,8 +37,7 @@ outer.bind({name: '小明'})(10);
 
 ``` javascript
 function sayName(fn) {
-    const _fn = fn.bind({ name: '小明' });
-    _fn();
+    fn.bind({ name: '小明' })();
 }
 
 sayName(function() { console.log('My name is', this.name); });
