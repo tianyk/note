@@ -1,8 +1,10 @@
 ---
-title: mysql
+title: MySQL
 date: 2016-12-28 17:50:36
 tags: 
 ---
+## MySQL
+
 ### chang常用命令
 
 1.	数据库复制
@@ -106,10 +108,13 @@ gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasen
     flush privileges;   
     ```
 
+    > 权限列表：select、delete、update、create、drop、all privileges 
+
     ```
     # 安全检查，主要包括密码检查、匿名用户、test库、root远程登录
     mysql_secure_installation
     ```
+
 
 > MySQL编译安装常用编译选项    
 -DCMAKE_INSTALL_PREFIX=/usr/local/mysql　　　　　　　　　　　　[MySQL安装的根目录]    
