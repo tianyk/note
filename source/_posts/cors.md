@@ -1,11 +1,19 @@
 ---
 title: 跨域资源共享 CORS
 date: 2017-03-03 10:27:33
+updated: 2018-08-10 11:39:35
 tags: 
 - cors
 - ajax
 ---
+## CORS
 
+Cross-Origin Resource Sharing（CORS）是HTTP在协议层对处理跨域问题给出的方案。在所有现代浏览器中都可以使用CORS来处理跨域，对于不支持的浏览器可以降级使用JSONP方案代替。
+
+{% iframe https://caniuse.com/cors/embed/description&links 100% 350px %}
+
+### 配置
+<https://enable-cors.org/index.html>
 
 ### 携带Cookie
 
@@ -26,4 +34,4 @@ function callOtherDomain(){
 ```
 
 ### 参考
-[【1】](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
+- [HTTP访问控制（CORS）](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
