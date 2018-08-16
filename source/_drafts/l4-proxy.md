@@ -34,8 +34,7 @@ $ vim haproxy
 # description: Customized service
 set -e
 
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/home/ha/haproxy/sbin
-PROGDIR=/usr/local
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin
 PROGNAME=haproxy
 DAEMON=/usr/local/sbin/haproxy
 CONFIG=/etc/haproxy.cfg
@@ -107,9 +106,10 @@ frontend http-in # 入口 前端服务 http-in
     default_backend speed  # 请求转发至名为"speed"的后端服务
 
 backend speed # 后端服务 speed
-    # backend speed 中只有一个后端服务，名字叫server1，起在本机的8000端口，HAProxy同时最多向这个服务发起32个连接
+    # backend speed 中只有两个后端服务，名字叫 server10、server11，起在本机的 9099 端口，HAProxy 同时最多向这个服务发起32个连接
     # check 心跳检测 每1000ms检测一次 两次成功视为节点UP，三次失败视为节点DOWN
-    server server1 127.0.0.1:9099 maxconn 32 check inter 1000ms rise 2 fall 3 
+    server server10 10.0.1.10:9099 maxconn 32 check inter 1000ms rise 2 fall 3 
+    server server11 10.0.1.11:9099 maxconn 32 check inter 1000ms rise 2 fall 3 
 ```
 
 ### LVS
