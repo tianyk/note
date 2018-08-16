@@ -21,54 +21,96 @@ $ make install
 > TARGET 表示内核，可以通过`uname -a`查看。
 
 注册服务
-```
+``` shell
 $ cd /etc/init.d
 $ touch haproxy
 $ vim haproxy
+```
+
+``` shell 
 #!/bin/bash
 
 # chkconfig: 2345 20 80
 # description: Customized service
+set -e
 
-start() {
-    echo 'This is my service, start command'
-    echo ''
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/home/ha/haproxy/sbin
+PROGDIR=/usr/local
+PROGNAME=haproxy
+DAEMON=/usr/local/sbin/haproxy
+CONFIG=/etc/haproxy.cfg
+PIDFILE=/var/run/haproxy.pid
+DESC="HAProxy daemon"
+SCRIPTNAME=/etc/init.d/haproxy
+
+# Gracefully exit if the package has been removed.
+test -x $DAEMON || exit 0
+
+start()
+{
+       echo -e "Starting $DESC: $PROGNAME\n"
+       $DAEMON -f $CONFIG
+       echo "."
 }
 
-stop() {
-    echo 'This is my service, stop command'
-    echo ''
+stop()
+{
+       echo -e "Stopping $DESC: $PROGNAME\n"
+       haproxy_pid="$(cat $PIDFILE)"
+       kill $haproxy_pid
+       echo "."
 }
 
-restart() {
-    echo 'This is my service, restart command'
-    echo ''
+restart()
+{
+       echo -e "Restarting $DESC: $PROGNAME\n"
+       $DAEMON -f $CONFIG -p $PIDFILE -sf $(cat $PIDFILE)
+       echo "."
 }
 
-status() {
-    echo 'This is my service, status command'
-    echo ''
-}
-
-case "$1" in 
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        restart
-        ;;
-    status)
-        status
-        ;;
-    *)
-        echo 'Usage: service myservice {start|status|stop|restart}'
-        ;;
+case "$1" in
+ start)
+       start
+       ;;
+ stop)
+       stop
+       ;;
+ restart)
+       restart
+       ;;
+ *)
+       echo "Usage: $SCRIPTNAME {start|stop|restart}" >&2
+       exit 1
+       ;;
 esac
+
+exit 0
 ```
 
+``` haproxy
+global # 全局属性
+    daemon  # 以daemon方式在后台运行
+    maxconn 256  # 最大同时256连接
+    pidfile /var/run/haproxy.pid  # 指定保存HAProxy进程号的文件
+
+defaults # 默认参数
+    mode http  # http模式
+    option http-keep-alive   # 使用keepAlive连接
+    option forwardfor        # 记录客户端IP在X-Forwarded-For头域中
+    option httpchk HEAD /heartbeat.html    # 定义默认的健康检查策略
+    timeout connect 5000ms  # 连接server端超时5s
+    timeout client 50000ms  # 客户端响应超时50s
+    timeout server 50000ms  # server端响应超时50s
+
+frontend http-in # 入口 前端服务 http-in 
+    bind *:8080  # 监听8080端口
+    default_backend speed  # 请求转发至名为"speed"的后端服务
+
+backend speed # 后端服务 speed
+    # backend speed 中只有一个后端服务，名字叫server1，起在本机的8000端口，HAProxy同时最多向这个服务发起32个连接
+    # check 心跳检测 每1000ms检测一次 两次成功视为节点UP，三次失败视为节点DOWN
+    server server1 127.0.0.1:9099 maxconn 32 check inter 1000ms rise 2 fall 3 
+```
 
 ### LVS
 

@@ -13,6 +13,8 @@ tags:
 
 ### 部署
 
+<https://mozilla.github.io/server-side-tls/ssl-config-generator/>
+
 #### Nginx配置
 ``` nginx
 server {
