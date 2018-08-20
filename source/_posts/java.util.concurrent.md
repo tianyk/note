@@ -1162,139 +1162,142 @@ Amdahl定律的应用场景：
 
 ### 常见异常
 
-#### java.util.ConcurrentModificationException
-对容器迭代的时候如果同时对其进行修就会抛出`ConcurrentModificationException`。这类似一种**预警机制**，它将计数器与容器变化关联。如果迭代期间计数器被修改那么`hasNext`或者`next`将抛出异常。在迭代期间迭代器可能并没有意识到容器已经修改了，这是一种权衡机制来尽量避免并发修改操作对程序的影响。
+- java.util.ConcurrentModificationException
 
-`modCount`是List的一个成员变量，表示容器修改(add/remove)次数。    
-`expectedModCount`是`Iterator`内部变量，这个值的初始值就是`modCount`的值。如果迭代过程中修改了容器，`modCount`就会改变，而此时`expectedModCount`还是`modCount`的旧值。    
+    对容器迭代的时候如果同时对其进行修就会抛出`ConcurrentModificationException`。这类似一种**预警机制**，它将计数器与容器变化关联。如果迭代期间计数器被修改那么`hasNext`或者`next`将抛出异常。在迭代期间迭代器可能并没有意识到容器已经修改了，这是一种权衡机制来尽量避免并发修改操作对程序的影响。
 
-> 不管是简单的for，还是增强for循环编译后都是Iterator迭代。
-> 直接调用`Iterator.remove`来删除元素不会出现`ConcurrentModificationException`异常，其方法内部会重新修正`modCount`和`expectedModCount`的值。
+    `modCount`是List的一个成员变量，表示容器修改(add/remove)次数。    
+    `expectedModCount`是`Iterator`内部变量，这个值的初始值就是`modCount`的值。如果迭代过程中修改了容器，`modCount`就会改变，而此时`expectedModCount`还是`modCount`的旧值。    
 
-``` java    
-public Iterator<E> iterator() {
-    return new Itr();
-}
+    > 不管是简单的for，还是增强for循环编译后都是Iterator迭代。
+    > 直接调用`Iterator.remove`来删除元素不会出现`ConcurrentModificationException`异常，其方法内部会重新修正`modCount`和`expectedModCount`的值。
 
-/**
-* An optimized version of AbstractList.Itr
-* 内部类，可以直接访问宿主类属性。用于容器迭代。
-*/
-private class Itr implements Iterator<E> {
-    int cursor;       // index of next element to return
-    int lastRet = -1; // index of last element returned; -1 if no such
-    // 保留原始的modCount值，可以看做是oldModCount
-    int expectedModCount = modCount;
-
-    public boolean hasNext() {
-        return cursor != size;
+    ``` java    
+    public Iterator<E> iterator() {
+        return new Itr();
     }
 
-    @SuppressWarnings("unchecked")
-    public E next() {
-        // 每次迭代是都检查 
-        checkForComodification();
-        
-        int i = cursor;
-        if (i >= size)
-            throw new NoSuchElementException();
-        Object[] elementData = ArrayList.this.elementData;
-        if (i >= elementData.length)
-            throw new ConcurrentModificationException();
-        cursor = i + 1;
-        return (E) elementData[lastRet = i];
-    }
+    /**
+    * An optimized version of AbstractList.Itr
+    * 内部类，可以直接访问宿主类属性。用于容器迭代。
+    */
+    private class Itr implements Iterator<E> {
+        int cursor;       // index of next element to return
+        int lastRet = -1; // index of last element returned; -1 if no such
+        // 保留原始的modCount值，可以看做是oldModCount
+        int expectedModCount = modCount;
 
-    public void remove() {
-        if (lastRet < 0)
-            throw new IllegalStateException();
-        checkForComodification();
+        public boolean hasNext() {
+            return cursor != size;
+        }
 
-        try {
-            ArrayList.this.remove(lastRet);
-            cursor = lastRet;
-            lastRet = -1;
-            // 直接调用it.remove()后不会触发ConcurrentModificationException异常
-            // 这里会重置expectedModCount的值
-            expectedModCount = modCount;
-        } catch (IndexOutOfBoundsException ex) {
-            throw new ConcurrentModificationException();
+        @SuppressWarnings("unchecked")
+        public E next() {
+            // 每次迭代是都检查 
+            checkForComodification();
+            
+            int i = cursor;
+            if (i >= size)
+                throw new NoSuchElementException();
+            Object[] elementData = ArrayList.this.elementData;
+            if (i >= elementData.length)
+                throw new ConcurrentModificationException();
+            cursor = i + 1;
+            return (E) elementData[lastRet = i];
+        }
+
+        public void remove() {
+            if (lastRet < 0)
+                throw new IllegalStateException();
+            checkForComodification();
+
+            try {
+                ArrayList.this.remove(lastRet);
+                cursor = lastRet;
+                lastRet = -1;
+                // 直接调用it.remove()后不会触发ConcurrentModificationException异常
+                // 这里会重置expectedModCount的值
+                expectedModCount = modCount;
+            } catch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public void forEachRemaining(Consumer<? super E> consumer) {
+            Objects.requireNonNull(consumer);
+            final int size = ArrayList.this.size;
+            int i = cursor;
+            if (i >= size) {
+                return;
+            }
+            final Object[] elementData = ArrayList.this.elementData;
+            if (i >= elementData.length) {
+                throw new ConcurrentModificationException();
+            }
+            while (i != size && modCount == expectedModCount) {
+                consumer.accept((E) elementData[i++]);
+            }
+            // update once at end of iteration to reduce heap write traffic
+            cursor = i;
+            lastRet = i - 1;
+            checkForComodification();
+        }
+
+        final void checkForComodification() {
+            // modCount 为宿主类属性，实时的
+            // expectedModCount 为创建迭代器时的 modCount
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException();
         }
     }
+    ```
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void forEachRemaining(Consumer<? super E> consumer) {
-        Objects.requireNonNull(consumer);
-        final int size = ArrayList.this.size;
-        int i = cursor;
-        if (i >= size) {
-            return;
-        }
-        final Object[] elementData = ArrayList.this.elementData;
-        if (i >= elementData.length) {
-            throw new ConcurrentModificationException();
-        }
-        while (i != size && modCount == expectedModCount) {
-            consumer.accept((E) elementData[i++]);
-        }
-        // update once at end of iteration to reduce heap write traffic
-        cursor = i;
-        lastRet = i - 1;
-        checkForComodification();
+    ``` java 
+    // 如果这里没有即时抛出`ConcurrentModificationException`异常，
+    // 因为我们在循环开始前已经取过size值，那么后面肯定会因为删除元素抛出`ArrayIndexOutOfBoundsException`异常。
+    // 这种机制被称为及时失败（fail-fast），及早发现问题抛出问题避免无意义的操作，因为最终迭代过程可能出现异常。
+    for (int i = 0; i < strs.size(); i++) {
+        if ("pill".equals(strs.get(i))) strs.remove(strs.get(i));
     }
+    ```
+    解决方法使用`CopyOnWriteArrayList`替代`ArrayList`。
 
-    final void checkForComodification() {
-        // modCount 为宿主类属性，实时的
-        // expectedModCount 为创建迭代器时的 modCount
-        if (modCount != expectedModCount)
-            throw new ConcurrentModificationException();
-    }
-}
-```
+- java.lang.UnsupportedOperationException
 
-``` java 
-// 如果这里没有即时抛出`ConcurrentModificationException`异常，
-// 因为我们在循环开始前已经取过size值，那么后面肯定会因为删除元素抛出`ArrayIndexOutOfBoundsException`异常。
-// 这种机制被称为及时失败（fail-fast），及早发现问题抛出问题避免无意义的操作，因为最终迭代过程可能出现异常。
-for (int i = 0; i < strs.size(); i++) {
-    if ("pill".equals(strs.get(i))) strs.remove(strs.get(i));
-}
-```
-解决方法使用`CopyOnWriteArrayList`替代`ArrayList`。
+    容器逸出时，为了避免容器被修改可以使用`Collections.unmodifiable(Map|List)`等静态方法包装容器来保护原始容器不被修改。
 
-#### java.lang.UnsupportedOperationException
-容器逸出时，为了避免容器被修改可以使用`Collections.unmodifiable(Map|List)`等静态方法包装容器来保护原始容器不被修改。
+    调用这些容器的修改操作(add/remove)时会抛出UnsupportedOperationException异常。
 
-调用这些容器的修改操作(add/remove)时会抛出UnsupportedOperationException异常。
+    另外：`Arrays.asList`方法返回的是一个`fixed-size`list，我们调用它的修改成操作时也会抛出`UnsupportedOperationException`异常。对其重新封装`new ArrayList<>(Arrays.asList("a", "b", "c"))`后就不会出现此问题。
 
-另外：`Arrays.asList`方法返回的是一个`fixed-size`list，我们调用它的修改成操作时也会抛出`UnsupportedOperationException`异常。对其重新封装`new ArrayList<>(Arrays.asList("a", "b", "c"))`后就不会出现此问题。
+    ``` java 
+    List<String> strs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("a", "b", "c")));
+    strs.remove("b");
+    ```
 
-``` java 
-List<String> strs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("a", "b", "c")));
-strs.remove("b");
-```
+- java.lang.IllegalMonitorStateException
 
-#### java.lang.IllegalMonitorStateException
-这在我们调用对象的`wait`或者`notify/notifyAll`时会抛出，主要原因是我们没有获取被被调用对象的锁。
+    这在我们调用对象的`wait`或者`notify/notifyAll`时会抛出，主要原因是我们没有获取被被调用对象的锁。
 
-错误示例：
-``` java 
-Object lock = new Object();
-lock.wait(); 
-doSomething();
-lock.notifyAll();
-```
-
-正确示例：
-``` java 
-Object lock = new Object();
-synchronized (lock) {
-    lock.wait();
-    doSomething()
+    错误示例：
+    ``` java 
+    Object lock = new Object();
+    lock.wait(); 
+    doSomething();
     lock.notifyAll();
-}
-```
+    ```
+
+    正确示例：
+    ``` java 
+    Object lock = new Object();
+    synchronized (lock) {
+        lock.wait();
+        doSomething()
+        lock.notifyAll();
+    }
+    ```
 
 ### 参考
 - [Java并发编程实战](https://book.douban.com/subject/10484692/)
