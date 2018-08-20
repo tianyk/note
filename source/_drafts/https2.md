@@ -8,6 +8,20 @@ tags:
 ---
 ## HTTPS
 
+1. 原理
+![](/images/QQ20160825-1@2x.jpg)
+
+
+2. 加密算法
+
+    1. 非对称加密
+    2. 对称加密
+    3. 非混淆加密
+        图灵
+    4. 签名算法
+        MD4、MD5、SHA1(160) SHA(192) SHA(256) SHA(384)
+3. 
+
 ### SSL与TLS
 - SSL: Secure Sockets Layer
 

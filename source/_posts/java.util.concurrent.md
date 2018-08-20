@@ -1,7 +1,7 @@
 ---
 title: Java并发
 date: 2018-01-08 12:51:13
-updated: 2018-07-24 00:21:29
+updated: 2018-08-20 18:36:33
 author: tyk
 tags: 
 ---
@@ -317,7 +317,7 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 #### 内置条件队列
 这里的条件是一种**状态**，当达到某种状态后我们可以继续后面的操作。例如，`队列空`、`队列满`都是一种状态，当队列为空时我们不能`take`操作，当队列满时我们不能`push`操作。当遇到上述状态时，我们可以可能需要等待，等待状态变更我们能进一步执行。等待的方式有多种，我们可以`自旋`也可以`休眠`。如果等待时间过久，`自旋`会浪费大量的CPU资源。如果`休眠`我们系统将不够灵敏。如果能有一种`通知机制`，当状态变更时通知我们的线程醒来再次检查状态。
 
-Java里面wait/notify就是这种机制。当我们在一个把锁上`wait`时，线程将释放锁和CPU资源处于休眠状态。当在一把锁上调用`notify/notifyAll`时将唤醒在同一把锁上等待的线程。这既避免了`自旋`过久对于CPU的浪费，也解决了`休眠`时不能立即唤醒的问题。
+Java里面wait/notify就是这种机制。当我们在一个把锁上`wait`时，线程将**释放锁**并且CPU资源处于休眠状态。当在一把锁上调用`notify/notifyAll`时将唤醒在同一把锁上等待的线程。这既避免了`自旋`过久对于CPU的浪费，也解决了`休眠`时不能立即唤醒的问题。
 
 我们可以看做每一把锁上面都有一个队列，队列里面存放的是这把锁上`wait`的线程，当在这把锁上调用`notify/notifyAll`时会唤醒队列里面的线程。
 
@@ -956,8 +956,9 @@ Queue、Deque
     ```
 
 #### 原子变量
+在`java.util.concurrent.atomic`包中提供了大量原子变量类，原子类底层采用CAS（Compare-and-Swap）方式。CAS在竞争失败时会再试而基于锁保护的操作在获取锁失败时线程将会被挂起，在竞争不激烈环境下失败重试能避免线程挂起而获得不错的性能，在竞争激烈时CAS操作会频繁失败重试。
 
-CAS 伪类
+CAS：
 ``` java 
 /**
  * CAS 的典型使用模式是：首先从 V 中读取值 A ，并根据 A 计算新值 B ，
@@ -1161,7 +1162,7 @@ Amdahl定律的应用场景：
 
 ### 常见异常
 
-#### ConcurrentModificationException
+#### java.util.ConcurrentModificationException
 对容器迭代的时候如果同时对其进行修就会抛出`ConcurrentModificationException`。这类似一种**预警机制**，它将计数器与容器变化关联。如果迭代期间计数器被修改那么`hasNext`或者`next`将抛出异常。在迭代期间迭代器可能并没有意识到容器已经修改了，这是一种权衡机制来尽量避免并发修改操作对程序的影响。
 
 `modCount`是List的一个成员变量，表示容器修改(add/remove)次数。    
@@ -1262,7 +1263,7 @@ for (int i = 0; i < strs.size(); i++) {
 ```
 解决方法使用`CopyOnWriteArrayList`替代`ArrayList`。
 
-#### UnsupportedOperationException
+#### java.lang.UnsupportedOperationException
 容器逸出时，为了避免容器被修改可以使用`Collections.unmodifiable(Map|List)`等静态方法包装容器来保护原始容器不被修改。
 
 调用这些容器的修改操作(add/remove)时会抛出UnsupportedOperationException异常。
@@ -1272,6 +1273,27 @@ for (int i = 0; i < strs.size(); i++) {
 ``` java 
 List<String> strs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("a", "b", "c")));
 strs.remove("b");
+```
+
+#### java.lang.IllegalMonitorStateException
+这在我们调用对象的`wait`或者`notify/notifyAll`时会抛出，主要原因是我们没有获取被被调用对象的锁。
+
+错误示例：
+``` java 
+Object lock = new Object();
+lock.wait(); 
+doSomething();
+lock.notifyAll();
+```
+
+正确示例：
+``` java 
+Object lock = new Object();
+synchronized (lock) {
+    lock.wait();
+    doSomething()
+    lock.notifyAll();
+}
 ```
 
 ### 参考

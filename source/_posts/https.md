@@ -6,7 +6,7 @@ tags:
 - http
 - https
 ---
-## HTTPS
+## [TODO]HTTPS
 
 ### 原理
 ![](/images/QQ20160825-1@2x.jpg)
@@ -14,6 +14,8 @@ tags:
 ### 部署
 
 <https://mozilla.github.io/server-side-tls/ssl-config-generator/>
+<https://cipherli.st/>
+<https://weakdh.org/sysadmin.html>
 
 #### Nginx配置
 ``` nginx
