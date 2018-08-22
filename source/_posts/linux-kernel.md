@@ -10,6 +10,8 @@ tags: kernel
 ### 查看内核及发行版
 1. `uname -a`：查看Linux内核版本
 2. `cat /etc/issue`：查看发行版
+3. `cat /proc/version` 
+
 
 ### 升级CentOS6内核
 1. 导入public key
@@ -43,11 +45,28 @@ tags: kernel
 4. 安装完成，需要修改grub
 
     > 根据安装好以后的内核位置，修改 default 的值，一般是修改为0，因为 default 从 0 开始，一般新安装的内核在第一个位置，所以设置default=0。
+
+    - RHEL-7, SL-7 or CentOS-7：
+    ```
+    vim /etc/default/grub
+
+    # 重新编译内核启动文件
+    grub2-mkconfig -o /boot/grub2/grub.cfg
+    ```
+
+    -  RHEL-6, SL-6 or CentOS-6：
     ```
     vim /etc/grub.conf
     ```
 
-5. 重启服务器
+5. 删除旧内核
+
+    ```
+    rpm -qa | grep kernel
+    yum autoremove kernel-2.6.32-696.el6.x86_64
+    ```
+
+6. 重启服务器
 
     ```
     reboot 
@@ -56,3 +75,4 @@ tags: kernel
 ### 参考
 - [CentOS6.X 升级内核Kernel](https://blog.csdn.net/wh211212/article/details/78683753)
 - [ELRepo.org](http://elrepo.org/tiki/tiki-index.php)
+- [升级Centos 7/6内核版本到4.12.4的方法](https://www.centos.bz/2017/08/upgrade-centos-7-6-kernel-to-4-12-4/)
