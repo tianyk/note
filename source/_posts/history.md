@@ -7,6 +7,12 @@ tags:
 ---
 ## 网站变更历史
 
+### 2018-08-25
+1. include_code 标签支持从网络加载代码
+    ```
+    scripts/include_code.js
+    ```
+
 ### 2018-08-24
 1. 停用AMP
     ```

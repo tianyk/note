@@ -14,7 +14,7 @@ function getLang(filename) {
     if (match) return `lang:${match[1]}`;
 }
 
-async function includeCodeTag (args) {
+async function includeCodeTag(args) {
     if (args.length >= 1 && args.length <= 3 && args[args.length - 1].startsWith('http')) {
         const { source_dir: sourceDir, code_dir: codeDir } = hexo.config;
         let filename, lang, filepath;
