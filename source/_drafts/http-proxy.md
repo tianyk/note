@@ -86,6 +86,11 @@ function FindProxyForURL(url, host){
 }
 ```
 
+可以使用[pacparser](https://github.com/manugarg/pacparser)来测试我们的PAC文件。
+```
+brew install pacparser
+```
+
 ### 代码实现
 [GitHub](https://github.com/tianyk/http-proxy)
 ``` javascript
