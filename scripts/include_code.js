@@ -43,7 +43,7 @@ async function includeCodeTag(args) {
         await download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename, headers: { 'user-agent': userAgent } });
         args = [filename, lang, `autogeneration${SEP}${filename}`].filter(arg => !!arg);
     }
-    console.log(args)
+    
     return includeCode(args);
 }
 
