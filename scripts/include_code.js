@@ -5,6 +5,7 @@ const path = require('path');
 const SEP = path.sep;
 
 const langREG = /\/([a-zA-Z]+)$/;
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36';
 
 function getLang(filename) {
     const mimeType = mime.lookup(filename);
@@ -39,7 +40,7 @@ async function includeCodeTag(args) {
             filepath = args[2];
         }
 
-        await download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename });
+        await download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename, headers: { 'user-agent': userAgent } });
         args = [filename, lang, `autogeneration${SEP}${filename}`].filter(arg => !!arg);
     }
     console.log(args)
