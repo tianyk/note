@@ -166,66 +166,7 @@ $ curl http://css.kekek.cc
         - 发送端的时间戳（Timestamp Value field，TSval，4字节）
         - 时间戳回显应答（Timestamp Echo Reply field，TSecr，4字节）
 
-    ``` javascript
-    function parseTCPOptions(options) {
-        let _readerIndex = 0;
-        let mss, wscale, sackOK, sack, tsVal, tsEcr;
-
-        while(_readerIndex < options.length) {
-            let kid = options.readUInt8(_readerIndex);
-            _readerIndex++;
-            // console.log('kid: %d, _readerIndex: %d', kid, _readerIndex);
-            
-            if (kid === 0) {
-                // 结束
-                return;
-            } else if (kid === 1) {
-                // 无操作
-                continue;
-            } else if (kid === 2) {
-                // MSS
-                _readerIndex++; // skip length 值固定是4（包含类型和长度字段）
-
-                mss = options.readUInt16BE(_readerIndex);
-                _readerIndex += 2;
-            } else if (kid === 3) {
-                // 窗口扩大因子
-                _readerIndex++; // skip length 值固定是3
-
-                wscale = options.readUInt8(_readerIndex);
-                _readerIndex ++;
-            } else if (kid === 4) {
-                // 允许SACK
-                _readerIndex++; // skip length 值固定是2
-
-                sackOK = true;
-            } else if (kid === 5) {
-                let len = options.readUInt8(_readerIndex);
-                _readerIndex++;
-
-                _readerIndex += (len -2); // skip 
-            } else if (kid === 8) {
-                _readerIndex++; // skip length 值固定为10
-                tsVal = options.readUInt32BE(_readerIndex);
-                _readerIndex += 4;
-                tsEcr = options.readUInt32BE(_readerIndex);
-                _readerIndex += 4;
-
-            } else {
-                // unknow
-                let len = options.readUInt8(_readerIndex);
-                _readerIndex++;
-
-                // skip 
-                _readerIndex += (len - 2);
-            }
-        }
-
-        return {
-            mss, wscale, sackOK, sack, tsVal, tsEcr
-        };
-    }
-    ```
+    {% include_code parse_tcp_header_options.js %}
 
 示例：
 
@@ -262,60 +203,7 @@ $ curl http://css.kekek.cc
 
 解析TCP头部代码
 
-``` javascript
-function parseTCPHeader(header) {
-    if (header.length < 20) throw new Error('Bad Frame');
-
-    let _readerIndex = 0;
-    let sourcePort = header.readUInt16BE(_readerIndex);
-    _readerIndex += 2;
-    let destinationPort = header.readUInt16BE(_readerIndex);
-    _readerIndex += 2;
-    let sequenceNumber = header.readUInt32BE(_readerIndex);
-    _readerIndex += 4;
-    let acknowledgmentNumber = header.readUInt32BE(_readerIndex);
-    _readerIndex += 4;
-
-    let dataOffsetAndFlags = header.readUInt16BE(_readerIndex);
-    _readerIndex += 2;
-    let dataOffset = dataOffsetAndFlags >> 12;
-    let headerLength = dataOffset * 4; // 4 bytes 32 bits
-    let urg = dataOffsetAndFlags >> 5 & 0x01;
-    let ack = dataOffsetAndFlags >> 4 & 0x01;
-    let psh = dataOffsetAndFlags >> 3 & 0x01;
-    let rst = dataOffsetAndFlags >> 2 & 0x01;
-    let syn = dataOffsetAndFlags >> 1 & 0x01;
-    let fin = dataOffsetAndFlags & 0x01;
-
-    let window = header.readUInt16BE(_readerIndex);
-    _readerIndex += 2;
-    let checksum = header.readUInt16BE(_readerIndex);
-    _readerIndex += 2;
-    urgentPointer = header.readUInt16BE(_readerIndex);
-    _readerIndex += 2;
-
-    let options;
-    if (headerLength > 20) options = parseTCPOptions(header.slice(_readerIndex)); 
-
-    return {
-        sourcePort,
-        destinationPort,
-        sequenceNumber,
-        acknowledgmentNumber,
-        dataOffset,
-        urg,
-        ack,
-        psh,
-        rst,
-        syn,
-        fin,
-        window,
-        checksum,
-        urgentPointer,
-        options
-    }
-}
-```
+{% include_code parse_tcp_header.js %}
 
 ### 参考
 - [TRANSMISSION CONTROL PROTOCOL](https://tools.ietf.org/html/rfc793#section-3.1)
