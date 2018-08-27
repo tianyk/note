@@ -7,3 +7,4 @@ public/
 .deploy*/
 source/amp-dist/
 source/downloads/code/autogeneration/
+ib_logfile*

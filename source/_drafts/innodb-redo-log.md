@@ -171,6 +171,8 @@ InonoDB redo log block format
 
 `first_rec_group`表示`log block`中第一个日志所在的偏移量，若该值和`data_len`相同则表示当前`log block`中不含有新的日志。这个值主要是为了处理一个块中包含两条日志的情况，当上一个事物日志大于496字节时就会出现占用多个块的情况。
 
+{% include_code parse_redo_log.js %}
+
 ### 组提交
 
 ### 参考
