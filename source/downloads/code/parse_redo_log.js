@@ -103,4 +103,3 @@ function parseRedoLog(redoLog) {
 
 const redoLog = require('fs').readFileSync('./ib_logfile0');
 parseRedoLog(redoLog);
-// console.log(redoLog.length)

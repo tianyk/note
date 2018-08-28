@@ -32,6 +32,20 @@ InnoDB是事物的存储引擎，其通过`force log at commit`机制实现事�
 重做日志记录的是对于每个页的修改，它事务进行中不断地被写入。
 
 ### 物理日志
+InnoDB存储引擎中重做日志由以下几个概念组成:
+
+- 重做日志缓存（redo log buffer）；
+- 重做日志组（redo log group）；
+- 每个重做日志组包含多个重做日志文件（redo log file）；
+- 归档重做日志文件。
+
+![](/images/redo-log-physical.png)
+
+重做日志先存放在log buffer中（有`innodb_log_buffer_size`参数设置）的log block中，它的大小与日志文件中log block大小一样同为512KB。InnoDB在在运行过程中根据一定的规则将内存中的log block刷新到磁盘，规则如下：
+
+- 事务提交时
+- 写入检查点值时
+- 当log buffer中有已使用空间超过某个阈值时（75%）
 
 ### LSN
 
@@ -88,6 +102,7 @@ InnoDB存储引擎中的检查点：
 
 redo log 的生命周期：
 ![](/images/checkpoint-lsn.png)
+
 1. 创建阶段 (log sequence number, LSN1)：事务创建一条日志，当前系统 LSN 最大值，新的事务日志 LSN 将在此基础上生成，也就是 LSN1+新日志的大小；
 
 2. 日志刷盘 (log flushed up to, LSN2)：当前已经写入日志文件做持久化的 LSN；
@@ -161,6 +176,10 @@ redo log 的生命周期：
 {% include_code parse_redo_log.js %}
 
 ### 组提交
+一个事务提交时都需要进行一次fsync操作，以确保事务所需的重做日志都已经持久化保存在磁盘上。然而磁盘fsync的性能有限，为了提高数据库提交时的性能，数据库允许将一组事务进行提交，这称之为组提交（group commit）。
+
+### Mini transaction
+
 
 
 ### 配置参数
@@ -170,6 +189,8 @@ redo log 的生命周期：
     - 0：事务提交时并不强制一定要写入到重做日志，这个操作仅在master thread中进行完成，每1秒做一次fsync操作。数据库宕机时，可能会发生最后一秒内事务丢失的情况。
     - 2：事务提交时将重做日志写入到重做日志文件，但仅写入到文件系统的缓存中，不进行fsync操作。数据库宕机宕机时不会丢失数据，操作系统宕机时会丢失未从文件系统缓存刷新到重做日志文件那部分的数据。
 
+    ![](/images/innodb_flush_log_at_trx_commit.png)
+    
 - innodb_log_group_home_dir
 
     重做日志存放目录，默认为数据目录。文件名前缀为`ib_logfile`
@@ -205,3 +226,4 @@ redo log 的生命周期：
 - [InnoDB Checkpoint](https://jin-yang.github.io/post/mysql-innodb-checkpoint.html)
 - [MySQL · 源码分析 · Innodb 引擎Redo日志存储格式简介](http://mysql.taobao.org/monthly/2017/09/07/)
 - [Format of redo log](https://dev.mysql.com/doc/dev/mysql-server/8.0.11/PAGE_INNODB_REDO_LOG_FORMAT.html)
+- [MySQL · 引擎特性 · InnoDB redo log漫游](http://mysql.taobao.org/monthly/2015/05/01/)
