@@ -96,39 +96,6 @@ redo log 的生命周期：
 
 4. 写CKP (last checkpoint at, LSN4)：当前已经写入 Checkpoint 的 LSN，也就是上次的写入；
 
-### 配置参数
-- innodb_flush_log_at_trx_commit 
-
-    - 1：默认值，表示事务提交时必须将该事务的所有日志写入到磁盘。
-    - 0：事务提交时并不强制一定要写入到重做日志，这个操作仅在master thread中进行完成，每1秒做一次fsync操作。数据库宕机时，可能会发生最后一秒内事务丢失的情况。
-    - 2：事务提交时将重做日志写入到重做日志文件，但仅写入到文件系统的缓存中，不进行fsync操作。数据库宕机宕机时不会丢失数据，操作系统宕机时会丢失未从文件系统缓存刷新到重做日志文件那部分的数据。
-
-- innodb_log_group_home_dir
-
-    重做日志存放目录，默认为数据目录。文件名前缀为`ib_logfile`
-
-- innodb_log_buffer_size
-
-    重做日志缓存，默认1MB。
-
-- innodb_log_files_in_group
-
-    日志每组数量，默认是2。还有一个参是`innodb_mirrored_log_groups`用来指定重做日志镜像的数量，用来提高重做日志的可用性，默认是1，表示不启用镜像功能。实际上也不允许设置除了1以外的值，因为现实中我们可能其它手段（RAID）来保证数据库的可用性。
-
-- innodb_log_file_size
-
-    单个日志大小，默认是5M。
-
-- innodb_log_archive 
-
-    用来设置是否开启归档日志功能。因为重做日志是循环使用的，为了避免覆盖而可能丢失，可以开启此功能。`innodb_log_arch_dir`用来设置归档日志的春芳目录，默认和重做日志目录相同，文件前缀为`ib_arch_log_`。
-
-- innodb_fast_shutdown
-
-    - 0：表示在innodb关闭的时候，需要purge all, merge insert buffer,flush dirty pages。这是最慢的一种关闭方式，但是restart的时候也是最快的。后面将介绍purge all,merge insert buffer,flush dirty pages这三者的含义。
-    - 1：表示在innodb关闭的时候，它不需要purge all，merge insert buffer，只需要flush dirty page。
-    - 2：表示在innodb关闭的时候，它不需要purge all，merge insert buffer，也不进行flush dirty page，只将log buffer里面的日志flush到log files。因此等下次启动的时候它是最耗时的。
-
 ### 重做日志块
 在InnoDB存储引擎中，重做日志都是以512字节进行存储的。若一个页中产生的重做日志数量大于512字节，那么需要分割为多个重做日志快进行存储。一个重做日志文件中保存的不全是重做日志块，每个重做日志文件的前2048 bytes保存的是头信息。
 
@@ -194,6 +161,40 @@ redo log 的生命周期：
 {% include_code parse_redo_log.js %}
 
 ### 组提交
+
+
+### 配置参数
+- innodb_flush_log_at_trx_commit 
+
+    - 1：默认值，表示事务提交时必须将该事务的所有日志写入到磁盘。
+    - 0：事务提交时并不强制一定要写入到重做日志，这个操作仅在master thread中进行完成，每1秒做一次fsync操作。数据库宕机时，可能会发生最后一秒内事务丢失的情况。
+    - 2：事务提交时将重做日志写入到重做日志文件，但仅写入到文件系统的缓存中，不进行fsync操作。数据库宕机宕机时不会丢失数据，操作系统宕机时会丢失未从文件系统缓存刷新到重做日志文件那部分的数据。
+
+- innodb_log_group_home_dir
+
+    重做日志存放目录，默认为数据目录。文件名前缀为`ib_logfile`
+
+- innodb_log_buffer_size
+
+    重做日志缓存，默认1MB。
+
+- innodb_log_files_in_group
+
+    日志每组数量，默认是2。还有一个参是`innodb_mirrored_log_groups`用来指定重做日志镜像的数量，用来提高重做日志的可用性，默认是1，表示不启用镜像功能。实际上也不允许设置除了1以外的值，因为现实中我们可能其它手段（RAID）来保证数据库的可用性。
+
+- innodb_log_file_size
+
+    单个日志大小，默认是5M。
+
+- innodb_log_archive 
+
+    用来设置是否开启归档日志功能。因为重做日志是循环使用的，为了避免覆盖而可能丢失，可以开启此功能。`innodb_log_arch_dir`用来设置归档日志的春芳目录，默认和重做日志目录相同，文件前缀为`ib_arch_log_`。
+
+- innodb_fast_shutdown
+
+    - 0：表示在innodb关闭的时候，需要purge all, merge insert buffer,flush dirty pages。这是最慢的一种关闭方式，但是restart的时候也是最快的。后面将介绍purge all,merge insert buffer,flush dirty pages这三者的含义。
+    - 1：表示在innodb关闭的时候，它不需要purge all，merge insert buffer，只需要flush dirty page。
+    - 2：表示在innodb关闭的时候，它不需要purge all，merge insert buffer，也不进行flush dirty page，只将log buffer里面的日志flush到log files。因此等下次启动的时候它是最耗时的。
 
 ### 参考
 - [MySQL内核：InnoDB存储引擎 卷1](https://book.douban.com/subject/25872763/)
