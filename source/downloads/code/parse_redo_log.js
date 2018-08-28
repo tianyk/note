@@ -1,7 +1,9 @@
+// 读取64位无符号整数
 function readUInt64BE(buf, offset = 0) {
     return parseInt(buf.slice(offset, offset + 8).toString('hex'), 16);
 }
 
+// 解析 redo log header
 function parseLogFileHeader(header) {
     let _readerIndex = 0;
     const groupId = header.readUInt32BE();
@@ -11,6 +13,7 @@ function parseLogFileHeader(header) {
     return { groupId, startLSN };
 }
 
+// 解析 checkpoint
 function parseCheckpoint(checkpoint) {
     let _readerIndex = 0;
     const no = readUInt64BE(checkpoint, _readerIndex);
@@ -39,7 +42,8 @@ function parseCheckpoint(checkpoint) {
     return { no, lsn, offset, bufferSize, archivedLSN, checksum1, checksum2 };
 }
 
-function parseRedoLogHeader(header) {
+// 解析redo log file header
+function parseRedoLogFileHeader(header) {
     let _readerIndex = 0;
     let logFileHeader = header.slice(_readerIndex, 512);
     _readerIndex += 512;
@@ -58,6 +62,7 @@ function parseRedoLogHeader(header) {
     return { logFileHeader, checkpoint1, checkpoint2 };
 }
 
+// 解析 redo log block
 function parseRedoLogBlock(block) {
     let _readerIndex = 0;
 
@@ -72,7 +77,6 @@ function parseRedoLogBlock(block) {
     const checkpointNo = block.readUInt32BE(_readerIndex);
     _readerIndex += 4;
 
-    // console.log(block.slice(_readerIndex, _readerIndex + 496).toString('hex'))
     _readerIndex += 496; // skip data
 
     const checksum = block.readUInt32BE(_readerIndex);
@@ -85,7 +89,7 @@ function parseRedoLog(redoLog) {
     let _readerIndex = 0;
     let header = redoLog.slice(_readerIndex, _readerIndex + 2048);
     _readerIndex += 2048; // 2kb
-    header = parseRedoLogHeader(header);
+    header = parseRedoLogFileHeader(header);
     console.log(header);
 
     let block;
