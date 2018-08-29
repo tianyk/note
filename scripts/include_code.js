@@ -2,7 +2,10 @@ const includeCode = require('hexo/lib/plugins/tag/include_code')(hexo);
 const download = require('download');
 const mime = require('mime-types');
 const path = require('path');
+const ms = require('ms');
 const SEP = path.sep;
+
+const DOWNLOAD_TIMEOUT = '20s';
 
 const langREG = /\/([a-zA-Z]+)$/;
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36';
@@ -13,6 +16,14 @@ function getLang(filename) {
 
     const match = mimeType.match(langREG);
     if (match) return `lang:${match[1]}`;
+}
+
+function timeout(timeout) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error(`Timeout [${timeout}]`));
+        }, ms(timeout));
+    });
 }
 
 async function includeCodeTag(args) {
@@ -40,10 +51,10 @@ async function includeCodeTag(args) {
             filepath = args[2];
         }
 
-        await download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename, headers: { 'user-agent': userAgent } });
+        await Promise.race([timeout(DOWNLOAD_TIMEOUT), download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename, headers: { 'user-agent': userAgent } })]);
         args = [filename, lang, `autogeneration${SEP}${filename}`].filter(arg => !!arg);
     }
-    
+
     return includeCode(args);
 }
 
