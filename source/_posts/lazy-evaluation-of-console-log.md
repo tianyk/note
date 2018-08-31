@@ -22,5 +22,5 @@ user.name = 'Lee';
 
 为了避免上述问题在打印对象时可以将对象序列化：
 ``` javascript 
-console.log(JSON.stringify(user));
+console.log(JSON.stringify(user, null, 2)); // 格式化
 ```
