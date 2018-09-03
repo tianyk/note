@@ -496,6 +496,55 @@
         }
     }
 
+    function getTimeline(start, end) {
+        var padStart = String.prototype.padStart;
+        var tdoa = end - start;
+        var hour = padStart.call(Math.trunc(tdoa / (60 * 60 * 1000)), 2, '0');
+        var minute = padStart.call(Math.trunc((tdoa - hour * 60 * 60 * 1000) / (60 * 1000)), 2, '0');
+        var secoud = padStart.call(Math.trunc((tdoa - hour * 60 * 60 * 1000 - minute * 60 * 1000) / 1000), 2, '0');
+        var millisecond = padStart.call(tdoa - hour * 60 * 60 * 1000 - minute * 60 * 1000 - secoud * 1000, 3, '0');
+
+        return `${hour}:${minute}:${secoud}.${millisecond}`;
+    }
+
+    function toSecond(time) {
+        return new Date(`1970-01-01T${time}Z`).getTime() / 1000;
+    }
+
+    /**
+     * 播放歌词
+     * 
+     * @param  { 
+     *              lyrics, 歌词，格式为二维数组。e.g. [ ['00:00:00.40', '周杰伦 - 等你下课 (with 杨瑞代)'], ['00:00:03.94', '词：周杰伦'], ['00:00:05.21', '曲：周杰伦'] ]
+     *              seek  = '00:00:00', 开始时间
+     *              print = (lyric) => console.log(lyric), 歌词回调
+     *              interval = 50 刷新检测间隔 ms
+     *          }
+     * @returns
+     */
+    function play({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric), done = () => console.log('done'), interval = 50 }) {
+        seek = toSecond(seek);
+        lyrics = lyrics.map(lyric => [toSecond(lyric[0]), lyric[1]]).sort((lyric1, lyric2) => lyric1[0] - lyric2[0]).filter(lyric => lyric[0] >= seek);
+
+        // setInterval和setTimeout在浏览器窗口非激活的状态下会停止工作或者以极慢的速度工作
+        // 可以使用 Web Worker 解决或者 requestAnimationFrame 解决[更新：经过测试窗口处于非激活状态下 requestAnimationFrame 也会停止工作]
+        // [RAF replacements for setTimeout and setInterval](https://bl.ocks.org/joyrexus/7304146)
+        // @see https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
+        const timer = setInterval(() => {
+            if (lyrics.length === 0) {
+                done();
+                return clearInterval(timer);
+            }
+
+            // seek 之前的全部显示 
+            while (lyrics.length > 0 && lyrics[0][0] <= seek) print(lyrics.shift()[1]);
+
+            seek += (interval / 1000);
+        }, interval);
+
+        return timer;
+    }
+
 
     var recorder = {
         clone: function (source) {
@@ -511,30 +560,48 @@
         },
 
         install: function (Vue, options) {
+            var start = Date.now();
             var $DATA;
+            var state = 'RECORDER';
 
             Vue.clone = this.clone;
             Vue.log = this.log;
             Vue.diff = this.diff;
             Vue.applyChange = applyChange;
             Vue.play = function (vm) {
+                state = 'PLAY';
                 var data = vm.$data;
                 var actions = JSON.parse(sessionStorage.getItem('recorder') || '[]');
-                sessionStorage.setItem('recorder', '[]');
+                // sessionStorage.setItem('recorder', '[]');
 
-                for (var i = 0; i < actions.length; i++) {
-                    (function (action) {
-                        setTimeout(() => {
-                            while (action.length > 0) {
-                                var diff = action.pop();
-                                applyChange(data, diff);
-                            }
-                        }, 200 * i)
-                    })(actions[i]);
-                }
+                // console.log(actions)
+                play({
+                    lyrics: actions, 
+                    print: function (action) {
+                        while (action.length > 0) {
+                            var diff = action.pop();
+                            applyChange(data, diff);
+                        }
+                    },
+                    done: function () {
+                        state = 'RECORDER';
+                    }
+                }); 
+
+                // for (var i = 0; i < actions.length; i++) {
+                //     (function (action) {
+                //         setTimeout(() => {
+                //             while (action.length > 0) {
+                //                 var diff = action.pop();
+                //                 applyChange(data, diff);
+                //             }
+                //         }, 200 * i)
+                //     })(actions[i]);
+                // }
             }
 
             Vue.cleanRecorder = function (vm) {
+                start = new Date();
                 sessionStorage.setItem('recorder', '[]');
             }
 
@@ -547,6 +614,7 @@
                     $DATA = Vue.clone(this.$data);
                 },
                 updated: function () {
+                    if (state !== 'RECORDER') return;
                     this.$nextTick(function () {
                         var oldData = $DATA;
                         var newData = Vue.clone(this.$data);
@@ -555,8 +623,9 @@
                         var differences = Vue.diff(oldData, newData);
                         if (!differences) return;
 
+                        var timeline = getTimeline(start, new Date());
                         var actions = JSON.parse(sessionStorage.getItem('recorder') || '[]');
-                        actions.push(differences);
+                        actions.push([timeline, differences]);
                         sessionStorage.setItem('recorder', JSON.stringify(actions));
                         // Vue.log(differences);
                     })
