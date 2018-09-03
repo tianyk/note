@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .area {
+            position: relative;
+            background-color: antiquewhite;
+            width: 200px;
+            height: 100px;
+        }
+
+        .area .location {
+            position: absolute;
+            background-color: aliceblue;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <form>
+
+            <div>
+                <label for="username">
+                    姓名：
+                    <input type="text" id="username" v-model="user.username">
+                </label>
+            </div>
+
+            <div>
+                <label for="mobile">
+                    电话：
+                    <input type="text" id="username" v-model="user.mobile">
+                </label>
+            </div>
+
+            <div>
+                <label for="age">
+                    年龄：
+                    <input type="text" id="username" v-model="user.age">
+                </label>
+            </div>
+
+            <div>
+                性别：
+                <label for="gender-male">
+                    <input type="radio" id="gender-male" name="gender" value="male" v-model="user.gender"> 男
+                </label>
+                <label for="gender-female">
+                    <input type="radio" id="gender-female" name="gender" value="female" v-model="user.gender"> 女
+                </label>
+            </div>
+
+            <div>
+                <label for="address">
+                    地址：
+                    <textarea id="address" v-model="user.address"></textarea>
+                </label>
+            </div>
+
+            <div class="area">
+                <div class="location" @mousedown="dragStart(location, $event)" :style="{ top: location.top + 'px', left: location.left + 'px'  }">
+
+                </div>
+
+            </div>
+
+            <button type="button" @click="play()">回放</button>
+            <button type="button" @click="cleanRecorder()">重新录制</button>
+        </form>
+    </div>
+    <script src="https://lib.baomitu.com/vue/2.5.17/vue.js"></script>
+    <script src="./recorder.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                user: {},
+                location: {
+                    top: 0,
+                    left: 0,
+                    clientX: 0,
+                    clientY: 0
+                }
+            },
+            methods: {
+                reset: function () {
+                    Vue.set(this, 'user', {});
+                    Vue.set(this, 'location', {
+                        top: 0,
+                        left: 0,
+                        clientX: 0,
+                        clientY: 0
+                    })
+                },
+                play: function () {
+                    this.reset();
+                    Vue.play(this);
+                },
+                cleanRecorder: function () {
+                    this.reset();
+                    Vue.cleanRecorder();
+                },
+
+                // ------
+
+                dragStart: function (location, event) {
+                    location.draggable = true;
+                    location.clientX = event.clientX;
+                    location.clientY = event.clientY;
+
+                    document.onmousemove = function (event) {
+                        if (location.draggable) {
+                            var offsetX = event.clientX - location.clientX;
+                            var offsetY = event.clientY - location.clientY;
+                            location.left += offsetX;
+                            location.top += offsetY;
+
+                            location.clientX = event.clientX;
+                            location.clientY = event.clientY;
+                        }
+                    }
+
+                    document.onmouseup = function () {
+                        location.draggable = false;
+
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                    }
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>
