@@ -496,13 +496,20 @@
         }
     }
 
-    function getTimeline(start, end) {
-        var padStart = String.prototype.padStart;
-        var tdoa = end - start;
-        var hour = padStart.call(Math.trunc(tdoa / (60 * 60 * 1000)), 2, '0');
-        var minute = padStart.call(Math.trunc((tdoa - hour * 60 * 60 * 1000) / (60 * 1000)), 2, '0');
-        var secoud = padStart.call(Math.trunc((tdoa - hour * 60 * 60 * 1000 - minute * 60 * 1000) / 1000), 2, '0');
-        var millisecond = padStart.call(tdoa - hour * 60 * 60 * 1000 - minute * 60 * 1000 - secoud * 1000, 3, '0');
+    function getTimeline(start, end = new Date()) {
+        const padStart = String.prototype.padStart;
+        let tdoa = end - start;
+
+        const millisecond = padStart.call(tdoa % 1000, 3, '0');
+        tdoa = Math.trunc(tdoa / 1000);
+
+        const secoud = padStart.call(tdoa % 60, 2, '0');
+        tdoa = Math.trunc(tdoa / 60);
+
+        const minute = padStart.call(tdoa % 60, 2, '0');
+        tdoa = Math.trunc(tdoa / 60);
+
+        const hour = padStart.call(tdoa % 60, 2, '0');
 
         return `${hour}:${minute}:${secoud}.${millisecond}`;
     }
@@ -532,8 +539,9 @@
         // @see https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
         const timer = setInterval(() => {
             if (lyrics.length === 0) {
+                clearInterval(timer);
                 done();
-                return clearInterval(timer);
+                return;
             }
 
             // seek 之前的全部显示 
@@ -545,96 +553,241 @@
         return timer;
     }
 
-
-    var recorder = {
-        clone: function (source) {
-            return JSON.parse(JSON.stringify(source));
-        },
-
-        log: function (val) {
-            console.log(JSON.stringify(val, null, 2));
-        },
-
-        diff: function (lhs, rhs) {
-            return accumulateDiff(lhs, rhs);
-        },
-
-        install: function (Vue, options) {
-            var start = Date.now();
-            var $DATA;
-            var state = 'RECORDER';
-
-            Vue.clone = this.clone;
-            Vue.log = this.log;
-            Vue.diff = this.diff;
-            Vue.applyChange = applyChange;
-            Vue.play = function (vm) {
-                state = 'PLAY';
-                var data = vm.$data;
-                var actions = JSON.parse(sessionStorage.getItem('recorder') || '[]');
-                // sessionStorage.setItem('recorder', '[]');
-
-                // console.log(actions)
-                play({
-                    lyrics: actions, 
-                    print: function (action) {
-                        while (action.length > 0) {
-                            var diff = action.pop();
-                            applyChange(data, diff);
-                        }
-                    },
-                    done: function () {
-                        state = 'RECORDER';
-                    }
-                }); 
-
-                // for (var i = 0; i < actions.length; i++) {
-                //     (function (action) {
-                //         setTimeout(() => {
-                //             while (action.length > 0) {
-                //                 var diff = action.pop();
-                //                 applyChange(data, diff);
-                //             }
-                //         }, 200 * i)
-                //     })(actions[i]);
-                // }
-            }
-
-            Vue.cleanRecorder = function (vm) {
-                start = new Date();
-                sessionStorage.setItem('recorder', '[]');
-            }
-
-            Vue.prototype.$clone = this.clone;
-            Vue.prototype.$log = this.log;
-            Vue.prototype.$diff = this.diff;
-
-            Vue.mixin({
-                created: function () {
-                    $DATA = Vue.clone(this.$data);
-                },
-                updated: function () {
-                    if (state !== 'RECORDER') return;
-                    this.$nextTick(function () {
-                        var oldData = $DATA;
-                        var newData = Vue.clone(this.$data);
-                        $DATA = newData;
-
-                        var differences = Vue.diff(oldData, newData);
-                        if (!differences) return;
-
-                        var timeline = getTimeline(start, new Date());
-                        var actions = JSON.parse(sessionStorage.getItem('recorder') || '[]');
-                        actions.push([timeline, differences]);
-                        sessionStorage.setItem('recorder', JSON.stringify(actions));
-                        // Vue.log(differences);
-                    })
-                },
-            })
+    class LRCPlayer {
+        constructor({ lyrics, print = (lyric) => console.log(lyric), done = () => { }, interval = 50 }) {
+            this.lyrics = lyrics;
+            this.print = print;
+            this.done = done;
+            this.interval = interval;
+            this.seek = 0;
+            this._timer = null;
+            this.state = 'INIT';
         }
-    };
+    
+        // 播放（支持seek）
+        play(seek = '00:00:00') {
+            if (this.state === 'PLAY') return;
 
-    Vue.use(recorder);
+            if (this.state !== 'PAUSE') {
+                this.seek = toSecond(seek);
+            }
+            this.state = 'PLAY';
+    
+            const lyrics = this.lyrics.map(lyric => [toSecond(lyric[0]), lyric[1]]).sort((lyric1, lyric2) => lyric1[0] - lyric2[0]).filter(lyric => lyric[0] >= this.seek);
+            this._timer = setInterval(() => {
+                if (lyrics.length === 0) {
+                    clearInterval(this._timer);
+                    this.done();
+                    return;
+                }
+    
+                // seek 之前的全部显示
+                while (lyrics.length > 0 && lyrics[0][0] <= this.seek) this.print(lyrics.shift()[1]);
+                
+                this.seek += (this.interval / 1000);
+            }, this.interval);
+        }
+    
+        // 暂停
+        pause() {
+            if (this.state === 'PAUSE') return;
+            this.state = 'PAUSE';
+            clearInterval(this._timer);
+        }
+    
+        // 继续播放
+        resume() {
+            if (this.state === 'PAUSE') this.play();
+        }
+    
+        // 重新开始
+        reset() {
+            this.pause();
+            this.state = 'INIT';
+            this.play();
+        }
+    }
+
+    function clone(source) {
+        return JSON.parse(JSON.stringify(source));
+    }
+
+    function log(val) {
+        console.log(JSON.stringify(val, null, 2));
+    }
+
+    function diff(lhs, rhs) {
+        return accumulateDiff(lhs, rhs);
+    }
+
+    class Storage {
+        constructor(storage) {
+            this.storage = storage;
+        }
+
+        get(key, defaultValue = null) {
+            const val = this.storage.getItem(key);
+            return val || defaultValue;
+        }
+
+        getObject(key, defaultValue = null) {
+            const val = this.get(key);
+            if (!val) return defaultValue;
+
+            try {
+                return JSON.parse(val);
+            } catch (err) {
+                throw new Error(`JSON_TO_OBJECT_ERROR: \r\n[${val}]`);
+            }
+        }
+
+        set(key, val) {
+            val = JSON.stringify(val);
+            return this.storage.setItem(key, val);
+        }
+
+        del(key) {
+            this.storage.removeItem(key);
+        }
+
+        lpush(key, ...values) {
+            let list = this.getObject(key, []);
+            list = list.concat(values);
+            this.set(key, list);
+        }
+
+        llen(key) {
+            const list = this.getObject(key, []);
+            return list.length;
+        }
+
+        lpop(key) {
+            const list = this.getObject(key, []);
+
+            const val = list.pop();
+            this.set(key, list);
+
+            return val;
+        }
+
+        lpushx(key, val) {
+            const list = this.getObject(key, []);
+            list.splice(0, 0, val);
+            this.set(list);
+        }
+    }
+
+    function install(Vue, options = { ns: 'RECORDER:', key: Date.now() }) {
+        // 存储
+        const _storage = new Storage(window.sessionStorage);
+        // diff存储key名字
+        const _key = `${options.ns}${options.key}`;
+
+        let _start, // 录制开始时间
+            _$originData, // 初始化数据
+            _originData, // 录制开始前原始数据
+            _data, // 旧的 vm.$data，用于比对diff变化
+            _state = 'STOP', // 状态
+            _player; // 播放器
+
+        Vue.clone = clone;
+        Vue.log = log;
+        Vue.diff = diff;
+        Vue.applyChange = applyChange;
+
+        Vue.reset = function (vm) {
+            _state = 'STOP';
+
+            applyDiff(vm.$data, _$originData);
+            _storage.del(_key);
+        }
+
+        Vue.startRecorder = function (vm) {
+            _originData = clone(vm.$data);
+            _data = Vue.clone(vm.$data);
+
+            _start = new Date();
+            _state = 'RECORDER';
+            _storage.del(_key);
+        }
+
+        Vue.stopRecorder = function (vm) {
+            _state = 'STOP';
+        }
+
+        Vue.playVCR = function (vm) {
+            if (_start === 'PLAY') return;
+
+            _state = 'PLAY';
+            if (_player && _player.state === 'PAUSE') {
+                _player.resume();
+                return;
+            }
+
+            const $data = vm.$data;
+            applyDiff($data, _originData);
+
+            const differences = _storage.getObject(_key, []);
+            if (differences.length === 0) {
+                _state = 'STOP';
+                return;
+            }
+
+            _player = new LRCPlayer({
+                lyrics: differences,
+                print: function (difference) {
+                    while (difference.length > 0) {
+                        const diff = difference.pop();
+                        applyChange($data, diff);
+                    }
+                },
+                done: function () {
+                    _state = 'STOP';
+                },
+                interval: 10
+            });
+
+            _player.play();
+        }
+
+        Vue.pauseVCR = function (vm) {
+            _state = 'PAUSE';
+            if (_player) _player.pause();
+        }
+
+        Vue.cleanRecorder = function (vm) {
+            _storage.del(_key);
+        }
+
+        Vue.prototype.$clone = this.clone;
+        Vue.prototype.$log = this.log;
+        Vue.prototype.$diff = this.diff;
+
+        Vue.mixin({
+            created: function () {
+                _$originData = Vue.clone(this.$data);
+            },
+            updated: function () {
+                if (_state !== 'RECORDER') return;
+
+                this.$nextTick(function () {
+                    const oldData = _data;
+                    const newData = Vue.clone(this.$data);
+                    _data = newData;
+
+                    const differences = Vue.diff(oldData, newData);
+                    if (!differences) return;
+
+                    // Vue.log(differences);
+
+                    const timeline = getTimeline(_start);
+                    _storage.lpush(_key, [timeline, differences]);
+                })
+            },
+        })
+    }
+
+    Vue.use({ install }, { 'ns': 'R:', key: 'vcr' });
 
 })(this);
 

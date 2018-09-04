@@ -72,8 +72,17 @@
 
             </div>
 
-            <button type="button" @click="play()">回放</button>
-            <button type="button" @click="cleanRecorder()">重新录制</button>
+            <div>
+                <button type="button" @click="recorder()">录制</button>
+                <button type="button" @click="reset()">重置</button>
+            </div>
+
+            <div>
+                <button type="button" @click="play()">回放</button>
+                <button type="button" @click="pause()">暂停</button>
+            </div>
+
+            <!-- <button type="button" @click="cleanRecorder()">重新录制</button> -->
         </form>
     </div>
     <script src="https://lib.baomitu.com/vue/2.5.17/vue.js"></script>
@@ -92,18 +101,20 @@
             },
             methods: {
                 reset: function () {
-                    Vue.set(this, 'user', {});
-                    Vue.set(this, 'location', {
-                        top: 0,
-                        left: 0,
-                        clientX: 0,
-                        clientY: 0
-                    })
+                    Vue.reset(this);
                 },
+
+                recorder: function () {
+                    Vue.startRecorder(this);
+                },
+
                 play: function () {
-                    this.reset();
-                    Vue.play(this);
+                    Vue.playVCR(this);
                 },
+                
+                pause: function() {
+                    Vue.pauseVCR(this);
+                }, 
                 cleanRecorder: function () {
                     this.reset();
                     Vue.cleanRecorder();
