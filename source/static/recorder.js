@@ -751,6 +751,8 @@
         }
 
         Vue.pauseVCR = function (vm) {
+            if (_state === 'PAUSE') return;
+            
             _state = 'PAUSE';
             if (_player) _player.pause();
         }
