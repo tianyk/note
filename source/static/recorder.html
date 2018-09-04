@@ -7,6 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        #app {
+            cursor: url('3-mouse.png'), auto;
+            position: relative;
+        }
+
+        #mouse {
+            z-index: 1000;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
         .area {
             position: relative;
             background-color: antiquewhite;
@@ -23,8 +35,16 @@
     </style>
 </head>
 
-<body>
+<body style="padding: 0; margin: 0">
     <div id="app">
+
+        <!-- {{mouse.clientX}} - {{mouse.clientY}} -->
+        <!-- {{mouse.movementX}} - {{mouse.movementY}}
+        {{mouse.layerX}} - {{mouse.layerY}}
+        {{mouse.offsetX}} - {{mouse.offsetY}}
+        {{mouse.pageX}} - {{mouse.offsetY}}
+        {{mouse.screenX}} - {{mouse.screenY}} -->
+        <!-- <img id="mouse" src="3-mouse.png" :style="{ top: mouse.clientY + 'px', left: mouse.clientX + 'px'  }" alt="mouse" srcset=""> -->
         <form>
 
             <div>
@@ -111,10 +131,10 @@
                 play: function () {
                     Vue.playVCR(this);
                 },
-                
-                pause: function() {
+
+                pause: function () {
                     Vue.pauseVCR(this);
-                }, 
+                },
                 cleanRecorder: function () {
                     this.reset();
                     Vue.cleanRecorder();

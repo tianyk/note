@@ -180,6 +180,7 @@ redo log 的生命周期：
 
 ### Mini transaction
 
+Mini transaction(简称mtr)是InnoDB对物理数据文件操作的最小事务单元，用于管理对Page加锁、修改、释放、以及日志提交到公共buffer等工作。一个mtr操作必须是原子的，一个事务可以包含多个mtr。每个mtr完成后需要将本地产生的日志拷贝到公共缓冲区，将修改的脏页放到flush list上。
 
 
 ### 配置参数

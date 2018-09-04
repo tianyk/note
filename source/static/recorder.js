@@ -563,7 +563,7 @@
             this._timer = null;
             this.state = 'INIT';
         }
-    
+
         // 播放（支持seek）
         play(seek = '00:00:00') {
             if (this.state === 'PLAY') return;
@@ -572,7 +572,7 @@
                 this.seek = toSecond(seek);
             }
             this.state = 'PLAY';
-    
+
             const lyrics = this.lyrics.map(lyric => [toSecond(lyric[0]), lyric[1]]).sort((lyric1, lyric2) => lyric1[0] - lyric2[0]).filter(lyric => lyric[0] >= this.seek);
             this._timer = setInterval(() => {
                 if (lyrics.length === 0) {
@@ -580,26 +580,26 @@
                     this.done();
                     return;
                 }
-    
+
                 // seek 之前的全部显示
                 while (lyrics.length > 0 && lyrics[0][0] <= this.seek) this.print(lyrics.shift()[1]);
-                
+
                 this.seek += (this.interval / 1000);
             }, this.interval);
         }
-    
+
         // 暂停
         pause() {
             if (this.state === 'PAUSE') return;
             this.state = 'PAUSE';
             clearInterval(this._timer);
         }
-    
+
         // 继续播放
         resume() {
             if (this.state === 'PAUSE') this.play();
         }
-    
+
         // 重新开始
         reset() {
             this.pause();
@@ -752,7 +752,7 @@
 
         Vue.pauseVCR = function (vm) {
             if (_state === 'PAUSE') return;
-            
+
             _state = 'PAUSE';
             if (_player) _player.pause();
         }
@@ -766,6 +766,30 @@
         Vue.prototype.$diff = this.diff;
 
         Vue.mixin({
+            data: function () {
+                return {
+                    mouse: {
+                        clientX: 0,
+                        clientY: 0
+                    }
+                }
+            },
+            mounted: function () {
+                const vm = this;
+                const $el = vm.$el;
+                $el.onmousemove = function (event) {
+                    Vue.set(vm.$data, 'mouse', { clientX: event.clientX, clientY: event.clientY })
+                    // if (location.draggable) {
+                    //     var offsetX = event.clientX - location.clientX;
+                    //     var offsetY = event.clientY - location.clientY;
+                    //     location.left += offsetX;
+                    //     location.top += offsetY;
+
+                    //     location.clientX = event.clientX;
+                    //     location.clientY = event.clientY;
+                    // }
+                }
+            },
             created: function () {
                 _$originData = Vue.clone(this.$data);
             },
@@ -780,7 +804,7 @@
                     const differences = Vue.diff(oldData, newData);
                     if (!differences) return;
 
-                    // Vue.log(differences);
+                    Vue.log(differences);
 
                     const timeline = getTimeline(_start);
                     _storage.lpush(_key, [timeline, differences]);
