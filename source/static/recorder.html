@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Recoder</title>
     <style>
-        #app {
-            cursor: url('3-mouse.png'), auto;
+        /* #app {
+            cursor: url('mouse-pointer.png') -1 -1, default;
             position: relative;
-        }
+        } */
 
         #mouse {
+            display: none;
             z-index: 1000;
             position: absolute;
             top: 0;
@@ -38,15 +39,7 @@
 <body style="padding: 0; margin: 0">
     <div id="app">
 
-        <!-- {{mouse.clientX}} - {{mouse.clientY}} -->
-        <!-- {{mouse.movementX}} - {{mouse.movementY}}
-        {{mouse.layerX}} - {{mouse.layerY}}
-        {{mouse.offsetX}} - {{mouse.offsetY}}
-        {{mouse.pageX}} - {{mouse.offsetY}}
-        {{mouse.screenX}} - {{mouse.screenY}} -->
-        <!-- <img id="mouse" src="3-mouse.png" :style="{ top: mouse.clientY + 'px', left: mouse.clientX + 'px'  }" alt="mouse" srcset=""> -->
         <form>
-
             <div>
                 <label for="username">
                     姓名：
@@ -91,26 +84,25 @@
                 </div>
 
             </div>
-
-            <div>
-                <button type="button" @click="recorder()">录制</button>
-                <button type="button" @click="reset()">重置</button>
-            </div>
-
-            <div>
-                <button type="button" @click="play()">回放</button>
-                <button type="button" @click="pause()">暂停</button>
-            </div>
-
-            <!-- <button type="button" @click="cleanRecorder()">重新录制</button> -->
         </form>
     </div>
+
+    <div>
+        <button type="button" onclick="startRecorder()">录制</button>
+        <button type="button" onclick="stopRecorder()">结束</button>
+        <button type="button" onclick="reset()">重置</button>
+        <a href="player.html">播放</a>
+    </div>
+
     <script src="https://lib.baomitu.com/vue/2.5.17/vue.js"></script>
     <script src="./recorder.js"></script>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
+                controller: {
+                    state: 'INIT'
+                },
                 user: {},
                 location: {
                     top: 0,
@@ -120,28 +112,6 @@
                 }
             },
             methods: {
-                reset: function () {
-                    Vue.reset(this);
-                },
-
-                recorder: function () {
-                    Vue.startRecorder(this);
-                },
-
-                play: function () {
-                    Vue.playVCR(this);
-                },
-
-                pause: function () {
-                    Vue.pauseVCR(this);
-                },
-                cleanRecorder: function () {
-                    this.reset();
-                    Vue.cleanRecorder();
-                },
-
-                // ------
-
                 dragStart: function (location, event) {
                     location.draggable = true;
                     location.clientX = event.clientX;
@@ -168,6 +138,20 @@
                 },
             }
         });
+
+
+        function reset() {
+            Vue.reset(app);
+        }
+
+        function startRecorder() {
+            Vue.startRecorder(app);
+        }
+
+        function stopRecorder() {
+            Vue.stopRecorder(app);
+        }
+
     </script>
 </body>
 

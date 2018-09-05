@@ -642,7 +642,7 @@
         }
 
         set(key, val) {
-            if (typeof val === 'object') val = JSON.stringify(val);
+            val = JSON.stringify(val);
             return this.storage.setItem(key, val);
         }
 
@@ -680,115 +680,101 @@
     function install(Vue, options = { ns: 'RECORDER:', key: Date.now() }) {
         // 存储
         const _storage = new Storage(window.localStorage);
+        window._storage = _storage; // TODO 测试
 
         // 录制开始前原始数据 用于播放首帧初始化
         const _originDataKey = `${options.ns}_DATA_${options.key}`;
+        window._originDataKey = _originDataKey;
         // 存储模板 用于播放时模板构建
         const _templateKey = `${options.ns}_TEMPLATE_${options.key}`;
+        window._templateKey = _templateKey;
         // 存储动作 用于播放还原动作
         const _actionKey = `${options.ns}_ACTION_${options.key}`;
+        window._actionKey = _actionKey;
 
         let _recorderStartAt, // 录制开始时间 用于生成时间轨
             _$originData, // 初始化数据 crated时赋值
             // _originData, // 录制开始前原始数据 用于播放首帧初始化
             _prevData, // 旧的 vm.$data，用于比对diff变化
-            _state = 'STOP'; // 状态
+            _state = 'STOP',
+            _player; // 状态
 
         Vue.clone = clone;
         Vue.log = log;
         Vue.diff = diff;
         Vue.applyChange = applyChange;
 
-        Vue.reset = function (vm) {
-            _state = 'STOP';
+        Vue.playVCR = function (vm) {
+            if (_state === 'PLAY') return;
 
-            applyDiff(vm.$data, _$originData);
-            _storage.del(_actionKey);
+            _state = 'PLAY';
+            if (_player && _player.state === 'PAUSE') {
+                _player.resume();
+                return;
+            }
+
+            const $data = vm.$data;
+            applyDiff($data, _storage.getObject(_originDataKey));
+
+            const differences = _storage.getObject(_actionKey, []);
+            if (differences.length === 0) {
+                _state = 'STOP';
+                return;
+            }
+
+            _player = new LRCPlayer({
+                lyrics: differences,
+                print: function (difference) {
+                    while (difference.length > 0) {
+                        const diff = difference.pop();
+                        applyChange($data, diff);
+                    }
+                },
+                done: function () {
+                    _state = 'STOP';
+                },
+                interval: 10
+            });
+
+            _player.play();
         }
 
-        Vue.startRecorder = function (vm) {
-            if (_state === 'RECORDER') return;
-            
-            _storage.del(_actionKey);
+        Vue.pauseVCR = function (vm) {
+            if (_state === 'PAUSE') return;
 
-            // 初始化数据用于比对
-            _prevData = clone(vm.$data);
-            _storage.set(_originDataKey, _prevData); // 首帧
-
-            _recorderStartAt = new Date();
-            
-            _state = 'RECORDER';
-        }
-
-        Vue.stopRecorder = function (vm) {
-            if (_state === 'STOP') return;
-            _state = 'STOP';
-        }
-
-        Vue.cleanRecorder = function (vm) {
-            _storage.del(_actionKey);
+            _state = 'PAUSE';
+            if (_player) _player.pause();
         }
 
         Vue.prototype.$clone = this.clone;
         Vue.prototype.$log = this.log;
         Vue.prototype.$diff = this.diff;
 
-        Vue.mixin({
-            data: function () {
-                return {
-                    mouse: {
-                        clientX: 0,
-                        clientY: 0
-                    },
-                    // TODO 不能全部都放置到data上，不然clone originDate时会把不该clone的状态也包含进去
-                    // recorder
-                }
-            },
-            beforeMount: function () {
-                const vm = this;
-                const $el = vm.$el;
-                // const mouse = document.createElement('img');
-                // mouse.src="mouse-pointer.png";
-                // mouse.id = "mouse";
-                console.log($el.template)
-                // $el.appendChild(mouse);
-
-                // 此时的el还没有complate
-                _storage.set(_templateKey, $el.outerHTML);
-            },
-            mounted: function () {
-                const vm = this;
-                const $el = vm.$el;
-                // 记录鼠标移动轨迹
-                $el.onmousemove = function (event) {
-                    Vue.set(vm.$data, 'mouse', { clientX: event.clientX, clientY: event.clientY })
-                    vm.$forceUpdate();
-                }
-            },
-            created: function () {
-                _$originData = clone(this.$data);
-            },
-            updated: function () {
-                if (_state !== 'RECORDER') return;
-
-                this.$nextTick(function () {
-                    const prevData = _prevData;
-                    const nextData = clone(this.$data);
-                    _prevData = nextData;
-
-                    const differences = Vue.diff(prevData, nextData);
-                    if (!differences) return;
-
-                    // Vue.log(differences);
-
-                    const timeline = getTimeline(_recorderStartAt);
-                    _storage.lpush(_actionKey, [timeline, differences]);
-                });
-            },
-        })
     }
 
-    Vue.use({ install }, { 'ns': 'R:', key: 'vcr' });
+    Vue.component('mouse', {
+        template: `<div><img src="mouse-pointer.png" :style="[positioningStyle, style]" alt="mouse"></div>`,
+        data: function() {
+            return {
+                positioningStyle: {
+                    'z-index': 1000,
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
+                }
+            }
+        },
+        props: ['mouse'],
+        computed: {
+            style: function () {
+                return {
+                    top: `${this.mouse.clientY}px`,
+                    left: `${this.mouse.clientX}px`
+                }
+            }
+        }
+    });
 
+    Vue.use({ install }, { 'ns': 'R:', key: 'vcr' });
 })(this);
 
