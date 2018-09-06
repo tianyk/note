@@ -1,5 +1,5 @@
 ---
-title: apt.md
+title: apt
 date: 2016-07-19 11:44:50
 tags: apt
 ---
@@ -44,11 +44,7 @@ deb或者deb-src字段之后，是一段URL，之后是五个用空格隔开的�
 树莓派apt源
 
 ```
-deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ jessie main contrib non-free rpi
-deb http://mirrors.neusoft.edu.cn/raspbian/raspbian jessie main contrib non-free rpi
-deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ jessie main contrib non-free rpi
-deb http://mirrors.zju.edu.cn/raspbian/raspbian/ jessie main contrib non-free rpi
-deb http://mirrors.cqu.edu.cn/Raspbian/raspbian/ jessie main contrib non-free rpi
+deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi
 ```
 
 ### 国内的apt源
