@@ -76,6 +76,10 @@ tags: RaspberryPi
     ssh pi@host
     ```
 
+    ```
+    ssh pi@raspberrypi.local
+    ```
+
 4. 修改默认密码
 
     ```
