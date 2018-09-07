@@ -1,7 +1,7 @@
 ---
-title: SSH.md
+title: SSH
 date: 2016-07-25 10:12:21
-tags: 
+tags: ssh
 ---
 ### 常用命令
 
