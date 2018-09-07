@@ -132,7 +132,7 @@ flock命令参数：
     ```
     配置crontab：
     ```
-    30 * * * * flock -ux /var/run/rsync.lock -c 'rsync -avz src dest >/dev/null 2>&1'
+    30 * * * * flock -xn /var/run/rsync.lock -c 'rsync -avz src dest >/dev/null 2>&1'
     ```
 
 ### 参考

@@ -2,6 +2,12 @@
   "name": "keke-site",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "start": "hexo s",
+    "dev": "hexo s --draft",
+    "build": "hexo g",
+    "publish": "npm run build && rsync -aqze 'ssh' public/ www@www.kekek.cc:~/note"
+  },
   "hexo": {
     "version": "3.7.1"
   },
