@@ -5,7 +5,7 @@ const path = require('path');
 const ms = require('ms');
 const SEP = path.sep;
 
-const DOWNLOAD_TIMEOUT = '20s';
+const DOWNLOAD_TIMEOUT = '10s';
 
 const langREG = /\/([a-zA-Z]+)$/;
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36';
@@ -51,7 +51,12 @@ async function includeCodeTag(args) {
             filepath = args[2];
         }
 
-        await Promise.race([timeout(DOWNLOAD_TIMEOUT), download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename, headers: { 'user-agent': userAgent } })]);
+        try {
+            await Promise.race([timeout(DOWNLOAD_TIMEOUT), download(filepath, path.join(sourceDir, codeDir, 'autogeneration'), { filename, headers: { 'user-agent': userAgent } })]);
+        } catch(err) {
+            console.warn(`Download code fail. [${filepath}]\r\n${err.stack}`);
+            return '';
+        }
         args = [filename, lang, `autogeneration${SEP}${filename}`].filter(arg => !!arg);
     }
 
