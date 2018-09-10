@@ -11,36 +11,10 @@ tags:
 {% include_code lrc_player.js %}
 
 ### TODO 
-- 使用RAF模拟setInterval
-- 封装为对象，支持play、pause、resume、seek、reset等功能
 
-    ``` javascript 
-    class LRCPlayer {
-        constructor({ lyrics, seek = '00:00:00', print = (lyric) => console.log(lyric), interval = 50 }) {
-            // TODO
-        }
-        
-        // 播放（支持seek）
-        play(seek = '00:00:00') {
-            // TODO
-        }
-
-        // 暂停
-        pause() {
-            // TODO
-        }
-
-        // 继续播放
-        resume() {
-
-        }
-        
-        // 重新开始
-        reset() {
-            // TODO
-        }
-    }
-    ```
+- [x] 使用RAF模拟setInterval
+- [x] 封装为对象，支持play、pause、resume、seek、reset等功能
+{% include_code lrc_player_class.js %}
 
 ### 参考
 - [RAF replacements for setTimeout and setInterval](https://bl.ocks.org/joyrexus/7304146)
