@@ -1,12 +1,12 @@
 {
   "name": "keke-site",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "hexo s",
     "dev": "hexo s --draft",
     "build": "hexo g",
-    "publish": "npm run build && rsync --delete -aqze 'ssh' public/ www@kekek.cc:~/kekek.cc"
+    "publish": "npm run build && rsync --delete -aqze 'ssh -p 9022' public/ www@kekek.cc:~/kekek.cc"
   },
   "hexo": {
     "version": "3.7.1"
