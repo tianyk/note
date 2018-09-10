@@ -9,12 +9,15 @@ const stringCompare = String.prototype.localeCompare;
 const padStart = String.prototype.padStart;
 const padEnd = String.prototype.padEnd;
 
+// accesskeys 访问<https://ram.console.aliyun.com/#/user/list>申请
 const ACCESS_KEY_ID = 'YOUR_ACCESS_KEY_ID';
 const ACCESS_KEY_SECRET = 'YOUR_ACCESS_KEY_SECRET';
 
 
 /**
  * 比较字符串
+ * 
+ * String.prototype.localeCompare 算法有问题 AA > Aa 
  *
  * @param {*} str1
  * @param {*} str2
@@ -28,10 +31,10 @@ function compareString(str1, str2) {
     const str1codes = str1.split('').map(char => char.codePointAt(0));
     const str2codes = str2.split('').map(char => char.codePointAt(0));
 
-    let k = 0;
+    let k = 0, c1, c2;
     while (k < lim) {
-        const c1 = str1codes[k];
-        const c2 = str2codes[k];
+        c1 = str1codes[k];
+        c2 = str2codes[k];
 
         if (c1 !== c2) {
             return c1 - c2;
@@ -43,7 +46,10 @@ function compareString(str1, str2) {
 
 
 function sha1(str, key) {
-    return crypto.createHmac('sha1', key).update(str).digest().toString('base64');
+    return crypto.createHmac('sha1', key)
+        .update(str)
+        .digest()
+        .toString('base64');
 }
 
 
@@ -60,13 +66,16 @@ function utcDateFormat(now) {
     const hours = padStart.call(now.getUTCHours(), 2, '0');
     const minutes = padStart.call(now.getUTCMinutes(), 2, '0');
     const secounds = padStart.call(now.getUTCSeconds(), 2, '0');
+
     return `${year}-${month}-${date}T${hours}:${minutes}:${secounds}Z`;
 }
 
 
 /**
  * 字符串编码（阿里规则）
- *
+ * 
+ * 规则：<https://help.aliyun.com/document_detail/29747.html> 1.b
+ * 
  * @param {*} str
  * @returns
  */
@@ -76,10 +85,12 @@ function percentEncode(str) {
 
 
 /**
- * HTTP GET
- *
+ * HTTPs GET
+ * 
  * @param {*} { url, timeout = 5000, json = true }
- * @returns
+ * @param json 如果为true并且content-type为application/json的情况下会反序列化
+ * @returns 
+ * @throws 如果响应码为4xx或者5xx响应会作为错误抛出
  */
 async function request({ url, timeout = 5000, json = true }) {
     return new Promise((resolve, reject) => {
@@ -141,6 +152,8 @@ async function findMyIP() {
 
 /**
  * 生成公共参数
+ * 
+ * 参考：<https://help.aliyun.com/document_detail/29745.html>
  *
  * @param {*} { accessKeyId, format = 'JSON', signatureNonce = Math.random(), timestamp = utcDateFormat(new Date()) }
  * @returns
@@ -159,6 +172,8 @@ function generatePublicParams({ accessKeyId, format = 'JSON', signatureNonce = M
 
 /**
  * 签名
+ * 
+ * 规则：<https://help.aliyun.com/document_detail/29747.html>
  *
  * @param {*} { params, accesskeySecret }
  * @returns
@@ -199,8 +214,10 @@ async function callApi({ params, accessKeyId, accesskeySecret }) {
 
 
 /**
- * 查询解析
+ * 获取解析记录列表
  *
+ * 参考：<https://help.aliyun.com/document_detail/29776.html>
+ * 
  * @param {*} { domainName, rrKeyWord, pageNumber = 1, pageSize = 20, typeKeyWord = 'A', accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }
  * @returns
  */
@@ -222,9 +239,12 @@ async function describeDomainRecords({ domainName, rrKeyWord, pageNumber = 1, pa
 
 
 /**
- * 更新解析
- *
+ * 修改解析记录
+ * 
+ * 参考：<https://help.aliyun.com/document_detail/29774.html>
+ * 
  * @param {*} { recordId, rr, value, type = 'A', ttl = 600, line = 'default', accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }
+ * @param ttl 基础版最小600秒
  * @returns
  */
 async function updateDomainRecord({ recordId, rr, value, type = 'A', ttl = 600, line = 'default', accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }) {
