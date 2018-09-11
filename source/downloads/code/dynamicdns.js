@@ -1,9 +1,9 @@
 #!/root/.nvm/versions/node/v8.11.4/bin/node
 
+const url = require('url');
 const http = require('http');
 const https = require('https');
 const crypto = require('crypto');
-const querystring = require('querystring');
 
 const stringCompare = String.prototype.localeCompare;
 const padStart = String.prototype.padStart;
@@ -88,15 +88,24 @@ function percentEncode(str) {
  * HTTPs GET
  * 
  * @param {*} { url, timeout = 5000, json = true }
+ * @param query 请求参数对象
  * @param json 如果为true并且content-type为application/json的情况下会反序列化
  * @returns 
  * @throws 如果响应码为4xx或者5xx响应会作为错误抛出
  */
-async function request({ url, timeout = 5000, json = true }) {
+async function request({ url: uri, query = {}, timeout = 5000, json = true }) {
     return new Promise((resolve, reject) => {
+        // 合并query
+        const urlObject = url.parse(uri, true);
+        Object.assign(urlObject.query, query);
+        urlObject.search = null;
+        uri = url.format(urlObject);
+
+        // support HTTPs
         let req;
-        if (url.startsWith('https')) req = https.get(url);
-        else req = http.get(url);
+        if (urlObject.protocol === 'https:') req = https.get(uri);
+        else if (urlObject.protocol === 'http:') req = http.get(uri);
+        else { throw new Error(`unsupported protocol [${urlObject.protocol}]`) };
 
         req.on('response', (res) => {
             res.setEncoding('utf8');
@@ -181,12 +190,7 @@ function generatePublicParams({ accessKeyId, format = 'JSON', signatureNonce = M
 function sign({ params, accesskeySecret }) {
     const query = Object.entries(params)
         .sort((param1, param2) => compareString(param1[0], param2[0]))
-        .map(([key, val]) => {
-            return [
-                percentEncode(key),
-                percentEncode(val)
-            ];
-        })
+        .map(([key, val]) => [percentEncode(key), percentEncode(val)])
         .map(param => param.join('='))
         .join('&');
 
@@ -203,12 +207,11 @@ function sign({ params, accesskeySecret }) {
  * @returns
  */
 async function callApi({ params, accessKeyId, accesskeySecret }) {
+    // 签名
     const signStr = sign({ params, accesskeySecret });
-
     params['Signature'] = signStr;
-    const query = querystring.stringify(params);
 
-    const data = await request({ url: `https://alidns.aliyuncs.com/?${query}` });
+    const data = await request({ url: 'https://alidns.aliyuncs.com/', query: params });
     return data;
 }
 
