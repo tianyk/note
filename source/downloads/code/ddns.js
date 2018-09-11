@@ -56,16 +56,18 @@ function sha1(str, key) {
 /**
  * 获取时间字符串 YYYY-MM-DDTHH:mm:ssZ
  *
- * @param {*} now
+ * @param {*} date
  * @returns
  */
-function utcDateFormat(now) {
-    const year = now.getUTCFullYear();
-    const month = padStart.call(now.getUTCMonth() + 1, 2, '0');
-    const date = padStart.call(now.getUTCDate(), 2, '0');
-    const hours = padStart.call(now.getUTCHours(), 2, '0');
-    const minutes = padStart.call(now.getUTCMinutes(), 2, '0');
-    const secounds = padStart.call(now.getUTCSeconds(), 2, '0');
+function utcDateFormat(date) {
+    // return date.toISOString(); // YYYY-MM-DDTHH:mm:ss.sssZ include milliseconds
+    
+    const year = date.getUTCFullYear();
+    const month = padStart.call(date.getUTCMonth() + 1, 2, '0');
+    const date = padStart.call(date.getUTCDate(), 2, '0');
+    const hours = padStart.call(date.getUTCHours(), 2, '0');
+    const minutes = padStart.call(date.getUTCMinutes(), 2, '0');
+    const secounds = padStart.call(date.getUTCSeconds(), 2, '0');
 
     return `${year}-${month}-${date}T${hours}:${minutes}:${secounds}Z`;
 }
