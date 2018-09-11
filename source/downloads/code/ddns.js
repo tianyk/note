@@ -175,7 +175,7 @@ function generatePublicParams({ accessKeyId, format = 'JSON', signatureNonce = M
         'SignatureMethod': 'HMAC-SHA1',
         'SignatureNonce': signatureNonce,
         'SignatureVersion': '1.0',
-        'Timestamp': timestamp,
+        'Timestamp': timestamp
     };
 }
 

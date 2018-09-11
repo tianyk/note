@@ -26,7 +26,7 @@ tags:
 3. 比对并更新
     1. 如果不一致就将解析更新成新IP
 
-{% include_code dynamicdns.js %}
+{% include_code ddns.js %}
 
 缺陷：DNS是有缓存的，更新了新的解析后不能立即生效。这样网站会在一段时间内不可用
 
