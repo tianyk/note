@@ -9,6 +9,9 @@ tags:
 ---
 ## Linux修改时区
 > date -R 查看当前系统时区
+```
+cat /etc/timezone
+```
 
 `tzselect` 选择时区，选着完成不会生效。需要在`.profile`中加入`TZ='Asia/Shanghai'; export TZ`后生效。
 ``` shell
