@@ -59,15 +59,16 @@ function sha1(str, key) {
  * @param {*} date
  * @returns
  */
-function utcDateFormat(date) {
-    // return date.toISOString(); // YYYY-MM-DDTHH:mm:ss.sssZ include milliseconds
-    
-    const year = date.getUTCFullYear();
-    const month = padStart.call(date.getUTCMonth() + 1, 2, '0');
-    const date = padStart.call(date.getUTCDate(), 2, '0');
-    const hours = padStart.call(date.getUTCHours(), 2, '0');
-    const minutes = padStart.call(date.getUTCMinutes(), 2, '0');
-    const secounds = padStart.call(date.getUTCSeconds(), 2, '0');
+function utcDateFormat(time) {
+    // YYYY-MM-DDTHH:mm:ss.sssZ include milliseconds
+    // return time.toISOString().match(/^(\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2})/)[1] + 'Z';
+
+    const year = time.getUTCFullYear();
+    const month = padStart.call(time.getUTCMonth() + 1, 2, '0');
+    const date = padStart.call(time.getUTCDate(), 2, '0');
+    const hours = padStart.call(time.getUTCHours(), 2, '0');
+    const minutes = padStart.call(time.getUTCMinutes(), 2, '0');
+    const secounds = padStart.call(time.getUTCSeconds(), 2, '0');
 
     return `${year}-${month}-${date}T${hours}:${minutes}:${secounds}Z`;
 }
@@ -151,7 +152,7 @@ function timeout(time) {
 async function findMyIP() {
     const rawData = await Promise.race([
         request({ url: 'http://myip.ipip.net', json: false }),
-        request({ url: 'http://ipinfo.io', json: false }),
+        // request({ url: 'http://ipinfo.io', json: false }),
         request({ url: 'https://api.ipify.org', json: false })
     ]);
 
@@ -277,18 +278,34 @@ async function updateDomainRecord({ recordId, rr, value, type = 'A', ttl = 600, 
 
 // updateDomainRecord({ recordId: '3535020439014400', rr: 'www', value: '202.106.0.21' }).then(console.log).catch(console.error)
 
+// ========================================>
+
 (async () => {
     // 要更新的域名
-    const records = [
-        {
-            domainName: 'kekek.cc',
-            rrKeyWord: 'www'
-        },
-        {
-            domainName: 'kekek.cc',
-            rrKeyWord: '@'
-        }
-    ];
+    let records = [];
+    try {
+        records = require('./domains.json');
+    } catch (ignored) {
+        records = [
+            {
+                domainName: 'kekek.cc',
+                rrKeyWord: 'www'
+            },
+            {
+                domainName: 'kekek.cc',
+                rrKeyWord: '@'
+            },
+            {
+                domainName: 'kekek.cc',
+                rrKeyWord: 'git'
+            },
+            {
+                domainName: 'imkeke.xyz',
+                rrKeyWord: 'git',
+                ttl: 600
+            }
+        ];
+    }
 
     const myip = await findMyIP();
 
@@ -298,7 +315,7 @@ async function updateDomainRecord({ recordId, rr, value, type = 'A', ttl = 600, 
 
         if (recordDetail && recordDetail['Value'] !== myip) {
             console.log('[update] domainName: %s, rr: %s, before: %s, after: %s', record.domainName, record.rrKeyWord, recordDetail['Value'], myip);
-            await updateDomainRecord({ recordId: recordDetail['RecordId'], rr: record.rrKeyWord, value: myip });
+            await updateDomainRecord({ recordId: recordDetail['RecordId'], rr: record.rrKeyWord, value: myip, ttl: record.ttl });
         }
     }
 })().then(() => console.log(new Date())).catch(console.error)
