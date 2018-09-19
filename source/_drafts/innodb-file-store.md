@@ -30,6 +30,13 @@ tags:
 
 为了使得数据库系统获得更好的I/O性能，InnoDB存储引擎对于空间的申请不是每次以16KB的方式申请，而是以区的方式。一个区的大小为1MB，总共64个页。区的申请由space header（空间头部信息）进行管理。space header不是一个完整的页，其信息保存在页（0，0）中，用于区的管理和分配操作。space header一共占用112个字节。
 
+### 段
+
+
+### 表空间
+
+### 行
+
 
 ### 参考
 - [High-Altitude View](https://dev.mysql.com/doc/internals/en/innodb-page-overview.html)
