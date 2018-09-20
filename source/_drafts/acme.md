@@ -10,14 +10,14 @@ https://acme.sh
 
 curl  https://get.acme.sh | sh
 
-acme.sh --issue \
--d kekek.cc --dns \
--d www.kekek.cc --dns \
--d s.kekek.cc --dns \
--d css.kekek.cc --dns \
--d s3.kekek.cc --dns \
--d dl.kekek.cc --dns \
---force \
+acme.sh --issue --dns dns_ali \
+-d kekek.cc \
+-d www.kekek.cc \
+-d s.kekek.cc \
+-d css.kekek.cc \
+-d s3.kekek.cc \
+-d dl.kekek.cc \
+-d english.kekek.cc \
 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 
 修改DNS TXT记录
@@ -33,6 +33,7 @@ acme.sh --renew \
 -d css.kekek.cc --dns \
 -d s3.kekek.cc --dns \
 -d dl.kekek.cc --dns \
+-d english.kekek.cc --dns \
 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 
 
