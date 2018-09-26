@@ -95,6 +95,8 @@ gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasen
 
     ```
     ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!';
+    # OR
+    SET PASSWORD FOR 'bob'@'%.loc.gov' = PASSWORD('newpass');
     ```
 
     ```
