@@ -143,3 +143,5 @@ fuser -k 1080/tcp
 fkill
 
 #### pidstat
+
+#### 测试磁盘IO
