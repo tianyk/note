@@ -31,9 +31,9 @@ sudo iwlist wlan0 scan | grep ESSID
 修改为
 ```
 iface wlan0 inet static
-address 192.168.0.118
-gateway 192.168.0.1
-netmask 255.255.255.0 
+    address 192.168.0.118
+    gateway 192.168.0.1
+    netmask 255.255.255.0 
 ```
 
 注意，如果`/etc/network/interfaces`有如下提示：
