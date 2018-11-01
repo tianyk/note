@@ -1,8 +1,16 @@
 ---
 title: Docker
 date: 2016-07-26 11:45:34
+updated: 2018-11-01 16:30:42
 tags: docker
 ---
+## Docker
+
+### 安装
+官方建议内核版本最好在3.1以上（可以通过`uname -r`命令查看内核版本，通过`cat /etc/issue`查看发行版），必须是64位操作系统。
+
+<https://docs.docker.com/install/linux/docker-ce/centos/>
+
 ### 常用命令
 1. 查看docker信息
     
