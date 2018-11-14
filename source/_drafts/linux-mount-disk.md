@@ -14,7 +14,6 @@ tags:
     mkfs -t ext4 /dev/sda 
     ```
 
-
 3. mount 
     
     ```

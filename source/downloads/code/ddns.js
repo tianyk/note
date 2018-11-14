@@ -1,4 +1,4 @@
-#!/root/.nvm/versions/node/v8.11.4/bin/node
+#!/usr/bin/env node
 
 const url = require('url');
 const http = require('http');
@@ -105,10 +105,14 @@ async function request({ url: uri, query = {}, timeout = 5000, json = true }) {
         uri = url.format(urlObject);
 
         // support HTTPs
-        let req;
-        if (urlObject.protocol === 'https:') req = https.get(uri);
-        else if (urlObject.protocol === 'http:') req = http.get(uri);
+        let protocol;
+        if (urlObject.protocol === 'https:') protocol = https;
+        else if (urlObject.protocol === 'http:') protocol = http;
         else { throw new Error(`unsupported protocol [${urlObject.protocol}]`) };
+
+        const req = protocol.get(uri)
+        res.setTimeout(timeout);
+        req.on('timeout', () => req.abort());
 
         req.on('response', (res) => {
             res.setEncoding('utf8');
@@ -294,15 +298,6 @@ async function updateDomainRecord({ recordId, rr, value, type = 'A', ttl = 600, 
             {
                 domainName: 'kekek.cc',
                 rrKeyWord: '@'
-            },
-            {
-                domainName: 'kekek.cc',
-                rrKeyWord: 'git'
-            },
-            {
-                domainName: 'imkeke.xyz',
-                rrKeyWord: 'git',
-                ttl: 600
             }
         ];
     }

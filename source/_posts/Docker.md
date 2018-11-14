@@ -105,6 +105,8 @@ tags: docker
 
     ```
     docker exec [-it] [name:id] [COMMAND]
+
+    docker exec -it c5c696316553 /bin/sh
     ```
 
 14. 构建镜像
