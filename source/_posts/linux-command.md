@@ -34,6 +34,11 @@ To check more than one directory and see the total, use du -sch:
 df -h
 ```
 
+#### 查看inode使用情况
+``` shell 
+df -i
+```
+
 #### 列出文件
 ```shell 
 1. ls -p | grep -v /                                   (without hidden files)
