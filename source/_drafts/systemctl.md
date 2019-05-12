@@ -7,7 +7,7 @@ tags: systemctl
 ## Systemd
 
 ### 创建服务
-vim /lib/systemd/system/nginx.service
+vim /etc/systemd/system/nginx.service
 
 ```
 [Unit]
@@ -27,11 +27,6 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
-### 初始化时自动启动服务
-```
-ln -s /lib/systemd/system/nginx.service  /etc/systemd/system/multi-user.target.wants/nginx.service
-```
-
 ### 刷新配置
 ```
 systemctl daemon-reload
@@ -41,17 +36,17 @@ systemctl daemon-reload
 
 1. 启动redis
     ```
-    $ systemctl start redis
+    $ systemctl start nginx
     ```
 
-2. 重启redis
+2. 重启nginx
     ```
-    $ systemctl restart redis
+    $ systemctl restart nginx
     ```
 
-3. 停止redis
+3. 停止nginx
     ```
-    $ systemctl stop redis
+    $ systemctl stop nginx
     ```
 
 ### 开机启动

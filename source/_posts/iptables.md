@@ -198,7 +198,7 @@ iptables -A OUTPUT -o eth0 -p tcp -m multiport --dports 22,80,443  -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp -m multiport --sports 22,80,443  -j ACCEPT
 ```
 
-<!-- 端口转发 -->
+端口转发
 ```
 iptables -t nat -A PREROUTING -p tcp  --dport [local_port] -j DNAT --to [remote_ip]:[remote_port]
 iptables -t nat -A POSTROUTING -j MASQUERADE
