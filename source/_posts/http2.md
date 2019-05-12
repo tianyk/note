@@ -201,6 +201,9 @@ HTTP1.x一个连接只能处理一个请求，开启`keep-alive`后可以复用�
 
 > 测试时发现http/1.1下多个连接比http2的多路复用更稳定，http2测试过程中没有能加载出来100张全部图片。
 
+** HTTP1.1 vs HTTP2 **
+![](/images/http1vshttp2.jpg)
+
 ### 参考
 - [HTTP/2 资料汇总](https://imququ.com/post/http2-resource.html)
 - [nginx配置http2无效不起作用](https://www.phpsong.com/2818.html)

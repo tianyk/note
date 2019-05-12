@@ -18,6 +18,7 @@ acme.sh --issue --dns dns_ali \
 -d s3.kekek.cc \
 -d dl.kekek.cc \
 -d english.kekek.cc \
+-d pwa.kekek.cc \ 
 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 
 修改DNS TXT记录
@@ -34,6 +35,7 @@ acme.sh --renew \
 -d s3.kekek.cc --dns \
 -d dl.kekek.cc --dns \
 -d english.kekek.cc --dns \
+-d pwa.kekek.cc --dns \ 
 --yes-I-know-dns-manual-mode-enough-go-ahead-please
 
 

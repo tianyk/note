@@ -15,16 +15,25 @@ $(document).ready(function() {
   /**
    * 心点击控制
    */
-  $(".heart").on('click touchstart', function(){
-    $(this).toggleClass('is_animating');
+  $(".heart").on("click touchstart", function(){
+    $(this).toggleClass("is_animating");
+
+    // 记录点击
+    var REPORT_URL = '/report/heart?';
+    var m = ['logtime=' + (new Date()).toISOString()];
+    var url = REPORT_URL + m.join('&'); // 组装错误上报信息内容URL
+    var img = new Image;
+    img.onload = img.onerror = function () {
+      img = null;
+    }
+    img.src = url;
   });
   
   /*when the animation is over, remove the class*/
-  $(".heart").on('animationend', function(){
-    $(this).toggleClass('is_animating');
+  $(".heart").on("animationend", function(){
+    $(this).toggleClass("is_animating");
   });
   
-
   /**
    * Shows the responsive navigation menu on mobile.
    */

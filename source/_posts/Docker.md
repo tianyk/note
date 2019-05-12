@@ -1,8 +1,16 @@
 ---
 title: Docker
 date: 2016-07-26 11:45:34
+updated: 2018-11-01 16:30:42
 tags: docker
 ---
+## Docker
+
+### 安装
+官方建议内核版本最好在3.1以上（可以通过`uname -r`命令查看内核版本，通过`cat /etc/issue`查看发行版），必须是64位操作系统。
+
+<https://docs.docker.com/install/linux/docker-ce/centos/>
+
 ### 常用命令
 1. 查看docker信息
     
@@ -17,6 +25,7 @@ tags: docker
     ```
 
 3. 查看本地镜像
+
     ```
     docker images [name:tag]
     ```
@@ -37,21 +46,25 @@ tags: docker
     ```
 
 6. 重新启动容器
+
     ```
     docker start [name|id]
     ```
 
 7. 停止容器
+
     ```
     docker stop [name|id]
     ```
 
 8. 附着到容器上
+
     ```
     docker attach [name|id]
     ```
 
 9. 查看容器内进程
+
     ```
     docker top [name|id]
     ```
@@ -76,19 +89,30 @@ tags: docker
     ```
 
 11. 获取容器信息
+
     ```
     docker inspect [name:id]
     -f | --format '{{ .key1.key1 }}' 类似获取json对象值的方式来获取值
     ```
 
-12. 查看端口绑定短息
+12. 查看端口绑定信息
+
     ```
     docker port [name:id]
     ``` 
 
 13. 在容器内执行命令
+
     ```
     docker exec [-it] [name:id] [COMMAND]
+
+    docker exec -it c5c696316553 /bin/sh
+    ```
+
+14. 构建镜像
+
+    ```
+    docker build -t [name:tag] . 
     ```
 
 ### Docker镜像操作

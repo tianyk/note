@@ -1,8 +1,71 @@
 ---
 title: ESLint
 date: 2016-12-23 16:45:33
+updated: 2018-11-14 16:20:08
 tags: eslint
 ---
+## ESLint 
+以前我们都用JSLint，从ES6发布后大部分人开始使用ESLint。
+
+### 配置
+ESLint支持json、yml等格式的配置文件。配置可继承，离文件越近的的配置优先级越高。配置主要有三部分：
+
+- Environments - 指定脚本的运行环境。每种环境都有一组特定的预定义全局变量。
+- Globals - 脚本在执行期间访问的额外的全局变量。
+- Rules - 启用的规则及其各自的错误级别。
+
+一个常见的配置：
+``` yml
+env:
+  node: true
+  commonjs: true
+  es6: true
+  mocha: true
+extends: 
+  - 'eslint:recommended'
+  - 'plugin:node/recommended'
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules:
+  indent:
+    - error
+    - tab
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - always
+  no-unused-vars: 
+    - off
+```
+
+除了配置文件，在某些特殊情况下eslint还支持注释形式配置，这种优先级最高。
+``` javascript 
+for (const rule of rules) {
+	/* eslint no-empty:0 */
+}
+```
+
+我们还可以指定一个忽略文件`.eslintignore`，告诉eslint哪些文件排除校验。
+
+常见的结构：
+```
+.
+├── src
+│   └── ...
+├── test
+│   ├── .eslintrc.yml
+│   └── ...
+├── .eslintignore
+├── .eslintrc.yml
+└── ...
+```
+
 ### 规则的错误等级
 
 * "off" 或 0 - 关闭规则
@@ -10,7 +73,7 @@ tags: eslint
 * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
 
 
-### 规则说明
+### 常见的规则说明
 ```
 "no-alert": 0,//禁止使用alert confirm prompt
 "no-array-constructor": 2,//禁止使用数组构造器
@@ -187,6 +250,5 @@ tags: eslint
 "yoda": [2, "never"]//禁止尤达条件
 ```
 
-
 ### 参考
-[【1】](http://eslint.cn/docs/user-guide/configuring)  [【2】](https://my.oschina.net/daoxiaozhang/blog/658562) [【3】](http://guowenfh.github.io/2016/08/07/ESLint-Rules/) 
+- [Configuring ESLint](http://eslint.cn/docs/user-guide/configuring)

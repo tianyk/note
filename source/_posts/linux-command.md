@@ -34,6 +34,11 @@ To check more than one directory and see the total, use du -sch:
 df -h
 ```
 
+#### 查看inode使用情况
+``` shell 
+df -i
+```
+
 #### 列出文件
 ```shell 
 1. ls -p | grep -v /                                   (without hidden files)
@@ -69,10 +74,17 @@ uname -a
 ```shell
 split [-bl] file [prefix]  
 -b, --bytes=SIZE：对file进行切分，每个小文件大小为SIZE。可以指定单位b,k,m。
+-C, --line-bytes=SIZE   设置输出文件的最大行数。与 -b 类似，但会尽量维持每行的完整性
 -l, --lines=NUMBER：对file进行切分，每个文件有NUMBER行。
+-a, --suffix-length=N   使用长度为 N 的后缀 (默认 2)
+-d, --numeric-suffixes  使用数字后缀代替字母
 prefix：分割后产生的文件名前缀。
 
+# 每1000行切割成一个文件
 split -l 1000 urls.txt url_
+
+# 每100M切割成一个文件，使用数字作为后缀，后缀长度4位
+split es.tar.gz -b 100m -a 4 -d es.tar.gz_
 ```
 
 #### 读取文件N行

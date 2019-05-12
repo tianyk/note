@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>elementFromPoint example</title>
+</head>
+
+<body>
+    <button style="position:fixed; left: 100px; top: 100px;" onclick="doClick()">button</button>
+
+    <button onclick="changeColor('blue');">blue</button>
+    <button onclick="changeColor('red');">red</button>
+
+    <script>
+        // function getMousePos(event) {
+        //     var e = event || window.event;
+        //     return { 'x': e.screenX, 'y': screenY }
+        // }
+
+        // function getMousePos(event) {
+        //     var e = event || window.event;
+        //     return { 'x': e.clientX, 'y': clientY }
+        // }
+
+        function getMousePos(event) {
+            var e = event || window.event;
+            var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+            var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+            var x = e.pageX || e.clientX + scrollX;
+            var y = e.pageY || e.clientY + scrollY;
+
+            return { 'x': x, 'y': y };
+        }
+
+
+        function changeColor(newColor) {
+            elem = document.elementFromPoint(127, 113);
+            elem.style.color = newColor;
+            elem.click();
+        }
+
+        function doClick(event) {
+            console.log(arguments)
+            console.log(getMousePos())
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    #panel div {
+        height: 20px;
+        border-bottom: 1px solid #999;
+    }
+</style>
+<div id="panel"></div>
+<script>
+    //生成测试用的占位元素
+    for (var i = 0; i < 500; i++)
+        panel.appendChild(document.createElement("div"));
+        
+    //滚动时往占位元素里填充数据
+    onresize = onload = document.onscroll = function (e) {
+        var h = document.documentElement.clientHeight - 1;
+        var s = document.elementFromPoint(0, 0);
+        var e = document.elementFromPoint(0, h);
+        e = e.nextElementSibling;
+        for (; s && s != e; s = s.nextElementSibling)
+            //这里是直接填充数据，实际情况会从服务器获取数据
+            if (!s.loaded) s.innerHTML = "填充数据", s.loaded = true;
+    };
+</script> -->

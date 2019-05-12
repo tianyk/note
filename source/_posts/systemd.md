@@ -1,9 +1,11 @@
 ---
 title: Systemd
 author: tyk
-date: 2018-09-10 13:34:06
 tags: systemctl
+date: 2018-09-10 13:34:06
 ---
+
+
 ## Systemd
 
 ### 创建服务
@@ -27,6 +29,15 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
+### 初始化时自动启动服务
+```
+ln -s /lib/systemd/system/nginx.service  /etc/systemd/system/multi-user.target.wants/nginx.service
+```
+或者 
+```
+systemctl enable nginx
+```
+
 ### 刷新配置
 ```
 systemctl daemon-reload
@@ -34,7 +45,7 @@ systemctl daemon-reload
 
 ### 启动、重启、停止
 
-1. 启动redis
+1. 启动nginx
     ```
     $ systemctl start nginx
     ```

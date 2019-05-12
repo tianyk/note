@@ -219,6 +219,13 @@ major.minor.patch
 9. pretest, test, posttest：运行npm test命令时执行。
 10. prestop, stop, poststop：运行npm stop命令时执行。
 
+### 参数
+- unsafe-perm
+
+    Default: false if running as root, true otherwise
+    Type: Boolean
+    Set to true to suppress the UID/GID switching when running package scripts. If set explicitly to false, then installing as a non-root user will fail.
+
 
 ### 参考
 [【1】](http://blog.csdn.net/ligang2585116/article/details/47703291) [【2】](http://codecloud.net/12932.html) [【3】](http://www.admin10000.com/document/6736.html) [【4】](https://github.com/npm/npm#fancy-install-unix)
