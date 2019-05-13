@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <button id="play">播放</button>
+        <button id="pause">暂停</button>
+        <button id="playing">继续</button>
+        <button id="stop">停止</button>
+        <button id="record">录音</button>
+        <button id="stopRecord">停止录音</button>
+    </div>
+    <script src="./audioPlayer.js"></script>
+    <script>
+        window.onload = function () {
+            var audioPlayer = new AudioPlayer();
+            var play = document.getElementById('play');
+            var pause = document.getElementById('pause');
+            var stop = document.getElementById('stop');
+            var record = document.getElementById('record');
+            const stopRecord = document.getElementById('stopRecord');
+
+            stopRecord.addEventListener('click', function () {
+                shouldStop = true;
+            })
+
+            play.onclick = function () {
+                audioPlayer.play('http://s.itextbook.51talk.com/14/E7/9B5D77C48062C24109903166F3DE.mp3?_=' + Date.now(), function () {
+                    alert('播放完成');
+                });
+            }
+
+            pause.onclick = function () {
+                audioPlayer.pause(function () {
+                    alert('暂停播放');
+                });
+            }
+
+            playing.onclick = function () {
+                audioPlayer.play();
+            }
+
+            stop.onclick = function () {
+                audioPlayer.stop(function () {
+                    alert('停止播放');
+                });
+            }
+
+            // http://www.areweplayingyet.org/
+            // https://developers.google.com/web/fundamentals/media/recording-audio/?hl=zh-cn
+            // https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
+            // https://medium.com/jeremy-gottfrieds-tech-blog/javascript-tutorial-record-audio-and-encode-it-to-mp3-2eedcd466e78
+            record.onclick = function () {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        const mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.start();
+
+                        const audioChunks = [];
+
+                        mediaRecorder.addEventListener("dataavailable", event => {
+                            alert('dataavailable');
+                            audioChunks.push(event.data);
+                        });
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
