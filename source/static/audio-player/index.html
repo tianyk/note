@@ -27,10 +27,6 @@
             var record = document.getElementById('record');
             const stopRecord = document.getElementById('stopRecord');
 
-            stopRecord.addEventListener('click', function () {
-                shouldStop = true;
-            })
-
             play.onclick = function () {
                 audioPlayer.play('http://s.itextbook.51talk.com/14/E7/9B5D77C48062C24109903166F3DE.mp3?_=' + Date.now(), function () {
                     alert('播放完成');
@@ -58,18 +54,36 @@
             // https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
             // https://medium.com/jeremy-gottfrieds-tech-blog/javascript-tutorial-record-audio-and-encode-it-to-mp3-2eedcd466e78
             record.onclick = function () {
+                if (window.record) {
+                    window.record.stop();
+                    window.record = null;
+                }
+
                 navigator.mediaDevices.getUserMedia({ audio: true })
                     .then(stream => {
                         const mediaRecorder = new MediaRecorder(stream);
-                        mediaRecorder.start();
-
                         const audioChunks = [];
 
                         mediaRecorder.addEventListener("dataavailable", event => {
-                            alert('dataavailable');
                             audioChunks.push(event.data);
                         });
+                        mediaRecorder.addEventListener("stop", () => {
+                            const audioBlob = new Blob(audioChunks);
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audio = new Audio(audioUrl);
+                            audio.play();
+                        });
+
+                        mediaRecorder.start(100);
+
+                        window.record = mediaRecorder;
                     });
+            }
+
+            stopRecord.onclick = function () {
+                if (window.record) {
+                    window.record.stop();
+                }
             }
         }
     </script>

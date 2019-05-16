@@ -6,7 +6,7 @@
     "start": "hexo s",
     "dev": "hexo s --draft",
     "build": "hexo g",
-    "deploy": "npm run build && rsync --delete -aqze 'ssh -p 9022' public/ www@kekek.cc:~/kekek.cc"
+    "deploy": "npm run build && rsync --delete -aqze 'ssh' public/ ss:/home/www/kekek.cc"
   },
   "hexo": {
     "version": "3.7.1"
