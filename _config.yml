@@ -32,6 +32,7 @@ i18n_dir: :lang
 skip_render: 
   - '*.html'
   - static/*
+  - static/**/*
   - downloads/*
 
 # Writing

@@ -17,6 +17,9 @@
         <button id="record">录音</button>
         <button id="stopRecord">停止录音</button>
     </div>
+    <script src="//lib.baomitu.com/eruda/1.5.4/eruda.min.js"></script>
+    <script>eruda.init();</script>
+    
     <script src="./audioPlayer.js"></script>
     <script>
         window.onload = function () {
@@ -25,7 +28,7 @@
             var pause = document.getElementById('pause');
             var stop = document.getElementById('stop');
             var record = document.getElementById('record');
-            const stopRecord = document.getElementById('stopRecord');
+            var stopRecord = document.getElementById('stopRecord');
 
             play.onclick = function () {
                 audioPlayer.play('http://s.itextbook.51talk.com/14/E7/9B5D77C48062C24109903166F3DE.mp3?_=' + Date.now(), function () {
@@ -54,9 +57,9 @@
             // https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
             // https://medium.com/jeremy-gottfrieds-tech-blog/javascript-tutorial-record-audio-and-encode-it-to-mp3-2eedcd466e78
             record.onclick = function () {
-                if (window.record) {
-                    window.record.stop();
-                    window.record = null;
+                if (window.mediaRecorder) {
+                    window.mediaRecorder.stop();
+                    window.mediaRecorder = null;
                 }
 
                 navigator.mediaDevices.getUserMedia({ audio: true })
@@ -76,13 +79,13 @@
 
                         mediaRecorder.start(100);
 
-                        window.record = mediaRecorder;
+                        window.mediaRecorder = mediaRecorder;
                     });
             }
 
             stopRecord.onclick = function () {
-                if (window.record) {
-                    window.record.stop();
+                if (window.mediaRecorder) {
+                    window.mediaRecorder.stop();
                 }
             }
         }
