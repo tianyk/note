@@ -11,7 +11,7 @@ tags: debug
 代理软件，我们可以看到所有的请求响应。
 
 Map Local 
-将服务器器上的一个文件映射到本地，常用于调试线上bug。
+将服务器器上的一个文件映射到本地，常用于调试线上问题。
 ![Map Local](/images/charles-map-local.png)
 
 Rewrite
