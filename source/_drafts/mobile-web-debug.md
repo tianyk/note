@@ -15,7 +15,7 @@ Map Local
 ![Map Local](/images/charles-map-local.png)
 
 Rewrite
-可以用来重写请求、响应头等。例如我们可以添加
+可以用来重写请求、响应等。
 ![Map Local](/images/charles-write.png)
 
 ### Eruda
@@ -48,7 +48,13 @@ Rewrite
 
 ![](/images/debug-module.png)
 
-### Safari 调试
+### 使用 Safari/Chrome 调试 Webview
+
+> Webview 需要开启调试模式
+
+![](/images/safari-debug.png)
+
+[在安卓设备上使用 Chrome 远程调试功能](https://wiki.jikexueyuan.com/project/chrome-devtools/remote-debugging-on-android.html)
 
 
 ## 服务器端
