@@ -2,8 +2,12 @@
 title: 进程线程协程
 date: 2016-08-16 19:08:26
 tags: 
+    - process
+    - thread
+    - coroutine
+    - fiber
 ---
- ### 进程->线程->协程
+### 进程->线程->协程
 
 在现实世界中，基本是是按着这样的顺序演化：process-->thread-->coroutine/fiber 其实是一个 context 切换开销从大到小的演化，process 切换开销最大，需要切换地址空间，所有的 CPU 状态，所有其他资源 thread 切换只需要切换 CPU 状态，当然是大部分的 CPU 状态，而 coroutine 切换，只需要切换很少的 CPU 状态，而且全部都在用户地址空间运行，不需要到内核空间。
 
