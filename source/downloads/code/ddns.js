@@ -111,7 +111,7 @@ async function request({ url: uri, query = {}, timeout = 5000, json = true }) {
         else { throw new Error(`unsupported protocol [${urlObject.protocol}]`) };
 
         const req = protocol.get(uri)
-        res.setTimeout(timeout);
+        req.setTimeout(timeout);
         req.on('timeout', () => req.abort());
 
         req.on('response', (res) => {
