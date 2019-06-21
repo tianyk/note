@@ -7,6 +7,31 @@ tags:
 ---
 ## 网站变更历史
 
+### 2019-06-07
+1. 准备
+
+    - 新建仓库[tianyk/tianyk.github.io](https://github.com/tianyk/tianyk.github.io)
+    > GitHub支持两种方式GitHub Page：
+    > 1. 仓库名为`YOUR_NAME.github.io`，此方式访问地址为`YOUR_NAME.github.io`
+    > 2. master分支、master分支的`/docs`目录、`gh-pages`分支，这种方式访问地址为`YOUR_NAME.github.io/REPOSITORY_NAME`
+
+1. 迁移网站到GitHub Page
+
+    1. [配置](https://hexo.io/zh-cn/docs/deployment.html#Git)`git`方式部署
+
+2. 修改`CNAME`为`tianyk.github.io`
+
+    ```
+    $ dig kekek.cc A 
+
+    ;; ANSWER SECTION:
+    kekek.cc.           10      IN   CNAME    tianyk.github.io.
+    tianyk.github.io.   3600    IN   A        185.199.110.153
+    tianyk.github.io.   3600    IN   A        185.199.109.153
+    tianyk.github.io.   3600    IN   A        185.199.108.153
+    tianyk.github.io.   3600    IN   A        185.199.111.153
+    ```
+
 ### 2018-11-15
 1. ❤点击记录
 
