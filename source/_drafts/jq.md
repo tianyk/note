@@ -23,3 +23,9 @@ awk -v country=$country -v courses=$courses -F "," '{  if ($1 == country && matc
 
 awk -v os=$os -v country=$country -v courses=$courses -F "," '{  if ($1 == country && match(courses, $3) && length($3) > 2 && $2 == os) { if ($4 < 1000) items["<1s"] += 1; else if ($4 < 2000) items["<2s"] += 1; else if ($4 < 3000) items["<3s"] += 1; else if ($4 < 4000) items["<4s"] += 1; else if ($4 < 5000) items["<5s"] += 1; else items[">5s"] += 1; } } END { for (item in items) { print item, items[item]}}' load.csv
 ```
+
+```
+tail -f report.log.3 | jq '.["$country"]'
+```
+
+<https://stedolan.github.io/jq/manual/>
