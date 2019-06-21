@@ -7,5 +7,6 @@ tags:
 
 ## 网页信息采集
 
+![](/images/timing-overview.png)
 
 {% include_code amp.js %}
