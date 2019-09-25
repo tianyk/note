@@ -39,8 +39,14 @@ gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasen
     * Go to the Download MySQL Yum Repository page (http://dev.mysql.com/downloads/repo/yum/) in the MySQL Developer Zone.
 
     * Select and download the release package for your platform.
+    CentOS 6
     ``` bash
     wget https://repo.mysql.com/mysql57-community-release-el6-11.noarch.rpm
+    ```
+
+    CentOS 7 
+    ``` bash 
+    wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
     ```
 
     * Install the downloaded release package with the following command
