@@ -127,7 +127,7 @@ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-
 
 ### 操作硬件平台
 
-![操作硬件平台](images/WX20200214-095055@2x.png)
+![操作硬件平台](/images/WX20200214-095055@2x.png)
 
 ### 参考
 

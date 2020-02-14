@@ -6,8 +6,9 @@
     "start": "hexo s",
     "dev": "hexo s --draft",
     "build": "hexo g",
-    "deploy": "npm run build && rsync --delete -aqze 'ssh' public/ ss:/home/www/kekek.cc",
-    "deploy:github": "hexo deploy -g"
+    "deploy:scp": "npm run build && rsync --delete -aqze 'ssh' public/ ss:/home/www/kekek.cc",
+    "deploy:github": "hexo deploy -g",
+    "deploy": "npm run deploy:github"
   },
   "hexo": {
     "version": "3.8.0"
