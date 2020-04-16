@@ -125,6 +125,12 @@ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-
 
 3、之后运行 yum makecache 生成缓存
 
+### 操作硬件平台
+
+![操作硬件平台](/images/WX20200214-095055@2x.png)
+
 ### 参考
 
-[【1】](http://linux.vbird.org/linux_basic/0520rpm_and_srpm.php#yumclient)[【2】](http://man.linuxde.net/yum)
+- [【1】](http://linux.vbird.org/linux_basic/0520rpm_and_srpm.php#yumclient)
+- [【2】](http://man.linuxde.net/yum)
+- [软件安装： RPM, SRPM 与 YUM 功能](http://cn.linux.vbird.org/linux_basic/0520rpm_and_srpm.php)

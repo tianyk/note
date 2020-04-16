@@ -5,7 +5,7 @@ tags:
 - gcc
 - linux 
 ---
-1. 下载gcc最新的源码包 `wget http://gcc.skazkaforyou.com/releases/gcc-4.9.4/gcc-4.9.4.tar.gz`    
+1. 下载gcc最新的源码包 `wget https://ftp.gnu.org/gnu/gcc/gcc-4.9.4/gcc-4.9.4.tar.gz`    
 
 2. 解压缩 `tar -zxvf gcc-4.9.4.tar.gz`    
 
