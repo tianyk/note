@@ -38,7 +38,7 @@
 			})(i);
 
 			const _onload = once(load);
-			const audio = new Audio('music.mp3?_=' + i);
+			const audio = new Audio('music.mp3?_=' + i + '&t=' + Date.now());
 			audio.preload = 'auto';
 
 			audio.addEventListener('error', (err) => console.error(err));
