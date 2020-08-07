@@ -1,9 +1,11 @@
 ---
-title: babel
+title: Babel Webpack
 author: tyk
 date: 2020-02-21 10:53:27
 tags:
 ---
+
+##  Babel Webpack
 
 ### @babel/preset-env
 
@@ -37,10 +39,10 @@ tags:
 	Object.assign(foo, bar);
 
 	const map = new Map();
-
 	```
 
 	- usage:（推荐）会按需引入 `polyfill`
+	
 		```js
 		"use strict";
 		require("core-js/modules/es.array.iterator");
@@ -60,7 +62,6 @@ tags:
 		Object.assign(a, b);
 		var map = new Map();
 		```
-		
 	- entry: 会引入全部 `polyfill`
 
 		> ~~搞不清楚结果为什么和 `false` 一样，打开 `debug` 选项后会有如下提示`Import of core-js was not found.`~~
@@ -80,7 +81,6 @@ tags:
 		Object.assign(foo, bar);
 		var map = new Map();
 		```
-
 	- false: 不引入 `polyfill`
 
 		> `debug` 提示 `Using polyfills: No polyfills were added, since the *useBuiltIns* option was not set.` 
@@ -133,21 +133,21 @@ var map = new _map.default();
 
 - 配合`webpack`的 `splitChunks` 将 `polyfill` 打包到一个文件中
 
-``` json 
+``` js 
 optimization: {
 	splitChunks: {
 		// cacheGroups 指定拆分规则 默认的拆分规则如下 <https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks>
 		cacheGroups: {
 			polyfill: {
-				test: /core-js/, // 一个正则匹配那些代码适用这个规则
-				chunks: 'all' // 表示从哪些chunks里面抽取代码，除了三个可选字符串值 initial、async、all 之外，还可以通过函数来过滤所需的 chunks
+				// 一个正则匹配那些代码适用这个规则
+				test: /core-js/, 
+				// 表示从哪些chunks里面抽取代码，除了三个可选字符串值 initial、async、all 之外，还可以通过函数来过滤所需的 chunks
+				chunks: 'all' 
 			}
 		}
 	}
 }
 ```
-
-
 
 ### 参考
 
