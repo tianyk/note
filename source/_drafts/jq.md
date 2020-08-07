@@ -5,7 +5,27 @@ date: 2019-06-21 19:14:31
 tags:
 ---
 
+## JQ
 
+jq 是个非常强大的处理 JSON 数据的命令行工具。
+
+### 安装
+
+- Linux
+
+	```
+	yum install jq
+	```
+
+- macOS
+
+	```
+	brew install jq
+	```
+
+### 使用示例
+
+1. 
 ```
 jq -r 'select (.["$type"] == "page:load" and .["$$version"] == "1.0.6") | [."$country", ."$os", ."$lesson", ."$page", ."perf.load0"] | @csv' report.log.[0-9]
 ```

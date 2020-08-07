@@ -82,6 +82,7 @@ tags: docker
     -m 内存大小
     -c cpu优先级和调度周期
     -e 环境变量 e.g, -e "deep=purple"
+    --env 环境变量
     -h hostname
     -u 指定用户，默认root
     -w 工作目录，默认/
