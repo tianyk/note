@@ -1,10 +1,10 @@
 ---
-title: TypedArray
+title: 前端二进制
 author: tyk
 date: 2020-04-16 15:56:09
 tags:
 ---
-## Buffer
+## 前端的二进制
 
 ### ArrayBuffer
 
@@ -79,3 +79,4 @@ function str2ab(str) {
 ### 参考
 
 - [Base64的编码与解码](https://developer.mozilla.org/zh-CN/docs/Web/API/WindowBase64/Base64_encoding_and_decoding)
+- [聊聊JS的二进制家族：Blob、ArrayBuffer和Buffer](https://zhuanlan.zhihu.com/p/97768916)
