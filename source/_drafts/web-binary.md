@@ -6,6 +6,8 @@ tags:
 ---
 ## 前端的二进制
 
+![](/images/web-binary.jpg)
+
 ### ArrayBuffer
 
 ArrayBuffer 对象用来表示通用的、固定长度的原始二进制数据缓冲区。必须将其转换为 TypedArray 或者 DataView 才能操作。
