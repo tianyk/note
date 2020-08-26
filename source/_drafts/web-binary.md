@@ -76,6 +76,9 @@ function str2ab(str) {
 
 提供对 buffer 的操作，类似Node.js里面的 Buffer 。
 
+
+{% jsfiddle zw01gdck js,result %}
+
 ### 参考
 
 - [Base64的编码与解码](https://developer.mozilla.org/zh-CN/docs/Web/API/WindowBase64/Base64_encoding_and_decoding)
