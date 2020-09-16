@@ -1,7 +1,7 @@
 ---
 title: 跨域资源共享 CORS
 date: 2017-03-03 10:27:33
-updated: 2018-08-10 11:39:35
+updated: 2020-09-16 16:21:13
 tags: 
 - cors
 - ajax
@@ -32,6 +32,12 @@ function callOtherDomain(){
     }
 }
 ```
+
+### 注意
+
+1. preflight
+
+    对于 [复杂请求](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82) 浏览器会发起预请求，我们可以设置 `Access-Control-Max-Age` 指定了 `preflight` 请求的结果能够被缓存多久。这里需要注意的是浏览器不是根据域名来做缓存的，是根绝URL。如果URL或者Query不一样，每次都会发起 `preflight`。
 
 ### 参考
 - [HTTP访问控制（CORS）](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
