@@ -77,6 +77,11 @@ gunzip < [compressed_filename.sql.gz]  | mysql -u [user] -p[password] [databasen
     sudo yum install mysql-community-server
     ```
 
+    ```
+    # 只需要安装客户端时 
+    sudo yum install mysql-community-client
+    ```
+
 4. Starting the MySQL Server
 
     * Start the MySQL server
