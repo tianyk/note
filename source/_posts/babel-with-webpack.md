@@ -110,6 +110,32 @@ tags:
 
 ### @babel/plugin-transform-runtime
 
+``` json 
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"targets": [
+					"chrome >= 58",
+					"iOS >= 9",
+					"Android >= 5"
+				],
+				"useBuiltIns": "usage"
+			}
+		]
+	],
+	"plugins": [
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"corejs": 3
+			}
+		]
+	]
+}
+```
+
 一般情况下不需要，需要配置 `@babel/runtime`（不是**开发依赖**） 一起使用。使用了这个后能复用一些`helpers`代码，能避免污染全局。下面是打开使用这个插件后的转义代码：
 
 我们看到 `Map` 和 `Object.assign` 不在是全局的了
