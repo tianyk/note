@@ -55,6 +55,16 @@ Host api
     ```
     修改后重新加载配置
 
+2. 避免自动断开
+
+    vim /etc/ssh/sshd_config
+    ```
+    # 60s 一次心跳
+    ClientAliveInterval 60
+    # 5 次失败后自动段考
+    ClientAliveCountMax 5 
+    ```
+    修改后重新加载配置
 
 ### 常见问题
 1. 已经在`authorized_keys`加入过publicKey，但是还是要求输入密码。

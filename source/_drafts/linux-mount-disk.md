@@ -26,4 +26,7 @@ tags:
     ```
 
     mount -o remount /
+    mount /dev/vdb /data
 
+
+/dev/vdb /data ext4 defaults,noatime 0 0
