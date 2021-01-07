@@ -3,7 +3,9 @@ title: python-virtualenv
 date: 2016-11-25 15:42:15
 tags: 
 ---
+
 ### Virtualenv
+
 Virtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版本以及间接权限
 问题。Virtualenv 创建一个拥有自己安装目录的环境(沙箱), 这个环境不与其他虚拟环境共享库, 能够方便的管理python版本和管理python库。
 
@@ -28,6 +30,7 @@ virtualenv deeplearning
 ```
 
 #### 激活环境
+
 ``` shell
 # Mac & Linux
 source bin/activate[.sh|.fish|.csh]
@@ -37,6 +40,7 @@ source bin/activate[.sh|.fish|.csh]
 ```
 
 #### 退出环境
+
 ``` shell
 deactivate
 ```
@@ -45,9 +49,11 @@ deactivate
 ### 其它
 
 #### 创建虚拟环境时指定Python版本
+
 ``` shell
 virtualenv ENV3.5 --python=python3.5
 ```
+
 另外
 ``` shell
 virtualenv [OPTIONS] DEST_DIR
@@ -58,16 +64,19 @@ virtualenv [OPTIONS] DEST_DIR
 ```
 
 #### 生成可打包环境
+
 某些特殊需求下,可能没有网络, 我们期望直接打包一个ENV, 可以解压后直接使用, 这时候可以使用`virtualenv --relocatable`指令将ENV修改为可更改位置的ENV。
 ```
 virtualenv --relocatable ./
 ```
 
 #### 创建一个干净的环境
+
 加上了参数--no-site-packages，这样，已经安装到系统Python环境中的所有第三方包都不会复制过来。
 ```
 virtualenv --no-site-packages ENV
 ```
 
 ### 参考
+
 [【1】](http://www.jianshu.com/p/08c657bd34f1) [【2】](http://pythonguidecn.readthedocs.io/zh/latest/dev/virtualenvs.html)

@@ -7,6 +7,7 @@ tags: python
 ## 安装Python
 
 ### 源码安装
+
 1. 下载源码
 
     ```shell
