@@ -11,7 +11,7 @@
     "deploy": "npm run deploy:github"
   },
   "hexo": {
-    "version": "3.9.0"
+    "version": "3.8.0"
   },
   "dependencies": {
     "download": "^7.1.0",

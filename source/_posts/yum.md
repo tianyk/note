@@ -95,6 +95,16 @@ yum clean headers #清除缓存目录下的 headers
 yum clean oldheaders #清除缓存目录下旧的 headers
 ```
 
+### 仅下载
+```bash
+yum --downloadonly --downloaddir=. install  java-1.8.0-openjdk  java-1.8.0-openjdk-devel -y
+```
+
+```bash
+# 已安装时
+yum --downloadonly --downloaddir=. reinstall package_name -y
+```
+
 ### 配置源
 
 #### 配置阿里源
