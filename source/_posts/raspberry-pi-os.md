@@ -55,11 +55,11 @@ tags: RaspberryPi
     sudo dd bs=1m if=2016-05-27-raspbian-jessie.img of=/dev/rdisk2
     ```
 
-### 登陆系统
+### 登录系统
 
 1. 使用网线链接到路由器
 
-2. 登陆路由器管理界面查看树莓派IP
+2. 登录路由器管理界面查看树莓派IP
 
     或者使用nmap扫描端口 
     ```
@@ -67,7 +67,7 @@ tags: RaspberryPi
     ```
     > 10.0.1.3 为你本机IP
 
-3. SSH登陆到树莓派
+3. SSH登录到树莓派
     
     > 默认用户名为`pi`，密码为`raspberry`。    
     > 注意：新版`raspberrypi`操作系统`SSH`服务并没有开机启动！！！此时需要在在磁盘目录新建一个名为`ssh`的文件。
@@ -99,7 +99,7 @@ tags: RaspberryPi
         ```
         sudo passwd --unlock root
         ```
-    3. 允许root SSH登陆
+    3. 允许root SSH登录
     
         ```
         sudo vi /etc/ssh/sshd_config

@@ -6,7 +6,7 @@ tags: ssh
 ---
 ### 常用命令
 
-1. SSH登陆时指定私钥
+1. SSH登录时指定私钥
 ``` shell
 ssh username@ip -i ./xxx/privateKey -p prot
 ```
@@ -47,7 +47,7 @@ Host api
 ### SSH配置
 /etc/ssh/sshd_config
 
-1. 禁止密码登陆
+1. 禁止密码登录
 
     vim /etc/ssh/sshd_config
     ```

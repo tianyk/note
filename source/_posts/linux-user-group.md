@@ -22,7 +22,7 @@ halt:x:7:0:halt:/sbin:/sbin/halt
 mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
 uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin
 ```
-其中第二列密码列全部都是`x`，这是遗留问题。现在用户密码已经不在存在`/etc/passwd`文件中了，而是在`/etc/shadow`里面。最后一个`用户shell`是用户登陆后使用的shell，如果我们不想让这个用户登陆可以指定其shell为`/sbin/nologin`。
+其中第二列密码列全部都是`x`，这是遗留问题。现在用户密码已经不在存在`/etc/passwd`文件中了，而是在`/etc/shadow`里面。最后一个`用户shell`是用户登录后使用的shell，如果我们不想让这个用户登录可以指定其shell为`/sbin/nologin`。
 
 Linux中每一个用户都会至少属于一个用户组，这个用户组可以用来标识一批用户的关系。在文件权限管理中，我们可以设置组权限来实现同一个组下面的用户对文件的读写操作。同样，用户组的名字是给我们人类看的，用户组有一个ID - `GID`。用户组信息存放在`/etc/group`文件中，另外还有一个很少用的用户组密码，它存放在`/etc/gshadow`文件中。`/etc/group`存放的数据是一个四元组。
 > 群组名:群组密码:GID:群组下的用户
