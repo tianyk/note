@@ -143,7 +143,7 @@ func TestQueue_Add(t *testing.T) {
     expectedNumGoroutine := runtime.NumGoroutine()
 
     // 新起一个协程 `Pop`，由于队列此时为空。`Pop` 操作永远不会返回
-    // chanel要有缓冲区，当无接收者时。done <- ele 会阻塞，此`goroutine`将不能退出，造成 goroutine leak。
+    // chanel要有缓冲区，如果父`goroutine`提前退出，chanel无接收者时。done <- ele 会阻塞，此`goroutine`将不能退出，造成 goroutine leak。
     done := make(chan interface{}, 1)
     go func() {
         // 如果父`goroutine`此时已经退出，这时`Pop`出来的消息将丢失
