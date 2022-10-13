@@ -5,11 +5,11 @@ updated: 2018-09-10 13:51:48
 tags: RaspberryPi
 ---
 
-### 连接带WIFI
-编辑wpa_supplicant.conf 
-`sudo vi /etc/wpa_supplicant/wpa_supplicant.conf`
-在最后加入
+### 启动设置WIFI
+
+新建 `wpa_supplicant.conf`
 ```
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 network={
     ssid="路由名称"
     psk="密码"
