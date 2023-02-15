@@ -118,7 +118,7 @@ tags: docker
 
 ### Docker镜像操作
 ``` shell
-docker save doog/node:0.0.1 | gzip -c > node-001.tar.gz    # 导出镜像
+docker save doog/node:0.0.1 -1 node-001.tar.gz    # 导出镜像
 gunzip -c node-001.tar.gz | docker load                    # 导入镜像
 ```
 

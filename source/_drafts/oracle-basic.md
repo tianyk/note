@@ -5,7 +5,34 @@ date: 2022-10-13 18:42:00
 tags:
 ---
 
+
+
 ## Oracle入门
+
+
+0. Oracle数据库和Oracle实例
+
+Oracle数据库指数据文件，Oracle实例指Oracle进程，对外提供数据增删改查等服务。
+
+0. Oracle Docker
+
+    https://hub.docker.com/r/jaspeen/oracle-11g
+
+    ```
+    docker run -d --name oracle11g -p 1521:1521 -v <install_folder>:/install -v <local_dpdump>:/opt/oracle/dpdump jaspeen/oracle-11g
+
+    docker run --name=oracle11g \
+        -d \
+        --net=host \
+        --restart=always \
+        oracle11g-installed:latest
+    ```
+
+    docker run --name=ogg \
+        -d \
+        --net=host \
+        --restart=always \
+        oraclelinux:8
 
 0. database/schema/table
 
@@ -38,3 +65,117 @@ tags:
     ```
     ALTER USER user_name IDENTIFIED BY "newpass";
     ```
+
+2. 创建用户并授予角色
+
+    ```
+    create user user_name identified by admin_password;
+    grant connect,dba,resource to zhangsan;
+
+    grant sysdba to user_name;
+    ```
+
+    1. DBA:该角色具有数据库所有的权限。
+    2. CONNECT:该角色具有连接数据库的权限，和create session的权限一样。
+    3. RESOURCE:该角色是应用程序开发角色，具有如下权限
+
+3. 查询**当前**用户权限
+   
+    ```
+    SELECT * FROM user_sys_privs; 
+    ```
+
+4. 查询**当前**用户角色
+
+    ```
+    SELECT * FROM USER_ROLE_PRIVS;
+    ```
+
+5. 创建表
+
+    ```sql
+    -- 定义表
+    create table users (
+        id number(10) primary key,
+        username varchar2(100) not null,
+        birthday DATE not null
+    );
+
+    -- 主键序列
+    create sequence users_pk_seq
+    minvalue 1
+    nomaxvalue 
+    increment by 1
+    start with 1000 nocache;
+
+    -- 触发器
+    CREATE OR REPLACE TRIGGER user_pk_seq_trg
+    BEFORE INSERT ON users
+    FOR EACH ROW
+    -- 保留原ID
+    -- WHEN (new.id IS NULL)
+    BEGIN
+        SELECT users_pk_seq.NEXTVAL INTO :new.id FROM DUAL;
+    END;
+    ```
+
+6. 打开归档日志
+
+    以DBA角色登陆
+    ```
+    sqlplus /nolog
+        CONNECT sys/password AS SYSDBA
+    ```
+
+    查看归档日志是否开启。`Database log mode`为`Archive Mode`表示开启。
+    ```
+    archive log list;
+    ```
+
+    开启归档日志。如果目录没有创建，需要先创建。
+    ```
+    alter system set db_recovery_file_dest_size = 1G;
+    alter system set db_recovery_file_dest = '/opt/oracle/oradata/recovery_area' scope=spfile;
+    shutdown immediate;
+    startup mount;
+    alter database archivelog;
+    alter database open;
+    ```
+
+7. Oracle 附加日志(supplemental log)
+
+     附加日志（supplemental log）可以指示数据库在日志中添加额外信息到日志流中，以支持基于日志的工具，如逻辑standby、streams、GoldenGate、LogMiner。可以在数据库和表上设置。
+
+8. ogg静默安装
+
+    ```
+    runInstaller -silent -responseFile {YOUR_OGG_INSTALL_FILE_PATH}/response/oggcore.rsp
+    ```
+
+    [Oracle GoldenGate Downloads](https://www.oracle.com/middleware/technologies/goldengate-downloads.html)
+    [Mysql 8.0 OGG21C 安装使用](https://icode.best/i/94950344653310)
+    [Mysql 8.0 OGG21C 安装使用](https://www.dounaite.com/article/625487933351efabace5b751.html)
+    [基于OGG实现Oracle 11G双主同步](https://www.modb.pro/db/518157)
+    http://blog.itpub.net/637517/viewspace-2894440/
+    https://ora-base.com/2022/08/18/how-to-install-goldengate-21c-in-silent-mode/
+    http://www.dbaglobe.com/2021/08/oracle-21c-on-linux-silent-installation.html
+    https://www.dbasolved.com/2022/04/silent-install-for-oracle-goldengate-21c-big-data-microservices-edition-step-1-of-2/
+    https://blog.csdn.net/weixin_45694422/article/details/121792891
+    https://www.cnblogs.com/margiex/p/15192860.html
+    https://www.oracle-scn.com/oracle-goldengate-21c-new-feature-oracle-database-unified-build-support/
+    https://zhuanlan.zhihu.com/p/573068284
+    https://www.modb.pro/db/414869
+    https://juejin.cn/post/7151775075161620511
+    https://blog.csdn.net/m0_60311330/article/details/118992153
+    https://help.aliyun.com/apsara/enterprise/v_3_12_0_20200630/datahub/enterprise-ascm-user-guide/oracle-golden-gate.html
+    https://www.cnblogs.com/andy6/p/6505403.html
+    https://geekpeach.org/zh-hant/oracle-golden-gate-ggsci-%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E5%8F%83%E8%80%83%EF%BC%88%E5%82%99%E5%BF%98%E5%96%AE%EF%BC%89
+    https://oracle-base.com/articles/21c/oracle-db-21c-installation-on-oracle-linux-8#Installation
+    [OGG参数PURGEOLDEXTRACTS](https://www.cnblogs.com/lvcha001/p/14871273.html)
+    https://cloud.tencent.com/developer/article/1663624
+
+
+### 参考
+
+- [Oracle 权限（grant、revoke）](https://www.cnblogs.com/chenmh/p/6001977.html)
+- [OGG](https://help.aliyun.com/document_detail/193506.html)
