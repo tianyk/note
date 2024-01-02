@@ -99,3 +99,9 @@ RUN pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_
 
 
 pip install apache-airflow[async,password,dingding,docker,elasticsearch,mongo,microsoft.mssql,mysql,oracle,postgres,redis,grpc,jdbc,ssh]==2.5.1 -c ./airflow-2.5.1-python-3.9-constraints.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com 
+
+
+```
+airflow users delete -u admin
+airflow users create --username admin --firstname admin --lastname admin --role Admin --email admin 
+```

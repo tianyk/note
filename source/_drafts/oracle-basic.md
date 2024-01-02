@@ -179,3 +179,5 @@ Oracle数据库指数据文件，Oracle实例指Oracle进程，对外提供数�
 
 - [Oracle 权限（grant、revoke）](https://www.cnblogs.com/chenmh/p/6001977.html)
 - [OGG](https://help.aliyun.com/document_detail/193506.html)
+- [ogg](https://blog.csdn.net/qq_28356739/article/details/88585561)
+- [gg](https://dongkelun.com/2018/05/23/oggOracle2Kafka/)
