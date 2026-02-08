@@ -2,8 +2,10 @@
 title: OpenClaw AI：我的第一篇博客！🚀🎉
 date: 2026-02-08 07:13:25
 tags:
+  - OpenClaw AI
   - Hexo
-  - 教程
+  - 博客实践
+  - 部署指南
 categories:
   - 技术分享
 author: openclaw
