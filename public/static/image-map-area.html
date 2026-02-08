@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片热点生成器</title>
+    <style>
+        body {
+            font: 13px Helvetica, Arial, sans-serif;
+            line-height: 1.62;
+            color: #333;
+        }
+
+        .wrapper {
+            position: relative;
+
+            font-size: 0;
+            border: 1px solid #cececf;
+            min-height: 500px;
+        }
+
+        .wrapper .area {
+            position: absolute;
+            cursor: move;
+        }
+
+        .wrapper .area .point {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #555;
+            cursor: pointer;
+        }
+
+        .wrapper img {
+            user-select: none;
+        }
+
+        .input-wrapper {
+            margin: 0.5em 0;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            height: 25px;
+            width: 100px;
+            border: 1px solid #ccc;
+            padding: 0 5px;
+            outline: none;
+            background-color: #fff;
+            background-image: none;
+            color: #555;
+        }
+
+        .input-wrapper input:focus {
+            border: 1px solid #66afe9;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <form>
+            <div class="input-wrapper">
+                <label for="img-src">图片地址</label>
+                <input id="img-src" v-model="img.src" type="text">
+            </div>
+            <div class="input-wrapper">
+                <label for="img-w">图片宽度</label>
+                <input id="img-w" v-model="img.width" placeholder="auto" type="text"> px (非真实宽度，是图片在网页要显示的宽度。对应的img标签的width值，宽高可以只设置一个，另一边会根据缩放比例自动调整)
+            </div>
+            <div class="input-wrapper">
+                <label for="img-h">图片高度</label>
+                <input id="img-h" v-model="img.height" placeholder="auto" type="text"> px (非真实高度，是图片在网页要显示的高度。对应的img标签的height值)
+            </div>
+        </form>
+
+        <form>
+            热点区
+            <button @click="addArea" type="button">+</button>
+            <button @click="out" type="button">生成代码</button>
+            <div v-for="(area, index) in areas">
+                <label for="btn-shape">形状</label>
+                <select v-model="area.shape" name="" id="btn-shape">
+                    <option value="rect">矩形</option>
+                    <option value="circle">圆</option>
+                </select>
+
+                <div v-if="area.shape === 'circle'" style="display: inline-block;">
+                    <label for="btn-r">半径</label>
+                    <input v-model="area.r" id="btn-r" type="text"> px
+                </div>
+
+                <label for="btn-border">边框颜色</label>
+                <input v-model="area.border" id="btn-border" type="text">
+
+                <label for="btn-href">链接</label>
+                <input v-model="area.href" id="btn-href" type="text">
+
+                <button @click="removeArea(index)" type="button">-</button>
+            </div>
+
+            <textarea v-if="code" v-model="code" cols="30" rows="10"></textarea>
+        </form>
+
+        <div v-if="img.src" class="wrapper">
+            <img id="" :src="img.src" @slectstart="return false;" :width="img.width | height-width-filter" :height="img.height | height-width-filter"
+                alt="">
+
+            <div v-for="(area, index) in areas">
+                <div v-if="area.shape === 'rect' && area.width > 0 && area.height > 0" @mousedown.stop="dragStart(area, $event)" class="area"
+                    :style="{ top: area.top + 'px', left: area.left + 'px', width: area.width + 'px', height: area.height + 'px', border: '1px solid ' + area.border  }">
+                    <div @mousedown.stop="resize(area, 'lt', $event)" class="point" style="top: -3px; left: -3px;">
+                        <!-- 左上 -->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'tm', $event)" class="point" :style="{ top:  '-3px', left: (area.width / 2 - 3) + 'px' }">
+                        <!-- 上中 -->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'rt', $event)" class="point" :style="{ top: '-3px', left: (area.width - 3) + 'px' }">
+                        <!-- 右上 -->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'lm', $event)" class="point" :style="{ top: (area.height / 2 - 3) + 'px', left: '-3px' }">
+                        <!--左中-->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'rm', $event)" class="point" :style="{ top: (area.height / 2 - 3) + 'px', left: (area.width - 3) + 'px' }">
+                        <!--右中-->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'bl', $event)" class="point" :style="{ top: (area.height - 3) + 'px', left: '-3px' }">
+                        <!-- 左下 -->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'bm', $event)" class="point" :style="{ top: (area.height - 3) + 'px', left: (area.width / 2 - 3) + 'px' }">
+                        <!-- 下中 -->
+                    </div>
+                    <div @mousedown.stop="resize(area, 'br', $event)" class="point" :style="{ top: (area.height - 3) + 'px', left: (area.width - 3) + 'px' }">
+                        <!-- 右下 -->
+                    </div>
+                </div>
+
+                <div v-if="area.shape === 'circle' && area.r > 0" @mousedown="dragStart(area, $event)" class="area" :style="{ top: area.top + 'px', left: area.left + 'px', width: area.r + 'px', height: area.r + 'px', 'border-radius': area.r + 'px', border: '1px solid ' + area.border }"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js"></script>
+    <script>
+        function heightWidthFilter(value) {
+            if (/^\d+$/.test(value)) return value + 'px';
+            else return 'auto';
+        }
+
+        Vue.filter('height-width-filter', heightWidthFilter);
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                img: {
+                    src: '',
+                    width: 'auto',
+                    height: 'auto'
+                },
+                areas: [],
+                code: ''
+            },
+            methods: {
+                addArea: function () {
+                    this.areas.push({
+                        shape: 'rect',
+                        border: 'red',
+                        width: 50,
+                        height: 50,
+                        r: 50,
+                        top: 0,
+                        left: 0,
+                        clientX: 0,
+                        clientY: 0,
+                        draggable: false,
+                        lastdraw: 0
+                    });
+                },
+                removeArea: function (index) {
+                    this.areas.splice(index, 1);
+                },
+                dragStart: function (area, event) {
+                    area.draggable = true;
+                    area.clientX = event.clientX;
+                    area.clientY = event.clientY;
+
+                    document.onmousemove = function (event) {
+                        if (area.draggable) {
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+                            area.left += offsetX;
+                            area.top += offsetY;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    }
+
+                    document.onmouseup = function () {
+                        area.draggable = false;
+
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                    }
+                },
+                resize: function (area, position, event) {
+                    area.clientX = event.clientX;
+                    area.clientY = event.clientY;
+                    if (position === 'lt') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.width - offsetX < 10 || area.height - offsetY < 10) return;
+
+                            area.width -= offsetX;
+                            area.height -= offsetY;
+
+                            // 动态补偿
+                            area.left += offsetX;
+                            area.top += offsetY;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'tm') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.height - offsetY < 10) return;
+
+                            area.height -= offsetY;
+
+                            // 动态补偿
+                            area.top += offsetY;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'rt') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.width + offsetX < 10 || area.height - offsetY < 10) return;
+
+                            area.width += offsetX;
+                            area.height -= offsetY;
+
+                            // 动态补偿
+                            area.top += offsetY;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'lm') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.width - offsetX < 10) return;
+
+                            area.width -= offsetX;
+
+                            // 动态补偿
+                            area.left += offsetX;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'rm') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.width + offsetX < 10) return;
+
+                            area.width += offsetX;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'bl') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.width - offsetX < 10 || area.height + offsetY < 10) return;
+
+                            area.width -= offsetX;
+                            area.height += offsetY;
+
+                            // 动态补偿
+                            area.left += offsetX;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'bm') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.height + offsetY < 10) return;
+
+                            area.height += offsetY;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    } else if (position === 'br') {
+                        document.onmousemove = function (event) {
+                            if (event.preventDefault) {
+                                event.preventDefault();
+                            }
+
+                            var offsetX = event.clientX - area.clientX;
+                            var offsetY = event.clientY - area.clientY;
+
+                            if (area.width + offsetX < 10 || area.height + offsetY < 10) return;
+
+                            area.width += offsetX;
+                            area.height += offsetY;
+
+                            area.clientX = event.clientX;
+                            area.clientY = event.clientY;
+                        }
+                    }
+
+                    document.onmouseup = function () {
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                    }
+                },
+                out: function () {
+                    var now = Date.now();
+                    var code = '<img src="' + this.img.src + '" width="' + heightWidthFilter(this.img.width) + '" height="' + heightWidthFilter(this.img.height) + '" usemap="#map-' + now + '">\n';
+                    code += '<map name="map-' + now + '">\n';
+                    var area;
+                    for (var i = 0; i < this.areas.length; i++) {
+                        area = this.areas[i];
+                        if (area.shape === 'rect') {
+                            code += '\t<area shape="' + area.shape + '" coords="' + area.left + ',' + area.top + ',' + (parseInt(area.left) + parseInt(area.width)) + ',' + (parseInt(area.top) + parseInt(area.height)) + '" href="' + area.href + '" >\n';
+                        } else {
+                            code += '\t<area shape="' + area.shape + '" coords="' + (parseInt(area.left) + parseInt(area.r)) + ',' + (parseInt(area.top) + parseInt(area.r)) + ',' + area.r + '" href="' + area.href + '" >\n';
+                        }
+                    }
+
+                    code += '</map>';
+                    this.code = code;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

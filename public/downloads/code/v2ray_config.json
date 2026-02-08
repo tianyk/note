@@ -1,0 +1,149 @@
+{
+  "_comment": "https://www.v2ray.com/",
+  "_comment_log": "日志配置",
+  "log": {
+    "_comment_access": "访问日志的文件地址，其值是一个合法的文件地址。当此项不指定或为空值时，表示将日志输出至 stdout。",
+    "access": "/var/log/v2ray/access.log",
+    "_comment_error": "错误日志的文件地址。",
+    "error": "/var/log/v2ray/error.log",
+    "_comment_loglevel": "错误日志的级别：\"debug\", \"info\", \"warning\", \"error\", \"none\"。默认为\"warning\"",
+    "loglevel": "warning"
+  },
+  "_comment_inbounds": "一个数组，每个元素是一个入站连接配置。入站连接用于接收从客户端（浏览器或上一级代理服务器）发来的数据，可用的协议请见协议列表。",
+  "inbounds": [
+    {
+      "port": 4435,
+      "listen": "0.0.0.0",
+      "tag": "shadowsocks-inbound",
+      "protocol": "shadowsocks",
+      "settings": {
+        "method": "aes-256-cfb",
+        "password": "8V4s0xgtwDq3",
+        "_comment_ota": "是否强制 OTA，如果不指定此项，则自动判断。强制开启 OTA 后，V2Ray 会拒绝未启用 OTA 的连接。",
+        "ota": false,
+        "_comment_network": "可接收的网络连接类型",
+        "network": "tcp",
+        "level": 0
+      }
+    },
+    {
+      "_comment_port": "端口。",
+      "port": 4436,
+      "_comment_listen": "监听地址，只允许 IP 地址，默认值为\"0.0.0.0\"，表示接收所有网卡上的连接。",
+      "listen": "0.0.0.0",
+      "_comment_tag": "此入站连接的标识，用于在其它的配置中定位此连接。当其不为空时，其值必须在所有tag中唯一。",
+      "tag": "socks-inbound",
+      "_comment_protocol": "连接协议名称",
+      "protocol": "socks",
+      "_comment_setting": "具体的配置内容，视协议不同而不同。",
+      "settings": {
+        "_comment_auth": "Socks 协议的认证方式，支持\"noauth\"匿名方式和\"password\"用户密码方式。默认值为\"noauth\"。",
+        "auth": "password",
+        "_comment_accounts": "一个数组，数组中每个元素为一个用户帐号。默认值为空。此选项仅当 auth 为 password 时有效。",
+        "accounts": [
+          {
+            "user": "freedom",
+            "pass": "8V4s0xgtwDq3"
+          }
+        ],
+        "_comment_udp": "是否开启 UDP 协议的支持。默认值为 false。",
+        "udp": false,
+        "_comment_ip": "当开启 UDP 时，V2Ray 需要知道本机的 IP 地址。默认值为\"127.0.0.1\"。",
+        "ip": "127.0.0.1"
+      }
+    },
+    {
+      "port": 4437,
+      "address": "0.0.0.0",
+      "protocol": "vmess",
+      "tag": "vmess-inbound",
+      "settings": {
+        "clients": [
+          {
+            "id": "91c8d6a7-5ce6-4ff3-8fb6-298c30a71df2",
+            "level": 0,
+            "alterId": 16,
+            "email": "yongketian@gmail.com"
+          }
+        ],
+        "default": {
+          "level": 0,
+          "alterId": 32
+        },
+        "detour": {
+          "to": "vmess-outbound"
+        },
+        "disableInsecureEncryption": true
+      }
+    }
+  ],
+  "_comment_outbounds": "一个数组，每个元素是一个出站连接配置。列表中的第一个元素作为主出站协议。当路由匹配不存在或没有匹配成功时，流量由主出站协议发出。",
+  "outbounds": [
+    {
+      "_comment_sendThrough": "用于发送数据的 IP 地址，当主机有多个 IP 地址时有效，默认值为\"0.0.0.0\"。",
+      "sendThrough": "0.0.0.0",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "AsIs",
+        "_comment_redirect": "Freedom 会强制将所有数据发送到指定地址",
+        "userLevel": 0
+      },
+      "tag": "direct"
+    }
+  ],
+  "_comment_routing": "V2Ray 内建了一个简单的路由功能，可以将入站数据按需求由不同的出站连接发出，以达到按需代理的目的。这一功能的常见用法是分流国内外流量，V2Ray 可以通过内部机制判断不同地区的流量，然后将它们发送到不同的出站代理。",
+  "_routing": {
+    "domainStrategy": "IPOnDemand",
+    "rules": [
+      {
+        "_comment_type": "目前只支持\"field\"这一个选项。",
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  },
+  "dns": {
+    "servers": [
+      "8.8.8.8",
+      "1.1.1.1",
+      "localhost"
+    ],
+    "clientIp": "144.202.15.160"
+  },
+  "policy": {
+    "_comment_levels": "一组键值对，每个键是一个字符串形式的数字（JSON 的要求），比如 \"0\"、\"1\" 等，双引号不能省略，这个数字对应用户等级。",
+    "levels": {
+      "0": {
+        "_comment_handshake": "连接建立时的握手时间限制。单位为秒。默认值为4。在入站代理处理一个新连接时，在握手阶段（比如 VMess 读取头部数据，判断目标服务器地址），如果使用的时间超过这个时间，则中断该连接。",
+        "handshake": 4,
+        "_comment_connIdle": "连接空闲的时间限制。单位为秒。默认值为300。在入站出站代理处理一个连接时，如果在 connIdle 时间内，没有任何数据被传输（包括上行和下行数据），则中断该连接。",
+        "connIdle": 300,
+        "_comment_uplinkOnly": "当连接下行线路关闭后的时间限制。单位为秒。默认值为2。当服务器（如远端网站）关闭下行连接时，出站代理会在等待 uplinkOnly 时间后中断连接。",
+        "uplinkOnly": 2,
+        "_comment_downlinkOnly": "当连接上行线路关闭后的时间限制。单位为秒。默认值为5。当客户端（如浏览器）关闭上行连接时，入站代理会在等待 downlinkOnly 时间后中断连接。",
+        "downlinkOnly": 5,
+        "_comment_statsUserUplink": "当值为true时，开启当前等级的所有用户的上行流量统计。",
+        "statsUserUplink": false,
+        "_comment_statsUserDownlink": "当值为true时，开启当前等级的所有用户的下行流量统计。",
+        "statsUserDownlink": false,
+        "_comment_bufferSize": "每个连接的内部缓存大小。单位为 kB。当值为0时，内部缓存被禁用。",
+        "bufferSize": 10240
+      },
+      "1": {
+        "uplinkOnly": 0,
+        "downlinkOnly": 0
+      }
+    },
+    "_comment_system": "V2Ray 系统的策略",
+    "system": {
+      "_comment_statsInboundUplink": "当值为true时，开启所有入站代理的上行流量统计。",
+      "statsInboundUplink": false,
+      "_comment": "当值为true时，开启所有入站代理的下行流量统计。",
+      "statsInboundDownlink": false
+    }
+  },
+  "other": {}
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>file download via ajax</title>
+    <style>
+        .progress {
+            width: 200px;
+            height: 15px;
+            background-color: #ddd;
+            border: 1px solid #ddd;
+        }
+
+        .progress .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #5cb85c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="http://dl.kekek.cc/P60524-122812.jpg">Get File!</a>
+
+    <button type="button" id="GetFile">Get File Via Ajax!</button> 
+    <div class="progress">
+        <div class="progress-bar"></div>
+    </div>
+
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/ProgressEvent
+        // var progressBar = document.getElementById("p"),
+        //     client = new XMLHttpRequest()
+        // client.open("GET", "https://kekek.cc/static/P60524-122812.jpg")
+        // client.onprogress = function (pe) {
+        //     if (pe.lengthComputable) {
+        //         console.log(pe.total, pe.loaded)
+        //         // progressBar.max = pe.total
+        //         // progressBar.value = pe.loaded
+        //     }
+        // }
+        // client.onloadend = function (pe) {
+        //     console.log(pe.loaded)
+        //     // progressBar.value = pe.loaded
+        // }
+        // client.send()
+            
+        // https://github.com/mozilla/send/blob/master/app/api.js#L140
+        // https://coderwall.com/p/je3uww/get-progress-of-an-ajax-request
+        $(function () {
+            $('#GetFile').on('click', function () {
+                $progressBar = $('.progress .progress-bar');
+
+                $.ajax({
+                    url: 'https://kekek.cc/static/P60524-122812.jpg',
+                    xhr: function () {
+                        var xhr = $.ajaxSettings.xhr();
+                        xhr.onprogress = function (e) {
+                            // For downloads
+                            if (e.lengthComputable) {
+                                var progress = e.loaded / e.total;
+                                console.log(progress);
+                                $progressBar.css('width', progress * 100 + '%');
+                            }
+                        };
+                        xhr.upload.onprogress = function (e) {
+                            // For uploads
+                            if (e.lengthComputable) {
+                                console.log(e.loaded / e.total);
+                            }
+                        };
+                        return xhr;
+                    },
+                    method: 'GET',
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (data) {
+                        var a = document.createElement('a');
+                        var url = window.URL.createObjectURL(data);
+                        a.href = url;
+                        a.download = 'P60524.jpg';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

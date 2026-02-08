@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:500px;}
+		p{margin-left:5px; font-size:14px;}
+	</style>
+	<!-- http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference.html -->
+	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=0ovbncXuONc9ket5kq0lBl7iC5snrqLW"></script>
+	<script type="text/javascript" src="//api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+	<title>添加圆</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<p>在地图上添加一个圆，圆的颜色为蓝色、线宽6px、透明度为1，填充颜色为白色，透明度为0.5</p>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map('allmap'); // 选择地图
+	var center = new BMap.Point(116.404, 39.915); // 定义一个Point
+	map.centerAndZoom(center, 14); // 初始化地图
+  
+	var circle = new BMap.Circle(center, 500); // 创建一个圆 半径500m
+	map.addOverlay(circle); // 添加遮罩到地图中
+</script>

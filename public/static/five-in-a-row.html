@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="x-UA-Compatible" content="ie=edge">
+	<title>Five in a row</title>
+
+	<style>
+		.container {
+			border: 1px solid red;
+		}
+
+		.chessboard {
+			border-collapse: collapse;
+			table-layout: fixed;
+
+			margin: -21px 21px 21px -21px;
+		}
+
+		/* 棋盘左上隐藏 棋子右下45°移动到交点 */
+		.chessboard .cell:first-child,
+		.chessboard .row:first-child .cell {
+			border: none;
+		}
+
+		.chessboard .cell {
+			/* Positioning */
+			position: relative;
+
+			/* Box-model */
+			margin: 0;
+			padding: 0;
+			width: 40px;
+			height: 40px;
+
+			/* Visual */
+			border: 1px solid #eceeef;
+		}
+
+		.yunzi {
+			/* Positioning */
+			position: absolute;
+			bottom: -11.5px;
+			left: 29px;
+			z-index: 100;
+
+			/* Box-model */
+			box-sizing: content-box;
+			display: block;
+			margin: auto;
+			padding: 0;
+			width: 20px;
+			height: 20px;
+
+			/* Typography */
+
+			/* Visual */
+			background-color: transparent;
+			border: 1px solid transparent;
+			/* transparent */
+			border-radius: 100%;
+			outline-style: none;
+		}
+
+		.yunzi.luozi {
+			border: 1px solid black;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="container">
+		<table id="chessboard" class="chessboard">
+			<tbody>
+				<tr v-for="row in rows" class="row">
+					<td v-for="col in cols" class="cell">
+						<button class="yunzi" :class="{ luozi: yunzis[row - 1][col - 1].isLuozi }" @click="luozi(row - 1, col - 1)"></button>
+					</td>
+				<tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://lib.baomitu.com/vue/2.5.17/vue.min.js"></script>
+
+	<script>
+		var app = new Vue({
+			el: '#chessboard',
+			data: {
+				rows: 10,
+				cols: 10,
+				yunzis: []
+			},
+			methods: {
+				luozi: function (row, col) {
+					console.log(row, col);
+					// this.yunzis[row][col].isLuozi = true;
+					Vue.set(this.yunzis[row], col, {
+						user: '',
+						isLuozi: true
+					});
+				}
+			},
+			created: function () {
+				// 初始化棋子
+				var rows = this.rows;
+				var cols = this.cols;
+				var yunzis = this.yunzis;
+
+				for (var row = 0; row < rows; row++) {
+					if (!Array.isArray(yunzis[row])) yunzis[row] = [];
+					for (var col = 0; col < cols; col++) {
+						yunzis[row][col] = {
+							user: '',
+							isLuozi: false
+						}
+					}
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
