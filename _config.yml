@@ -85,7 +85,7 @@ theme: cactus
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git 
-  repo: https://github.com/tianyk/tianyk.github.io.git
+  repo: git@github.com:tianyk/tianyk.github.io.git
 
 sitemap:
     path: sitemap.xml

@@ -5,7 +5,8 @@
   "scripts": {
     "start": "hexo s",
     "dev": "hexo s --draft",
-    "build": "hexo g"
+    "build": "hexo g",
+    "deploy": "hexo clean && hexo g && hexo d"
   },
   "engines": {
     "node": ">=20.19.0"

@@ -4,7 +4,6 @@ const fs = require('hexo-fs');
 const { basename, extname, join } = require('path');
 const stripIndent = require('strip-indent');
 const { highlight } = require('hexo-util');
-const download = require('download');
 const mime = require('mime-types');
 const ms = require('ms');
 
@@ -17,6 +16,7 @@ const rLang = /\s*lang:(\w+)/i;
 const rFrom = /\s*from:(\d+)/i;
 const rTo = /\s*to:(\d+)/i;
 const rMimeLang = /\/([a-zA-Z0-9.+-]+)$/;
+const DOWNLOAD_TIMEOUT_MS = ms(DOWNLOAD_TIMEOUT);
 
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36';
 
@@ -49,10 +49,32 @@ function getLangByFileName(filename) {
   return `lang:${match[1]}`;
 }
 
-function timeoutPromise(timeout) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error(`Timeout [${timeout}]`)), ms(timeout));
-  });
+async function downloadRemoteFile(url, distDir, filename, timeoutMs) {
+  await fs.mkdirs(distDir);
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, {
+      headers: { 'user-agent': userAgent },
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      throw new Error(`Download failed with status ${response.status}: ${url}`);
+    }
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+    await fs.writeFile(join(distDir, filename), buffer);
+  } catch (err) {
+    if (err && err.name === 'AbortError') {
+      throw new Error(`Timeout [${DOWNLOAD_TIMEOUT}] while downloading: ${url}`);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function parseRemoteArgs(args) {
@@ -94,13 +116,7 @@ async function resolveRemoteCodeArgs(ctx, args) {
   const includeArgs = [remote.filename, remote.lang, relativePath].filter(Boolean);
 
   try {
-    await Promise.race([
-      timeoutPromise(DOWNLOAD_TIMEOUT),
-      download(remote.url, distDir, {
-        filename: remote.filename,
-        headers: { 'user-agent': userAgent }
-      })
-    ]);
+    await downloadRemoteFile(remote.url, distDir, remote.filename, DOWNLOAD_TIMEOUT_MS);
     return includeArgs;
   } catch (err) {
     if (await fs.exists(cachePath)) {
