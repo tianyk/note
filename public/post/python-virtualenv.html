@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="VirtualenvVirtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版本以及间接权限问题。Virtualenv 创建一个拥有自己安装目录的环境(沙箱), 这个环境不与其他虚拟环境共享库, 能够方便的管理python版本和管理python库。 安装1[sudo] pip install virtualenv 或者1[sudo] pip install https:&#x2F;&#x2F;gi">
+    <meta name="description" content="VirtualenvVirtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版本以及间接权限问题。Virtualenv 创建一个拥有自己安装目录的环境(沙箱), 这个环境不与其他虚拟环境共享库, 能够方便的管理python版本和管理python库。 安装1[sudo] pip install virtualenv 或者 1[sudo] pip install https:&#x2F;&#x2F;g">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python-virtualenv">
 <meta property="og:url" content="https://kekek.cc/post/python-virtualenv.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="VirtualenvVirtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版本以及间接权限问题。Virtualenv 创建一个拥有自己安装目录的环境(沙箱), 这个环境不与其他虚拟环境共享库, 能够方便的管理python版本和管理python库。 安装1[sudo] pip install virtualenv 或者1[sudo] pip install https:&#x2F;&#x2F;gi">
+<meta property="og:description" content="VirtualenvVirtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版本以及间接权限问题。Virtualenv 创建一个拥有自己安装目录的环境(沙箱), 这个环境不与其他虚拟环境共享库, 能够方便的管理python版本和管理python库。 安装1[sudo] pip install virtualenv 或者 1[sudo] pip install https:&#x2F;&#x2F;g">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-11-25T07:42:15.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.714Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -143,18 +143,31 @@
   <div class="content" itemprop="articleBody">
     <h3 id="Virtualenv"><a href="#Virtualenv" class="headerlink" title="Virtualenv"></a>Virtualenv</h3><p>Virtualenv 通过创建独立Python开发环境的工具, 来解决依赖、版本以及间接权限<br>问题。Virtualenv 创建一个拥有自己安装目录的环境(沙箱), 这个环境不与其他虚拟环境共享库, 能够方便的管理python版本和管理python库。</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[sudo] pip install virtualenv</span><br></pre></td></tr></table></figure>
-<p>或者<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[sudo] pip install https://github.com/pypa/virtualenv/tarball/develop</span><br></pre></td></tr></table></figure></p>
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[sudo] pip install https://github.com/pypa/virtualenv/tarball/develop</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>pip安装参考<a href="/2016/11/25/pip/">pip</a></p>
 </blockquote>
-<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><h4 id="创建一个Python虚拟环境"><a href="#创建一个Python虚拟环境" class="headerlink" title="创建一个Python虚拟环境"></a>创建一个Python虚拟环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建一个名为deeplearning的目录, 并且安装了deeplearning/bin/python, 创建了lib,include,bin目录,安装了pip</span></span><br><span class="line"></span><br><span class="line">virtualenv deeplearning</span><br></pre></td></tr></table></figure>
-<h4 id="激活环境"><a href="#激活环境" class="headerlink" title="激活环境"></a>激活环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Mac &amp; Linux</span></span><br><span class="line">source bin/activate[.sh|.fish|.csh]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Win</span></span><br><span class="line">打开 activate.bat</span><br></pre></td></tr></table></figure>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><h4 id="创建一个Python虚拟环境"><a href="#创建一个Python虚拟环境" class="headerlink" title="创建一个Python虚拟环境"></a>创建一个Python虚拟环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建一个名为deeplearning的目录, 并且安装了deeplearning/bin/python, 创建了lib,include,bin目录,安装了pip</span></span><br><span class="line"></span><br><span class="line">virtualenv deeplearning</span><br></pre></td></tr></table></figure>
+
+<h4 id="激活环境"><a href="#激活环境" class="headerlink" title="激活环境"></a>激活环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Mac &amp; Linux</span></span><br><span class="line">source bin/activate[.sh|.fish|.csh]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Win</span></span><br><span class="line">打开 activate.bat</span><br></pre></td></tr></table></figure>
+
 <h4 id="退出环境"><a href="#退出环境" class="headerlink" title="退出环境"></a>退出环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+
+
 <h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><h4 id="创建虚拟环境时指定Python版本"><a href="#创建虚拟环境时指定Python版本" class="headerlink" title="创建虚拟环境时指定Python版本"></a>创建虚拟环境时指定Python版本</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv ENV3.5 --python=python3.5</span><br></pre></td></tr></table></figure>
-<p>另外<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">virtualenv [OPTIONS] DEST_DIR</span><br><span class="line"></span><br><span class="line">-p PYTHON_EXE, --python=PYTHON_EXE</span><br><span class="line">指定所用的python解析器的版本，比如 --python=python2.5 就使用2.5版本的解析器创建新的隔离环境。</span><br><span class="line">默认使用的是当前系统安装(/usr/bin/python)的python解析器。</span><br></pre></td></tr></table></figure></p>
-<h4 id="生成可打包环境"><a href="#生成可打包环境" class="headerlink" title="生成可打包环境"></a>生成可打包环境</h4><p>某些特殊需求下,可能没有网络, 我们期望直接打包一个ENV, 可以解压后直接使用, 这时候可以使用<code>virtualenv --relocatable</code>指令将ENV修改为可更改位置的ENV。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --relocatable ./</span><br></pre></td></tr></table></figure></p>
-<h4 id="创建一个干净的环境"><a href="#创建一个干净的环境" class="headerlink" title="创建一个干净的环境"></a>创建一个干净的环境</h4><p>加上了参数–no-site-packages，这样，已经安装到系统Python环境中的所有第三方包都不会复制过来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --no-site-packages ENV</span><br></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.jianshu.com/p/08c657bd34f1" target="_blank" rel="noopener">【1】</a> <a href="http://pythonguidecn.readthedocs.io/zh/latest/dev/virtualenvs.html" target="_blank" rel="noopener">【2】</a></p>
+
+<p>另外</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">virtualenv [OPTIONS] DEST_DIR</span><br><span class="line"></span><br><span class="line">-p PYTHON_EXE, --python=PYTHON_EXE</span><br><span class="line">指定所用的python解析器的版本，比如 --python=python2.5 就使用2.5版本的解析器创建新的隔离环境。</span><br><span class="line">默认使用的是当前系统安装(/usr/bin/python)的python解析器。   </span><br></pre></td></tr></table></figure>
+
+<h4 id="生成可打包环境"><a href="#生成可打包环境" class="headerlink" title="生成可打包环境"></a>生成可打包环境</h4><p>某些特殊需求下,可能没有网络, 我们期望直接打包一个ENV, 可以解压后直接使用, 这时候可以使用<code>virtualenv --relocatable</code>指令将ENV修改为可更改位置的ENV。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --relocatable ./</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建一个干净的环境"><a href="#创建一个干净的环境" class="headerlink" title="创建一个干净的环境"></a>创建一个干净的环境</h4><p>加上了参数–no-site-packages，这样，已经安装到系统Python环境中的所有第三方包都不会复制过来。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --no-site-packages ENV</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.jianshu.com/p/08c657bd34f1">【1】</a> <a href="http://pythonguidecn.readthedocs.io/zh/latest/dev/virtualenvs.html">【2】</a></p>
 
   </div>
   <div class="article-license">

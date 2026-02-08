@@ -18,7 +18,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/openresty_phases.png">
 <meta property="article:published_time" content="2016-11-08T10:43:57.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.712Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/openresty_phases.png">
@@ -109,7 +109,7 @@
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li></ol>
     </div>
   </span>
 </div>
@@ -144,13 +144,14 @@
 
   <div class="content" itemprop="articleBody">
     <ul>
-<li><a href="https://gist.github.com/tianyk/e50ba80444cd114962493589a9efd3fa" target="_blank" rel="noopener">https://gist.github.com/tianyk/e50ba80444cd114962493589a9efd3fa</a></li>
-<li><a href="http://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API" target="_blank" rel="noopener">http://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API</a></li>
-<li><a href="http://www.londonlua.org/scripting_nginx_with_lua/slides.html" target="_blank" rel="noopener">http://www.londonlua.org/scripting_nginx_with_lua/slides.html</a></li>
-<li><a href="https://github.com/iresty/nginx-lua-module-zh-wiki" target="_blank" rel="noopener">https://github.com/iresty/nginx-lua-module-zh-wiki</a></li>
+<li><a href="https://gist.github.com/tianyk/e50ba80444cd114962493589a9efd3fa">https://gist.github.com/tianyk/e50ba80444cd114962493589a9efd3fa</a></li>
+<li><a href="http://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API">http://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API</a></li>
+<li><a href="http://www.londonlua.org/scripting_nginx_with_lua/slides.html">http://www.londonlua.org/scripting_nginx_with_lua/slides.html</a></li>
+<li><a href="https://github.com/iresty/nginx-lua-module-zh-wiki">https://github.com/iresty/nginx-lua-module-zh-wiki</a></li>
 </ul>
-<p>###<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">│   ├── openresty</span><br><span class="line">├── COPYRIGHT</span><br><span class="line">├── lua/                                                # 项目lua代码</span><br><span class="line">│   └── auth.lua</span><br><span class="line">├── luajit/                                             # luajit</span><br><span class="line">├── lualib/                                             # lua 第三方模块</span><br><span class="line">│   ├── nginx-jwt.lua</span><br><span class="line">│   ├── ngx                                             # ngx lua 模块</span><br><span class="line">│   │   ├── balancer.lua</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   └── resty                                           # openresty 第三方模块</span><br><span class="line">│       ├── memcached.lua</span><br><span class="line">│       ├── ...</span><br><span class="line">├── nginx/                                              # nginx</span><br><span class="line">├── openssl/</span><br><span class="line">├── pcre/</span><br><span class="line">├── site/</span><br><span class="line">└── zlib/</span><br></pre></td></tr></table></figure></p>
-<p><img src="/images/openresty_phases.png" alt></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">│   ├── openresty</span><br><span class="line">├── COPYRIGHT</span><br><span class="line">├── lua/                                                # 项目lua代码</span><br><span class="line">│   └── auth.lua</span><br><span class="line">├── luajit/                                             # luajit</span><br><span class="line">├── lualib/                                             # lua 第三方模块</span><br><span class="line">│   ├── nginx-jwt.lua</span><br><span class="line">│   ├── ngx                                             # ngx lua 模块</span><br><span class="line">│   │   ├── balancer.lua</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   └── resty                                           # openresty 第三方模块</span><br><span class="line">│       ├── memcached.lua</span><br><span class="line">│       ├── ...</span><br><span class="line">├── nginx/                                              # nginx</span><br><span class="line">├── openssl/</span><br><span class="line">├── pcre/</span><br><span class="line">├── site/</span><br><span class="line">└── zlib/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/openresty_phases.png"></p>
 
   </div>
   <div class="article-license">
@@ -196,7 +197,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

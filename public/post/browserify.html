@@ -17,7 +17,7 @@
 <meta property="og:description" content="BrowserifyBrowserify可以编译node模块让其在浏览器中使用。 Node.js内置模块的转换理想情况下，大部分不涉及io操作的模块可以在浏览器中直接运行。 对于nodejs内置模块，在require()它们的时候，会被转换成如下模块来打包，以适配浏览器环境。  assert buffer console constants crypto domain events http ht">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-01-08T04:51:13.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.668Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="browserify">
 <meta name="twitter:card" content="summary">
@@ -86,10 +86,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/post/chrome.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/post/shadowsocks.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/post/dns.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/post/chrome.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -182,25 +182,29 @@
 <li>__dirname - 文件路径</li>
 </ul>
 <ol>
-<li><p>编译代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browserify ./math.js -o bundle.js</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译成require的形式</p>
-<blockquote>
-<p>var math = require(‘./math.js’);</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browserify -r ./math.js -o bundle.js</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-<li><p>编译成模块的形式</p>
-<blockquote>
-<p>浏览器里面直接访问math，node环境里面可以require</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browserify ./math.js -s math bundle.js</span><br></pre></td></tr></table></figure>
+<li>编译代码</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browserify ./math.js -o bundle.js</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>编译成require的形式<blockquote>
+<p>var math &#x3D; require(‘.&#x2F;math.js’);</p>
 </blockquote>
 </li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browserify -r ./math.js -o bundle.js</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>编译成模块的形式<blockquote>
+<p>浏览器里面直接访问math，node环境里面可以require</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browserify ./math.js -s math bundle.js</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://zhaoda.net/2015/10/16/browserify-guide/" target="_blank" rel="noopener">http://zhaoda.net/2015/10/16/browserify-guide/</a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/web/1501_chengfu_browserify/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/web/1501_chengfu_browserify/</a></li>
+<li><a href="http://zhaoda.net/2015/10/16/browserify-guide/">http://zhaoda.net/2015/10/16/browserify-guide/</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/web/1501_chengfu_browserify/">https://www.ibm.com/developerworks/cn/web/1501_chengfu_browserify/</a></li>
 </ul>
 
   </div>

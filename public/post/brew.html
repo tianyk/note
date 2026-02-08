@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="安装1&#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot; 搜索与安装 搜索  1234brew search vibrew search &#x2F;正则表达式&#x2F; # 标准格式brew search &#x2F;^vi&#x2F;   #规定了只能是vi开头bre">
+    <meta name="description" content="安装1&#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot;  搜索与安装 搜索  1234brew search vibrew search &#x2F;正则表达式&#x2F; # 标准格式brew search &#x2F;^vi&#x2F;   #规定了只能是vi开头br">
 <meta property="og:type" content="article">
 <meta property="og:title" content="brew.md">
 <meta property="og:url" content="https://kekek.cc/post/brew.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="安装1&#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot; 搜索与安装 搜索  1234brew search vibrew search &#x2F;正则表达式&#x2F; # 标准格式brew search &#x2F;^vi&#x2F;   #规定了只能是vi开头bre">
+<meta property="og:description" content="安装1&#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot;  搜索与安装 搜索  1234brew search vibrew search &#x2F;正则表达式&#x2F; # 标准格式brew search &#x2F;^vi&#x2F;   #规定了只能是vi开头br">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-08T07:36:52.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.668Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="brew">
 <meta name="twitter:card" content="summary">
@@ -147,34 +147,36 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+    <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+
 <h3 id="搜索与安装"><a href="#搜索与安装" class="headerlink" title="搜索与安装"></a>搜索与安装</h3><ol>
 <li><p>搜索</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew search vi</span><br><span class="line">brew search /正则表达式/ # 标准格式</span><br><span class="line">brew search /^vi/   #规定了只能是vi开头</span><br><span class="line">brew search /^vi\\w$/   #规定只能是vi开头并且只有三个字母</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew search vi</span><br><span class="line">brew search /正则表达式/ # 标准格式</span><br><span class="line">brew search /^vi/   #规定了只能是vi开头</span><br><span class="line">brew search /^vi\\w$/   #规定只能是vi开头并且只有三个字母</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install vim </span><br><span class="line">brew install username/repo/vim</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install vim </span><br><span class="line">brew install username/repo/vim</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="卸载与更新"><a href="#卸载与更新" class="headerlink" title="卸载与更新"></a>卸载与更新</h3><ol>
 <li><p>卸载</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 卸载对应包名字</span><br><span class="line">brew uninstall &lt;package_name&gt;</span><br><span class="line"></span><br><span class="line"># 列出过时的包</span><br><span class="line">brew outdated</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 卸载对应包名字</span><br><span class="line">brew uninstall &lt;package_name&gt;</span><br><span class="line"></span><br><span class="line"># 列出过时的包</span><br><span class="line">brew outdated</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>更新</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 更新过时的包，不带包名就跟新所有包</span><br><span class="line">brew upgrade [package_name]</span><br><span class="line"></span><br><span class="line"># 跟新HomeBrew自身</span><br><span class="line">brew update</span><br><span class="line"></span><br><span class="line"># 清除缓存</span><br><span class="line">brew cleanup [package_name]</span><br><span class="line"></span><br><span class="line"># 列出已经安装的包</span><br><span class="line">brew list</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 更新过时的包，不带包名就跟新所有包</span><br><span class="line">brew upgrade [package_name]</span><br><span class="line"></span><br><span class="line"># 跟新HomeBrew自身</span><br><span class="line">brew update</span><br><span class="line"></span><br><span class="line"># 清除缓存</span><br><span class="line">brew cleanup [package_name]</span><br><span class="line"></span><br><span class="line"># 列出已经安装的包</span><br><span class="line">brew list</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p><code>brew</code>和包含的包源都是通过<code>github</code>来管理，人为的维护管理，除了自己的源还允许别人的源添加进来。很多时候有些软件包并不在官方提供列表里面而是由第三方提供的这个时候，我们就需要使用下面的命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew [un]tap &lt;github_userid/repo_name&gt; #添加或者删除仓库</span><br></pre></td></tr></table></figure>
-<h3 id="服务管理"><a href="#服务管理" class="headerlink" title="服务管理"></a>服务管理</h3><p><a href="https://github.com/Homebrew/homebrew-services" target="_blank" rel="noopener">https://github.com/Homebrew/homebrew-services</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew services [start|stop|restart] [package_name]</span><br><span class="line"></span><br><span class="line">brew services list</span><br><span class="line"></span><br><span class="line">brew services cleanup</span><br></pre></td></tr></table></figure></p>
-<h3 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew doctor</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew [un]tap &lt;github_userid/repo_name&gt; #添加或者删除仓库</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务管理"><a href="#服务管理" class="headerlink" title="服务管理"></a>服务管理</h3><p><a href="https://github.com/Homebrew/homebrew-services">https://github.com/Homebrew/homebrew-services</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">brew services [start|stop|restart] [package_name]</span><br><span class="line"></span><br><span class="line">brew services list</span><br><span class="line"></span><br><span class="line">brew services cleanup</span><br></pre></td></tr></table></figure>
+
+<h3 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew doctor</span><br></pre></td></tr></table></figure>
+
 <h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><ol>
-<li>In macOS 10.12 Sierra, /usr/local is readonly<br> <a href="https://maomihz.com/2016/09/upgrade-sierra-homebrew/" target="_blank" rel="noopener">升级macOS Sierra后修复brew可能存在的问题</a> <a href="https://github.com/Homebrew/brew/issues/385" target="_blank" rel="noopener">In macOS 10.12 Sierra, /usr/local is readonly.</a> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $(whoami) /usr/local</span><br></pre></td></tr></table></figure>
-</li>
+<li>In macOS 10.12 Sierra, &#x2F;usr&#x2F;local is readonly<br> <a href="https://maomihz.com/2016/09/upgrade-sierra-homebrew/">升级macOS Sierra后修复brew可能存在的问题</a> <a href="https://github.com/Homebrew/brew/issues/385">In macOS 10.12 Sierra, &#x2F;usr&#x2F;local is readonly.</a> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $(whoami) /usr/local</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.jianshu.com/p/8ad7056b243f" target="_blank" rel="noopener">Homebrew总结</a></li>
-<li><a href="http://icyleaf.com/2014/01/homebrew-hidden-commands/" target="_blank" rel="noopener">Homebrew 隐藏命令</a></li>
+<li><a href="http://www.jianshu.com/p/8ad7056b243f">Homebrew总结</a></li>
+<li><a href="http://icyleaf.com/2014/01/homebrew-hidden-commands/">Homebrew 隐藏命令</a></li>
 </ul>
 
   </div>

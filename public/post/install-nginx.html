@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="源码安装下载去download页面选着合适的版本，下载源码 12wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.11.3.tar.gztar -zxvf nginx-1.11.3.tar.gz 安装依赖1yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre">
+    <meta name="description" content="源码安装下载去download页面选着合适的版本，下载源码 12wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.11.3.tar.gztar -zxvf nginx-1.11.3.tar.gz  安装依赖1yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安装nginx">
 <meta property="og:url" content="https://kekek.cc/post/install-nginx.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="源码安装下载去download页面选着合适的版本，下载源码 12wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.11.3.tar.gztar -zxvf nginx-1.11.3.tar.gz 安装依赖1yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre">
+<meta property="og:description" content="源码安装下载去download页面选着合适的版本，下载源码 12wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.11.3.tar.gztar -zxvf nginx-1.11.3.tar.gz  安装依赖1yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-22T06:45:24.000Z">
 <meta property="article:modified_time" content="2020-09-02T06:12:20.000Z">
@@ -147,45 +147,41 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>去<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">download</a>页面选着合适的版本，下载源码</p>
+    <h2 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>去<a href="http://nginx.org/en/download.html">download</a>页面选着合适的版本，下载源码</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://nginx.org/download/nginx-1.11.3.tar.gz</span><br><span class="line">tar -zxvf nginx-1.11.3.tar.gz</span><br></pre></td></tr></table></figure>
+
 <h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel</span><br></pre></td></tr></table></figure>
+
 <h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><ol>
 <li><p>configure</p>
-<p> 编译的时候可以指定一些参数。nginx安装目录、配置文件路径、插件等等。<br> nginx大部分常用模块，编译时<code>./configure --help</code>以<code>--without</code>开头的都默认安装。<br> <code>--prefix=PATH</code>: 指定nginx的安装目录。默认 <code>/usr/local/nginx</code><br> <code>--conf-path=PATH</code>: 设置nginx.conf配置文件的路径。nginx允许使用不同的配置文件启动，通过命令行中的-c选项。默认为prefix/conf/nginx.conf<br> <code>--user=name</code>: 设置nginx工作进程的用户。安装完成后，可以随时在nginx.conf配置文件更改user指令。默认的用户名是nobody。–group=name类似<br> <code>--with-pcre</code>: 设置PCRE库的源码路径，如果已通过yum方式安装，使用–with-pcre自动找到库文件。使用–with-pcre=PATH时，需要从PCRE网站下载pcre库的源码（版本4.4 - 8.30）并解压，剩下的就交给Nginx的./configure和make来完成。perl正则表达式使用在location指令和 ngx_http_rewrite_module模块中<br> <code>--with-zlib=PATH</code>: 指定 zlib（版本1.1.3 - 1.2.5）的源码解压目录。在默认就启用的网络传输压缩模块ngx_http_gzip_module时需要使用zlib<br> <code>--with-http_ssl_module</code>: 使用https协议模块。默认情况下，该模块没有被构建。前提是openssl与openssl-devel已安装<br> <code>--with-http_stub_status_module</code>: 用来监控 Nginx 的当前状态<br> <code>--with-http_realip_module</code>: 通过这个模块允许我们改变客户端请求头中客户端IP地址值(例如X-Real-IP 或 X-Forwarded-For)，意义在于能够使得后台服务器记录原始客户端的IP地址<br> <code>--add-module=PATH</code>: 添加第三方外部模块，如nginx_upstream_check_module或缓存模块。每次添加新的模块都要重新编译（Tengine可以在新加入module时无需重新编译）<br> e.g,</p>
+<p> 编译的时候可以指定一些参数。nginx安装目录、配置文件路径、插件等等。<br> nginx大部分常用模块，编译时<code>./configure --help</code>以<code>--without</code>开头的都默认安装。<br> <code>--prefix=PATH</code>: 指定nginx的安装目录。默认 <code>/usr/local/nginx</code><br> <code>--conf-path=PATH</code>: 设置nginx.conf配置文件的路径。nginx允许使用不同的配置文件启动，通过命令行中的-c选项。默认为prefix&#x2F;conf&#x2F;nginx.conf<br> <code>--user=name</code>: 设置nginx工作进程的用户。安装完成后，可以随时在nginx.conf配置文件更改user指令。默认的用户名是nobody。–group&#x3D;name类似<br> <code>--with-pcre</code>: 设置PCRE库的源码路径，如果已通过yum方式安装，使用–with-pcre自动找到库文件。使用–with-pcre&#x3D;PATH时，需要从PCRE网站下载pcre库的源码（版本4.4 - 8.30）并解压，剩下的就交给Nginx的.&#x2F;configure和make来完成。perl正则表达式使用在location指令和 ngx_http_rewrite_module模块中<br> <code>--with-zlib=PATH</code>: 指定 zlib（版本1.1.3 - 1.2.5）的源码解压目录。在默认就启用的网络传输压缩模块ngx_http_gzip_module时需要使用zlib<br> <code>--with-http_ssl_module</code>: 使用https协议模块。默认情况下，该模块没有被构建。前提是openssl与openssl-devel已安装<br> <code>--with-http_stub_status_module</code>: 用来监控 Nginx 的当前状态<br> <code>--with-http_realip_module</code>: 通过这个模块允许我们改变客户端请求头中客户端IP地址值(例如X-Real-IP 或 X-Forwarded-For)，意义在于能够使得后台服务器记录原始客户端的IP地址<br> <code>--add-module=PATH</code>: 添加第三方外部模块，如nginx_upstream_check_module或缓存模块。每次添加新的模块都要重新编译（Tengine可以在新加入module时无需重新编译）<br> e.g,</p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--user=nginx \</span><br><span class="line">--group=nginx \</span><br><span class="line">--add-module=./plugins/nginx_upstream_check_module/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>make</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp; make install</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp; make install</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
 <li><p>启动</p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -c filename <span class="comment"># 默认 conf/nginx.conf</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>停止</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop </span><br><span class="line"></span><br><span class="line"><span class="comment"># 平滑退出</span></span><br><span class="line"><span class="built_in">kill</span> -QUIT `cat /var/run/nginx.pid`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制退出</span></span><br><span class="line"><span class="built_in">kill</span> -TERM `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop </span><br><span class="line"></span><br><span class="line"><span class="comment"># 平滑退出</span></span><br><span class="line"><span class="built_in">kill</span> -QUIT `<span class="built_in">cat</span> /var/run/nginx.pid`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制退出</span></span><br><span class="line"><span class="built_in">kill</span> -TERM `<span class="built_in">cat</span> /var/run/nginx.pid`</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="3">
 <li><p>平滑升级</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动新进程</span></span><br><span class="line"><span class="built_in">kill</span> -USR2 `cat /var/run/nginx.pid`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 逐步旧Server的停止工作进程</span></span><br><span class="line"><span class="built_in">kill</span> -WINCH `cat /var/run/nginx.pid.oldbin`</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动新进程</span></span><br><span class="line"><span class="built_in">kill</span> -USR2 `<span class="built_in">cat</span> /var/run/nginx.pid`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 逐步旧Server的停止工作进程</span></span><br><span class="line"><span class="built_in">kill</span> -WINCH `<span class="built_in">cat</span> /var/run/nginx.pid.oldbin`</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="4">
 <li><p>重新加载文件</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nginx -s relaod </span><br><span class="line"></span><br><span class="line"><span class="built_in">kill</span> -HUP `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nginx -s relaod </span><br><span class="line"></span><br><span class="line"><span class="built_in">kill</span> -HUP `<span class="built_in">cat</span> /var/run/nginx.pid`</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>检验配置文件</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t -c /usr/local/nginx/conf/nginx.conf </span><br></pre></td></tr></table></figure>
 </li>
 <li><p>日志切割</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -USR1 `cat /nginx/logs/nginx.pid`</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -USR1 `<span class="built_in">cat</span> /nginx/logs/nginx.pid`</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://segmentfault.com/a/1190000002797601" target="_blank" rel="noopener">Nginx服务器安装及配置文件详解</a></li>
-<li><a href="http://nginx.org/en/docs/control.html" target="_blank" rel="noopener">Controlling nginx</a></li>
+<li><a href="https://segmentfault.com/a/1190000002797601">Nginx服务器安装及配置文件详解</a></li>
+<li><a href="http://nginx.org/en/docs/control.html">Controlling nginx</a></li>
 </ul>
 
   </div>

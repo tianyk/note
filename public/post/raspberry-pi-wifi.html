@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="启动设置WIFI新建 wpa_supplicant.conf12345ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdevnetwork&#x3D;&#123;    ssid&#x3D;&quot;路由名称&quot;    psk&#x3D;&quot;密码&quot;&#125; 重启电脑 扫描WiFi1sudo iwlist wlan0 scan | grep">
+    <meta name="description" content="启动设置WIFI新建 wpa_supplicant.conf 12345ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdevnetwork&#x3D;&#123;    ssid&#x3D;&quot;路由名称&quot;    psk&#x3D;&quot;密码&quot;&#125;  重启电脑 扫描WiFi1sudo iwlist wlan0 scan | gre">
 <meta property="og:type" content="article">
 <meta property="og:title" content="树莓派设置WIFI">
 <meta property="og:url" content="https://kekek.cc/post/raspberry-pi-wifi.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="启动设置WIFI新建 wpa_supplicant.conf12345ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdevnetwork&#x3D;&#123;    ssid&#x3D;&quot;路由名称&quot;    psk&#x3D;&quot;密码&quot;&#125; 重启电脑 扫描WiFi1sudo iwlist wlan0 scan | grep">
+<meta property="og:description" content="启动设置WIFI新建 wpa_supplicant.conf 12345ctrl_interface&#x3D;DIR&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant GROUP&#x3D;netdevnetwork&#x3D;&#123;    ssid&#x3D;&quot;路由名称&quot;    psk&#x3D;&quot;密码&quot;&#125;  重启电脑 扫描WiFi1sudo iwlist wlan0 scan | gre">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-13T11:37:04.000Z">
 <meta property="article:modified_time" content="2018-09-10T05:51:48.000Z">
@@ -147,14 +147,20 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="启动设置WIFI"><a href="#启动设置WIFI" class="headerlink" title="启动设置WIFI"></a>启动设置WIFI</h3><p>新建 <code>wpa_supplicant.conf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev</span><br><span class="line">network=&#123;</span><br><span class="line">    ssid=&quot;路由名称&quot;</span><br><span class="line">    psk=&quot;密码&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>重启电脑</p>
-<h3 id="扫描WiFi"><a href="#扫描WiFi" class="headerlink" title="扫描WiFi"></a>扫描WiFi</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iwlist wlan0 scan | grep ESSID</span><br></pre></td></tr></table></figure>
-<h3 id="设置静态IP"><a href="#设置静态IP" class="headerlink" title="设置静态IP"></a>设置静态IP</h3><p>编辑/etc/network/interfaces<br><code>sudo vi /etc/network/interfaces</code></p>
-<p>找到<code>allow-hotplug wlan0</code>一栏<br>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.0.118</span><br><span class="line">    gateway 192.168.0.1</span><br><span class="line">    netmask 255.255.255.0</span><br></pre></td></tr></table></figure></p>
-<p>注意，如果<code>/etc/network/interfaces</code>有如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Please note that this file is written to be used with dhcpcd</span><br><span class="line"># For static IP, consult /etc/dhcpcd.conf and &apos;man dhcpcd.conf&apos;</span><br></pre></td></tr></table></figure></p>
-<p>需要在<code>/etc/dhcpcd.conf</code>配置静态IP<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">interface eth0</span><br><span class="line">static ip_address=192.168.1.4/24 # /24表示掩码为 255.255.255.0</span><br><span class="line">static routers=192.168.1.1</span><br><span class="line">static domain_name_servers=114.114.114.114 114.114.115.115</span><br></pre></td></tr></table></figure></p>
+    <h3 id="启动设置WIFI"><a href="#启动设置WIFI" class="headerlink" title="启动设置WIFI"></a>启动设置WIFI</h3><p>新建 <code>wpa_supplicant.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev</span><br><span class="line">network=&#123;</span><br><span class="line">    ssid=&quot;路由名称&quot;</span><br><span class="line">    psk=&quot;密码&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>重启电脑</p>
+<h3 id="扫描WiFi"><a href="#扫描WiFi" class="headerlink" title="扫描WiFi"></a>扫描WiFi</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iwlist wlan0 scan | grep ESSID</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置静态IP"><a href="#设置静态IP" class="headerlink" title="设置静态IP"></a>设置静态IP</h3><p>编辑&#x2F;etc&#x2F;network&#x2F;interfaces<br><code>sudo vi /etc/network/interfaces</code></p>
+<p>找到<code>allow-hotplug wlan0</code>一栏<br>修改为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.0.118</span><br><span class="line">    gateway 192.168.0.1</span><br><span class="line">    netmask 255.255.255.0 </span><br></pre></td></tr></table></figure>
+
+<p>注意，如果<code>/etc/network/interfaces</code>有如下提示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Please note that this file is written to be used with dhcpcd</span><br><span class="line"># For static IP, consult /etc/dhcpcd.conf and &#x27;man dhcpcd.conf&#x27;</span><br></pre></td></tr></table></figure>
+<p>需要在<code>/etc/dhcpcd.conf</code>配置静态IP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">interface eth0</span><br><span class="line">static ip_address=192.168.1.4/24 # /24表示掩码为 255.255.255.0</span><br><span class="line">static routers=192.168.1.1</span><br><span class="line">static domain_name_servers=114.114.114.114 114.114.115.115</span><br></pre></td></tr></table></figure>
   </div>
   <div class="article-license">
     <!-- 

@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="安装与配置 导入密钥 1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch  配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建elasticsearch.repo写入一下内容。 123456[elasticsearch-2.x]name&#x3D;Elasticsearch repository for 2.x packagesb">
+    <meta name="description" content="安装与配置 导入密钥  1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch   配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建elasticsearch.repo写入一下内容。  123456[elasticsearch-2.x]name&#x3D;Elasticsearch repository for 2.x packag">
 <meta property="og:type" content="article">
 <meta property="og:title" content="install-elasticsearch">
 <meta property="og:url" content="https://kekek.cc/post/install-elasticsearch.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="安装与配置 导入密钥 1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch  配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建elasticsearch.repo写入一下内容。 123456[elasticsearch-2.x]name&#x3D;Elasticsearch repository for 2.x packagesb">
+<meta property="og:description" content="安装与配置 导入密钥  1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch   配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建elasticsearch.repo写入一下内容。  123456[elasticsearch-2.x]name&#x3D;Elasticsearch repository for 2.x packag">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-30T12:12:00.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.681Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="elasticsearch">
 <meta name="twitter:card" content="summary">
@@ -148,64 +148,74 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h3><ol>
-<li><p>导入密钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置源<br>在<code>/etc/yum.repos.d/</code>目录下新建<code>elasticsearch.repo</code>写入一下内容。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[elasticsearch-2.x]</span><br><span class="line">name=Elasticsearch repository for 2.x packages</span><br><span class="line">baseurl=https://packages.elastic.co/elasticsearch/2.x/centos</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line"># 需要jre支持</span><br><span class="line">yum install java-1.8.0-openjdk.x86_64 elasticsearch -y</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置开机启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service elasticsearch start</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>参考<br><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html" target="_blank" rel="noopener">【1】</a> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html" target="_blank" rel="noopener">【2】</a></p>
-</li>
+<li>导入密钥</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置源<br>在<code>/etc/yum.repos.d/</code>目录下新建<code>elasticsearch.repo</code>写入一下内容。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[elasticsearch-2.x]</span><br><span class="line">name=Elasticsearch repository for 2.x packages</span><br><span class="line">baseurl=https://packages.elastic.co/elasticsearch/2.x/centos</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line"># 需要jre支持</span><br><span class="line">yum install java-1.8.0-openjdk.x86_64 elasticsearch -y</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>配置开机启动</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add elasticsearch</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>启动服务</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service elasticsearch start</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>参考<br><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html">【1】</a> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html">【2】</a></li>
 </ol>
 <h3 id="elasticsearch和传统数据库对照关系"><a href="#elasticsearch和传统数据库对照关系" class="headerlink" title="elasticsearch和传统数据库对照关系"></a>elasticsearch和传统数据库对照关系</h3><blockquote>
 <p>在Elasticsearch中，文档归属于一种类型(type),而这些类型存在于索引(index)中，我们可以画一些简单的对比图来类比传统关系型数据库：</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Relational DB -&gt; Databases -&gt; Tables -&gt; Rows -&gt; Columns</span><br><span class="line">Elasticsearch -&gt; Indices   -&gt; Types  -&gt; Documents -&gt; Fields</span><br><span class="line">```                                                                                                                                                                                                                </span><br><span class="line">Elasticsearch集群可以包含多个索引(indices)（数据库），每一个索引可以包含多个类型(types)（表），每一个类型包含多个文档(documents)（行），然后每个文档包含多个字段(Fields)（列）。</span><br><span class="line"></span><br><span class="line">### logstash elasticsearch output 配置</span><br><span class="line"></span><br><span class="line">&lt;https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html&gt;</span><br><span class="line"></span><br><span class="line">![](/images/QQ20160803-0.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 插件</span><br><span class="line">plugin install delete-by-query</span><br><span class="line"></span><br><span class="line">### elasticsearch 配置</span><br><span class="line">编辑 `vim /etc/elasticsearch/elasticsearch.yml`</span><br><span class="line">``` yml</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Relational DB -&gt; Databases -&gt; Tables -&gt; Rows -&gt; Columns</span><br><span class="line">Elasticsearch -&gt; Indices   -&gt; Types  -&gt; Documents -&gt; Fields</span><br><span class="line">```                                                                                                                                                                                                                </span><br><span class="line">Elasticsearch集群可以包含多个索引(indices)（数据库），每一个索引可以包含多个类型(types)（表），每一个类型包含多个文档(documents)（行），然后每个文档包含多个字段(Fields)（列）。</span><br><span class="line"></span><br><span class="line">### logstash elasticsearch output 配置</span><br><span class="line"></span><br><span class="line">&lt;https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html&gt;</span><br><span class="line"></span><br><span class="line">![](/images/QQ20160803-0.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 插件</span><br><span class="line">plugin install delete-by-query</span><br><span class="line"></span><br><span class="line">### elasticsearch 配置</span><br><span class="line">编辑 `vim /etc/elasticsearch/elasticsearch.yml`</span><br><span class="line">``` yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><ol>
 <li><p>system call filters failed to install; check the logs and fix your configuration or disable system call filters at your own risk</p>
 <p> 原因：<br> 这是在因为Centos6不支持SecComp，而ES5.2.0默认bootstrap.system_call_filter为true进行检测，所以导致检测失败，失败后直接导致ES不能启动。<br> 解决：<br> 在elasticsearch.yml中配置bootstrap.system_call_filter为false，注意要在Memory下面:    </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.memory_lock: false    </span><br><span class="line">bootstrap.system_call_filter: false</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.memory_lock: false    </span><br><span class="line">bootstrap.system_call_filter: false    </span><br></pre></td></tr></table></figure>
 </li>
 <li><p>max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536] </p>
-<p> 编辑limits.conf 文件追加<br> vim /etc/security/limits.conf   </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch soft nofile 65536    </span><br><span class="line">elasticsearch hard nofile 65536</span><br></pre></td></tr></table></figure>
+<p> 编辑limits.conf 文件追加<br> vim &#x2F;etc&#x2F;security&#x2F;limits.conf   </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch soft nofile 65536    </span><br><span class="line">elasticsearch hard nofile 65536    </span><br></pre></td></tr></table></figure>
 </li>
 <li><p>max number of threads [1024] for user [elasticsearch] is too low, increase to at least [2048]</p>
-<p> 编辑90-nproc.conf 追加<br> vim /etc/security/limits.d/90-nproc.conf </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch soft nproc 2048</span><br></pre></td></tr></table></figure>
+<p> 编辑90-nproc.conf 追加<br> vim &#x2F;etc&#x2F;security&#x2F;limits.d&#x2F;90-nproc.conf </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch soft nproc 2048</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>报找不到JAVA_HOME</p>
-<p> 配置elasticsearch环境变量 ，增加<br> vim /etc/sysconfig/elasticsearch</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Elasticsearch Java path JAVA_HOME</span><br><span class="line"># Elasticsearch Java path</span><br><span class="line">JAVA_HOME=/usr/local/java/</span><br></pre></td></tr></table></figure>
+<p> 配置elasticsearch环境变量 ，增加<br> vim &#x2F;etc&#x2F;sysconfig&#x2F;elasticsearch</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Elasticsearch Java path JAVA_HOME</span><br><span class="line"># Elasticsearch Java path</span><br><span class="line">JAVA_HOME=/usr/local/java/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>can not run elasticsearch as root</p>
 <p> 不能以root用户启动ES服务器。新建elasticsearch运行。</p>
 </li>
 <li><p>Could not register mbeans java.security.AccessControlException: access denied (“javax.management.MBeanTrustPermission” “register”)</p>
-<p> 找到使用的jre (find / -name java.policy) jre/lib/security/java.policy 追加</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">permission javax.management.MBeanTrustPermission &quot;register&quot;;</span><br></pre></td></tr></table></figure>
+<p> 找到使用的jre (find &#x2F; -name java.policy) jre&#x2F;lib&#x2F;security&#x2F;java.policy 追加</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">permission javax.management.MBeanTrustPermission &quot;register&quot;;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Fielddata is disabled on text fields by default.</p>
 <ul>
-<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/fielddata.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/fielddata.html</a></li>
-<li><a href="http://blog.csdn.net/u011403655/article/details/71107415" target="_blank" rel="noopener">http://blog.csdn.net/u011403655/article/details/71107415</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/fielddata.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/fielddata.html</a></li>
+<li><a href="http://blog.csdn.net/u011403655/article/details/71107415">http://blog.csdn.net/u011403655/article/details/71107415</a></li>
 </ul>
 </li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://blog.csdn.net/feifantiyan/article/details/54614614" target="_blank" rel="noopener">http://blog.csdn.net/feifantiyan/article/details/54614614</a>  </li>
-<li><a href="http://blog.csdn.net/cardinalzbk/article/details/54924511" target="_blank" rel="noopener">http://blog.csdn.net/cardinalzbk/article/details/54924511</a></li>
-<li><a href="https://yemengying.com/2016/03/18/Elasticsearch%E9%85%8D%E7%BD%AE%E9%A1%B9-Local-gateway-HTTP-Indices-Network-Settings%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">https://yemengying.com/2016/03/18/Elasticsearch%E9%85%8D%E7%BD%AE%E9%A1%B9-Local-gateway-HTTP-Indices-Network-Settings%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE/</a></li>
-<li><a href="http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html" target="_blank" rel="noopener">http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html</a></li>
+<li><a href="http://blog.csdn.net/feifantiyan/article/details/54614614">http://blog.csdn.net/feifantiyan/article/details/54614614</a>  </li>
+<li><a href="http://blog.csdn.net/cardinalzbk/article/details/54924511">http://blog.csdn.net/cardinalzbk/article/details/54924511</a></li>
+<li><a href="https://yemengying.com/2016/03/18/Elasticsearch%E9%85%8D%E7%BD%AE%E9%A1%B9-Local-gateway-HTTP-Indices-Network-Settings%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE/">https://yemengying.com/2016/03/18/Elasticsearch%E9%85%8D%E7%BD%AE%E9%A1%B9-Local-gateway-HTTP-Indices-Network-Settings%E6%A8%A1%E5%9D%97%E9%85%8D%E7%BD%AE/</a></li>
+<li><a href="http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html">http://es.xiaoleilu.com/010_Intro/25_Tutorial_Indexing.html</a></li>
 </ul>
 
   </div>

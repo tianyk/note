@@ -17,7 +17,7 @@
 <meta property="og:description" content="Sock5安装 环境准备  12yum -y install gcc automake autoconf libtool makeyum -y install pam-devel openldap-devel cyrus-sasl-devel  编译安装  12345&lt;http:&#x2F;&#x2F;sourceforge.net&#x2F;projects&#x2F;ss5&#x2F;files&#x2F;&gt;tar zxvf ss5-3.8">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-12-15T11:12:41.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.487Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.716Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="sock5">
 <meta name="twitter:card" content="summary">
@@ -149,27 +149,25 @@
   <div class="content" itemprop="articleBody">
     <h2 id="Sock5"><a href="#Sock5" class="headerlink" title="Sock5"></a>Sock5</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
 <li><p>环境准备</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc automake autoconf libtool make</span><br><span class="line">yum -y install pam-devel openldap-devel cyrus-sasl-devel</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc automake autoconf libtool make</span><br><span class="line">yum -y install pam-devel openldap-devel cyrus-sasl-devel</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编译安装</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;http://sourceforge.net/projects/ss5/files/&gt;</span><br><span class="line">tar zxvf ss5-3.8.9-8.tar.gz</span><br><span class="line">cd ss5-3.8.9</span><br><span class="line">./configure  //notes:(默认是1080端口，如果想改端口的话，./configure –with-defaultport=5533</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;http://sourceforge.net/projects/ss5/files/&gt;</span><br><span class="line">tar zxvf ss5-3.8.9-8.tar.gz</span><br><span class="line">cd ss5-3.8.9</span><br><span class="line">./configure  //notes:(默认是1080端口，如果想改端口的话，./configure –with-defaultport=5533</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>启动</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x /etc/init.d/ss5</span><br><span class="line">/etc/init.d/ss5 start</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x /etc/init.d/ss5</span><br><span class="line">/etc/init.d/ss5 start </span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ol>
 <li><p>安装服务</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add ss5</span><br><span class="line">chkconfig ss5 on</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add ss5</span><br><span class="line">chkconfig ss5 on</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>权限配置</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/opt/ss5/ss5.conf </span><br><span class="line"># 修改 SHost SPort Authentication </span><br><span class="line">auth 0.0.0.0/0 – -</span><br><span class="line">改为</span><br><span class="line">auth 0.0.0.0/0 – u</span><br><span class="line">permit – 0.0.0.0/0 – 0.0.0.0/0 – – – – -</span><br><span class="line">改成为</span><br><span class="line">permit u 0.0.0.0/0 – 0.0.0.0/0 – – – – -</span><br><span class="line"></span><br><span class="line"># 添加用户</span><br><span class="line">touch /etc/opt/ss5/ss5.passwd</span><br><span class="line">echo &quot;username password&quot; &gt; /etc/opt/ss5/ss5.passwd</span><br><span class="line"></span><br><span class="line"># 重启</span><br><span class="line">service ss5 restart</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/opt/ss5/ss5.conf </span><br><span class="line"># 修改 SHost SPort Authentication </span><br><span class="line">auth 0.0.0.0/0 – -</span><br><span class="line">改为</span><br><span class="line">auth 0.0.0.0/0 – u</span><br><span class="line">permit – 0.0.0.0/0 – 0.0.0.0/0 – – – – -</span><br><span class="line">改成为</span><br><span class="line">permit u 0.0.0.0/0 – 0.0.0.0/0 – – – – -</span><br><span class="line"></span><br><span class="line"># 添加用户</span><br><span class="line">touch /etc/opt/ss5/ss5.passwd</span><br><span class="line">echo &quot;username password&quot; &gt; /etc/opt/ss5/ss5.passwd</span><br><span class="line"></span><br><span class="line"># 重启</span><br><span class="line">service ss5 restart</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.ttlsa.com/linux/linux-setup-socks-5-ttlsa/" target="_blank" rel="noopener">linux下搭建socks 5代理</a></li>
-<li><a href="http://awy.me/2014/06/yong-shadowsocks-he-proxifier-zi-you-fang-wen-hu-lian-wang/" target="_blank" rel="noopener">用Proxifier自由访问互联网</a></li>
-<li><a href="http://blackwolfsec.cc/2016/09/19/Proxifier_Shadowshocks/" target="_blank" rel="noopener">Proxifier系统全局代理的正确姿势</a></li>
+<li><a href="http://www.ttlsa.com/linux/linux-setup-socks-5-ttlsa/">linux下搭建socks 5代理</a></li>
+<li><a href="http://awy.me/2014/06/yong-shadowsocks-he-proxifier-zi-you-fang-wen-hu-lian-wang/">用Proxifier自由访问互联网</a></li>
+<li><a href="http://blackwolfsec.cc/2016/09/19/Proxifier_Shadowshocks/">Proxifier系统全局代理的正确姿势</a></li>
 </ul>
 
   </div>

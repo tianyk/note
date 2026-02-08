@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recoder</title>
+    <style>
+        /* #app {
+            cursor: url('mouse-pointer.png') -1 -1, default;
+            position: relative;
+        } */
+
+        #mouse {
+            display: none;
+            z-index: 1000;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .area {
+            position: relative;
+            background-color: antiquewhite;
+            width: 400px;
+            height: 200px;
+        }
+
+        .area .location {
+            position: absolute;
+            background-color: red;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body style="padding: 0; margin: 0">
+    <div id="app">
+
+        <form>
+            <div>
+                <label for="username">
+                    姓名：
+                    <input type="text" id="username" v-model="user.username">
+                </label>
+            </div>
+
+            <div>
+                <label for="mobile">
+                    电话：
+                    <input type="text" id="username" v-model="user.mobile">
+                </label>
+            </div>
+
+            <div>
+                <label for="age">
+                    年龄：
+                    <input type="text" id="username" v-model="user.age">
+                </label>
+            </div>
+
+            <div>
+                性别：
+                <label for="gender-male">
+                    <input type="radio" id="gender-male" name="gender" value="male" v-model="user.gender"> 男
+                </label>
+                <label for="gender-female">
+                    <input type="radio" id="gender-female" name="gender" value="female" v-model="user.gender"> 女
+                </label>
+            </div>
+
+            <div>
+                <label for="address">
+                    地址：
+                    <textarea id="address" v-model="user.address"></textarea>
+                </label>
+            </div>
+
+            <div class="area">
+                <div class="location" @mousedown="dragStart(location, $event)" :style="{ top: location.top + 'px', left: location.left + 'px'  }">
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <button type="button" onclick="startRecorder()">录制</button>
+        <button type="button" onclick="stopRecorder()">结束</button>
+        <button type="button" onclick="reset()">重置</button>
+        <a href="player.html">播放</a>
+    </div>
+
+    <script src="https://lib.baomitu.com/vue/2.5.17/vue.js"></script>
+    <script src="./recorder.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                controller: {
+                    state: 'INIT'
+                },
+                user: {},
+                location: {
+                    top: 0,
+                    left: 0,
+                    clientX: 0,
+                    clientY: 0
+                }
+            },
+            methods: {
+                dragStart: function (location, event) {
+                    location.draggable = true;
+                    location.clientX = event.clientX;
+                    location.clientY = event.clientY;
+
+                    document.onmousemove = function (event) {
+                        if (location.draggable) {
+                            var offsetX = event.clientX - location.clientX;
+                            var offsetY = event.clientY - location.clientY;
+                            location.left += offsetX;
+                            location.top += offsetY;
+
+                            location.clientX = event.clientX;
+                            location.clientY = event.clientY;
+                        }
+                    }
+
+                    document.onmouseup = function () {
+                        location.draggable = false;
+
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                    }
+                },
+            }
+        });
+
+
+        function reset() {
+            Vue.reset(app);
+        }
+
+        function startRecorder() {
+            Vue.startRecorder(app);
+        }
+
+        function stopRecorder() {
+            Vue.stopRecorder(app);
+        }
+
+    </script>
+</body>
+
+</html>

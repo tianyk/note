@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Linux内核查看内核及发行版 uname -a：查看Linux内核版本 cat &#x2F;etc&#x2F;issue：查看发行版 cat &#x2F;proc&#x2F;version   升级CentOS6内核 导入public key  1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org  添加ELRepo  RHEL-7, SL-7 or CentOS-7：">
+    <meta name="description" content="Linux内核查看内核及发行版 uname -a：查看Linux内核版本 cat &#x2F;etc&#x2F;issue：查看发行版 cat &#x2F;proc&#x2F;version  升级CentOS6内核 导入public key  1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org  添加ELRepo  RHEL-7, SL-7 or CentOS-7：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux内核">
 <meta property="og:url" content="https://kekek.cc/post/linux-kernel.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Linux内核查看内核及发行版 uname -a：查看Linux内核版本 cat &#x2F;etc&#x2F;issue：查看发行版 cat &#x2F;proc&#x2F;version   升级CentOS6内核 导入public key  1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org  添加ELRepo  RHEL-7, SL-7 or CentOS-7：">
+<meta property="og:description" content="Linux内核查看内核及发行版 uname -a：查看Linux内核版本 cat &#x2F;etc&#x2F;issue：查看发行版 cat &#x2F;proc&#x2F;version  升级CentOS6内核 导入public key  1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org  添加ELRepo  RHEL-7, SL-7 or CentOS-7：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-09-06T13:01:30.000Z">
 <meta property="article:modified_time" content="2018-07-20T07:15:49.000Z">
@@ -150,54 +150,47 @@
     <h2 id="Linux内核"><a href="#Linux内核" class="headerlink" title="Linux内核"></a>Linux内核</h2><h3 id="查看内核及发行版"><a href="#查看内核及发行版" class="headerlink" title="查看内核及发行版"></a>查看内核及发行版</h3><ol>
 <li><code>uname -a</code>：查看Linux内核版本</li>
 <li><code>cat /etc/issue</code>：查看发行版</li>
-<li><code>cat /proc/version</code> </li>
+<li><code>cat /proc/version</code></li>
 </ol>
 <h3 id="升级CentOS6内核"><a href="#升级CentOS6内核" class="headerlink" title="升级CentOS6内核"></a>升级CentOS6内核</h3><ol>
 <li><p>导入public key</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>添加ELRepo</p>
 <ul>
-<li><p>RHEL-7, SL-7 or CentOS-7：</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>RHEL-6, SL-6 or CentOS-6：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure>
-</li>
+<li>RHEL-7, SL-7 or CentOS-7：  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure></li>
+<li>RHEL-6, SL-6 or CentOS-6： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-</ol>
-<ol start="3">
 <li><p>升级Kernel</p>
 <blockquote>
 <p>在 ELRepo 中有两个内核选项，一个是 kernel-lt(长期支持版本)，一个是 kernel-ml(主线最新版本)，采用长期支持版本(kernel-lt)。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># kernel-lt</span><br><span class="line">yum --enablerepo=elrepo-kernel install kernel-lt -y </span><br><span class="line">or</span><br><span class="line"># kernel-ml</span><br><span class="line">yum --enablerepo=elrepo-kernel install kernel-ml -y</span><br></pre></td></tr></table></figure>
-</blockquote>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># kernel-lt</span><br><span class="line">yum --enablerepo=elrepo-kernel install kernel-lt -y </span><br><span class="line">or</span><br><span class="line"># kernel-ml</span><br><span class="line">yum --enablerepo=elrepo-kernel install kernel-ml -y </span><br></pre></td></tr></table></figure></blockquote>
 </li>
 <li><p>安装完成，需要修改grub</p>
 <blockquote>
-<p>根据安装好以后的内核位置，修改 default 的值，一般是修改为0，因为 default 从 0 开始，一般新安装的内核在第一个位置，所以设置default=0。</p>
+<p>根据安装好以后的内核位置，修改 default 的值，一般是修改为0，因为 default 从 0 开始，一般新安装的内核在第一个位置，所以设置default&#x3D;0。</p>
 </blockquote>
 <ul>
-<li><p>RHEL-7, SL-7 or CentOS-7：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br><span class="line"></span><br><span class="line"># 重新编译内核启动文件</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>RHEL-6, SL-6 or CentOS-6：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/grub.conf</span><br></pre></td></tr></table></figure>
-</li>
+<li>RHEL-7, SL-7 or CentOS-7：</li>
 </ul>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br><span class="line"></span><br><span class="line"># 重新编译内核启动文件</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>RHEL-6, SL-6 or CentOS-6：</li>
+</ul>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/grub.conf</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>删除旧内核</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br><span class="line">yum autoremove kernel-2.6.32-696.el6.x86_64</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br><span class="line">yum autoremove kernel-2.6.32-696.el6.x86_64</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重启服务器</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot </span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.csdn.net/wh211212/article/details/78683753" target="_blank" rel="noopener">CentOS6.X 升级内核Kernel</a></li>
-<li><a href="http://elrepo.org/tiki/tiki-index.php" target="_blank" rel="noopener">ELRepo.org</a></li>
-<li><a href="https://www.centos.bz/2017/08/upgrade-centos-7-6-kernel-to-4-12-4/" target="_blank" rel="noopener">升级Centos 7/6内核版本到4.12.4的方法</a></li>
+<li><a href="https://blog.csdn.net/wh211212/article/details/78683753">CentOS6.X 升级内核Kernel</a></li>
+<li><a href="http://elrepo.org/tiki/tiki-index.php">ELRepo.org</a></li>
+<li><a href="https://www.centos.bz/2017/08/upgrade-centos-7-6-kernel-to-4-12-4/">升级Centos 7&#x2F;6内核版本到4.12.4的方法</a></li>
 </ul>
 
   </div>

@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://kekek.cc/images/QQ20160816-1@2x.jpg">
 <meta property="og:image" content="https://kekek.cc/images/QQ20160816-2@2x.jpg">
 <meta property="article:published_time" content="2016-08-16T02:44:29.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.484Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.684Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="iptables">
 <meta name="twitter:card" content="summary">
@@ -90,7 +90,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/post/README.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/post/atom-keymap.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/post/cdn.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -112,7 +112,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E5%86%99%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">规则写法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COMMAND%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">COMMAND命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E6%A0%87%E5%87%86CRETIRIA"><span class="toc-number">1.2.</span> <span class="toc-text">匹配标准CRETIRIA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E8%A7%A3-j-ACTION"><span class="toc-number">1.3.</span> <span class="toc-text">详解 -j ACTION</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">规则的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIPS"><span class="toc-number">3.</span> <span class="toc-text">TIPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E5%86%99%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">规则写法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COMMAND%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">COMMAND命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E6%A0%87%E5%87%86CRETIRIA"><span class="toc-number">1.2.</span> <span class="toc-text">匹配标准CRETIRIA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E8%A7%A3-j-ACTION"><span class="toc-number">1.3.</span> <span class="toc-text">详解 -j ACTION</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">规则的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIPS"><span class="toc-number">3.</span> <span class="toc-text">TIPS</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -151,57 +151,54 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="规则写法"><a href="#规则写法" class="headerlink" title="规则写法"></a>规则写法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables [-t table] COMMAND chain CRETIRIA -j ACTION</span><br></pre></td></tr></table></figure>
+    <h3 id="规则写法"><a href="#规则写法" class="headerlink" title="规则写法"></a>规则写法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables [-t table] COMMAND chain CRETIRIA -j ACTION</span><br></pre></td></tr></table></figure>
 <p>-t table: 4个<code>filter</code> <code>nat</code> <code>mangle</code> <code>raw</code>，默认为<code>filter</code><br>COMMAND: 定义如何对规则进行管理<br>chain: 指定你接下来的规则到底是在哪个链上操作的，当定义策略的时候，是可以省略的<br>CRETIRIA: 指定匹配标准<br>-j ACTION: 指定如何进行处理</p>
-<p>例如，开放80端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>例如，开放80端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure>
 <p>这里的-t为<code>filter</code><br>COMMAND为<code>-A INPUT</code><br>CRETIRIA为<code>-p tcp --dport 80</code><br>-j为<code>ACCEPT</code>  </p>
 <h4 id="COMMAND命令"><a href="#COMMAND命令" class="headerlink" title="COMMAND命令"></a>COMMAND命令</h4><ol>
 <li><p>链管理命令<br> -P: 设置默认策略的（设定默认门是关着的还是开着的）<br> 默认策略一般只有两种</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT (DROP|ACCEPT)  默认是关的/默认是开的</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT (DROP|ACCEPT)  默认是关的/默认是开的</span><br></pre></td></tr></table></figure>
 <p> 比如：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br></pre></td></tr></table></figure>
 <p> 这就把默认规则给拒绝了。并且没有定义哪个动作，所以关于外界连接都会被拒绝。</p>
 <p> -F: FLASH，清空规则链的(注意每个链的管理权限)</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -F PREROUTING</span><br><span class="line">iptables -t nat -F 清空nat表的所有链</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -F PREROUTING</span><br><span class="line">iptables -t nat -F 清空nat表的所有链</span><br></pre></td></tr></table></figure>
+
 <p> -N: 支持用户新建一个链</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -N Docker</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -N Docker</span><br></pre></td></tr></table></figure>
 <p> 创建后，使用-L命令查看发现会多一条规则链</p>
 <p> -X: 用于删除用户自定义的空链<br> 使用方法跟-N相同，但是在删除之前必须要将里面的链给清空昂了</p>
 <p> -E: 用来Rename chain主要是用来给用户自定义的链重命名</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -E Docker docker</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -E Docker docker</span><br></pre></td></tr></table></figure>
+
 <p> -Z: 清空链，及链中默认规则的计数器的（有两个计数器，被匹配到多少个数据包，多少个字节）</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -Z INPUT</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -Z INPUT</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>规则管理命令<br> -A: 追加，在当前链的最后新增一个规则</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure>
 <p> -I num : 插入，把当前规则插入为第几条</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 禁止192.168.3.167访问5601端口，插入到第一条规则</span><br><span class="line">iptables -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure>
-<p> -R num：Replays替换/修改第几条规则</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 修改第一条规则</span><br><span class="line">iptables -R INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j ACCEPT</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 禁止192.168.3.167访问5601端口，插入到第一条规则</span><br><span class="line">iptables -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure>
+<p> -R num：Replays替换&#x2F;修改第几条规则</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 修改第一条规则</span><br><span class="line">iptables -R INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j ACCEPT</span><br></pre></td></tr></table></figure>
 <p> -D num：删除，明确指定删除第几条规则</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -D INPUT 1</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -D INPUT 1</span><br></pre></td></tr></table></figure></li>
 <li><p>查看管理命令”-L”<br> 附加子命令<br> -n: 以数字的方式显示ip，它会将ip直接显示出来，如果不加-n，则会将ip反向解析成主机名<br> -v: 显示详细信息<br> -vv<br> -vvv: 越多越详细<br> -x: 在计数器上显示精确值，不做单位换算<br> –line-numbers: 显示规则的行号<br> -t nat：显示所有的关卡的信息  </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -L -n -v --line-numbers</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -L -n -v --line-numbers</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h4 id="匹配标准CRETIRIA"><a href="#匹配标准CRETIRIA" class="headerlink" title="匹配标准CRETIRIA"></a>匹配标准CRETIRIA</h4><ol>
 <li><p>通用匹配<br> -s：指定作为源地址匹配，这里不能指定主机名称，必须是IP</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 匹配IP是192.168.3.167请求</span><br><span class="line">iptables -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 匹配IP是192.168.3.167请求</span><br><span class="line">iptables -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure>
 <p> 而且地址可以取反，加一个“!”表示除了哪个IP之外</p>
 <p> -d：表示匹配目标地址</p>
-<p> -p：用于匹配协议的（这里的协议通常有3种，TCP/UDP/ICMP）</p>
+<p> -p：用于匹配协议的（这里的协议通常有3种，TCP&#x2F;UDP&#x2F;ICMP）</p>
 <p> -i eth0：从这块网卡流入的数据<br> 流入一般用在INPUT和PREROUTING上</p>
 <p> -o eth0：从这块网卡流出的数据<br> 流出一般在OUTPUT和POSTROUTING上</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 打开回环</span><br><span class="line">iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o lo -j ACCEPT</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 打开回环</span><br><span class="line">iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o lo -j ACCEPT</span><br></pre></td></tr></table></figure></li>
 <li><p>扩展匹配</p>
 <ol>
-<li>隐含扩展：对协议的扩展<br>-p tcp: TCP协议的扩展。一般有三种扩展<br> –dport XX-XX：指定目标端口,不能指定多个非连续端口,只能指定单个端口，比如<br> –dport 21  或者 –dport 21-23 (此时表示21,22,23)<br> –sport：指定源端口<br> –tcp-fiags：TCP的标志位（SYN,ACK，FIN,PSH，RST,URG）<br> 对于它，一般要跟两个参数：<br> 1.检查的标志位<br> 2.必须为1的标志位<br> –tcpflags syn,ack,fin,rst syn   =    –syn<br> 表示检查这4个位，这4个位中syn必须为1，其他的必须为0。所以这个意思就是用于检测三次握手的第一次包的。对于这种专门匹配第一包的SYN为1的包，还有一种简写方式，叫做–syn<br>-p udp：UDP协议的扩展<br> –dport<br> –sport<br>-p icmp：icmp数据报文的扩展<br> –icmp-type：<pre><code>echo-request(请求回显)，一般用8 来表示
-所以 --icmp-type 8 匹配请求回显数据包
-echo-reply （响应的数据包）一般用0来表示
-</code></pre></li>
-<li>显式扩展（-m）<br>扩展各种模块<br>-m multiport：表示启用多端口扩展<br>之后我们就可以启用比如 –dports 21,23,80  </li>
+<li>隐含扩展：对协议的扩展<br> -p tcp: TCP协议的扩展。一般有三种扩展<br> –dport XX-XX：指定目标端口,不能指定多个非连续端口,只能指定单个端口，比如<br> –dport 21  或者 –dport 21-23 (此时表示21,22,23)<br> –sport：指定源端口<br> –tcp-fiags：TCP的标志位（SYN,ACK，FIN,PSH，RST,URG）<br> 对于它，一般要跟两个参数：<br> 1.检查的标志位<br> 2.必须为1的标志位<br> –tcpflags syn,ack,fin,rst syn   &#x3D;    –syn<br> 表示检查这4个位，这4个位中syn必须为1，其他的必须为0。所以这个意思就是用于检测三次握手的第一次包的。对于这种专门匹配第一包的SYN为1的包，还有一种简写方式，叫做–syn<br> -p udp：UDP协议的扩展<br> –dport<br> –sport<br> -p icmp：icmp数据报文的扩展<br> –icmp-type：<br> echo-request(请求回显)，一般用8 来表示<br> 所以 –icmp-type 8 匹配请求回显数据包<br> echo-reply （响应的数据包）一般用0来表示</li>
+<li>显式扩展（-m）<br> 扩展各种模块<br> -m multiport：表示启用多端口扩展<br> 之后我们就可以启用比如 –dports 21,23,80</li>
 </ol>
 </li>
 </ol>
@@ -216,20 +213,27 @@ echo-reply （响应的数据包）一般用0来表示
 <li>MARK：打防火墙标记的</li>
 <li>RETURN：返回<br> 在自定义链执行完毕后使用返回，来返回原规则链。</li>
 </ol>
-<h3 id="规则的先后顺序"><a href="#规则的先后顺序" class="headerlink" title="规则的先后顺序"></a>规则的先后顺序</h3><p>iptables规则的顺序很重要，配置不好规则会起不到预想的效果。<br>例如，现在有如下规则<br><img src="/images/QQ20160816-0@2x.jpg" alt><br>现在想要加一个规则，不让IP是192.168.3.167的用户访问5601端口<br>运行下面命令添加一条规则<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure></p>
-<p><img src="/images/QQ20160816-1@2x.jpg" alt><br>添加后，测试后发现根本没有起作用。为什么出现这种情况？因为规则在匹配时是从上到下，如果匹配成功就执行后面的Action了。在这里，IP是192.168.3.167的用户在请求5601端口时首先会匹配到第三条规则<br><img src="/images/QQ20160816-2@2x.jpg" alt><br>匹配后，直接就ACCEPT了。而最后一条拦截IP192.168.3.167的规则根本就不会执行。这种情况下，把拦截规则放到第一位就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure></p>
+<h3 id="规则的先后顺序"><a href="#规则的先后顺序" class="headerlink" title="规则的先后顺序"></a>规则的先后顺序</h3><p>iptables规则的顺序很重要，配置不好规则会起不到预想的效果。<br>例如，现在有如下规则<br><img src="/images/QQ20160816-0@2x.jpg"><br>现在想要加一个规则，不让IP是192.168.3.167的用户访问5601端口<br>运行下面命令添加一条规则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure>
+<p><img src="/images/QQ20160816-1@2x.jpg"><br>添加后，测试后发现根本没有起作用。为什么出现这种情况？因为规则在匹配时是从上到下，如果匹配成功就执行后面的Action了。在这里，IP是192.168.3.167的用户在请求5601端口时首先会匹配到第三条规则<br><img src="/images/QQ20160816-2@2x.jpg"><br>匹配后，直接就ACCEPT了。而最后一条拦截IP192.168.3.167的规则根本就不会执行。这种情况下，把拦截规则放到第一位就可以了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -I INPUT 1 -s 192.168.3.167 -p tcp --dport 5601 -j DROP</span><br></pre></td></tr></table></figure>
+
+
 <h3 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h3><p>1、 直接通过命令配置的规则在重启后就丢失了，要想重启后也生效。可以运行<code>service iptables save</code>命令保存。</p>
 <p>2、 运行wget命令报不能dns不能解析错误<br>这个问题的主要原因是没有开放53端口，这个地方有个需要注意的。这里是从本地发起的请求，所以INPUT规则中应该指定–sport 53，OUTPUT规则中要指定–dport 53  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p udp --dport 53 -j ACCEPT</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -i eth0 -p udp --sport 53 -j ACCEPT</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">配置完这个发现还是不行，原因类似。还需要开发从本地发起的HTTP，HTTPS请求。下面是完整的配置ssh、http、https的例子</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p udp --dport 53 -j ACCEPT</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -i eth0 -p udp --sport 53 -j ACCEPT</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">配置完这个发现还是不行，原因类似。还需要开发从本地发起的HTTP，HTTPS请求。下面是完整的配置ssh、http、https的例子</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>从外部发起的请求<br>iptables -A OUTPUT -o eth0 -p tcp –dport 443 -m state –state NEW,ESTABLISHED -j ACCEPT<br>iptables -A INPUT -i eth0 -p tcp –sport 443 -m state –state ESTABLISHED -j ACCEPT</p>
-<p>从本机发起的请求<br>iptables -A OUTPUT -o eth0 -p tcp -m multiport –dports 22,80,443  -j ACCEPT<br>iptables -A INPUT -i eth0 -p tcp -m multiport –sports 22,80,443  -j ACCEPT<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">端口转发</span><br></pre></td></tr></table></figure></p>
-<p>iptables -t nat -A PREROUTING -p tcp  –dport [local_port] -j DNAT –to [remote_ip]:[remote_port]<br>iptables -t nat -A POSTROUTING -j MASQUERADE<br><code>`</code></p>
-<p>阿里云-北京-纽约</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://blog.chinaunix.net/uid-26495963-id-3279216.html" target="_blank" rel="noopener">iptables详解</a></li>
-<li><a href="http://blog.chinaunix.net/uid-9950859-id-98279.html" target="_blank" rel="noopener">iptables命令详解和举例</a></li>
-<li><a href="http://blog.csdn.net/zzhongcy/article/details/42738285" target="_blank" rel="noopener">linux下用iptables做本机端口转发方法</a></li>
-</ul>
+<p>从本机发起的请求<br>iptables -A OUTPUT -o eth0 -p tcp -m multiport –dports 22,80,443  -j ACCEPT<br>iptables -A INPUT -i eth0 -p tcp -m multiport –sports 22,80,443  -j ACCEPT</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">端口转发</span><br></pre></td></tr></table></figure>
+<p>iptables -t nat -A PREROUTING -p tcp  –dport [local_port] -j DNAT –to [remote_ip]:[remote_port]<br>iptables -t nat -A POSTROUTING -j MASQUERADE</p>
+<pre><code>
+阿里云-北京-纽约
+
+### 参考
+- [iptables详解](http://blog.chinaunix.net/uid-26495963-id-3279216.html)
+- [iptables命令详解和举例](http://blog.chinaunix.net/uid-9950859-id-98279.html)
+- [linux下用iptables做本机端口转发方法](http://blog.csdn.net/zzhongcy/article/details/42738285)
+</code></pre>
 
   </div>
   <div class="article-license">
@@ -275,7 +279,7 @@ echo-reply （响应的数据包）一般用0来表示
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E5%86%99%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">规则写法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COMMAND%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">COMMAND命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E6%A0%87%E5%87%86CRETIRIA"><span class="toc-number">1.2.</span> <span class="toc-text">匹配标准CRETIRIA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E8%A7%A3-j-ACTION"><span class="toc-number">1.3.</span> <span class="toc-text">详解 -j ACTION</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">规则的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIPS"><span class="toc-number">3.</span> <span class="toc-text">TIPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E5%86%99%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">规则写法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COMMAND%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">COMMAND命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E6%A0%87%E5%87%86CRETIRIA"><span class="toc-number">1.2.</span> <span class="toc-text">匹配标准CRETIRIA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%A6%E8%A7%A3-j-ACTION"><span class="toc-number">1.3.</span> <span class="toc-text">详解 -j ACTION</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">规则的先后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIPS"><span class="toc-number">3.</span> <span class="toc-text">TIPS</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

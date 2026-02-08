@@ -17,7 +17,7 @@
 <meta property="og:description" content="Java OptionalOptional类是为了避免空指针问题在Java8中新增的一个类。Optional并不是真正避免避免空指针的，他只是用来提醒我们需要注意空指针问题，我们应该先调用它的isPresent()发放去检查一下实际的值是不是空。 函数返回值，我们时常会忘记判断返回值是不是空。如果返回值是Optional&lt;T&gt;类型，这会提醒我们去检查。  注意：如果返回值是Optio">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-03-07T10:14:57.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.484Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.686Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -144,9 +144,11 @@
     <h2 id="Java-Optional"><a href="#Java-Optional" class="headerlink" title="Java Optional"></a>Java Optional</h2><p><code>Optional</code>类是为了避免空指针问题在Java8中新增的一个类。<code>Optional</code>并不是真正避免避免空指针的，他只是用来<code>提醒</code>我们需要注意空指针问题，我们应该先调用它的<code>isPresent()</code>发放去检查一下实际的值是不是空。</p>
 <p>函数返回值，我们时常会忘记判断返回值是不是空。如果返回值是<code>Optional&lt;T&gt;</code>类型，这会提醒我们去检查。</p>
 <blockquote>
-<p>注意：如果返回值是<code>Optional&lt;T&gt;</code>类型，我们都会假定这个返回值不可能是<code>null</code>，不然<code>Optional</code>类就毫无意义了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String str = doSomething();</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">null</span> != str) System.out.print(str.get().length());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于如下</span></span><br><span class="line"></span><br><span class="line">Optional&lt;String&gt; str = doSomething(); <span class="comment">// 假定str不可能是null</span></span><br><span class="line"><span class="keyword">if</span> (str.isPresent()) System.out.print(str.get().length());</span><br></pre></td></tr></table></figure></p>
+<p>注意：如果返回值是<code>Optional&lt;T&gt;</code>类型，我们都会假定这个返回值不可能是<code>null</code>，不然<code>Optional</code>类就毫无意义了。</p>
 </blockquote>
-<h3 id="Optional-类使用说明"><a href="#Optional-类使用说明" class="headerlink" title="Optional 类使用说明"></a>Optional 类使用说明</h3><p><a href="http://www.importnew.com/6675.html" target="_blank" rel="noopener">Java 8 Optional类深度解析</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> doSomething();</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">null</span> != str) System.out.print(str.get().length());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于如下</span></span><br><span class="line"></span><br><span class="line">Optional&lt;String&gt; str = doSomething(); <span class="comment">// 假定str不可能是null</span></span><br><span class="line"><span class="keyword">if</span> (str.isPresent()) System.out.print(str.get().length());</span><br></pre></td></tr></table></figure>
+
+<h3 id="Optional-类使用说明"><a href="#Optional-类使用说明" class="headerlink" title="Optional 类使用说明"></a>Optional 类使用说明</h3><p><a href="http://www.importnew.com/6675.html">Java 8 Optional类深度解析</a></p>
 
   </div>
   <div class="article-license">

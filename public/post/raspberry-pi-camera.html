@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="树莓派摄像头挂载问题描述使用raspistill命令能拍照，但是调用opencv打开摄像头方法却失败。找不到&#x2F;dev&#x2F;video0设备。 处理办法sudo modprobe bcm2835-v4l2 gst_v4l2src_is_broken&#x3D;1 要想永久生效，需要修改&#x2F;etc&#x2F;modules-load.d&#x2F;modules.conf，在下面追加bcm2835-v4l2 参考：【1】 【2】">
+    <meta name="description" content="树莓派摄像头挂载问题描述使用raspistill命令能拍照，但是调用opencv打开摄像头方法却失败。找不到&#x2F;dev&#x2F;video0设备。 处理办法sudo modprobe bcm2835-v4l2 gst_v4l2src_is_broken&#x3D;1 要想永久生效，需要修改&#x2F;etc&#x2F;modules-load.d&#x2F;modules.conf ，在下面追加bcm2835-v4l2 参考：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="树莓派摄像头挂载">
 <meta property="og:url" content="https://kekek.cc/post/raspberry-pi-camera.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="树莓派摄像头挂载问题描述使用raspistill命令能拍照，但是调用opencv打开摄像头方法却失败。找不到&#x2F;dev&#x2F;video0设备。 处理办法sudo modprobe bcm2835-v4l2 gst_v4l2src_is_broken&#x3D;1 要想永久生效，需要修改&#x2F;etc&#x2F;modules-load.d&#x2F;modules.conf，在下面追加bcm2835-v4l2 参考：【1】 【2】">
+<meta property="og:description" content="树莓派摄像头挂载问题描述使用raspistill命令能拍照，但是调用opencv打开摄像头方法却失败。找不到&#x2F;dev&#x2F;video0设备。 处理办法sudo modprobe bcm2835-v4l2 gst_v4l2src_is_broken&#x3D;1 要想永久生效，需要修改&#x2F;etc&#x2F;modules-load.d&#x2F;modules.conf ，在下面追加bcm2835-v4l2 参考：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-15T14:49:05.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.715Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="RaspberryPi">
 <meta name="twitter:card" content="summary">
@@ -147,10 +147,10 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="树莓派摄像头挂载"><a href="#树莓派摄像头挂载" class="headerlink" title="树莓派摄像头挂载"></a>树莓派摄像头挂载</h3><h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>使用raspistill命令能拍照，但是调用opencv打开摄像头方法却失败。找不到/dev/video0设备。</p>
+    <h3 id="树莓派摄像头挂载"><a href="#树莓派摄像头挂载" class="headerlink" title="树莓派摄像头挂载"></a>树莓派摄像头挂载</h3><h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>使用raspistill命令能拍照，但是调用opencv打开摄像头方法却失败。找不到&#x2F;dev&#x2F;video0设备。</p>
 <h4 id="处理办法"><a href="#处理办法" class="headerlink" title="处理办法"></a>处理办法</h4><p><code>sudo modprobe bcm2835-v4l2 gst_v4l2src_is_broken=1</code></p>
-<p>要想永久生效，需要修改<code>/etc/modules-load.d/modules.conf</code>，在下面追加<br><code>bcm2835-v4l2</code></p>
-<p>参考：<a href="http://blog.csdn.net/machh/article/details/51385130" target="_blank" rel="noopener">【1】</a> <a href="http://stackoverflow.com/questions/25941171/how-to-get-gstreamer1-0-working-with-v4l2-raspicam-driver" target="_blank" rel="noopener">【2】</a></p>
+<p>要想永久生效，需要修改<code>/etc/modules-load.d/modules.conf </code>，在下面追加<br><code>bcm2835-v4l2</code></p>
+<p>参考：<a href="http://blog.csdn.net/machh/article/details/51385130">【1】</a> <a href="http://stackoverflow.com/questions/25941171/how-to-get-gstreamer1-0-working-with-v4l2-raspicam-driver">【2】</a></p>
 
   </div>
   <div class="article-license">

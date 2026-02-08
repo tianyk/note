@@ -143,7 +143,8 @@
   <div class="content" itemprop="articleBody">
     <p>chmod是Linux下设置文件权限的命令，后面的数字表示不同用户或用户组的权限。</p>
 <p>一般是三个数字：<br>第一个数字表示文件所有者的权限<br>第二个数字表示与文件所有者同属一个用户组的其他用户的权限<br>第三个数字表示其它用户组的权限。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">权限分为三种：读（r=4）、写（w=2）、执行（x=1）。 综合起来还有可读可执行（rx=5=4+1）、可读可写（rw=6=4+2）、可读可写可执行（rwx=7=4+2+1）。</span><br><span class="line">所以，chmod 755 设置用户的权限为：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">权限分为三种：读（r=4）、写（w=2）、执行（x=1）。 综合起来还有可读可执行（rx=5=4+1）、可读可写（rw=6=4+2）、可读可写可执行（rwx=7=4+2+1）。</span><br><span class="line">所以，chmod 755 设置用户的权限为：</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -151,8 +152,7 @@
 <th>说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>7</td>
 <td>文件所有者可读可写可执行</td>
 </tr>
@@ -164,9 +164,8 @@
 <td>5</td>
 <td>其它用户组可读可执行</td>
 </tr>
-</tbody>
-</table>
-<p>chattr [+/-]i filename </p>
+</tbody></table>
+<p>chattr [+&#x2F;-]i filename </p>
 <h3 id="x-权限"><a href="#x-权限" class="headerlink" title="x 权限"></a>x 权限</h3><ul>
 <li><p>文件</p>
 <p>  有权限执行 <code>./</code></p>

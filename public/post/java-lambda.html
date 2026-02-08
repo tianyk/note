@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Lambda&lt;http:&#x2F;&#x2F;naotu.baidu.com&#x2F;file&#x2F;6f48a8bf61f964bd63b986bdb83c2e79?token&#x3D;11d0ce93b785bbf2&gt; 示例单词转大写1234String sentence &#x3D; &quot;Start Using Java Lambda Expressions&quot;;List&lt;String&gt; words &#x3D; Arrays.s">
+    <meta name="description" content="Lambda&lt;http:&#x2F;&#x2F;naotu.baidu.com&#x2F;file&#x2F;6f48a8bf61f964bd63b986bdb83c2e79?token&#x3D;11d0ce93b785bbf2&gt; 示例单词转大写 1234String sentence &#x3D; &quot;Start Using Java Lambda Expressions&quot;;List&lt;String&gt; words">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java Lambda">
 <meta property="og:url" content="https://kekek.cc/post/java-lambda.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Lambda&lt;http:&#x2F;&#x2F;naotu.baidu.com&#x2F;file&#x2F;6f48a8bf61f964bd63b986bdb83c2e79?token&#x3D;11d0ce93b785bbf2&gt; 示例单词转大写1234String sentence &#x3D; &quot;Start Using Java Lambda Expressions&quot;;List&lt;String&gt; words &#x3D; Arrays.s">
+<meta property="og:description" content="Lambda&lt;http:&#x2F;&#x2F;naotu.baidu.com&#x2F;file&#x2F;6f48a8bf61f964bd63b986bdb83c2e79?token&#x3D;11d0ce93b785bbf2&gt; 示例单词转大写 1234String sentence &#x3D; &quot;Start Using Java Lambda Expressions&quot;;List&lt;String&gt; words">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/Java+Lambda.png">
 <meta property="article:published_time" content="2017-06-01T09:26:31.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.484Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.684Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="lambda">
@@ -150,11 +150,17 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h2><p><img src="/images/Java+Lambda.png" alt><br>&lt;<a href="http://naotu.baidu.com/file/6f48a8bf61f964bd63b986bdb83c2e79?token=11d0ce93b785bbf2" target="_blank" rel="noopener">http://naotu.baidu.com/file/6f48a8bf61f964bd63b986bdb83c2e79?token=11d0ce93b785bbf2</a>&gt;</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>单词转大写<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String sentence = <span class="string">"Start Using Java Lambda Expressions"</span>;</span><br><span class="line">List&lt;String&gt; words = Arrays.stream(sentence.split(<span class="string">" "</span>))</span><br><span class="line">                .map(String::toUpperCase)</span><br><span class="line">                .collect(toList());</span><br></pre></td></tr></table></figure></p>
-<p>获取字符串的单词长度和<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String sentence = <span class="string">"Start Using Java Lambda Expressions"</span>;</span><br><span class="line"><span class="keyword">int</span> length = Arrays.stream(sentence.split(<span class="string">" "</span>))</span><br><span class="line">                .map(String::length)</span><br><span class="line">                .reduce(<span class="number">0</span>, Integer::sum)</span><br><span class="line">                .intValue();;</span><br></pre></td></tr></table></figure></p>
-<p>奇偶数分组<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Boolean, List&lt;Integer&gt;&gt; res = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>).stream().collect(partitioningBy(i -&gt; (i % <span class="number">2</span> == <span class="number">0</span>)));</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object[] args = ...;</span><br><span class="line">Arrays.stream(args).map(String::valueOf).collect(Collectors.joining(<span class="string">", "</span>, <span class="string">"("</span>, <span class="string">")"</span>));</span><br></pre></td></tr></table></figure>
+    <h2 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h2><p><img src="/images/Java+Lambda.png"><br>&lt;<a href="http://naotu.baidu.com/file/6f48a8bf61f964bd63b986bdb83c2e79?token=11d0ce93b785bbf2">http://naotu.baidu.com/file/6f48a8bf61f964bd63b986bdb83c2e79?token=11d0ce93b785bbf2</a>&gt;</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>单词转大写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">sentence</span> <span class="operator">=</span> <span class="string">&quot;Start Using Java Lambda Expressions&quot;</span>;</span><br><span class="line">List&lt;String&gt; words = Arrays.stream(sentence.split(<span class="string">&quot; &quot;</span>))</span><br><span class="line">                .map(String::toUpperCase)</span><br><span class="line">                .collect(toList());</span><br></pre></td></tr></table></figure>
+
+<p>获取字符串的单词长度和</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">sentence</span> <span class="operator">=</span> <span class="string">&quot;Start Using Java Lambda Expressions&quot;</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> Arrays.stream(sentence.split(<span class="string">&quot; &quot;</span>))</span><br><span class="line">                .map(String::length)</span><br><span class="line">                .reduce(<span class="number">0</span>, Integer::sum)</span><br><span class="line">                .intValue();;</span><br></pre></td></tr></table></figure>
+
+<p>奇偶数分组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Boolean, List&lt;Integer&gt;&gt; res = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>).stream().collect(partitioningBy(i -&gt; (i % <span class="number">2</span> == <span class="number">0</span>)));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object[] args = ...;</span><br><span class="line">Arrays.stream(args).map(String::valueOf).collect(Collectors.joining(<span class="string">&quot;, &quot;</span>, <span class="string">&quot;(&quot;</span>, <span class="string">&quot;)&quot;</span>));</span><br></pre></td></tr></table></figure>
   </div>
   <div class="article-license">
     <!-- 

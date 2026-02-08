@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="NGX_HTTP_AUTH_BASIC_MODULE这个模块用来做Basic Auth认证的，默认就已经安装过了。 生成密码1printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf&#x2F;htpasswd 修改配置文件12345678910server &#123;    listen 80;    se">
+    <meta name="description" content="NGX_HTTP_AUTH_BASIC_MODULE这个模块用来做Basic Auth认证的，默认就已经安装过了。 生成密码 1printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf&#x2F;htpasswd 修改配置文件 12345678910server &#123;    listen 80;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx常用模块">
 <meta property="og:url" content="https://kekek.cc/post/nginx-modules.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="NGX_HTTP_AUTH_BASIC_MODULE这个模块用来做Basic Auth认证的，默认就已经安装过了。 生成密码1printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf&#x2F;htpasswd 修改配置文件12345678910server &#123;    listen 80;    se">
+<meta property="og:description" content="NGX_HTTP_AUTH_BASIC_MODULE这个模块用来做Basic Auth认证的，默认就已经安装过了。 生成密码 1printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf&#x2F;htpasswd 修改配置文件 12345678910server &#123;    listen 80;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-22T06:45:24.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.708Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -148,32 +148,30 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="NGX-HTTP-AUTH-BASIC-MODULE"><a href="#NGX-HTTP-AUTH-BASIC-MODULE" class="headerlink" title="NGX_HTTP_AUTH_BASIC_MODULE"></a>NGX_HTTP_AUTH_BASIC_MODULE</h3><p>这个模块用来做Basic Auth认证的，默认就已经安装过了。</p>
-<p>生成密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf/htpasswd</span><br></pre></td></tr></table></figure></p>
-<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name elk.kekek.cc;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">         auth_basic            &quot;elk.my-guide.cc&quot;;</span><br><span class="line">         auth_basic_user_file  htpasswd;</span><br><span class="line">         proxy_pass            http://elk.my-guide.cc:5601;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>生成密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf/htpasswd</span><br></pre></td></tr></table></figure>
+<p>修改配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name elk.kekek.cc;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">         auth_basic            &quot;elk.my-guide.cc&quot;;</span><br><span class="line">         auth_basic_user_file  htpasswd;</span><br><span class="line">         proxy_pass            http://elk.my-guide.cc:5601;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>需要注意的是如果<code>auth_basic_user_file</code>使用相对路径来指定，那么它相对的是conf文件。</p>
 </blockquote>
-<p>重新加载配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<p>重新加载配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
 <h3 id="NGX-HTTP-SUB-MODULE"><a href="#NGX-HTTP-SUB-MODULE" class="headerlink" title="NGX_HTTP_SUB_MODULE"></a>NGX_HTTP_SUB_MODULE</h3><p>这个模块可以让我们来修改网站响应内容中。</p>
 <p>默认这个模块是没编译到Nginx中的，在配置的时候我们加上<code>--with-http_sub_module</code>就可以了。</p>
 <p>它主要有三个指令</p>
 <ul>
-<li><p>sub_filter</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这里会将网页里的`dog`替换成`pig`</span><br><span class="line">sub_filter dog pig;</span><br><span class="line"></span><br><span class="line"># 在头部引入一段js。注意，我们只能使用一次sub_filter，如果有多个地方或者更复杂的替换使用下面的`NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE`模块</span><br><span class="line">sub_filter &lt;/head&gt; &apos;&lt;/head&gt;&lt;script language=&quot;javascript&quot; src=&quot;https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js&quot;&gt;&lt;/script&gt;&apos;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>sub_filter_types</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定需要被替换的MIME类型,默认为&apos;text/html&apos;，如果制定为*，那么所有的</span><br><span class="line">sub_filter_types text/javascript text/css;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>sub_filter_once</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字符串替换一次还是多次替换，默认替换一个。如果网页中有多个`dog`字符串，如果开启once只会替换第一个。</span><br><span class="line">sub_filter_once on;</span><br></pre></td></tr></table></figure>
-</li>
+<li>sub_filter  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这里会将网页里的`dog`替换成`pig`</span><br><span class="line">sub_filter dog pig;</span><br><span class="line"></span><br><span class="line"># 在头部引入一段js。注意，我们只能使用一次sub_filter，如果有多个地方或者更复杂的替换使用下面的`NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE`模块</span><br><span class="line">sub_filter &lt;/head&gt; &#x27;&lt;/head&gt;&lt;script language=&quot;javascript&quot; src=&quot;https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js&quot;&gt;&lt;/script&gt;&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li>sub_filter_types  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定需要被替换的MIME类型,默认为&#x27;text/html&#x27;，如果制定为*，那么所有的</span><br><span class="line">sub_filter_types text/javascript text/css;</span><br></pre></td></tr></table></figure></li>
+<li>sub_filter_once  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字符串替换一次还是多次替换，默认替换一个。如果网页中有多个`dog`字符串，如果开启once只会替换第一个。</span><br><span class="line">sub_filter_once on;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE"><a href="#NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE" class="headerlink" title="NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE"></a>NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</h3><p><a href="https://github.com/yaoweibin/ngx_http_substitutions_filter_module" target="_blank" rel="noopener">NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</a>和NGX_HTTP_SUB_MODULE类似，不过功能更强大，在这里我们可以使用正则去匹配。</p>
+<h3 id="NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE"><a href="#NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE" class="headerlink" title="NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE"></a>NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</h3><p><a href="https://github.com/yaoweibin/ngx_http_substitutions_filter_module">NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</a>和NGX_HTTP_SUB_MODULE类似，不过功能更强大，在这里我们可以使用正则去匹配。</p>
 <p>这是一个第三方模块，编译时需要加上<code>--add-module=/path/to/ngx_http_substitutions_filter_module</code>。</p>
 <p>它主用两个指令</p>
 <ul>
 <li><p>subs_filter</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 替换`&lt;script src=&quot;jquery.min.js?v=3.2.1&quot;&gt;&lt;/script&gt;`的版本为URL上v参数值。</span><br><span class="line"># 例如：我们请求`index.html?v=2.2.2`，处理后我们拿到的网页内容就是`&lt;script src=&quot;jquery.min.js?v=2.2.2&quot;&gt;&lt;/script&gt;`。</span><br><span class="line"># $arg_v取出query上的v的值。$arg代表query，$arg_&#123;x&#125;代表query上&#123;x&#125;的值。</span><br><span class="line">subs_filter jquery\.min\.js\?v=\d\.\d\.\d jquery.min.js?v=$arg_v or;</span><br><span class="line"># subs_filter 可以写多个</span><br><span class="line">subs_filter dog pig;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 替换`&lt;script src=&quot;jquery.min.js?v=3.2.1&quot;&gt;&lt;/script&gt;`的版本为URL上v参数值。</span><br><span class="line"># 例如：我们请求`index.html?v=2.2.2`，处理后我们拿到的网页内容就是`&lt;script src=&quot;jquery.min.js?v=2.2.2&quot;&gt;&lt;/script&gt;`。</span><br><span class="line"># $arg_v取出query上的v的值。$arg代表query，$arg_&#123;x&#125;代表query上&#123;x&#125;的值。</span><br><span class="line">subs_filter jquery\.min\.js\?v=\d\.\d\.\d jquery.min.js?v=$arg_v or;</span><br><span class="line"># subs_filter 可以写多个</span><br><span class="line">subs_filter dog pig;</span><br></pre></td></tr></table></figure>
 <p>  subs_filter 第三个参数，替换模式。我们可以选择字符串替换或者正则替换</p>
 <ul>
 <li>g(default):替换所有匹配的字符串。</li>
@@ -183,14 +181,15 @@
 </ul>
 </li>
 <li><p>subs_filter_types</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定需要被替换的MIME类型,默认为&apos;text/html&apos;，如果制定为*，那么所有的</span><br><span class="line">sub_filter_types text/javascript text/css;</span><br></pre></td></tr></table></figure>
-</li>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定需要被替换的MIME类型,默认为&#x27;text/html&#x27;，如果制定为*，那么所有的</span><br><span class="line">sub_filter_types text/javascript text/css;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://rmingwang.com/install-nginx-third-modules-http_sub_module.html" target="_blank" rel="noopener">Nginx编译安装第三方模块http_substitutions_filter_module</a></p>
-<h3 id="NGINX-HTTP-CONCAT"><a href="#NGINX-HTTP-CONCAT" class="headerlink" title="NGINX-HTTP-CONCAT"></a><a href="https://github.com/alibaba/nginx-http-concat" target="_blank" rel="noopener">NGINX-HTTP-CONCAT</a></h3><p>用于 css、js 合并。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/static/??foo.css,bar/foobaz.js</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;??foo1.css,foo2.css,subdir/foo3.css?v=2345&quot; /&gt;</span><br><span class="line">&lt;script src=&quot;??bar1.js,bar22.css,subdir/bar3.js?v=3245&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="HTTP-IMAGE-FILTER-MODULE"><a href="#HTTP-IMAGE-FILTER-MODULE" class="headerlink" title="HTTP_IMAGE_FILTER_MODULE"></a>HTTP_IMAGE_FILTER_MODULE</h3><h3 id="NGINX-HTTP-FOOTER-FILTER"><a href="#NGINX-HTTP-FOOTER-FILTER" class="headerlink" title="NGINX-HTTP-FOOTER-FILTER"></a>NGINX-HTTP-FOOTER-FILTER</h3><p><a href="http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/" target="_blank" rel="noopener">http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/</a></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://rmingwang.com/install-nginx-third-modules-http_sub_module.html">Nginx编译安装第三方模块http_substitutions_filter_module</a></p>
+<h3 id="NGINX-HTTP-CONCAT"><a href="#NGINX-HTTP-CONCAT" class="headerlink" title="NGINX-HTTP-CONCAT"></a><a href="https://github.com/alibaba/nginx-http-concat">NGINX-HTTP-CONCAT</a></h3><p>用于 css、js 合并。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/static/??foo.css,bar/foobaz.js</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;??foo1.css,foo2.css,subdir/foo3.css?v=2345&quot; /&gt;</span><br><span class="line">&lt;script src=&quot;??bar1.js,bar22.css,subdir/bar3.js?v=3245&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-IMAGE-FILTER-MODULE"><a href="#HTTP-IMAGE-FILTER-MODULE" class="headerlink" title="HTTP_IMAGE_FILTER_MODULE"></a>HTTP_IMAGE_FILTER_MODULE</h3><h3 id="NGINX-HTTP-FOOTER-FILTER"><a href="#NGINX-HTTP-FOOTER-FILTER" class="headerlink" title="NGINX-HTTP-FOOTER-FILTER"></a>NGINX-HTTP-FOOTER-FILTER</h3><p><a href="http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/">http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/</a></p>
 <h3 id="LIMIT-UPLOAD-RATE"><a href="#LIMIT-UPLOAD-RATE" class="headerlink" title="LIMIT_UPLOAD_RATE"></a>LIMIT_UPLOAD_RATE</h3><p>限制客户端上传速率</p>
 <h3 id="NGINX-HTTP-GEO-IP-MODULE"><a href="#NGINX-HTTP-GEO-IP-MODULE" class="headerlink" title="NGINX-HTTP-GEO-IP-MODULE"></a>NGINX-HTTP-GEO-IP-MODULE</h3><h3 id="NGX-DYNAMIC-UPSTREAM"><a href="#NGX-DYNAMIC-UPSTREAM" class="headerlink" title="NGX_DYNAMIC_UPSTREAM"></a>NGX_DYNAMIC_UPSTREAM</h3><p>Dynamic upstream for nginx</p>
 <h3 id="HTTP-UPSTREAM-CONSISTENT-HASH-MODULE"><a href="#HTTP-UPSTREAM-CONSISTENT-HASH-MODULE" class="headerlink" title="HTTP_UPSTREAM_CONSISTENT_HASH_MODULE"></a>HTTP_UPSTREAM_CONSISTENT_HASH_MODULE</h3>

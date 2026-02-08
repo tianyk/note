@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="console.log的延迟计算我们调试JavaScript时经常会用到console.log打印，但是console.log打印对象时不那么准确。看下面的例子： 123const user &#x3D; &#123; name: &#39;Ming&#39; &#125;;console.log(user);user.name &#x3D; &#39;Lee&#39;;  user.name的初始值为Ming，打印user看到的name值也是Mi">
+    <meta name="description" content="console.log的延迟计算我们调试JavaScript时经常会用到console.log打印，但是console.log打印对象时不那么准确。看下面的例子： 123const user &#x3D; &#123; name: &#x27;Ming&#x27; &#125;;console.log(user);user.name &#x3D; &#x27;Lee&#x27;;   user.name的初始值为Mi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="console.log的延迟计算">
 <meta property="og:url" content="https://kekek.cc/post/lazy-evaluation-of-console-log.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="console.log的延迟计算我们调试JavaScript时经常会用到console.log打印，但是console.log打印对象时不那么准确。看下面的例子： 123const user &#x3D; &#123; name: &#39;Ming&#39; &#125;;console.log(user);user.name &#x3D; &#39;Lee&#39;;  user.name的初始值为Ming，打印user看到的name值也是Mi">
+<meta property="og:description" content="console.log的延迟计算我们调试JavaScript时经常会用到console.log打印，但是console.log打印对象时不那么准确。看下面的例子： 123const user &#x3D; &#123; name: &#x27;Ming&#x27; &#125;;console.log(user);user.name &#x3D; &#x27;Lee&#x27;;   user.name的初始值为Mi">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/console-log-lazy-evaluation.jpeg">
 <meta property="article:published_time" content="2018-08-29T02:52:23.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.484Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.692Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/console-log-lazy-evaluation.jpeg">
@@ -144,11 +144,13 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="console-log的延迟计算"><a href="#console-log的延迟计算" class="headerlink" title="console.log的延迟计算"></a>console.log的延迟计算</h2><p>我们调试JavaScript时经常会用到<code>console.log</code>打印，但是<code>console.log</code>打印对象时不那么准确。看下面的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123; <span class="attr">name</span>: <span class="string">'Ming'</span> &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(user);</span><br><span class="line">user.name = <span class="string">'Lee'</span>;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/console-log-lazy-evaluation.jpeg" alt></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123; <span class="attr">name</span>: <span class="string">&#x27;Ming&#x27;</span> &#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(user);</span><br><span class="line">user.<span class="property">name</span> = <span class="string">&#x27;Lee&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/console-log-lazy-evaluation.jpeg"></p>
 <p><code>user.name</code>的初始值为<code>Ming</code>，打印<code>user</code>看到的<code>name</code>值也是<code>Ming</code>。紧接着修改<code>user.name</code>值为<code>Lee</code>，然后再暂开前面打印<code>user</code>对象就看到<code>name</code>值变成了<code>Lee</code>。</p>
 <p>这个展开看到的值是Chrome为了优化<code>console.log</code>进行的延迟计算，我们看到对象展开后的值是在展开时实时计算的。如果留意在展开对象时会有一个提示<code>Value below was evaluated just now.</code>。</p>
-<p>为了避免上述问题在打印对象时可以将对象序列化：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(user, <span class="literal">null</span>, <span class="number">2</span>)); <span class="comment">// 格式化</span></span><br></pre></td></tr></table></figure></p>
+<p>为了避免上述问题在打印对象时可以将对象序列化：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(user, <span class="literal">null</span>, <span class="number">2</span>)); <span class="comment">// 格式化</span></span><br></pre></td></tr></table></figure>
 
   </div>
   <div class="article-license">

@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="安装Typings1npm install -g typings 安装相关提示信息文件搜索1typings search node  安装 在提示文件列中SOURCE列，有的显示是dt有的是npm如果是dt，安装时应该在名字前加dt~。&#96;  12typings install dt~node --global --savetypings install lodash --save 什么时候需要使用">
+    <meta name="description" content="安装Typings1npm install -g typings  安装相关提示信息文件搜索1typings search node  安装 在提示文件列中SOURCE列，有的显示是dt有的是npm如果是dt，安装时应该在名字前加dt~。&#96;  12typings install dt~node --global --savetypings install lodash --save  什么">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VSCode智能提示">
 <meta property="og:url" content="https://kekek.cc/post/vscode-intellisense.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="安装Typings1npm install -g typings 安装相关提示信息文件搜索1typings search node  安装 在提示文件列中SOURCE列，有的显示是dt有的是npm如果是dt，安装时应该在名字前加dt~。&#96;  12typings install dt~node --global --savetypings install lodash --save 什么时候需要使用">
+<meta property="og:description" content="安装Typings1npm install -g typings  安装相关提示信息文件搜索1typings search node  安装 在提示文件列中SOURCE列，有的显示是dt有的是npm如果是dt，安装时应该在名字前加dt~。&#96;  12typings install dt~node --global --savetypings install lodash --save  什么">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/WechatIMG40.jpeg">
 <meta property="article:published_time" content="2016-11-16T03:05:57.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.487Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.724Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/WechatIMG40.jpeg">
@@ -144,12 +144,14 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="安装Typings"><a href="#安装Typings" class="headerlink" title="安装Typings"></a>安装Typings</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g typings</span><br></pre></td></tr></table></figure>
+
 <h3 id="安装相关提示信息文件"><a href="#安装相关提示信息文件" class="headerlink" title="安装相关提示信息文件"></a>安装相关提示信息文件</h3><h4 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typings search node</span><br></pre></td></tr></table></figure>
-<p><img src="/images/WechatIMG40.jpeg" alt></p>
+<p><img src="/images/WechatIMG40.jpeg"></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><blockquote>
-<p>在提示文件列中<code>SOURCE</code>列，有的显示是<code>dt</code>有的是<code>npm</code>如果是<code>dt</code>，安装时应该在名字前加<code>dt~</code>。`</p>
+<p>在提示文件列中<code>SOURCE</code>列，有的显示是<code>dt</code>有的是<code>npm</code>如果是<code>dt</code>，安装时应该在名字前加<code>dt~</code>。&#96;</p>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">typings install dt~node --global --save</span><br><span class="line">typings install lodash --save</span><br></pre></td></tr></table></figure>
+
 <h4 id="什么时候需要使用-–global-参数"><a href="#什么时候需要使用-–global-参数" class="headerlink" title="什么时候需要使用 –global 参数"></a>什么时候需要使用 –global 参数</h4><ul>
 <li>如果安装的包使用 script 标记来引用(如 jQuery )(也就是在浏览器中使用)</li>
 <li>这个包是属于环境的一部分(如 node )时</li>
@@ -157,9 +159,9 @@
 <li>如果报错了说需要加 global 时加–global</li>
 </ul>
 <h3 id="启用智能提示功能"><a href="#启用智能提示功能" class="headerlink" title="启用智能提示功能"></a>启用智能提示功能</h3><ul>
-<li>第一种是在需要进行只能提示的文件最上行增加提示信息文件所在目录，格式如下:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;reference path=&quot;./typings/index.d.ts&quot; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
+<li>第一种是在需要进行只能提示的文件最上行增加提示信息文件所在目录，格式如下:</li>
 </ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;reference path=&quot;./typings/index.d.ts&quot; /&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>path为相对路径</p>
 </blockquote>
@@ -169,7 +171,7 @@
 </blockquote>
 </li>
 </ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/IPrograming/p/VsCodeTypings.html" target="_blank" rel="noopener">【1】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/IPrograming/p/VsCodeTypings.html">【1】</a></p>
 
   </div>
   <div class="article-license">

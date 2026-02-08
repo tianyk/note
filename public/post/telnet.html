@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="telnet 连接 redis123456789101112131415161718&gt; telnet 10.0.1.3 6379Trying 10.0.1.3...Connected to 10.0.1.3.Escape character is &#39;^]&#39;.set name tyk+OKget name$3tykset age 10+OKget age$210quit+OKConnectio">
+    <meta name="description" content="telnet 连接 redis123456789101112131415161718&gt; telnet 10.0.1.3 6379Trying 10.0.1.3...Connected to 10.0.1.3.Escape character is &#x27;^]&#x27;.set name tyk+OKget name$3tykset age 10+OKget age$210quit+O">
 <meta property="og:type" content="article">
 <meta property="og:title" content="telnet">
 <meta property="og:url" content="https://kekek.cc/post/telnet.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="telnet 连接 redis123456789101112131415161718&gt; telnet 10.0.1.3 6379Trying 10.0.1.3...Connected to 10.0.1.3.Escape character is &#39;^]&#39;.set name tyk+OKget name$3tykset age 10+OKget age$210quit+OKConnectio">
+<meta property="og:description" content="telnet 连接 redis123456789101112131415161718&gt; telnet 10.0.1.3 6379Trying 10.0.1.3...Connected to 10.0.1.3.Escape character is &#x27;^]&#x27;.set name tyk+OKget name$3tykset age 10+OKget age$210quit+O">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-11-22T11:12:41.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.487Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.720Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -141,9 +141,10 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="telnet-连接-redis"><a href="#telnet-连接-redis" class="headerlink" title="telnet 连接 redis"></a>telnet 连接 redis</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> telnet 10.0.1.3 6379</span></span><br><span class="line">Trying 10.0.1.3...</span><br><span class="line">Connected to 10.0.1.3.</span><br><span class="line">Escape character is '^]'.</span><br><span class="line">set name tyk</span><br><span class="line">+OK</span><br><span class="line">get name</span><br><span class="line"><span class="meta">$</span><span class="bash">3</span></span><br><span class="line">tyk</span><br><span class="line">set age 10</span><br><span class="line">+OK</span><br><span class="line">get age</span><br><span class="line"><span class="meta">$</span><span class="bash">2</span></span><br><span class="line">10</span><br><span class="line">quit</span><br><span class="line">+OK</span><br><span class="line">Connection closed by foreign host.</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
+    <h3 id="telnet-连接-redis"><a href="#telnet-连接-redis" class="headerlink" title="telnet 连接 redis"></a>telnet 连接 redis</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">telnet 10.0.1.3 6379</span></span><br><span class="line">Trying 10.0.1.3...</span><br><span class="line">Connected to 10.0.1.3.</span><br><span class="line">Escape character is &#x27;^]&#x27;.</span><br><span class="line">set name tyk</span><br><span class="line">+OK</span><br><span class="line">get name</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">3</span></span><br><span class="line">tyk</span><br><span class="line">set age 10</span><br><span class="line">+OK</span><br><span class="line">get age</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">2</span></span><br><span class="line">10</span><br><span class="line">quit</span><br><span class="line">+OK</span><br><span class="line">Connection closed by foreign host.</span><br><span class="line"><span class="meta prompt_">&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="退出-telnet"><a href="#退出-telnet" class="headerlink" title="退出 telnet"></a>退出 telnet</h3><p><code>ctrl + ]</code> 然后 <code>quit</code></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/peida/archive/2013/03/13/2956992.html" target="_blank" rel="noopener">【1】</a> <a href="http://www.cnblogs.com/kuailewangzi1212/archive/2006/11/29/576986.html" target="_blank" rel="noopener">【2】</a> <a href="http://wangyifeng.blog.51cto.com/2144905/398950" target="_blank" rel="noopener">【3】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/peida/archive/2013/03/13/2956992.html">【1】</a> <a href="http://www.cnblogs.com/kuailewangzi1212/archive/2006/11/29/576986.html">【2】</a> <a href="http://wangyifeng.blog.51cto.com/2144905/398950">【3】</a></p>
 
   </div>
   <div class="article-license">

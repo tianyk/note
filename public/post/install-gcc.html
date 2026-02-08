@@ -17,7 +17,7 @@
 <meta property="og:description" content="下载gcc最新的源码包 wget https:&#x2F;&#x2F;ftp.gnu.org&#x2F;gnu&#x2F;gcc&#x2F;gcc-4.9.4&#x2F;gcc-4.9.4.tar.gz      解压缩 tar -zxvf gcc-4.9.4.tar.gz      cd gcc-4.9.4      运行download_prerequisites脚本.&#x2F;contrib&#x2F;download_prerequisites 。这个脚本会自动帮">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-01-17T07:48:05.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.681Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="gcc">
 <meta property="article:tag" content="linux">
@@ -158,11 +158,11 @@
 <li><p>运行<code>download_prerequisites</code>脚本<code>./contrib/download_prerequisites</code> 。这个脚本会自动帮你下载所需要的依赖文件和库  </p>
 </li>
 <li><p>建立输出目录，将所有的中间文件都放到该目录    </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir gcc_temp</span><br><span class="line">cd gcc_temp</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir gcc_temp</span><br><span class="line">cd gcc_temp</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>运行 <code>../configure --enable-checking=release --enable-languages=c,c++ --disable-multilib</code>    </p>
 </li>
-<li><p>make &amp; make install    </p>
+<li><p>make &amp; make install</p>
 </li>
 </ol>
 

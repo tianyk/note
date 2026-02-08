@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Node.js模块查找策略首先在当前项目中node_modules目录中找，找不到去父文件夹node_modules找，一直到根目录下的node_modules。 可以在项目目录下建一个文件module_path.js，内为console.log(module.paths);。执行它就可以看到类似下面的结果了。 1234567[ &apos;&#x2F;Users&#x2F;doog&#x2F;Documents&#x2F;Worksp">
+    <meta name="description" content="Node.js模块查找策略首先在当前项目中node_modules目录中找，找不到去父文件夹node_modules找，一直到根目录下的node_modules。 可以在项目目录下建一个文件module_path.js，内为console.log(module.paths);。执行它就可以看到类似下面的结果了。 1234567[ &#x27;&#x2F;Users&#x2F;doog&#x2F;Documents&#x2F;Worksp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="node模块查找策略">
 <meta property="og:url" content="https://kekek.cc/post/nodejs-module-loader.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Node.js模块查找策略首先在当前项目中node_modules目录中找，找不到去父文件夹node_modules找，一直到根目录下的node_modules。 可以在项目目录下建一个文件module_path.js，内为console.log(module.paths);。执行它就可以看到类似下面的结果了。 1234567[ &apos;&#x2F;Users&#x2F;doog&#x2F;Documents&#x2F;Worksp">
+<meta property="og:description" content="Node.js模块查找策略首先在当前项目中node_modules目录中找，找不到去父文件夹node_modules找，一直到根目录下的node_modules。 可以在项目目录下建一个文件module_path.js，内为console.log(module.paths);。执行它就可以看到类似下面的结果了。 1234567[ &#x27;&#x2F;Users&#x2F;doog&#x2F;Documents&#x2F;Worksp">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-08T08:07:49.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.710Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -143,7 +143,8 @@
   <div class="content" itemprop="articleBody">
     <h3 id="Node-js模块查找策略"><a href="#Node-js模块查找策略" class="headerlink" title="Node.js模块查找策略"></a>Node.js模块查找策略</h3><p>首先在当前项目中<code>node_modules</code>目录中找，找不到去父文件夹<code>node_modules</code>找，一直到根目录下的<code>node_modules</code>。</p>
 <p>可以在项目目录下建一个文件<code>module_path.js</code>，内为<code>console.log(module.paths);</code>。执行它就可以看到类似下面的结果了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[ &apos;/Users/doog/Documents/Workspaces/node/node-wxbot/node_modules&apos;,</span><br><span class="line">  &apos;/Users/doog/Documents/Workspaces/node/node_modules&apos;,</span><br><span class="line">  &apos;/Users/doog/Documents/Workspaces/node_modules&apos;,</span><br><span class="line">  &apos;/Users/doog/Documents/node_modules&apos;,</span><br><span class="line">  &apos;/Users/doog/node_modules&apos;,</span><br><span class="line">  &apos;/Users/node_modules&apos;,</span><br><span class="line">  &apos;/node_modules&apos; ]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[ &#x27;/Users/doog/Documents/Workspaces/node/node-wxbot/node_modules&#x27;,</span><br><span class="line">  &#x27;/Users/doog/Documents/Workspaces/node/node_modules&#x27;,</span><br><span class="line">  &#x27;/Users/doog/Documents/Workspaces/node_modules&#x27;,</span><br><span class="line">  &#x27;/Users/doog/Documents/node_modules&#x27;,</span><br><span class="line">  &#x27;/Users/doog/node_modules&#x27;,</span><br><span class="line">  &#x27;/Users/node_modules&#x27;,</span><br><span class="line">  &#x27;/node_modules&#x27; ]</span><br></pre></td></tr></table></figure>
+
 <h4 id="NODE-PATH"><a href="#NODE-PATH" class="headerlink" title="NODE_PATH"></a>NODE_PATH</h4><p>另外，如果在上所说的<code>node_modules</code>中都没有找到，它会去看有没有一个叫<code>NODE_PATH</code>的环境变量。如果有，就去它下面找。<code>NODE_PATH</code>虽然可以解决安装的依赖包过多问题，但是用起来不方便，移植性不好。容易给不了解的人造成困惑，不建议使用。</p>
 
   </div>

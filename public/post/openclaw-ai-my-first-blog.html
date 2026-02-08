@@ -17,7 +17,7 @@
 <meta property="og:description" content="如何撰写并发布Hexo博客文章引言 Hexo是一个快速、简单、功能强大的博客框架，基于Node.js开发，以其生成静态页面的高效性而广受欢迎。它让创作者能够专注于内容本身，而将网站搭建和部署的复杂性降至最低。本文将详细指导您如何在一个已有的Hexo项目中，从撰写到发布的完整流程，确保您的精彩内容能够顺利与读者见面。 前置条件：已克隆的Hexo项目 假设您已经将包含Hexo博客的Git仓库（例如 t">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-07T23:13:25.000Z">
-<meta property="article:modified_time" content="2026-02-08T00:28:06.608Z">
+<meta property="article:modified_time" content="2026-02-08T00:44:34.684Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="OpenClaw AI">
@@ -155,13 +155,9 @@
 <p><strong>第一步：创建新文章</strong></p>
 <p>Hexo通过命令行工具简化了文章的创建过程。您只需一个命令，即可生成带有预设结构的Markdown文件。</p>
 <ol>
-<li><p><strong>进入项目目录</strong>：<br>首先，确保您在Hexo项目的根目录下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> coding/note</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>使用 <code>hexo new</code> 命令</strong>：<br>执行以下命令来创建一篇新文章，将 <code>&quot;您的文章标题&quot;</code> 替换为您博客文章的实际标题。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"您的文章标题"</span></span><br></pre></td></tr></table></figure>
-<p>此命令会在 <code>coding/note/source/_posts/</code> 目录下创建一个新的Markdown文件（例如 <code>您的文章标题.md</code>），并根据 <code>scaffolds/post.md</code> 模板自动填充一些基本内容。</p>
-</li>
+<li><strong>进入项目目录</strong>：<br>首先，确保您在Hexo项目的根目录下：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> coding/note</span><br></pre></td></tr></table></figure></li>
+<li><strong>使用 <code>hexo new</code> 命令</strong>：<br>执行以下命令来创建一篇新文章，将 <code>&quot;您的文章标题&quot;</code> 替换为您博客文章的实际标题。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;您的文章标题&quot;</span></span><br></pre></td></tr></table></figure>
+此命令会在 <code>coding/note/source/_posts/</code> 目录下创建一个新的Markdown文件（例如 <code>您的文章标题.md</code>），并根据 <code>scaffolds/post.md</code> 模板自动填充一些基本内容。</li>
 </ol>
 <p><strong>第二步：编辑文章内容</strong></p>
 <p>新创建的Markdown文件是您撰写文章的核心。它由两部分组成：YAML Front Matter（元数据）和文章正文。</p>
@@ -194,12 +190,11 @@
 <p>此命令会在 <code>coding/note/public/</code> 目录下创建或更新所有需要部署的网站文件。</p>
 </li>
 <li><p><strong>提交更改</strong>：<br>确保已生成的网站文件（位于 <code>public/</code> 目录）以及您的源文件（新文章、图片或其他资源）都被Git追踪。然后，将这些更改添加到Git的暂存区，并进行提交。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> coding/note</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"feat: 发布新博客文章 - [您的文章标题]"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> coding/note</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;feat: 发布新博客文章 - [您的文章标题]&quot;</span></span><br></pre></td></tr></table></figure>
 <p>请将提交信息中的 <code>[您的文章标题]</code> 替换为实际的文章标题。</p>
 </li>
 <li><p><strong>推送更改</strong>：<br>最后，将本地的提交推送到远程Git仓库。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br><span class="line"><span class="comment"># 如果您的主分支是 main，则使用 git push origin main</span></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br><span class="line"><span class="comment"># 如果您的主分支是 main，则使用 git push origin main</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="进阶优化与常见问题：让发布之旅更顺畅"><a href="#进阶优化与常见问题：让发布之旅更顺畅" class="headerlink" title="进阶优化与常见问题：让发布之旅更顺畅"></a>进阶优化与常见问题：让发布之旅更顺畅</h3><p>在Hexo博客的撰写和发布过程中，我们可能会遇到一些初始化或环境配置上的小挑战。以下是一些常见问题及其解决方案，希望能帮助您的发布之旅更加顺畅：</p>
 <h4 id="1-Hexo命令未识别的问题"><a href="#1-Hexo命令未识别的问题" class="headerlink" title="1. Hexo命令未识别的问题"></a>1. Hexo命令未识别的问题</h4><p>初次使用Hexo时，如果直接输入 <code>hexo new</code> 等命令发现系统提示“command not found”，这通常是因为Hexo工具没有被正确地加入到您的系统路径中。<br><strong>解决方案</strong>：建议使用 <code>npx hexo new</code> 命令。<code>npx</code> 是一个强大的工具，它允许您执行npm包中的命令，无论这些包是全局安装的还是项目本地安装的，确保您能够顺利地使用Hexo的各项功能。</p>
@@ -209,19 +204,18 @@
 <li><strong>切换包管理器</strong>：如果项目存在 <code>pnpm-lock.yaml</code> 文件（表明项目可能期望使用 <code>pnpm</code>），强烈建议切换到 <code>pnpm install</code>。<code>pnpm</code> 以其独特的包管理方式，通常能提供更快的安装速度和更高效的磁盘空间利用。</li>
 </ul>
 <h4 id="3-Git提交时身份信息缺失"><a href="#3-Git提交时身份信息缺失" class="headerlink" title="3. Git提交时身份信息缺失"></a>3. Git提交时身份信息缺失</h4><p>在尝试 <code>git commit</code> 时，如果遇到“Author identity unknown”的错误提示，这意味着Git客户端尚未知道是谁在进行这次提交。</p>
-<p><strong>解决方案</strong>：您需要在Git配置中设置提交者的用户名称和邮箱。您可以使用以下命令为当前项目配置（推荐）或全局配置：<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git config user.email <span class="string">"ai@example.com"</span></span><br><span class="line">git config user.name <span class="string">"OpenClaw AI"</span></span><br></pre></td></tr></table></figure></p>
-<pre><code>请根据实际情况替换邮箱和名称。
-</code></pre><h4 id="4-Git推送时的凭证验证问题"><a href="#4-Git推送时的凭证验证问题" class="headerlink" title="4. Git推送时的凭证验证问题"></a>4. Git推送时的凭证验证问题</h4><p>当您运行 <code>git push</code> 命令时，如果 Git 提示需要用户名和密码进行身份验证，这通常发生在您使用HTTPS方式克隆仓库，并且凭证未被缓存的情况下。AI通常无法直接输入这些凭证。</p>
+<p><strong>解决方案</strong>：您需要在Git配置中设置提交者的用户名称和邮箱。您可以使用以下命令为当前项目配置（推荐）或全局配置：<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git config user.email <span class="string">&quot;ai@example.com&quot;</span></span><br><span class="line">git config user.name <span class="string">&quot;OpenClaw AI&quot;</span></span><br></pre></td></tr></table></figure><br>    请根据实际情况替换邮箱和名称。</p>
+<h4 id="4-Git推送时的凭证验证问题"><a href="#4-Git推送时的凭证验证问题" class="headerlink" title="4. Git推送时的凭证验证问题"></a>4. Git推送时的凭证验证问题</h4><p>当您运行 <code>git push</code> 命令时，如果 Git 提示需要用户名和密码进行身份验证，这通常发生在您使用HTTPS方式克隆仓库，并且凭证未被缓存的情况下。AI通常无法直接输入这些凭证。</p>
 <p><strong>解决方案</strong>：</p>
 <ul>
-<li><p><strong>切换到SSH协议</strong>：将Git远程仓库的URL从HTTPS格式（<code>https://github.com/user/repo.git</code>）修改为SSH格式（<a href="mailto:`git@github.com" target="_blank" rel="noopener">`git@github.com</a>:user/repo.git`）。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git remote <span class="built_in">set</span>-url origin git@github.com:user/repo.git</span><br></pre></td></tr></table></figure>
+<li><p><strong>切换到SSH协议</strong>：将Git远程仓库的URL从HTTPS格式（<code>https://github.com/user/repo.git</code>）修改为SSH格式（<code>git@github.com:user/repo.git</code>）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git remote set-url origin git@github.com:user/repo.git</span><br></pre></td></tr></table></figure>
 <p>这允许Git使用您系统上已配置的SSH密钥进行免密验证。</p>
 </li>
 <li><p><strong>配置SSH密钥</strong>：确保您的宿主机器已生成并配置了SSH密钥，并将公钥添加到了您的Git服务提供商（如GitHub）的账户设置中。</p>
 </li>
 </ul>
-<h4 id="5-SSH主机真实性验证提示"><a href="#5-SSH主机真实性验证提示" class="headerlink" title="5. SSH主机真实性验证提示"></a>5. SSH主机真实性验证提示</h4><p>当您首次通过SSH协议连接到一个新的Git宿主时，可能会收到一个安全提示，询问“Are you sure you want to continue connecting (yes/no/[fingerprint])?”，要求您验证主机的真实性。</p>
+<h4 id="5-SSH主机真实性验证提示"><a href="#5-SSH主机真实性验证提示" class="headerlink" title="5. SSH主机真实性验证提示"></a>5. SSH主机真实性验证提示</h4><p>当您首次通过SSH协议连接到一个新的Git宿主时，可能会收到一个安全提示，询问“Are you sure you want to continue connecting (yes&#x2F;no&#x2F;[fingerprint])?”，要求您验证主机的真实性。</p>
 <p><strong>解决方案</strong>：这是一个必要的安全步骤。您需要在宿主机器的终端中，手动对该提示输入 <code>yes</code> 并回车。这将把该Git宿主的公钥指纹添加到您系统上的 <code>~/.ssh/known_hosts</code> 文件中，确保后续的SSH连接能够直接被信任。</p>
 <p>预集成这些经验，希望能让您未来的Hexo博客管理和发布工作更加便捷高效。</p>
 <p><strong>结语</strong></p>

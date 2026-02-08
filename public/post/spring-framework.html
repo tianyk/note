@@ -115,7 +115,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#core"><span class="toc-number">1.1.</span> <span class="toc-text">core</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aop"><span class="toc-number">1.2.</span> <span class="toc-text">aop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data-access"><span class="toc-number">1.3.</span> <span class="toc-text">data access</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#web"><span class="toc-number">1.4.</span> <span class="toc-text">web</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#test"><span class="toc-number">1.5.</span> <span class="toc-text">test</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#messaging-amp-websocket"><span class="toc-number">1.6.</span> <span class="toc-text">messaging &amp; websocket</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#core"><span class="toc-number">1.1.</span> <span class="toc-text">core</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aop"><span class="toc-number">1.2.</span> <span class="toc-text">aop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data-access"><span class="toc-number">1.3.</span> <span class="toc-text">data access</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#web"><span class="toc-number">1.4.</span> <span class="toc-text">web</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#test"><span class="toc-number">1.5.</span> <span class="toc-text">test</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#messaging-websocket"><span class="toc-number">1.6.</span> <span class="toc-text">messaging &amp; websocket</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -150,7 +150,7 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>本文主要介绍Spring Framework体系结构及内部各模块 jar 之间的依赖关系。</p>
-<p><img src="/images/spring-framework.jpg" alt></p>
+<p><img src="/images/spring-framework.jpg"></p>
 <h4 id="core"><a href="#core" class="headerlink" title="core"></a>core</h4><p>core部分包含4个模块</p>
 <ul>
 <li>spring-core：依赖注入IoC与DI的最基本实现</li>
@@ -158,7 +158,7 @@
 <li>spring-context：spring的context上下文即IoC容器</li>
 <li>spring-expression：spring表达式语言</li>
 </ul>
-<p><img src="/images/spring-framework-core-dependencies.jpg" alt></p>
+<p><img src="/images/spring-framework-core-dependencies.jpg"></p>
 <h4 id="aop"><a href="#aop" class="headerlink" title="aop"></a>aop</h4><p>aop部分包含4个模块</p>
 <ul>
 <li>spring-aop：面向切面编程</li>
@@ -166,7 +166,7 @@
 <li>spring-instrument：提供一些类级的工具支持和ClassLoader级的实现，用于服务器</li>
 <li>spring-instrument-tomcat：针对tomcat的instrument实现</li>
 </ul>
-<p><img src="/images/spring-framework-aop-dependencies.jpg" alt></p>
+<p><img src="/images/spring-framework-aop-dependencies.jpg"></p>
 <h4 id="data-access"><a href="#data-access" class="headerlink" title="data access"></a>data access</h4><p>data access部分包含5个模块</p>
 <ul>
 <li>spring-jdbc：jdbc的支持</li>
@@ -175,7 +175,7 @@
 <li>spring-oxm：对象xml映射</li>
 <li>spring-jms：java消息服务</li>
 </ul>
-<p><img src="/images/spring-framework-data-dependencies.jpg" alt></p>
+<p><img src="/images/spring-framework-data-dependencies.jpg"></p>
 <h4 id="web"><a href="#web" class="headerlink" title="web"></a>web</h4><p>web部分包含4个模块</p>
 <ul>
 <li>spring-web：基础web功能，如文件上传</li>
@@ -183,19 +183,19 @@
 <li>spring-webmvc-portlet：基于portlet的mvc实现</li>
 <li>spring-struts：与struts的集成，不推荐，spring4不再提供</li>
 </ul>
-<p><img src="/images/spring-framework-web-dependencies.jpg" alt></p>
+<p><img src="/images/spring-framework-web-dependencies.jpg"></p>
 <h4 id="test"><a href="#test" class="headerlink" title="test"></a>test</h4><p>test部分只有一个模块，我将spring-context-support也放在这吧</p>
 <ul>
 <li>spring-test：spring测试，提供junit与mock测试功能</li>
 <li>spring-context-support：spring额外支持包，比如邮件服务、视图解析等</li>
 </ul>
-<p><img src="/images/spring-framework-test-dependencies.jpg" alt></p>
-<h4 id="messaging-amp-websocket"><a href="#messaging-amp-websocket" class="headerlink" title="messaging &amp; websocket"></a>messaging &amp; websocket</h4><ul>
+<p><img src="/images/spring-framework-test-dependencies.jpg"></p>
+<h4 id="messaging-websocket"><a href="#messaging-websocket" class="headerlink" title="messaging &amp; websocket"></a>messaging &amp; websocket</h4><ul>
 <li>spring-websocket：为web应用提供的高效通信工具</li>
 <li>spring-messaging：用于构建基于消息的应用程序</li>
 </ul>
-<p><img src="/images/spring-framework-websocket-messaging-dependencies.jpg" alt></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://mp.weixin.qq.com/s/_T8QQbJrKl6exvF4RcIGFg" target="_blank" rel="noopener">【1】</a></p>
+<p><img src="/images/spring-framework-websocket-messaging-dependencies.jpg"></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://mp.weixin.qq.com/s/_T8QQbJrKl6exvF4RcIGFg">【1】</a></p>
 
   </div>
   <div class="article-license">
@@ -241,7 +241,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#core"><span class="toc-number">1.1.</span> <span class="toc-text">core</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aop"><span class="toc-number">1.2.</span> <span class="toc-text">aop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data-access"><span class="toc-number">1.3.</span> <span class="toc-text">data access</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#web"><span class="toc-number">1.4.</span> <span class="toc-text">web</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#test"><span class="toc-number">1.5.</span> <span class="toc-text">test</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#messaging-amp-websocket"><span class="toc-number">1.6.</span> <span class="toc-text">messaging &amp; websocket</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#core"><span class="toc-number">1.1.</span> <span class="toc-text">core</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aop"><span class="toc-number">1.2.</span> <span class="toc-text">aop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data-access"><span class="toc-number">1.3.</span> <span class="toc-text">data access</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#web"><span class="toc-number">1.4.</span> <span class="toc-text">web</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#test"><span class="toc-number">1.5.</span> <span class="toc-text">test</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#messaging-websocket"><span class="toc-number">1.6.</span> <span class="toc-text">messaging &amp; websocket</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

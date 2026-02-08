@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="NPM安装1curl -L https:&#x2F;&#x2F;www.npmjs.com&#x2F;install.sh | sh sudo node bin&#x2F;npm-cli.js install -g -f 配置npm 获取配置有6种方式，优先级由高到底。  命令行参数。 –proxy http:&#x2F;&#x2F;server:port即将proxy的值设为http:&#x2F;&#x2F;server:port。 环境变量。 以npm_config_为前">
+    <meta name="description" content="NPM安装1curl -L https:&#x2F;&#x2F;www.npmjs.com&#x2F;install.sh | sh  sudo node bin&#x2F;npm-cli.js install -g -f 配置npm 获取配置有6种方式，优先级由高到底。  命令行参数。 –proxy http:&#x2F;&#x2F;server:port即将proxy的值设为http:&#x2F;&#x2F;server:port。 环境变量。 以npm_con">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NPM">
 <meta property="og:url" content="https://kekek.cc/post/npm.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="NPM安装1curl -L https:&#x2F;&#x2F;www.npmjs.com&#x2F;install.sh | sh sudo node bin&#x2F;npm-cli.js install -g -f 配置npm 获取配置有6种方式，优先级由高到底。  命令行参数。 –proxy http:&#x2F;&#x2F;server:port即将proxy的值设为http:&#x2F;&#x2F;server:port。 环境变量。 以npm_config_为前">
+<meta property="og:description" content="NPM安装1curl -L https:&#x2F;&#x2F;www.npmjs.com&#x2F;install.sh | sh  sudo node bin&#x2F;npm-cli.js install -g -f 配置npm 获取配置有6种方式，优先级由高到底。  命令行参数。 –proxy http:&#x2F;&#x2F;server:port即将proxy的值设为http:&#x2F;&#x2F;server:port。 环境变量。 以npm_con">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-03T05:51:30.000Z">
 <meta property="article:modified_time" content="2018-07-09T08:07:47.000Z">
@@ -147,23 +147,31 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://www.npmjs.com/install.sh | sh</span><br></pre></td></tr></table></figure>
-<p>sudo node bin/npm-cli.js install -g -f</p>
+    <h2 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://www.npmjs.com/install.sh | sh</span><br></pre></td></tr></table></figure>
+
+<p>sudo node bin&#x2F;npm-cli.js install -g -f</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>npm 获取配置有6种方式，优先级由高到底。</p>
 <ul>
-<li>命令行参数。 –proxy <a href="http://server:port即将proxy的值设为http://server:port。" target="_blank" rel="noopener">http://server:port即将proxy的值设为http://server:port。</a></li>
-<li>环境变量。 以npm_config_为前缀的环境变量将会被认为是npm的配置属性。如设置proxy可以加入这样的环境变量npm_config_proxy=<a href="http://server:port。" target="_blank" rel="noopener">http://server:port。</a></li>
-<li>用户配置文件。可以通过npm config get userconfig查看文件路径。如果是mac系统的话默认路径就是$HOME/.npmrc。</li>
-<li>全局配置文件。可以通过npm config get globalconfig查看文件路径。mac系统的默认路径是/usr/local/etc/npmrc。</li>
+<li>命令行参数。 –proxy <a href="http://server:port即将proxy的值设为http://server:port。">http://server:port即将proxy的值设为http://server:port。</a></li>
+<li>环境变量。 以npm_config_为前缀的环境变量将会被认为是npm的配置属性。如设置proxy可以加入这样的环境变量npm_config_proxy&#x3D;<a href="http://server:port。">http://server:port。</a></li>
+<li>用户配置文件。可以通过npm config get userconfig查看文件路径。如果是mac系统的话默认路径就是$HOME&#x2F;.npmrc。</li>
+<li>全局配置文件。可以通过npm config get globalconfig查看文件路径。mac系统的默认路径是&#x2F;usr&#x2F;local&#x2F;etc&#x2F;npmrc。</li>
 <li>内置配置文件。安装npm的目录下的npmrc文件。</li>
 <li>默认配置。 npm本身有默认配置参数，如果以上5条都没设置，则npm会使用默认配置参数。</li>
 </ul>
-<p>npm 配置命令操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm config set &lt;key&gt; &lt;value&gt; [--global]</span><br><span class="line">npm config get &lt;key&gt;</span><br><span class="line">npm config delete &lt;key&gt;</span><br><span class="line">npm config list</span><br><span class="line">npm config edit</span><br><span class="line">npm get &lt;key&gt;</span><br><span class="line">npm set &lt;key&gt; &lt;value&gt; [--global]</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">With the --production flag (or when the NODE_ENV environment variable is set to production), npm will not install modules listed in devDependencies.&quot;</span><br><span class="line"></span><br><span class="line">The --only=&#123;prod[uction]|dev[development]&#125; argument will cause either only devDependencies or only non-devDependencies to be installed regardless of the NODE_ENV.&quot;</span><br></pre></td></tr></table></figure>
-<p>npm 常用配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">配置代理</span><br><span class="line">npm config set proxy http://server:port</span><br><span class="line">npm config set https-proxy http://server:port</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">配置私有仓库</span><br><span class="line">npm config set registry &quot;https://registry.npm.taobao.org&quot;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set prefix &quot;/usr/local&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="版本的格式"><a href="#版本的格式" class="headerlink" title="版本的格式"></a>版本的格式</h3><p>NPM中的包版本采用<a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener">semver</a>规范。</p>
+<p>npm 配置命令操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm config set &lt;key&gt; &lt;value&gt; [--global]</span><br><span class="line">npm config get &lt;key&gt;</span><br><span class="line">npm config delete &lt;key&gt;</span><br><span class="line">npm config list</span><br><span class="line">npm config edit</span><br><span class="line">npm get &lt;key&gt;</span><br><span class="line">npm set &lt;key&gt; &lt;value&gt; [--global]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">With the --production flag (or when the NODE_ENV environment variable is set to production), npm will not install modules listed in devDependencies.&quot;</span><br><span class="line"></span><br><span class="line">The --only=&#123;prod[uction]|dev[development]&#125; argument will cause either only devDependencies or only non-devDependencies to be installed regardless of the NODE_ENV.&quot;</span><br></pre></td></tr></table></figure>
+
+<p>npm 常用配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">配置代理</span><br><span class="line">npm config set proxy http://server:port</span><br><span class="line">npm config set https-proxy http://server:port</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">配置私有仓库</span><br><span class="line">npm config set registry &quot;https://registry.npm.taobao.org&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set prefix &quot;/usr/local&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="版本的格式"><a href="#版本的格式" class="headerlink" title="版本的格式"></a>版本的格式</h3><p>NPM中的包版本采用<a href="https://semver.org/lang/zh-CN/">semver</a>规范。</p>
 <p>major.minor.patch</p>
 <p>主版本号.次版本号.修补版本号</p>
 <ul>
@@ -171,37 +179,37 @@
 <p>  必须匹配某个版本。</p>
 <p>  如：1.1.2，表示必须依赖1.1.2版</p>
 </li>
-<li><p>>version</p>
+<li><p>&gt;version</p>
 <p>  必须大于某个版本。</p>
 <p>  如：&gt;1.1.2，表示必须大于1.1.2版</p>
 </li>
-<li><p>>=version</p>
+<li><p>&gt;&#x3D;version</p>
 <p>  可大于或等于某个版本。</p>
-<p>  如：&gt;=1.1.2，表示可以等于1.1.2，也可以大于1.1.2版本</p>
+<p>  如：&gt;&#x3D;1.1.2，表示可以等于1.1.2，也可以大于1.1.2版本</p>
 </li>
 <li><p>&lt;version</p>
 <p>  必须小于某个版本。</p>
 <p>  如：&lt;1.1.2，表示必须小于1.1.2版本</p>
 </li>
-<li><p>&lt;=version</p>
+<li><p>&lt;&#x3D;version</p>
 <p>  可以小于或等于某个版本</p>
-<p>  如：&lt;=1.1.2，表示可以等于1.1.2，也可以小于1.1.2版本</p>
+<p>  如：&lt;&#x3D;1.1.2，表示可以等于1.1.2，也可以小于1.1.2版本</p>
 </li>
 <li><p>~version</p>
 <p>  大概匹配某个版本</p>
 <p>  如果minor版本号指定了，那么minor版本号不变，而patch版本号任意</p>
 <p>  如果minor和patch版本号未指定，那么minor和patch版本号任意</p>
-<p>  如：~1.1.2，表示&gt;=1.1.2 &lt;1.2.0，可以是1.1.2，1.1.3，1.1.4，…..，1.1.n </p>
-<p>  如：~1.1，表示&gt;=1.1.0 &lt;1.2.0，可以是同上</p>
-<p>  如：~1，表示&gt;=1.0.0 &lt;2.0.0，可以是1.0.0，1.0.1，1.0.2，…..，1.0.n，1.1.n，1.2.n，…..，1.n.n</p>
+<p>  如：~1.1.2，表示&gt;&#x3D;1.1.2 &lt;1.2.0，可以是1.1.2，1.1.3，1.1.4，…..，1.1.n </p>
+<p>  如：~1.1，表示&gt;&#x3D;1.1.0 &lt;1.2.0，可以是同上</p>
+<p>  如：~1，表示&gt;&#x3D;1.0.0 &lt;2.0.0，可以是1.0.0，1.0.1，1.0.2，…..，1.0.n，1.1.n，1.2.n，…..，1.n.n</p>
 </li>
 <li><p>^version</p>
 <p>  兼容某个版本</p>
 <p>  版本号中最左边的非0数字的右侧可以任意</p>
 <p>  如果缺少某个版本号，则这个版本号的位置可以任意</p>
-<p>  如：^1.1.2 ，表示&gt;=1.1.2 &lt;2.0.0，可以是1.1.2，1.1.3，…..，1.1.n，1.2.n，…..，1.n.n</p>
-<p>  如：^0.2.3 ，表示&gt;=0.2.3 &lt;0.3.0，可以是0.2.3，0.2.4，…..，0.2.n</p>
-<p>  如：^0.0，表示 &gt;=0.0.0 &lt;0.1.0，可以是0.0.0，0.0.1，…..，0.0.n</p>
+<p>  如：^1.1.2 ，表示&gt;&#x3D;1.1.2 &lt;2.0.0，可以是1.1.2，1.1.3，…..，1.1.n，1.2.n，…..，1.n.n</p>
+<p>  如：^0.2.3 ，表示&gt;&#x3D;0.2.3 &lt;0.3.0，可以是0.2.3，0.2.4，…..，0.2.n</p>
+<p>  如：^0.0，表示 &gt;&#x3D;0.0.0 &lt;0.1.0，可以是0.0.0，0.0.1，…..，0.0.n</p>
 </li>
 <li><p>x-range</p>
 <p>  x的位置表示任意版本</p>
@@ -209,7 +217,7 @@
 </li>
 <li><p>*-range</p>
 <p>  任意版本，””也表示任意版本</p>
-<p>  如：*，表示&gt;=0.0.0的任意版本</p>
+<p>  如：*，表示&gt;&#x3D;0.0.0的任意版本</p>
 </li>
 <li><p>version1 - version2</p>
 <p>  大于等于version1，小于等于version2</p>
@@ -217,16 +225,16 @@
 </li>
 <li><p>range1 || range2</p>
 <p>  满足range1或者满足range2，可以多个范围</p>
-<p>  如：&lt;1.0.0 || &gt;=2.3.1 &lt;2.4.5 || &gt;=2.5.2 &lt;3.0.0，表示满足这3个范围的版本都可以</p>
+<p>  如：&lt;1.0.0 || &gt;&#x3D;2.3.1 &lt;2.4.5 || &gt;&#x3D;2.5.2 &lt;3.0.0，表示满足这3个范围的版本都可以</p>
 </li>
 </ul>
 <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
 <li><p>npm init   </p>
 <p> 初始化项目</p>
 </li>
-<li><p>npm i <packagename> [–save|–save-dev]</packagename></p>
+<li><p>npm i <packageName> [–save|–save-dev]</p>
 <p> 安装一个模块 </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i express --save</span><br><span class="line">npm i express@3 --save </span><br><span class="line">npm i gulp --save-dev</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i express --save</span><br><span class="line">npm i express@3 --save </span><br><span class="line">npm i gulp --save-dev</span><br></pre></td></tr></table></figure>
 <ul>
 <li>–save：安装模块，并将版本写到<code>dependencies</code>中。</li>
 <li>–save-dev：安装模块，并将版本写到<code>devDependencies</code>中。</li>
@@ -238,19 +246,16 @@
 </li>
 <li><p>npm cache</p>
 <p> NPM从<code>registry</code>下载压缩包之后，都存放在本地的缓存目录。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ npm cache -h</span><br><span class="line">npm cache add &lt;tarball file&gt;</span><br><span class="line">npm cache add &lt;folder&gt;</span><br><span class="line">npm cache add &lt;tarball url&gt;</span><br><span class="line">npm cache add &lt;git url&gt;</span><br><span class="line">npm cache add &lt;name&gt;@&lt;version&gt;</span><br><span class="line">npm cache clean</span><br><span class="line">npm cache verify</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ npm cache -h</span><br><span class="line">npm cache add &lt;tarball file&gt;</span><br><span class="line">npm cache add &lt;folder&gt;</span><br><span class="line">npm cache add &lt;tarball url&gt;</span><br><span class="line">npm cache add &lt;git url&gt;</span><br><span class="line">npm cache add &lt;name&gt;@&lt;version&gt;</span><br><span class="line">npm cache clean</span><br><span class="line">npm cache verify</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>npm outdated</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm outdated</span><br><span class="line">Package  Current  Wanted  Latest  Location</span><br><span class="line">debug      2.6.9   2.6.9   3.1.0  requestbin</span><br><span class="line">ejs        2.5.9   2.5.9   2.6.1  requestbin</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm outdated</span><br><span class="line">Package  Current  Wanted  Latest  Location</span><br><span class="line">debug      2.6.9   2.6.9   3.1.0  requestbin</span><br><span class="line">ejs        2.5.9   2.5.9   2.6.1  requestbin</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="4">
 <li><p>npm list</p>
 <p> 列出来模块依赖树</p>
 </li>
 <li><p>npm version </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm version patch 增加一位补丁号（比如 1.1.1 -&gt; 1.1.2）</span><br><span class="line">npm version minor 增加一位小版本号（比如 1.1.1 -&gt; 1.2.0）</span><br><span class="line">npm version major 增加一位大版本号（比如 1.1.1 -&gt; 2.0.0）。</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm version patch 增加一位补丁号（比如 1.1.1 -&gt; 1.1.2）</span><br><span class="line">npm version minor 增加一位小版本号（比如 1.1.1 -&gt; 1.2.0）</span><br><span class="line">npm version major 增加一位大版本号（比如 1.1.1 -&gt; 2.0.0）。</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="package-lock-json"><a href="#package-lock-json" class="headerlink" title="package-lock.json"></a>package-lock.json</h3><p><code>NPM5</code>开始引入了<code>package-lock.json</code>，<code>package-lock.json</code>能保证各个开发者安装模块时模板的版本都是相同的。<code>package-lock.json</code>的规则期间有些变化，现在最终规则是<strong>只有当 package.json 有改变并且和 lock 里的规则不兼容，才会修改 package-lock.json</strong>。</p>
 <h3 id="钩子"><a href="#钩子" class="headerlink" title="钩子"></a>钩子</h3><ol>
@@ -267,10 +272,10 @@
 </ol>
 <h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
 <li><p>unsafe-perm</p>
-<p>  Default: false if running as root, true otherwise<br>  Type: Boolean<br>  Set to true to suppress the UID/GID switching when running package scripts. If set explicitly to false, then installing as a non-root user will fail.</p>
+<p>  Default: false if running as root, true otherwise<br>  Type: Boolean<br>  Set to true to suppress the UID&#x2F;GID switching when running package scripts. If set explicitly to false, then installing as a non-root user will fail.</p>
 </li>
 </ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.csdn.net/ligang2585116/article/details/47703291" target="_blank" rel="noopener">【1】</a> <a href="http://codecloud.net/12932.html" target="_blank" rel="noopener">【2】</a> <a href="http://www.admin10000.com/document/6736.html" target="_blank" rel="noopener">【3】</a> <a href="https://github.com/npm/npm#fancy-install-unix" target="_blank" rel="noopener">【4】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.csdn.net/ligang2585116/article/details/47703291">【1】</a> <a href="http://codecloud.net/12932.html">【2】</a> <a href="http://www.admin10000.com/document/6736.html">【3】</a> <a href="https://github.com/npm/npm#fancy-install-unix">【4】</a></p>
 
   </div>
   <div class="article-license">

@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="grep常用用法[root@www ~]# grep [-acinv] [–color&#x3D;auto] ‘搜寻字符串’ filename选项与参数：-a ：将 binary 文件以 text 文件的方式搜寻数据-c ：计算找到 ‘搜寻字符串’ 的次数-i ：忽略大小写的不同，所以大小写视为相同-n ：顺便输出行号-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行！–color&#x3D;auto ：">
+    <meta name="description" content="grep常用用法[root@www ~]# grep [-acinv] [–color&#x3D;auto] ‘搜寻字符串’ filename选项与参数：-a ：将 binary 文件以 text 文件的方式搜寻数据-c ：计算找到 ‘搜寻字符串’ 的次数-i ：忽略大小写的不同，所以大小写视为相同-n ：顺便输出行号-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行！–color&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux-grep.md">
 <meta property="og:url" content="https://kekek.cc/post/linux-grep.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="grep常用用法[root@www ~]# grep [-acinv] [–color&#x3D;auto] ‘搜寻字符串’ filename选项与参数：-a ：将 binary 文件以 text 文件的方式搜寻数据-c ：计算找到 ‘搜寻字符串’ 的次数-i ：忽略大小写的不同，所以大小写视为相同-n ：顺便输出行号-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行！–color&#x3D;auto ：">
+<meta property="og:description" content="grep常用用法[root@www ~]# grep [-acinv] [–color&#x3D;auto] ‘搜寻字符串’ filename选项与参数：-a ：将 binary 文件以 text 文件的方式搜寻数据-c ：计算找到 ‘搜寻字符串’ 的次数-i ：忽略大小写的不同，所以大小写视为相同-n ：顺便输出行号-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行！–color&amp;#">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-29T07:46:24.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.485Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.692Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -141,15 +141,23 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="grep常用用法"><a href="#grep常用用法" class="headerlink" title="grep常用用法"></a>grep常用用法</h3><p>[root@www ~]# grep [-acinv] [–color=auto] ‘搜寻字符串’ filename<br>选项与参数：<br>-a ：将 binary 文件以 text 文件的方式搜寻数据<br>-c ：计算找到 ‘搜寻字符串’ 的次数<br>-i ：忽略大小写的不同，所以大小写视为相同<br>-n ：顺便输出行号<br>-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行！<br>–color=auto ：可以将找到的关键词部分加上颜色的显示喔！   </p>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>显示行号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -n root /etc/passwd</span><br></pre></td></tr></table></figure></p>
-<p>显示上下两行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep  -C 2 root /etc/passwd</span><br></pre></td></tr></table></figure></p>
-<p>显示前五行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -B 2 root /etc/passwd</span><br></pre></td></tr></table></figure></p>
-<p>显示后两行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -A 2 root /etc/passwd</span><br></pre></td></tr></table></figure></p>
+    <h3 id="grep常用用法"><a href="#grep常用用法" class="headerlink" title="grep常用用法"></a>grep常用用法</h3><p>[root@www ~]# grep [-acinv] [–color&#x3D;auto] ‘搜寻字符串’ filename<br>选项与参数：<br>-a ：将 binary 文件以 text 文件的方式搜寻数据<br>-c ：计算找到 ‘搜寻字符串’ 的次数<br>-i ：忽略大小写的不同，所以大小写视为相同<br>-n ：顺便输出行号<br>-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行！<br>–color&#x3D;auto ：可以将找到的关键词部分加上颜色的显示喔！   </p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>显示行号</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -n root /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>显示上下两行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep  -C 2 root /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>显示前五行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -B 2 root /etc/passwd  </span><br></pre></td></tr></table></figure>
+
+<p>显示后两行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -A 2 root /etc/passwd  </span><br></pre></td></tr></table></figure>
+
 <h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ol>
-<li><a href="http://blog.sina.com.cn/s/blog_716844910100tfxv.html" target="_blank" rel="noopener">Linux中查看文件时显示行号</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_716844910100tfxv.html">Linux中查看文件时显示行号</a></li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html" target="_blank" rel="noopener">【1】</a><a href="http://www.cnblogs.com/mfryf/p/3336288.html" target="_blank" rel="noopener">【2】</a> <a href="http://blog.sina.com.cn/s/blog_716844910100tfxv.html" target="_blank" rel="noopener">【3】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html">【1】</a><a href="http://www.cnblogs.com/mfryf/p/3336288.html">【2】</a> <a href="http://blog.sina.com.cn/s/blog_716844910100tfxv.html">【3】</a></p>
 
   </div>
   <div class="article-license">

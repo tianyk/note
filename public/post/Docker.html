@@ -108,7 +108,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">Docker容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">Docker镜像操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">Docker容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.5.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.6.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -148,55 +148,61 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>官方建议内核版本最好在3.1以上（可以通过<code>uname -r</code>命令查看内核版本，通过<code>cat /etc/issue</code>查看发行版），必须是64位操作系统。</p>
-<p><a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
+<p><a href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
 <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
 <li><p>查看docker信息</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>拉取一个镜像。名字是node,版本是4</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull node:4</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull node:4</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看本地镜像</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images [name:tag]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images [name:tag]</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>删除镜像/容器</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rm [name:id] 删除容器</span><br><span class="line">docker rmi [id] 删除镜像</span><br></pre></td></tr></table></figure>
+<li><p>删除镜像&#x2F;容器</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rm [name:id] 删除容器</span><br><span class="line">docker rmi [id] 删除镜像</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>列出所有正在运行的镜像</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">-a 列出当前系统中所有容器</span><br><span class="line">-l 列出最后一次使用的容器</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">-a 列出当前系统中所有容器</span><br><span class="line">-l 列出最后一次使用的容器</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重新启动容器</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start [name|id]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start [name|id]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>停止容器</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop [name|id]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop [name|id]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>附着到容器上</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker attach [name|id]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker attach [name|id]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看容器内进程</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker top [name|id]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker top [name|id]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARG…]</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">--name 容器名字</span><br><span class="line">--restart=[always|on-failure:5] 自动重启</span><br><span class="line">-d 后台运行</span><br><span class="line">-v 共享文件系统 e.g, -v /home/doog/app:/root/app</span><br><span class="line">-i -t 进入交互式环境</span><br><span class="line">--link 连接到另外一个容器。e.g, --link redis-name:redis_alias</span><br><span class="line">--rm 运行完删除</span><br><span class="line">-m 内存大小</span><br><span class="line">-c cpu优先级和调度周期</span><br><span class="line">-e 环境变量 e.g, -e &quot;deep=purple&quot;</span><br><span class="line">--env 环境变量</span><br><span class="line">-h hostname</span><br><span class="line">-u 指定用户，默认root</span><br><span class="line">-w 工作目录，默认/</span><br><span class="line">-p 绑定端口 e.g, -p 50122:22 主机的50122端口映射到容器的22端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">--name 容器名字</span><br><span class="line">--restart=[always|on-failure:5] 自动重启</span><br><span class="line">-d 后台运行</span><br><span class="line">-v 共享文件系统 e.g, -v /home/doog/app:/root/app</span><br><span class="line">-i -t 进入交互式环境</span><br><span class="line">--link 连接到另外一个容器。e.g, --link redis-name:redis_alias</span><br><span class="line">--rm 运行完删除</span><br><span class="line">-m 内存大小</span><br><span class="line">-c cpu优先级和调度周期</span><br><span class="line">-e 环境变量 e.g, -e &quot;deep=purple&quot;</span><br><span class="line">--env 环境变量</span><br><span class="line">-h hostname</span><br><span class="line">-u 指定用户，默认root</span><br><span class="line">-w 工作目录，默认/</span><br><span class="line">-p 绑定端口 e.g, -p 50122:22 主机的50122端口映射到容器的22端口</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>获取容器信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker inspect [name:id]</span><br><span class="line">-f | --format &apos;&#123;&#123; .key1.key1 &#125;&#125;&apos; 类似获取json对象值的方式来获取值</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker inspect [name:id]</span><br><span class="line">-f | --format &#x27;&#123;&#123; .key1.key1 &#125;&#125;&#x27; 类似获取json对象值的方式来获取值</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看端口绑定信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    docker port [name:id]</span><br><span class="line">    ``` </span><br><span class="line"></span><br><span class="line">13. 在容器内执行命令</span><br></pre></td></tr></table></figure>
-<p>docker exec [-it] [name:id] [COMMAND]</p>
-<p>docker exec -it c5c696316553 /bin/sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">14. 构建镜像</span><br></pre></td></tr></table></figure>
-<p>docker build -t [name:tag] . </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### Docker镜像操作</span><br><span class="line">``` shell</span><br><span class="line">docker save doog/node:0.0.1 -1 node-001.tar.gz    # 导出镜像</span><br><span class="line">gunzip -c node-001.tar.gz | docker load                    # 导入镜像</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker port [name:id]</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>在容器内执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec [-it] [name:id] [COMMAND]</span><br><span class="line"></span><br><span class="line">docker exec -it c5c696316553 /bin/sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t [name:tag] . </span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="Docker容器操作"><a href="#Docker容器操作" class="headerlink" title="Docker容器操作"></a>Docker容器操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker export [name|id] &gt; ./doog-node.tar.gz                  # 导出容器</span><br></pre></td></tr></table></figure>
+<h3 id="Docker镜像操作"><a href="#Docker镜像操作" class="headerlink" title="Docker镜像操作"></a>Docker镜像操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker save doog/node:0.0.1 -1 node-001.tar.gz    # 导出镜像</span><br><span class="line">gunzip -c node-001.tar.gz | docker load                    # 导入镜像</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker容器操作"><a href="#Docker容器操作" class="headerlink" title="Docker容器操作"></a>Docker容器操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker export [name|id] &gt; ./doog-node.tar.gz                  # 导出容器</span><br></pre></td></tr></table></figure>
+
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li><code>WORKDIR</code>默认为<code>/</code>。</li>
-<li><code>ADD</code>命令：如果<src>是一个本地的压缩包且<dest>是以“/”结尾的目录，则会调用“tar -x”命令解压缩，如果<dest>有同名文件则覆盖，但<src>是一个url时不会执行解压缩。</src></dest></dest></src></li>
-<li><code>ADD</code>比<code>COPY</code>多了2个功能, 下载URL和解压。</li>
+<li><p><code>WORKDIR</code>默认为<code>/</code>。</p>
+</li>
+<li><p><code>ADD</code>命令：如果<src>是一个本地的压缩包且<dest>是以“&#x2F;”结尾的目录，则会调用“tar -x”命令解压缩，如果<dest>有同名文件则覆盖，但<src>是一个url时不会执行解压缩。</p>
+</li>
+<li><p><code>ADD</code>比<code>COPY</code>多了2个功能, 下载URL和解压。</p>
+</li>
 <li><p><code>VOLUME</code> 与 <code>-v</code>的使用场景。</p>
 <p> 很多时候，这两项表象差不多，不同的场景使用不同的配置。不需要本地持久化的目录可以使用<code>VOLUME</code>，可以在多个容器间可以共享。</p>
 <ol>
@@ -206,7 +212,7 @@
 </ol>
 </li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/q/1010000004107293" target="_blank" rel="noopener">【1】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://segmentfault.com/q/1010000004107293">【1】</a></p>
 
   </div>
   <div class="article-license">
@@ -252,7 +258,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">Docker容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">Docker镜像操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">Docker容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.5.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.6.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

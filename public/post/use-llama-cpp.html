@@ -17,7 +17,7 @@
 <meta property="og:description" content="llama.cpp大模型有训练和推理两部分，训练会产生一个大模型文件，这些文件通常包含了模型架构以及每个神经元的权重和偏置值。llama.cpp主要用在推理部分，它是一个是一个使用c++开发的大模型推理框架。它可以在普通家用电脑上完成推理，只需要CPU和几个G的内存就能运行。 编译安装 参考 https:&#x2F;&#x2F;github.com&#x2F;ggerganov&#x2F;llama.cpp?tab&#x3D;readme-ov-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-01-02T02:04:14.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.487Z">
+<meta property="article:modified_time" content="2026-02-07T23:45:20.943Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -141,44 +141,42 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="llama-cpp"><a href="#llama-cpp" class="headerlink" title="llama.cpp"></a>llama.cpp</h2><p>大模型有训练和推理两部分，训练会产生一个大模型文件，这些文件通常包含了模型架构以及每个神经元的权重和偏置值。<a href="https://github.com/ggerganov/llama.cpp" target="_blank" rel="noopener">llama.cpp</a>主要用在推理部分，它是一个是一个使用<code>c++</code>开发的大模型推理框架。它可以在普通家用电脑上完成推理，只需要CPU和几个G的内存就能运行。</p>
+    <h2 id="llama-cpp"><a href="#llama-cpp" class="headerlink" title="llama.cpp"></a>llama.cpp</h2><p>大模型有训练和推理两部分，训练会产生一个大模型文件，这些文件通常包含了模型架构以及每个神经元的权重和偏置值。<a href="https://github.com/ggerganov/llama.cpp">llama.cpp</a>主要用在推理部分，它是一个是一个使用<code>c++</code>开发的大模型推理框架。它可以在普通家用电脑上完成推理，只需要CPU和几个G的内存就能运行。</p>
 <h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><blockquote>
-<p>参考 <a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build" target="_blank" rel="noopener">https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build</a></p>
+<p>参考 <a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build">https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#build</a></p>
 </blockquote>
 <ol>
 <li><p>拉取代码</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ggerganov/llama.cpp.git</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ggerganov/llama.cpp.git</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编译</p>
 <blockquote>
-<p>对于非<code>Apple Silicon</code>系列芯片推理时如果有问题可以在编译时禁用<code>GPU</code>。编译时使用<code>LLAMA_NO_METAL=1</code>或者<code>LLAMA_METAL=OFF</code>参数。<a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#metal-build" target="_blank" rel="noopener">https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#metal-build</a></p>
+<p>对于非<code>Apple Silicon</code>系列芯片推理时如果有问题可以在编译时禁用<code>GPU</code>。编译时使用<code>LLAMA_NO_METAL=1</code>或者<code>LLAMA_METAL=OFF</code>参数。<a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#metal-build">https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#metal-build</a></p>
 </blockquote>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>编译完成会参数<code>mian</code>和<code>quantize</code>文件，前者用来运行大模型推理，后者用来模型向量化处理。</p>
-<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>一般大模型文件都托管在<a href="https://huggingface.co/" target="_blank" rel="noopener">Hugging Face</a>上面。一般情况下<code>llama.cpp</code>不能直接使用这些大模型进行推理，我们需要先对这些模型进行转换，转为<code>ggml</code>格式。支持转换的大模型列表参考官方<a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description" target="_blank" rel="noopener">README</a>国产大模型百川、千问等都支持转为<code>ggml</code>格式。</p>
-<p>转换使用<code>llama.cpp</code>项目内的<code>convert.py</code>或者<code>convert-hf-to-gguf.py</code>处理，详细步骤参考 <a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#prepare-data--run" target="_blank" rel="noopener">https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#prepare-data--run</a>。这里对Python版本有一定的要求，模块的依赖在<code>requirements.txt</code>和<code>requirements</code>目录下。</p>
+<h3 id="模型转换"><a href="#模型转换" class="headerlink" title="模型转换"></a>模型转换</h3><p>一般大模型文件都托管在<a href="https://huggingface.co/">Hugging Face</a>上面。一般情况下<code>llama.cpp</code>不能直接使用这些大模型进行推理，我们需要先对这些模型进行转换，转为<code>ggml</code>格式。支持转换的大模型列表参考官方<a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description">README</a>国产大模型百川、千问等都支持转为<code>ggml</code>格式。</p>
+<p>转换使用<code>llama.cpp</code>项目内的<code>convert.py</code>或者<code>convert-hf-to-gguf.py</code>处理，详细步骤参考 <a href="https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#prepare-data--run">https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#prepare-data--run</a>。这里对Python版本有一定的要求，模块的依赖在<code>requirements.txt</code>和<code>requirements</code>目录下。</p>
 <p>一般情况先使用<code>convert.py</code>转换，如果转换失败在使用<code>convert-hf-to-gguf.py</code>尝试处理。注意，使用<code>convert-hf-to-gguf.py</code>时需要我们安装额外的依赖，依赖列表在<code>requirements/requirements-convert-hf-to-gguf.txt</code>。</p>
 <p>转换后的模型我们需要进行向量化，使用<code>./quantize</code>对转换后的模型进行向量化。向量化后的模型就可以进行推理了。</p>
 <h3 id="和llama-cpp类似的工具"><a href="#和llama-cpp类似的工具" class="headerlink" title="和llama.cpp类似的工具"></a>和llama.cpp类似的工具</h3><ul>
-<li><p><a href="https://github.com/li-plus/chatglm.cpp" target="_blank" rel="noopener">chatglm.cpp</a></p>
-<p>  一个用于<a href="https://github.com/THUDM/ChatGLM3" target="_blank" rel="noopener">ChatGLM</a>大模型推理框架</p>
+<li><p><a href="https://github.com/li-plus/chatglm.cpp">chatglm.cpp</a></p>
+<p>  一个用于<a href="https://github.com/THUDM/ChatGLM3">ChatGLM</a>大模型推理框架</p>
 </li>
-<li><p><a href="https://github.com/SJTU-IPADS/PowerInfer" target="_blank" rel="noopener">PowerInfer</a></p>
+<li><p><a href="https://github.com/SJTU-IPADS/PowerInfer">PowerInfer</a></p>
 <ul>
 <li>一个可以在消费级GPU运行的大模型推理框架</li>
 </ul>
 </li>
 </ul>
 <h3 id="Hugging-Face-镜像"><a href="#Hugging-Face-镜像" class="headerlink" title="Hugging Face 镜像"></a>Hugging Face 镜像</h3><ul>
-<li><p><a href="https://www.modelscope.cn/models" target="_blank" rel="noopener">modelscope</a></p>
-<p>  可以直接使用<code>git clone</code>拉取大模型。注意，需要安装<a href="https://git-lfs.com/" target="_blank" rel="noopener">LFS</a></p>
+<li><p><a href="https://www.modelscope.cn/models">modelscope</a></p>
+<p>  可以直接使用<code>git clone</code>拉取大模型。注意，需要安装<a href="https://git-lfs.com/">LFS</a></p>
 </li>
-<li><p><a href="https://hf-mirror.com/" target="_blank" rel="noopener">hf-mirror</a></p>
+<li><p><a href="https://hf-mirror.com/">hf-mirror</a></p>
 <p>  配置镜像后可以使用<code>huggingface</code>官方命令行<code>huggingface-cli</code>工具下载模型文件</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HF_ENDPOINT=https://hf-mirror.com</span><br></pre></td></tr></table></figure>
-</li>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HF_ENDPOINT=https://hf-mirror.com</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><ul>
 <li><p>B<br>  大模型权重参数单位，1B表示十亿。例如有<code>7B</code>、<code>14B</code>表示参数有70亿和140亿，参数越大推理时耗费的资源越多</p>
@@ -187,7 +185,7 @@
 <p>  FP16、int8、int4 等通常指的是模型权重、激活值或梯度的数值表示方式，表示数值精度。</p>
 <p>  FP16 指的是 16 位浮点数（即半精度浮点数），每个数值占用 2 字节。</p>
 <p>  int8 指的是 8 位整数，每个数值占用 1 字节。</p>
-<p>  1B的FP16精度的大模型为<code>1000,000,000</code> <em> 2Byte ≈ 2GB，1B的int8精度的大模型为<code>1000,000,000</code> </em> 1Byte ≈ 1GB</p>
+<p>  1B的FP16精度的大模型为<code>1000,000,000</code> * 2Byte ≈ 2GB，1B的int8精度的大模型为<code>1000,000,000</code> * 1Byte ≈ 1GB</p>
 </li>
 <li><p>Quantization (量化)</p>
 <p>  <code>量化</code> 是一种通过降低数值表示精度（如将 FP32 降为 int8）的技术，以减少内存和计算资源的消耗。</p>

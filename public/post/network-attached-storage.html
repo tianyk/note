@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="家用NAS搭建手里有一个树莓派，刚好有几张闲置的SD卡。闲来没事搭建个NAS（Network Attached Storage）服务。使用树莓派搭建NAS服务优点就是省电，缺点是网卡有点差。 部署及配置 安装samba  1$ apt-get install samba samba-common-bin  配置  1$ vim &#x2F;etc&#x2F;samba&#x2F;smb.conf  找到Share Defini">
+    <meta name="description" content="家用NAS搭建手里有一个树莓派，刚好有几张闲置的SD卡。闲来没事搭建个NAS（Network Attached Storage）服务。使用树莓派搭建NAS服务优点就是省电，缺点是网卡有点差。 部署及配置 安装samba  1$ apt-get install samba samba-common-bin  配置  1$ vim &#x2F;etc&#x2F;samba&#x2F;smb.conf   找到Share Defin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="家用NAS搭建">
 <meta property="og:url" content="https://kekek.cc/post/network-attached-storage.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="家用NAS搭建手里有一个树莓派，刚好有几张闲置的SD卡。闲来没事搭建个NAS（Network Attached Storage）服务。使用树莓派搭建NAS服务优点就是省电，缺点是网卡有点差。 部署及配置 安装samba  1$ apt-get install samba samba-common-bin  配置  1$ vim &#x2F;etc&#x2F;samba&#x2F;smb.conf  找到Share Defini">
+<meta property="og:description" content="家用NAS搭建手里有一个树莓派，刚好有几张闲置的SD卡。闲来没事搭建个NAS（Network Attached Storage）服务。使用树莓派搭建NAS服务优点就是省电，缺点是网卡有点差。 部署及配置 安装samba  1$ apt-get install samba samba-common-bin  配置  1$ vim &#x2F;etc&#x2F;samba&#x2F;smb.conf   找到Share Defin">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-05-25T14:53:15.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.485Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.706Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -144,34 +144,37 @@
     <h2 id="家用NAS搭建"><a href="#家用NAS搭建" class="headerlink" title="家用NAS搭建"></a>家用NAS搭建</h2><p>手里有一个树莓派，刚好有几张闲置的SD卡。闲来没事搭建个<code>NAS</code>（Network Attached Storage）服务。使用树莓派搭建<code>NAS</code>服务优点就是省电，缺点是网卡有点差。</p>
 <h3 id="部署及配置"><a href="#部署及配置" class="headerlink" title="部署及配置"></a>部署及配置</h3><ol>
 <li><p>安装<code>samba</code></p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> apt-get install samba samba-common-bin</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">apt-get install samba samba-common-bin</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>配置</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim /etc/samba/smb.conf</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">vim /etc/samba/smb.conf</span></span><br></pre></td></tr></table></figure>
+
 <p> 找到<code>Share Definitions</code>部分在后面配置共享目录</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># [共享名] </span><br><span class="line">[ytdl]</span><br><span class="line">    comment = share # 共享描述</span><br><span class="line">    path = /data/share/  # 共享目录</span><br><span class="line">    valid users = pi # 允许访问该共享的用户 多个用户逗号分隔</span><br><span class="line">    browseable = yes # 该指定共享目录可浏览</span><br><span class="line">    public = no # 允许guest用户访问</span><br><span class="line">    writable = yes # 允许可写</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># [共享名] </span><br><span class="line">[ytdl]</span><br><span class="line">    comment = share # 共享描述</span><br><span class="line">    path = /data/share/  # 共享目录</span><br><span class="line">    valid users = pi # 允许访问该共享的用户 多个用户逗号分隔</span><br><span class="line">    browseable = yes # 该指定共享目录可浏览</span><br><span class="line">    public = no # 允许guest用户访问</span><br><span class="line">    writable = yes # 允许可写</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>配置完成重启服务器即可</p>
 </blockquote>
 </li>
 <li><p>添加用户</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ smbpasswd -a [user]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ smbpasswd -a [user]</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>根据提示输入密码即可</p>
 </blockquote>
 </li>
 <li><p>启动和停止</p>
 <ul>
-<li>启动：/etc/init.d/samba restart</li>
-<li>停止：/etc/init.d/samba stop</li>
-<li>重启：/etc/init.d/samba restart</li>
-<li>重新加载配置文件：/etc/init.d/samba reload</li>
+<li>启动：&#x2F;etc&#x2F;init.d&#x2F;samba restart</li>
+<li>停止：&#x2F;etc&#x2F;init.d&#x2F;samba stop</li>
+<li>重启：&#x2F;etc&#x2F;init.d&#x2F;samba restart</li>
+<li>重新加载配置文件：&#x2F;etc&#x2F;init.d&#x2F;samba reload</li>
 </ul>
 </li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://www.jianshu.com/p/ead92b06318e" target="_blank" rel="noopener">在树莓派上安装Samba实现树莓派与Windows间的文件共享</a></li>
-<li><a href="https://blog.csdn.net/weixin_40806910/article/details/81917077" target="_blank" rel="noopener">Linux samba的配置和使用</a></li>
+<li><a href="https://www.jianshu.com/p/ead92b06318e">在树莓派上安装Samba实现树莓派与Windows间的文件共享</a></li>
+<li><a href="https://blog.csdn.net/weixin_40806910/article/details/81917077">Linux samba的配置和使用</a></li>
 </ul>
 
   </div>

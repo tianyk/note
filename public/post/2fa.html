@@ -18,7 +18,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/WechatIMG47.jpeg">
 <meta property="article:published_time" content="2017-04-18T14:48:51.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.481Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.662Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="2fa">
 <meta name="twitter:card" content="summary">
@@ -151,7 +151,7 @@
   <div class="content" itemprop="articleBody">
     <h3 id="双重认证"><a href="#双重认证" class="headerlink" title="双重认证"></a>双重认证</h3><p>双重认证（英语：Two-factor authentication，缩写为2FA），是一种认证方法，使用两种不同的元素，合并在一起，来确认使用者的身份，是多因素验证中的一个特例。目前流行的主要是基于智能手机的两步验证，其中主流的又分 APP 方式和短信方式。</p>
 <h3 id="Google-Authenticator"><a href="#Google-Authenticator" class="headerlink" title="Google Authenticator"></a>Google Authenticator</h3><p>Google Authenticator 是一种 APP 方式的两步验证。谷歌验证应用的使用方法是：用户安装手机客户端，生成临时身份验证码，提交到服务器验证身份。</p>
-<h4 id="Google-两步验证的原理"><a href="#Google-两步验证的原理" class="headerlink" title="Google 两步验证的原理"></a>Google 两步验证的原理</h4><p>服务器首先要给每个用户生成一个 KEY，然后按照 <code>HOTP</code>（HMAC-based One-time Password） 或者 <code>TOTP</code>（Time-Based One-Time Password） 协议生成 <code>CODE</code>，根据协议不同，生成的 <code>CODE</code> 分别是<code>基于计数</code>的或者<code>基于时间</code>的。<br><img src="/images/WechatIMG47.jpeg" alt></p>
+<h4 id="Google-两步验证的原理"><a href="#Google-两步验证的原理" class="headerlink" title="Google 两步验证的原理"></a>Google 两步验证的原理</h4><p>服务器首先要给每个用户生成一个 KEY，然后按照 <code>HOTP</code>（HMAC-based One-time Password） 或者 <code>TOTP</code>（Time-Based One-Time Password） 协议生成 <code>CODE</code>，根据协议不同，生成的 <code>CODE</code> 分别是<code>基于计数</code>的或者<code>基于时间</code>的。<br><img src="/images/WechatIMG47.jpeg"></p>
 <h4 id="TOTP"><a href="#TOTP" class="headerlink" title="TOTP"></a>TOTP</h4><ol>
 <li><p>共享密钥<br> 服务器端生成一个32位的密钥，共享给客户端。</p>
 </li>
@@ -165,8 +165,7 @@
 <p>服务器使用和客户端同样的共享密钥和时间片得到的随机令牌，两者是一样的。  </p>
 </blockquote>
 <p> 伪代码</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmac = SHA1(secret + SHA1(secret + input))</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmac = SHA1(secret + SHA1(secret + input))</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>服务器时间和客户端时间可能不一致，这样就会导致服务器计算的令牌与用户输入的不同，验证失败。解决这个问题个一个方法是，服务器计算当前时间片以及前面的 n 个时间片内的一次性密码值，只要其中有一个与用户输入的密码相同，则验证通过。当然，n 不能太大，否则会降低安全性。</p>
 <h4 id="HOTP"><a href="#HOTP" class="headerlink" title="HOTP"></a>HOTP</h4><ol>
@@ -181,7 +180,7 @@
 <p>如果验证失败或者客户端不小心多进行了一次生成密码操作，那么服务器和客户端之间的计数器C将不再同步，因此需要有一个重新同步（Resynchronization）的机制。</p>
 </blockquote>
 <p><code>HOTP</code> 算法中的计数器类似于 <code>TOTP</code> 中的时间片。<code>TOTP</code> 接收完共享密钥后就不需要和服务器进行交互了，<code>HOTP</code> 后面还需要和服务器同步计数器。这样看来 <code>TOTP</code>的方式可用性更高（特别是在国内不能访问Google服务的情况下），实现也更加简单。另外，为了安全两者本地的功效密钥都不能被第三方获知。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/20462696" target="_blank" rel="noopener">【1】</a> <a href="http://www.infoq.com/cn/news/2014/09/system-verification" target="_blank" rel="noopener">【2】</a> <a href="http://blog.zlxstar.me/blog/2015/09/02/qian-tan-liang-bu-yan-zheng/" target="_blank" rel="noopener">【3】</a> <a href="https://linux.cn/article-2641-1.html" target="_blank" rel="noopener">【4】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/20462696">【1】</a> <a href="http://www.infoq.com/cn/news/2014/09/system-verification">【2】</a> <a href="http://blog.zlxstar.me/blog/2015/09/02/qian-tan-liang-bu-yan-zheng/">【3】</a> <a href="https://linux.cn/article-2641-1.html">【4】</a></p>
 
   </div>
   <div class="article-license">

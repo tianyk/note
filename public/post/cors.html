@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="CORSCross-Origin Resource Sharing（CORS）是HTTP在协议层对处理跨域问题给出的方案。在所有现代浏览器中都可以使用CORS来处理跨域，对于不支持的浏览器可以降级使用JSONP方案代替。  配置https:&#x2F;&#x2F;enable-cors.org&#x2F;index.html 携带Cookie跨域ajax请求时默认是不会携带Cookie的，需要设置withCredentials">
+    <meta name="description" content="CORSCross-Origin Resource Sharing（CORS）是HTTP在协议层对处理跨域问题给出的方案。在所有现代浏览器中都可以使用CORS来处理跨域，对于不支持的浏览器可以降级使用JSONP方案代替。   配置https:&#x2F;&#x2F;enable-cors.org&#x2F;index.html 携带Cookie跨域ajax请求时默认是不会携带Cookie的，需要设置withCredential">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跨域资源共享 CORS">
 <meta property="og:url" content="https://kekek.cc/post/cors.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="CORSCross-Origin Resource Sharing（CORS）是HTTP在协议层对处理跨域问题给出的方案。在所有现代浏览器中都可以使用CORS来处理跨域，对于不支持的浏览器可以降级使用JSONP方案代替。  配置https:&#x2F;&#x2F;enable-cors.org&#x2F;index.html 携带Cookie跨域ajax请求时默认是不会携带Cookie的，需要设置withCredentials">
+<meta property="og:description" content="CORSCross-Origin Resource Sharing（CORS）是HTTP在协议层对处理跨域问题给出的方案。在所有现代浏览器中都可以使用CORS来处理跨域，对于不支持的浏览器可以降级使用JSONP方案代替。   配置https:&#x2F;&#x2F;enable-cors.org&#x2F;index.html 携带Cookie跨域ajax请求时默认是不会携带Cookie的，需要设置withCredential">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-03-03T02:27:33.000Z">
 <meta property="article:modified_time" content="2020-09-16T08:21:13.000Z">
@@ -149,17 +149,19 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><p>Cross-Origin Resource Sharing（CORS）是HTTP在协议层对处理跨域问题给出的方案。在所有现代浏览器中都可以使用CORS来处理跨域，对于不支持的浏览器可以降级使用JSONP方案代替。</p>
-<iframe src="https://caniuse.com/cors/embed/description&links" width="100%" height="350px" frameborder="0" allowfullscreen></iframe>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p><a href="https://enable-cors.org/index.html" target="_blank" rel="noopener">https://enable-cors.org/index.html</a></p>
+<iframe src="https://caniuse.com/cors/embed/description&links" width="100%" height="350px" frameborder="0" loading="lazy" allowfullscreen></iframe>
+
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p><a href="https://enable-cors.org/index.html">https://enable-cors.org/index.html</a></p>
 <h3 id="携带Cookie"><a href="#携带Cookie" class="headerlink" title="携带Cookie"></a>携带Cookie</h3><p>跨域ajax请求时默认是不会携带Cookie的，需要设置<code>withCredentials</code>为true。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> invocation = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"><span class="keyword">var</span> url = <span class="string">'http://bar.other/resources/credentialed-content/'</span>;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callOtherDomain</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(invocation) &#123;</span><br><span class="line">        invocation.open(<span class="string">'GET'</span>, url, <span class="literal">true</span>);</span><br><span class="line">        invocation.withCredentials = <span class="literal">true</span>;</span><br><span class="line">        invocation.onreadystatechange = handler;</span><br><span class="line">        invocation.send(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> invocation = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line"><span class="keyword">var</span> url = <span class="string">&#x27;http://bar.other/resources/credentialed-content/&#x27;</span>;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">callOtherDomain</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(invocation) &#123;</span><br><span class="line">        invocation.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, url, <span class="literal">true</span>);</span><br><span class="line">        invocation.<span class="property">withCredentials</span> = <span class="literal">true</span>;</span><br><span class="line">        invocation.<span class="property">onreadystatechange</span> = handler;</span><br><span class="line">        invocation.<span class="title function_">send</span>(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
 <li><p>preflight</p>
-<p> 对于 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82" target="_blank" rel="noopener">复杂请求</a> 浏览器会发起预请求，我们可以设置 <code>Access-Control-Max-Age</code> 指定了 <code>preflight</code> 请求的结果能够被缓存多久。这里需要注意的是浏览器不是根据域名来做缓存的，是根绝URL。如果URL或者Query不一样，每次都会发起 <code>preflight</code>。</p>
+<p> 对于 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82">复杂请求</a> 浏览器会发起预请求，我们可以设置 <code>Access-Control-Max-Age</code> 指定了 <code>preflight</code> 请求的结果能够被缓存多久。这里需要注意的是浏览器不是根据域名来做缓存的，是根绝URL。如果URL或者Query不一样，每次都会发起 <code>preflight</code>。</p>
 </li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="noopener">HTTP访问控制（CORS）</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">HTTP访问控制（CORS）</a></li>
 </ul>
 
   </div>

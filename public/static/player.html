@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Player</title>
+    <style>
+        /* #app {
+            cursor: url('mouse-pointer.png') -1 -1, default;
+            position: relative;
+        } */
+
+        .area {
+            position: relative;
+            background-color: antiquewhite;
+            width: 400px;
+            height: 200px;
+        }
+
+        .area .location {
+            position: absolute;
+            background-color: red;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body style="padding: 0; margin: 0">
+    
+    <div id="app">
+    </div>
+
+    <div>
+        <button type="button" onclick="play()">播放</button>
+        <button type="button" onclick="pause()">暂停</button>
+    </div>
+
+    <script src="https://lib.baomitu.com/vue/2.5.17/vue.js"></script>
+    <script src="./player.js"></script>
+    <script>
+        var app = new Vue({
+            data: _storage.getObject(_originDataKey),
+            // render: Vue.compile(_storage.get(_templateKey)).render
+            template: _storage.get(_templateKey).replace('<div id="app">', '<div id="app">\n<mouse v-bind:mouse="mouse"></mouse>\n')
+        });
+        app.$mount('#app');
+
+
+        function play() {
+            Vue.playVCR(app);
+        }
+
+        function pause() {
+            Vue.pauseVCR(app);
+        }
+    </script>
+</body>
+
+</html>

@@ -153,7 +153,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="CDN原理"><a href="#CDN原理" class="headerlink" title="CDN原理"></a>CDN原理</h2><p><img src="/images/QQ20160815-0@2x.png" alt></p>
+    <h2 id="CDN原理"><a href="#CDN原理" class="headerlink" title="CDN原理"></a>CDN原理</h2><p><img src="/images/QQ20160815-0@2x.png"></p>
 <ol>
 <li>用户向浏览器输入<code>images.frim-x.com</code>这个域名，浏览器第一次发现本地没有dns缓存，则向网站的DNS服务器请求。①</li>
 <li>网站的DNS域名解析器设置了<code>CNAME</code>，指向了<code>firm-x.cname.cdn.com</code>,请求指向了CDN网络中的智能DNS负载均衡系统。②</li>
@@ -164,13 +164,13 @@
 <h3 id="百度智能DNS"><a href="#百度智能DNS" class="headerlink" title="百度智能DNS"></a>百度智能DNS</h3><ul>
 <li><p>CloudFlare DNS</p>
 <p>  可以看到最终解析出来的A地址有<code>103.235.46.39</code>和<code>103.235.46.40</code>两个（这两个地址都位于百度香港机房，可能和CloudFlare服务海外用户有关）。可以看出经过两级<code>CNAME</code>到最终的IP。</p>
-<p>  <img src="/images/dig-dns.png" alt></p>
-<p>  <img src="/images/dig-dns-cname.png" alt></p>
-<p>  <img src="/images/dig-dns-cname2.png" alt></p>
+<p>  <img src="/images/dig-dns.png"></p>
+<p>  <img src="/images/dig-dns-cname.png"></p>
+<p>  <img src="/images/dig-dns-cname2.png"></p>
 </li>
 <li><p>114 DNS</p>
 <p>  114DNS最终解析到的地址是<code>180.149.132.151</code>和<code>180.149.131.98</code>，这两个就是北京的机房。</p>
-<p>  <img src="/images/dig-114-dns.png" alt></p>
+<p>  <img src="/images/dig-114-dns.png"></p>
 </li>
 </ul>
 

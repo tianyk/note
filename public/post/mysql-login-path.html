@@ -17,7 +17,7 @@
 <meta property="og:description" content="login-pathlogin-path 选项能实现快捷登录MySQL服务器，我们不需要每次都输入用户名、host、密码等登录认证信息，是一种即安全又遍历的方法。 使用 mysql_config_editor 工具将登录MySQL服务的认证信息加密保存在 .mylogin.cnf 文件（默认位于用户主目录）。之后 MySQL 客户端工具可通过读取该加密文件连接 MySQL，避免重复输入登录信息和敏">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-28T06:26:16.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.485Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.704Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -144,16 +144,22 @@
     <h2 id="login-path"><a href="#login-path" class="headerlink" title="login-path"></a>login-path</h2><p><code>login-path</code> 选项能实现快捷登录MySQL服务器，我们不需要每次都输入用户名、host、密码等登录认证信息，是一种即安全又遍历的方法。</p>
 <p>使用 <code>mysql_config_editor</code> 工具将登录MySQL服务的认证信息加密保存在 <code>.mylogin.cnf</code> 文件（默认位于用户主目录）。之后 MySQL 客户端工具可通过读取该加密文件连接 MySQL，避免重复输入登录信息和敏感信息暴露。</p>
 <h3 id="配置-login-path"><a href="#配置-login-path" class="headerlink" title="配置 login-path"></a>配置 login-path</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_config_editor <span class="built_in">set</span> --login-path=dev --user=dev --host=172.26.8.143 --password</span><br></pre></td></tr></table></figure>
+
 <p>可以配置多个登录信息。<code>login-path</code>可以看做登录信息的别名，方便使用时引用。更详细的配置信息查看 <code>mysql_config_editor set --help</code>。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_config_editor <span class="built_in">set</span> --login-path=<span class="built_in">test</span> --user=<span class="built_in">test</span> --host=172.26.8.144 --password</span><br></pre></td></tr></table></figure>
+
 <p>这里又配置了一个 <code>login-path</code> 为 <code>test</code> 的登录信息。</p>
 <h3 id="查看配置过的登录信息"><a href="#查看配置过的登录信息" class="headerlink" title="查看配置过的登录信息"></a>查看配置过的登录信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_config_editor print --all</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[dev]</span></span><br><span class="line"><span class="attr">user</span> = dev</span><br><span class="line"><span class="attr">password</span> = *****</span><br><span class="line"><span class="attr">host</span> = <span class="number">172.26</span>.<span class="number">8.143</span></span><br><span class="line"><span class="section">[test]</span></span><br><span class="line"><span class="attr">user</span> = test</span><br><span class="line"><span class="attr">password</span> = *****</span><br><span class="line"><span class="attr">host</span> = <span class="number">172.26</span>.<span class="number">8.144</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="使用-login-path-登录"><a href="#使用-login-path-登录" class="headerlink" title="使用 login-path 登录"></a>使用 <code>login-path</code> 登录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql --login-path=dev</span><br></pre></td></tr></table></figure>
+
 <h3 id="删除-login-path"><a href="#删除-login-path" class="headerlink" title="删除 login-path"></a>删除 <code>login-path</code></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_config_editor remove --login-path=dev</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://www.cnblogs.com/David-domain/p/11176474.html" target="_blank" rel="noopener">MySQL login-path 本地快捷登录</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/5.7/en/mysql-config-editor.html" target="_blank" rel="noopener">MySQL Configuration Utility</a></li>
+<li><a href="https://www.cnblogs.com/David-domain/p/11176474.html">MySQL login-path 本地快捷登录</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/mysql-config-editor.html">MySQL Configuration Utility</a></li>
 </ul>
 
   </div>

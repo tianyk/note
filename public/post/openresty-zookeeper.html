@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="编译zookeeper123.&#x2F;configuremakemake install zklua 如果lua是openresy自带的，需要export &#x3D;&#x2F;usr&#x2F;loacal&#x2F;openresty&#x2F;luajit&#x2F;。下载后编译make，编译出错可以尝试使用https:&#x2F;&#x2F;github.com&#x2F;forhappy&#x2F;zklua。 ldd zklua.so 查看引用有没有缺失的123456789$ ldd z">
+    <meta name="description" content="编译zookeeper  123.&#x2F;configuremakemake install   zklua 如果lua是openresy自带的，需要export &#x3D;&#x2F;usr&#x2F;loacal&#x2F;openresty&#x2F;luajit&#x2F;。下载后编译make，编译出错可以尝试使用https:&#x2F;&#x2F;github.com&#x2F;forhappy&#x2F;zklua。 ldd zklua.so 查看引用有没有缺失的 123456789$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="openresty-zookeeper">
 <meta property="og:url" content="https://kekek.cc/post/openresty-zookeeper.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="编译zookeeper123.&#x2F;configuremakemake install zklua 如果lua是openresy自带的，需要export &#x3D;&#x2F;usr&#x2F;loacal&#x2F;openresty&#x2F;luajit&#x2F;。下载后编译make，编译出错可以尝试使用https:&#x2F;&#x2F;github.com&#x2F;forhappy&#x2F;zklua。 ldd zklua.so 查看引用有没有缺失的123456789$ ldd z">
+<meta property="og:description" content="编译zookeeper  123.&#x2F;configuremakemake install   zklua 如果lua是openresy自带的，需要export &#x3D;&#x2F;usr&#x2F;loacal&#x2F;openresty&#x2F;luajit&#x2F;。下载后编译make，编译出错可以尝试使用https:&#x2F;&#x2F;github.com&#x2F;forhappy&#x2F;zklua。 ldd zklua.so 查看引用有没有缺失的 123456789$">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-05-03T09:04:16.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.712Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -141,12 +141,18 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>编译zookeeper<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://github.com/forhappy/zklua.git" target="_blank" rel="noopener">zklua</a></p>
-<p>如果lua是openresy自带的，需要<code>export =/usr/loacal/openresty/luajit/</code>。下载后编译<code>make</code>，编译出错可以尝试使用<a href="https://github.com/forhappy/zklua" target="_blank" rel="noopener">https://github.com/forhappy/zklua</a>。</p>
-<p>ldd zklua.so 查看引用有没有缺失的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ldd zklua.so</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffcecf7a000)</span><br><span class="line">	librt.so.1 =&gt; /lib64/librt.so.1 (0x00007fb2597ff000)</span><br><span class="line">	libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fb25957b000)</span><br><span class="line">	libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007fb259376000)</span><br><span class="line">	libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fb259159000)</span><br><span class="line">	libzookeeper_mt.so.2 =&gt; /lib64/libzookeeper_mt.so.2 (0x00007fb258f3f000)</span><br><span class="line">	libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fb258baa000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007fb259c17000)</span><br></pre></td></tr></table></figure></p>
-<p>如果<code>libzookeeper_mt.so.2</code>缺失，将<code>/usr/local/lib/libzookeeper_mt.so.2</code>链接到<code>/lib64/libzookeeper_mt.so.2</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/lib/libzookeeper_mt.so.2 /lib64/libzookeeper_mt.so.2</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://san-yun.iteye.com/blog/1973552" target="_blank" rel="noopener">http://san-yun.iteye.com/blog/1973552</a></p>
+    <p>编译zookeeper </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install </span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/forhappy/zklua.git">zklua</a></p>
+<p>如果lua是openresy自带的，需要<code>export =/usr/loacal/openresty/luajit/</code>。下载后编译<code>make</code>，编译出错可以尝试使用<a href="https://github.com/forhappy/zklua">https://github.com/forhappy/zklua</a>。</p>
+<p>ldd zklua.so 查看引用有没有缺失的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ldd zklua.so</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffcecf7a000)</span><br><span class="line">	librt.so.1 =&gt; /lib64/librt.so.1 (0x00007fb2597ff000)</span><br><span class="line">	libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fb25957b000)</span><br><span class="line">	libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007fb259376000)</span><br><span class="line">	libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fb259159000)</span><br><span class="line">	libzookeeper_mt.so.2 =&gt; /lib64/libzookeeper_mt.so.2 (0x00007fb258f3f000)</span><br><span class="line">	libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fb258baa000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007fb259c17000)</span><br></pre></td></tr></table></figure>
+<p>如果<code>libzookeeper_mt.so.2</code>缺失，将<code>/usr/local/lib/libzookeeper_mt.so.2</code>链接到<code>/lib64/libzookeeper_mt.so.2</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/lib/libzookeeper_mt.so.2 /lib64/libzookeeper_mt.so.2</span><br></pre></td></tr></table></figure>
+
+
+<p><a href="http://san-yun.iteye.com/blog/1973552">http://san-yun.iteye.com/blog/1973552</a></p>
 
   </div>
   <div class="article-license">

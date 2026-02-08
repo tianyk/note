@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="DNS 协议 头信息DNS协议头共12字节，分六大部分。123456789101112131415                                1  1  1  1  1  1  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+|">
+    <meta name="description" content="DNS 协议 头信息DNS协议头共12字节，分六大部分。 123456789101112131415                                1  1  1  1  1  1  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+|">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DNS协议">
 <meta property="og:url" content="https://kekek.cc/post/dns.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="DNS 协议 头信息DNS协议头共12字节，分六大部分。123456789101112131415                                1  1  1  1  1  1  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+|">
+<meta property="og:description" content="DNS 协议 头信息DNS协议头共12字节，分六大部分。 123456789101112131415                                1  1  1  1  1  1  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+|">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/QQ20180108-121200@2x.jpg">
 <meta property="og:image" content="https://kekek.cc/images/QQ20180108-122315@2x.jpg">
@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://kekek.cc/images/QQ20180108-125622@2x.jpg">
 <meta property="og:image" content="https://kekek.cc/images/dns.png">
 <meta property="article:published_time" content="2018-01-08T04:51:13.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.672Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="dig">
 <meta property="article:tag" content="dns">
@@ -94,7 +94,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/post/browserify.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/post/chrome.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/post/java.util.concurrent.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -155,12 +155,13 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="DNS-协议"><a href="#DNS-协议" class="headerlink" title="DNS 协议"></a>DNS 协议</h3><p><img src="/images/QQ20180108-121200@2x.jpg" alt></p>
-<h4 id="头信息"><a href="#头信息" class="headerlink" title="头信息"></a>头信息</h4><p>DNS协议头共12字节，分六大部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">                                1  1  1  1  1  1</span><br><span class="line">  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                      ID                       |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|QR|   Opcode  |AA|TC|RD|RA|   Z    |   RCODE   |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    QDCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    ANCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    NSCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    ARCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br></pre></td></tr></table></figure></p>
+    <h3 id="DNS-协议"><a href="#DNS-协议" class="headerlink" title="DNS 协议"></a>DNS 协议</h3><p><img src="/images/QQ20180108-121200@2x.jpg"></p>
+<h4 id="头信息"><a href="#头信息" class="headerlink" title="头信息"></a>头信息</h4><p>DNS协议头共12字节，分六大部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">                                1  1  1  1  1  1</span><br><span class="line">  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                      ID                       |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|QR|   Opcode  |AA|TC|RD|RA|   Z    |   RCODE   |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    QDCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    ANCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    NSCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                    ARCOUNT                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br></pre></td></tr></table></figure>
 <ul>
 <li>第一部分2字节(16位)为<code>Transaction Id</code>，用来标识唯一的查询请求（主要应为UDP协议）。</li>
 <li>第二部分2字节为标志位<code>Flags</code>，共16位(bit)。<ul>
-<li>QR(Request/response)是1位（bit）字段：0表示查询报文，1表示响应报文。</li>
+<li>QR(Request&#x2F;response)是1位（bit）字段：0表示查询报文，1表示响应报文。</li>
 <li>opcode 是一个4位字段：通常值为0（标准查询），其他值为1（反向查询）和2（服务器状态请求）。</li>
 <li>AA(Authoritative answer)是1bit标志，表示“授权回答(authoritative answer)”。该名字服务器是授权于该域的。</li>
 <li>TC(Truncation)是1bit字段，表示“可截断的(truncated)”。使用UDP时，它表示当应答的总长度超过512字节时，只返回前512个字节。为1时客户端会重新发起一个TCP DNS查询请求。</li>
@@ -175,17 +176,14 @@
 <li>第五部分2字节<code>Authority Resource Record count</code>。</li>
 <li>第六部分2字节<code>Additional Resource Record count</code>。</li>
 </ul>
-<h4 id="Question-Resource-Record"><a href="#Question-Resource-Record" class="headerlink" title="Question Resource Record"></a>Question Resource Record</h4><p><img src="/images/QQ20180108-122315@2x.jpg" alt></p>
+<h4 id="Question-Resource-Record"><a href="#Question-Resource-Record" class="headerlink" title="Question Resource Record"></a>Question Resource Record</h4><p><img src="/images/QQ20180108-122315@2x.jpg"></p>
 <p>查询问题是一个可变长度的，主要是因为域名长度不固定。<code>Question Resource Record count</code>的数量代表查询问题的数量。查询问题分三部分，一个可变长度的域名，一个2自己的查询类型，一个字节的查询类。</p>
 <ul>
-<li><p>查询域名结构为长度子域名值</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># www.baidu.com 分三部分。第一部分www长度为3，第二部分baidu长度为5，第三部分www长度为3。最后以为0表示结束。</span><br><span class="line">3www5baidu3com0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查询类型2字节，主要有<code>A</code>、<code>MX</code>、<code>CNAME</code>等。</p>
-</li>
+<li>查询域名结构为长度子域名值  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># www.baidu.com 分三部分。第一部分www长度为3，第二部分baidu长度为5，第三部分www长度为3。最后以为0表示结束。</span><br><span class="line">3www5baidu3com0</span><br></pre></td></tr></table></figure></li>
+<li>查询类型2字节，主要有<code>A</code>、<code>MX</code>、<code>CNAME</code>等。</li>
 <li>查询类2字节互联网应用都为1。</li>
 </ul>
-<h4 id="Answer-Resource-Record、Authority-Resource-Record、Additional-Resource-Record"><a href="#Answer-Resource-Record、Authority-Resource-Record、Additional-Resource-Record" class="headerlink" title="Answer Resource Record、Authority Resource Record、Additional Resource Record"></a>Answer Resource Record、Authority Resource Record、Additional Resource Record</h4><p><img src="/images/QQ20180108-123107@2x.jpg" alt>  </p>
+<h4 id="Answer-Resource-Record、Authority-Resource-Record、Additional-Resource-Record"><a href="#Answer-Resource-Record、Authority-Resource-Record、Additional-Resource-Record" class="headerlink" title="Answer Resource Record、Authority Resource Record、Additional Resource Record"></a>Answer Resource Record、Authority Resource Record、Additional Resource Record</h4><p><img src="/images/QQ20180108-123107@2x.jpg">  </p>
 <p>这三部分结构类似，简称<code>Resource Record (RR)</code>，共六大部分。</p>
 <ul>
 <li>第一部分为可变长度的域名。域名部分和查询部分域数据格式一样<code>长度-域名值</code>，不同的一点是此处域名可以压缩。如果第一个长度位前2字节为<code>11</code>表示后面的数据不再是数据长度，而是一个引用地址。引用地址为域名部分前2位（16字节）中除去前2位<code>11</code>剩下的14个位，它的的十进制数表示偏移位（一般为<code>c0 0c</code>，因为DNS报文12字节固定头，后面紧跟着就是查询问题的域名部分。12的二进制形式为<code>00001100</code>，完整的二进制位<code>11000000 00001100</code>，十六进制形式即为<code>c0 0c</code>）。    </li>
@@ -194,40 +192,28 @@
 <li>第五部分2字节表示剩下部分的数据长度。</li>
 <li>第六部分为数据，不同的Resource Record区别主要在第六部分数据。</li>
 </ul>
-<p><a href="https://github.com/tianyk/mini-dns" target="_blank" rel="noopener">代码实现</a></p>
+<p><a href="https://github.com/tianyk/mini-dns">代码实现</a></p>
 <blockquote>
-<p>通过Wireshark抓取的网络包<br><img src="/images/QQ20180108-125622@2x.jpg" alt></p>
+<p>通过Wireshark抓取的网络包<br><img src="/images/QQ20180108-125622@2x.jpg"></p>
 </blockquote>
-<h3 id="DNS查询"><a href="#DNS查询" class="headerlink" title="DNS查询"></a>DNS查询</h3><p><img src="/images/dns.png" alt></p>
+<h3 id="DNS查询"><a href="#DNS查询" class="headerlink" title="DNS查询"></a>DNS查询</h3><p><img src="/images/dns.png"></p>
 <h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><blockquote>
 <p>yum install bind-utils</p>
 </blockquote>
 <ol>
-<li><p>dig</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @114.114.114.114 www.baidu.com A</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>nslookup </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nslookup www.baidu.com</span><br></pre></td></tr></table></figure>
-</li>
+<li>dig <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @114.114.114.114 www.baidu.com A</span><br></pre></td></tr></table></figure></li>
+<li>nslookup  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nslookup www.baidu.com</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><ol>
-<li><p>Mac</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lookupd -flushcache 这个命令适用于Tiger或更低版本 Mac OS</span><br><span class="line">dscacheutil -flushcache 这个适用于Mac OS Leopard</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Linux </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nscd reload</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Windows </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /flushdns</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Chrome </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chrome://net-internals/#dns</span><br><span class="line">chrome://net-internals/#sockets</span><br></pre></td></tr></table></figure>
-</li>
+<li>Mac <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lookupd -flushcache 这个命令适用于Tiger或更低版本 Mac OS</span><br><span class="line">dscacheutil -flushcache 这个适用于Mac OS Leopard </span><br></pre></td></tr></table></figure></li>
+<li>Linux  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nscd reload</span><br></pre></td></tr></table></figure></li>
+<li>Windows  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /flushdns</span><br></pre></td></tr></table></figure></li>
+<li>Chrome  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chrome://net-internals/#dns</span><br><span class="line">chrome://net-internals/#sockets</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://linux.cn/article-3341-1.html" target="_blank" rel="noopener">如何在 Linux/Unix/Mac 下清除 DNS 查询缓存</a></li>
+<li><a href="https://linux.cn/article-3341-1.html">如何在 Linux&#x2F;Unix&#x2F;Mac 下清除 DNS 查询缓存</a></li>
 <li><a href="/2017/08/31/dig/">dig</a></li>
-<li><a href="http://docs.52im.net/extend/docs/book/tcpip/vol1/14/" target="_blank" rel="noopener">TCP/IP详解 卷1：协议</a></li>
+<li><a href="http://docs.52im.net/extend/docs/book/tcpip/vol1/14/">TCP&#x2F;IP详解 卷1：协议</a></li>
 <li>网络是怎样连接的</li>
 </ul>
 

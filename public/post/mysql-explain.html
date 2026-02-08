@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Mysql Explain 解释   列名 类型 解释     id  SELECT语句的ID编号,优先执行编号较大的查询,如果编号相同,则从上向下执行   select_type SIMPLE 一条没有UNION或子查询部分的SELECT语句   - PIMARY 最外层或最左侧的SELECT语句   - UNION UNION语句里的第二条或最后一条SELECT语句   - DEPENDENT">
+    <meta name="description" content="Mysql Explain 解释   列名 类型 解释    id  SELECT语句的ID编号,优先执行编号较大的查询,如果编号相同,则从上向下执行   select_type SIMPLE 一条没有UNION或子查询部分的SELECT语句   - PIMARY 最外层或最左侧的SELECT语句   - UNION UNION语句里的第二条或最后一条SELECT语句   - DEPENDENT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mysql Explain 解释">
 <meta property="og:url" content="https://kekek.cc/post/mysql-explain.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Mysql Explain 解释   列名 类型 解释     id  SELECT语句的ID编号,优先执行编号较大的查询,如果编号相同,则从上向下执行   select_type SIMPLE 一条没有UNION或子查询部分的SELECT语句   - PIMARY 最外层或最左侧的SELECT语句   - UNION UNION语句里的第二条或最后一条SELECT语句   - DEPENDENT">
+<meta property="og:description" content="Mysql Explain 解释   列名 类型 解释    id  SELECT语句的ID编号,优先执行编号较大的查询,如果编号相同,则从上向下执行   select_type SIMPLE 一条没有UNION或子查询部分的SELECT语句   - PIMARY 最外层或最左侧的SELECT语句   - UNION UNION语句里的第二条或最后一条SELECT语句   - DEPENDENT">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-01-17T10:27:32.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.485Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.704Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -149,8 +149,7 @@
 <th>解释</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><strong>id</strong></td>
 <td></td>
 <td>SELECT语句的ID编号,优先执行编号较大的查询,如果编号相同,则从上向下执行</td>
@@ -253,7 +252,7 @@
 <tr>
 <td>-</td>
 <td>range</td>
-<td>只检索给定范围的行,包括如下操作符: =, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, IS NULL, &lt;=&gt;, BETWEEN, or IN()</td>
+<td>只检索给定范围的行,包括如下操作符: &#x3D;, &lt;&gt;, &gt;, &gt;&#x3D;, &lt;, &lt;&#x3D;, IS NULL, &lt;&#x3D;&gt;, BETWEEN, or IN()</td>
 </tr>
 <tr>
 <td>-</td>
@@ -310,12 +309,12 @@
 <td>Using where</td>
 <td>利用SELECT语句中的WHERE子句里的条件进行检索操作</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h4><blockquote>
 <p>参照物</p>
 </blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span></span><br><span class="line">    template.id <span class="keyword">as</span> <span class="string">'id'</span>, <span class="keyword">ifnull</span>(likes.total, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'likes'</span>, <span class="keyword">ifnull</span>(ratings.stars, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'ratings'</span>, <span class="keyword">ifnull</span>(rating.star, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'rating'</span>, <span class="keyword">if</span>(<span class="keyword">isnull</span>(iLike.id), <span class="number">0</span>, <span class="number">1</span>) <span class="keyword">as</span> <span class="string">'isLike'</span></span><br><span class="line"><span class="keyword">from</span> <span class="keyword">template</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="keyword">avg</span>(star) <span class="keyword">as</span> <span class="string">'stars'</span> <span class="keyword">from</span> rating <span class="keyword">group</span> <span class="keyword">by</span> template_id) ratings</span><br><span class="line"><span class="keyword">on</span> template.id = ratings.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="keyword">count</span>(<span class="number">1</span>) <span class="keyword">as</span> total <span class="keyword">from</span> <span class="string">`like`</span> <span class="keyword">group</span> <span class="keyword">by</span> template_id) <span class="keyword">as</span> likes</span><br><span class="line"><span class="keyword">on</span> template.id = likes.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`like`</span> <span class="keyword">as</span> <span class="keyword">iLike</span></span><br><span class="line"><span class="keyword">on</span> template.id = iLike.template_id <span class="keyword">and</span> iLike.user_id = <span class="number">10000</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> rating</span><br><span class="line"><span class="keyword">on</span> template.id = rating.template_id <span class="keyword">and</span> rating.user_id = <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span></span><br><span class="line">    template.id <span class="keyword">as</span> <span class="string">&#x27;id&#x27;</span>, ifnull(likes.total, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;likes&#x27;</span>, ifnull(ratings.stars, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;ratings&#x27;</span>, ifnull(rating.star, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;rating&#x27;</span>, if(isnull(iLike.id), <span class="number">0</span>, <span class="number">1</span>) <span class="keyword">as</span> <span class="string">&#x27;isLike&#x27;</span></span><br><span class="line"><span class="keyword">from</span> template</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="built_in">avg</span>(star) <span class="keyword">as</span> <span class="string">&#x27;stars&#x27;</span> <span class="keyword">from</span> rating <span class="keyword">group</span> <span class="keyword">by</span> template_id) ratings</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> ratings.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">as</span> total <span class="keyword">from</span> `<span class="keyword">like</span>` <span class="keyword">group</span> <span class="keyword">by</span> template_id) <span class="keyword">as</span> likes</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> likes.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> `<span class="keyword">like</span>` <span class="keyword">as</span> iLike</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> iLike.template_id <span class="keyword">and</span> iLike.user_id <span class="operator">=</span> <span class="number">10000</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> rating</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> rating.template_id <span class="keyword">and</span> rating.user_id <span class="operator">=</span> <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -331,8 +330,7 @@
 <th>Extra</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>1</td>
 <td>PRIMARY</td>
 <td>template</td>
@@ -416,12 +414,12 @@
 <td>7</td>
 <td>Using temporary; Using filesort</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h4 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h4><blockquote>
 <p>调整子句顺序(6,7 -&gt; 4,5) 对比实验1</p>
 </blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span></span><br><span class="line">    template.id <span class="keyword">as</span> <span class="string">'id'</span>, <span class="keyword">ifnull</span>(likes.total, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'likes'</span>, <span class="keyword">ifnull</span>(ratings.stars, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'ratings'</span>, <span class="keyword">ifnull</span>(rating.star, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'rating'</span>, <span class="keyword">if</span>(<span class="keyword">isnull</span>(iLike.id), <span class="number">0</span>, <span class="number">1</span>) <span class="keyword">as</span> <span class="string">'isLike'</span></span><br><span class="line"><span class="keyword">from</span> <span class="keyword">template</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="keyword">count</span>(<span class="number">1</span>) <span class="keyword">as</span> total <span class="keyword">from</span> <span class="string">`like`</span> <span class="keyword">group</span> <span class="keyword">by</span> template_id) <span class="keyword">as</span> likes</span><br><span class="line"><span class="keyword">on</span> template.id = likes.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="keyword">avg</span>(star) <span class="keyword">as</span> <span class="string">'stars'</span> <span class="keyword">from</span> rating <span class="keyword">group</span> <span class="keyword">by</span> template_id) ratings</span><br><span class="line"><span class="keyword">on</span> template.id = ratings.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`like`</span> <span class="keyword">as</span> <span class="keyword">iLike</span></span><br><span class="line"><span class="keyword">on</span> template.id = iLike.template_id <span class="keyword">and</span> iLike.user_id = <span class="number">10000</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> rating</span><br><span class="line"><span class="keyword">on</span> template.id = rating.template_id <span class="keyword">and</span> rating.user_id = <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span></span><br><span class="line">    template.id <span class="keyword">as</span> <span class="string">&#x27;id&#x27;</span>, ifnull(likes.total, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;likes&#x27;</span>, ifnull(ratings.stars, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;ratings&#x27;</span>, ifnull(rating.star, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;rating&#x27;</span>, if(isnull(iLike.id), <span class="number">0</span>, <span class="number">1</span>) <span class="keyword">as</span> <span class="string">&#x27;isLike&#x27;</span></span><br><span class="line"><span class="keyword">from</span> template</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">as</span> total <span class="keyword">from</span> `<span class="keyword">like</span>` <span class="keyword">group</span> <span class="keyword">by</span> template_id) <span class="keyword">as</span> likes</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> likes.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="built_in">avg</span>(star) <span class="keyword">as</span> <span class="string">&#x27;stars&#x27;</span> <span class="keyword">from</span> rating <span class="keyword">group</span> <span class="keyword">by</span> template_id) ratings</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> ratings.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> `<span class="keyword">like</span>` <span class="keyword">as</span> iLike</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> iLike.template_id <span class="keyword">and</span> iLike.user_id <span class="operator">=</span> <span class="number">10000</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> rating</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> rating.template_id <span class="keyword">and</span> rating.user_id <span class="operator">=</span> <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -437,8 +435,7 @@
 <th>Extra</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>1</td>
 <td>PRIMARY</td>
 <td>template</td>
@@ -522,12 +519,12 @@
 <td>5</td>
 <td>Using temporary; Using filesort</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h4 id="实验3"><a href="#实验3" class="headerlink" title="实验3"></a>实验3</h4><blockquote>
 <p>调整子句顺序(10,11 -&gt; 8,9) 对比实验2</p>
 </blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span></span><br><span class="line">    template.id <span class="keyword">as</span> <span class="string">'id'</span>, <span class="keyword">ifnull</span>(likes.total, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'likes'</span>, <span class="keyword">ifnull</span>(ratings.stars, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'ratings'</span>, <span class="keyword">ifnull</span>(rating.star, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">'rating'</span>, <span class="keyword">if</span>(<span class="keyword">isnull</span>(iLike.id), <span class="number">0</span>, <span class="number">1</span>) <span class="keyword">as</span> <span class="string">'isLike'</span></span><br><span class="line"><span class="keyword">from</span> <span class="keyword">template</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="keyword">count</span>(<span class="number">1</span>) <span class="keyword">as</span> total <span class="keyword">from</span> <span class="string">`like`</span> <span class="keyword">group</span> <span class="keyword">by</span> template_id) <span class="keyword">as</span> likes</span><br><span class="line"><span class="keyword">on</span> template.id = likes.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="keyword">avg</span>(star) <span class="keyword">as</span> <span class="string">'stars'</span> <span class="keyword">from</span> rating <span class="keyword">group</span> <span class="keyword">by</span> template_id) ratings</span><br><span class="line"><span class="keyword">on</span> template.id = ratings.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> rating</span><br><span class="line"><span class="keyword">on</span> template.id = rating.template_id <span class="keyword">and</span> rating.user_id = <span class="number">10000</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> <span class="string">`like`</span> <span class="keyword">as</span> <span class="keyword">iLike</span></span><br><span class="line"><span class="keyword">on</span> template.id = iLike.template_id <span class="keyword">and</span> iLike.user_id = <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span></span><br><span class="line">    template.id <span class="keyword">as</span> <span class="string">&#x27;id&#x27;</span>, ifnull(likes.total, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;likes&#x27;</span>, ifnull(ratings.stars, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;ratings&#x27;</span>, ifnull(rating.star, <span class="number">0</span>) <span class="keyword">as</span> <span class="string">&#x27;rating&#x27;</span>, if(isnull(iLike.id), <span class="number">0</span>, <span class="number">1</span>) <span class="keyword">as</span> <span class="string">&#x27;isLike&#x27;</span></span><br><span class="line"><span class="keyword">from</span> template</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">as</span> total <span class="keyword">from</span> `<span class="keyword">like</span>` <span class="keyword">group</span> <span class="keyword">by</span> template_id) <span class="keyword">as</span> likes</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> likes.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> template_id, <span class="built_in">avg</span>(star) <span class="keyword">as</span> <span class="string">&#x27;stars&#x27;</span> <span class="keyword">from</span> rating <span class="keyword">group</span> <span class="keyword">by</span> template_id) ratings</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> ratings.template_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> rating</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> rating.template_id <span class="keyword">and</span> rating.user_id <span class="operator">=</span> <span class="number">10000</span></span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> `<span class="keyword">like</span>` <span class="keyword">as</span> iLike</span><br><span class="line"><span class="keyword">on</span> template.id <span class="operator">=</span> iLike.template_id <span class="keyword">and</span> iLike.user_id <span class="operator">=</span> <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -543,8 +540,7 @@
 <th>Extra</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>1</td>
 <td>PRIMARY</td>
 <td>template</td>
@@ -628,13 +624,12 @@
 <td>5</td>
 <td>Using temporary; Using filesort</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <ol>
 <li>表连接中有子查询的先执行(对比实验1、2、3)，相同情况下排在后面的优先级高(对比实验1、2)。</li>
 <li>表连接，从上到下执行(对比实验2、3)</li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://github.com/Yhzhtk/note/issues/39" target="_blank" rel="noopener">【1】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://github.com/Yhzhtk/note/issues/39">【1】</a></p>
 
   </div>
   <div class="article-license">

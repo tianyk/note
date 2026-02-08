@@ -17,7 +17,7 @@
 <meta property="og:description" content="简介V8 提供了一个强大的调试器，可以通过 TCP 协议从外部访问。Node.js 提供了一个内建调试器来帮助开发者调试应用程序。想要开启调试器我们需要在代码中加入debugger标签，当 Node.js 执行到 debugger 标签时会自动暂停。 开启调试模式以debug模式启动node进程1node --debug[&#x3D;port] filename （这种方式，其实就是在指定的端口（默认为 5">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-02-10T07:54:54.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.709Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -143,24 +143,24 @@
   <div class="content" itemprop="articleBody">
     <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>V8 提供了一个强大的调试器，可以通过 TCP 协议从外部访问。Node.js 提供了一个内建调试器来帮助开发者调试应用程序。想要开启调试器我们需要在代码中加入debugger标签，当 Node.js 执行到 debugger 标签时会自动暂停。</p>
 <h3 id="开启调试模式"><a href="#开启调试模式" class="headerlink" title="开启调试模式"></a>开启调试模式</h3><h4 id="以debug模式启动node进程"><a href="#以debug模式启动node进程" class="headerlink" title="以debug模式启动node进程"></a>以debug模式启动node进程</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --debug[=port] filename （这种方式，其实就是在指定的端口（默认为 5858）监听远程调试连接）</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --debug-brk[=port] filename （这种方式在监听的同时，会在代码执行的时候，强制断点在第一行，这样有个好处就是：可以debug到node内部的是如何运行的）</span><br></pre></td></tr></table></figure>
+
 <h4 id="对已经在运行的node进程开启debug模式"><a href="#对已经在运行的node进程开启debug模式" class="headerlink" title="对已经在运行的node进程开启debug模式"></a>对已经在运行的node进程开启debug模式</h4><ol>
 <li><p>查找node进程</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ps -ef | grep node</span><br><span class="line">501 42630  2945   0  3:42下午 ttys001    0:02.30 node app.js</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ps -ef | grep node</span><br><span class="line">501 42630  2945   0  3:42下午 ttys001    0:02.30 node app.js</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>发送<code>USR1</code>信号</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kill -s USR1 42630</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kill -s USR1 42630</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><ol>
 <li><p>获得进程号  </p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; tasklist /FI <span class="string">"IMAGENAME eq node.exe"</span></span><br><span class="line"></span><br><span class="line">Image Name                     PID Session Name        Session<span class="comment">#    Mem Usage</span></span><br><span class="line">========================= ======== ================ =========== ============</span><br><span class="line">node.exe                      3084 Console                    1     11,964 K</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; tasklist /FI <span class="string">&quot;IMAGENAME eq node.exe&quot;</span></span><br><span class="line"></span><br><span class="line">Image Name                     PID Session Name        Session#    Mem Usage</span><br><span class="line">========================= ======== ================ =========== ============</span><br><span class="line">node.exe                      3084 Console                    1     11,964 K</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>开启debug模式</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; node -e &quot;process._debugProcess(3084)&quot;</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; node -e &quot;process._debugProcess(3084)&quot;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://github.com/node-inspector/node-inspector" target="_blank" rel="noopener">【1】</a> <a href="http://zqdevres.qiniucdn.com/data/20130414223730/index.html" target="_blank" rel="noopener">【2】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://github.com/node-inspector/node-inspector">【1】</a> <a href="http://zqdevres.qiniucdn.com/data/20130414223730/index.html">【2】</a></p>
 
   </div>
   <div class="article-license">

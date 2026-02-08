@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="导入密钥 1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch  配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建kibana.repo写入一下内容。 123456[kibana-4.5]name&#x3D;Kibana repository for 4.5.x packagesbaseurl&#x3D;http:&#x2F;&#x2F;packages.e">
+    <meta name="description" content="导入密钥  1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch   配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建kibana.repo写入一下内容。  123456[kibana-4.5]name&#x3D;Kibana repository for 4.5.x packagesbaseurl&#x3D;http:&#x2F;&#x2F;package">
 <meta property="og:type" content="article">
 <meta property="og:title" content="install-kibana">
 <meta property="og:url" content="https://kekek.cc/post/install-kibana.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="导入密钥 1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch  配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建kibana.repo写入一下内容。 123456[kibana-4.5]name&#x3D;Kibana repository for 4.5.x packagesbaseurl&#x3D;http:&#x2F;&#x2F;packages.e">
+<meta property="og:description" content="导入密钥  1rpm --import https:&#x2F;&#x2F;packages.elastic.co&#x2F;GPG-KEY-elasticsearch   配置源在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下新建kibana.repo写入一下内容。  123456[kibana-4.5]name&#x3D;Kibana repository for 4.5.x packagesbaseurl&#x3D;http:&#x2F;&#x2F;package">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-30T15:23:32.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.681Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="elasticsearch">
 <meta property="article:tag" content="kibana">
@@ -149,23 +149,32 @@
 
   <div class="content" itemprop="articleBody">
     <ol>
-<li><p>导入密钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置源<br>在<code>/etc/yum.repos.d/</code>目录下新建<code>kibana.repo</code>写入一下内容。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[kibana-4.5]</span><br><span class="line">name=Kibana repository for 4.5.x packages</span><br><span class="line">baseurl=http://packages.elastic.co/kibana/4.5/centos</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line">yum install kibana -y</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置开机启动  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add kibana</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service kibana start</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>参考<br><a href="https://www.elastic.co/guide/en/kibana/4.5/setup.html#setup-repositories" target="_blank" rel="noopener">【1】</a></p>
-</li>
+<li>导入密钥</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置源<br>在<code>/etc/yum.repos.d/</code>目录下新建<code>kibana.repo</code>写入一下内容。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[kibana-4.5]</span><br><span class="line">name=Kibana repository for 4.5.x packages</span><br><span class="line">baseurl=http://packages.elastic.co/kibana/4.5/centos</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line">yum install kibana -y</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>配置开机启动</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add kibana</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>启动服务</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service kibana start</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>参考<br><a href="https://www.elastic.co/guide/en/kibana/4.5/setup.html#setup-repositories">【1】</a></li>
 </ol>
 
   </div>

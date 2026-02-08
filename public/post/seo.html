@@ -18,7 +18,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/WX20180504-191101@2x.png">
 <meta property="article:published_time" content="2017-05-04T11:09:42.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.487Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.716Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/WX20180504-191101@2x.png">
@@ -147,7 +147,7 @@
 <p><code>Robots</code>主要包含以下几大部分</p>
 <ul>
 <li><p>User-agent</p>
-<p>  对特定机器人进行配置。常见的有<code>Baiduspider</code>、<code>Googlebot</code>、<code>Bingbot</code>、<code>360Spider</code>、<code>Sogouspider</code>。可以设置为<code>*</code>代表所有。<a href="https://www.taobao.com/robots.txt" target="_blank" rel="noopener">淘宝</a>、<a href="https://www.oschina.net/robots.txt" target="_blank" rel="noopener">OSChina</a></p>
+<p>  对特定机器人进行配置。常见的有<code>Baiduspider</code>、<code>Googlebot</code>、<code>Bingbot</code>、<code>360Spider</code>、<code>Sogouspider</code>。可以设置为<code>*</code>代表所有。<a href="https://www.taobao.com/robots.txt">淘宝</a>、<a href="https://www.oschina.net/robots.txt">OSChina</a></p>
 </li>
 <li><p>Disallow</p>
 <p>  指定那些目录下是不可以被抓取的。</p>
@@ -165,7 +165,8 @@
 <p>  抓取间隔。<code>Crawl-delay: 10</code>指在爬虫两次进入站点时间隔为<code>10</code>秒。<em>部分搜索引擎会忽略</em></p>
 </li>
 </ul>
-<p>本站的<code>robots.txt</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /search</span><br><span class="line">Allow: /</span><br><span class="line">Sitemap: https://kekek.cc/sitemap.xml</span><br></pre></td></tr></table></figure></p>
+<p>本站的<code>robots.txt</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /search</span><br><span class="line">Allow: /</span><br><span class="line">Sitemap: https://kekek.cc/sitemap.xml</span><br></pre></td></tr></table></figure>
 <p>次规则适用于所有爬虫，<code>/search</code>下的内容不可以被抓去，其它所有网址都可以被抓去。站点地图地址为<code>https://kekek.cc/sitemap.xml</code>。</p>
 <h3 id="sitemap"><a href="#sitemap" class="headerlink" title="sitemap"></a>sitemap</h3><p>站点地图。主要为xml格式，里面包含站内网页的连接。</p>
 <p>主要属性：</p>
@@ -180,10 +181,12 @@
 <p>  相对于其他页面的优先权</p>
 </li>
 </ul>
-<p>示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">urlset</span> <span class="attr">xmlns</span>=<span class="string">"http://www.sitemaps.org/schemas/sitemap/0.9"</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">loc</span>&gt;</span>https://kekek.cc/baidu_verify_V1VRvzkxVm.html<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>2018-05-04T10:38:47.003Z<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">loc</span>&gt;</span>https://kekek.cc/2017/03/23/bitwise-permission/<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>2018-05-03T12:53:55.729Z<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">urlset</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="Google"><a href="#Google" class="headerlink" title="Google"></a>Google</h3><p>访问<a href="https://www.google.com/webmasters/tools/home?hl=zh-CN" target="_blank" rel="noopener">https://www.google.com/webmasters/tools/home?hl=zh-CN</a>添加站点。</p>
-<p><img src="/images/WX20180504-191101@2x.png" alt></p>
-<h3 id="Baidu"><a href="#Baidu" class="headerlink" title="Baidu"></a>Baidu</h3><p>访问<a href="https://ziyuan.baidu.com/linksubmit/index" target="_blank" rel="noopener">https://ziyuan.baidu.com/linksubmit/index</a>添加站点。</p>
+<p>示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">urlset</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">loc</span>&gt;</span>https://kekek.cc/baidu_verify_V1VRvzkxVm.html<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>2018-05-04T10:38:47.003Z<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">loc</span>&gt;</span>https://kekek.cc/2017/03/23/bitwise-permission/<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>2018-05-03T12:53:55.729Z<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">urlset</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Google"><a href="#Google" class="headerlink" title="Google"></a>Google</h3><p>访问<a href="https://www.google.com/webmasters/tools/home?hl=zh-CN">https://www.google.com/webmasters/tools/home?hl=zh-CN</a>添加站点。</p>
+<p><img src="/images/WX20180504-191101@2x.png"></p>
+<h3 id="Baidu"><a href="#Baidu" class="headerlink" title="Baidu"></a>Baidu</h3><p>访问<a href="https://ziyuan.baidu.com/linksubmit/index">https://ziyuan.baidu.com/linksubmit/index</a>添加站点。</p>
 
   </div>
   <div class="article-license">

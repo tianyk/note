@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Nginx 缓存 默认情况下，NGINX需要考虑从原始服务器得到的Cache-Control标头。当在响应头部中Cache-Control被配置为Private，No-Cache，No-Store或者Set-Cookie，NGINX不进行缓存。NGINX仅仅缓存GET和HEAD客户端请求。  proxy_cache_path proxy_cache_path用来设置缓存的路径和配置  示例1pro">
+    <meta name="description" content="Nginx 缓存 默认情况下，NGINX需要考虑从原始服务器得到的Cache-Control标头。当在响应头部中Cache-Control被配置为Private，No-Cache，No-Store或者Set-Cookie，NGINX不进行缓存。NGINX仅仅缓存GET和HEAD客户端请求。  proxy_cache_path proxy_cache_path用来设置缓存的路径和配置  示例 1pr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx缓存配置">
 <meta property="og:url" content="https://kekek.cc/post/nginx-proxy-cache.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Nginx 缓存 默认情况下，NGINX需要考虑从原始服务器得到的Cache-Control标头。当在响应头部中Cache-Control被配置为Private，No-Cache，No-Store或者Set-Cookie，NGINX不进行缓存。NGINX仅仅缓存GET和HEAD客户端请求。  proxy_cache_path proxy_cache_path用来设置缓存的路径和配置  示例1pro">
+<meta property="og:description" content="Nginx 缓存 默认情况下，NGINX需要考虑从原始服务器得到的Cache-Control标头。当在响应头部中Cache-Control被配置为Private，No-Cache，No-Store或者Set-Cookie，NGINX不进行缓存。NGINX仅仅缓存GET和HEAD客户端请求。  proxy_cache_path proxy_cache_path用来设置缓存的路径和配置  示例 1pr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-10-31T11:17:15.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.708Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="cache">
 <meta property="article:tag" content="nginx">
@@ -154,7 +154,9 @@
 <h3 id="proxy-cache-path"><a href="#proxy-cache-path" class="headerlink" title="proxy_cache_path"></a>proxy_cache_path</h3><blockquote>
 <p>proxy_cache_path用来设置缓存的路径和配置</p>
 </blockquote>
-<p><strong>示例</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_path /usr/local/openresty/nginx/proxy_cache/ levels=1:2 keys_zone=my_cache:5m max_size=1g inactive=7d;</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_path /usr/local/openresty/nginx/proxy_cache/ levels=1:2 keys_zone=my_cache:5m max_size=1g inactive=7d;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -162,8 +164,7 @@
 <th>说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><code>/usr/local/openresty/nginx/proxy_cache/</code></td>
 <td>表示缓存文件目录。</td>
 </tr>
@@ -181,36 +182,44 @@
 </tr>
 <tr>
 <td><code>inactive=7d</code></td>
-<td>inactive 指定了项目在不被访问的情况下能够在内存中保持的时间。在上面的例子中，如果一个文件在7天之内没有被请求，则缓存管理将会自动将其在内存中删除，不管该文件是否过期。该参数默认值为10分钟（10m）。注意，非活动内容有别于过期内容。NGINX不会自动删除由缓存控制头部指定的过期内容（本例中Cache-Control:max-age=120）。过期内容只有在<code>inactive</code>指定时间内没有被访问的情况下才会被删除。如果过期内容被访问了，那么NGINX就会将其从原服务器上刷新，并更新对应的<code>inactive</code>计时器。</td>
+<td>inactive 指定了项目在不被访问的情况下能够在内存中保持的时间。在上面的例子中，如果一个文件在7天之内没有被请求，则缓存管理将会自动将其在内存中删除，不管该文件是否过期。该参数默认值为10分钟（10m）。注意，非活动内容有别于过期内容。NGINX不会自动删除由缓存控制头部指定的过期内容（本例中Cache-Control:max-age&#x3D;120）。过期内容只有在<code>inactive</code>指定时间内没有被访问的情况下才会被删除。如果过期内容被访问了，那么NGINX就会将其从原服务器上刷新，并更新对应的<code>inactive</code>计时器。</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h3 id="proxy-cache"><a href="#proxy-cache" class="headerlink" title="proxy_cache"></a>proxy_cache</h3><blockquote>
 <p>配置在location中，用来启用缓存<br><code>proxy_cache</code>的值是上面proxy_cache_path配置中<code>keys_zone</code>缓存的名字。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache my_cache;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="proxy-cache-methods"><a href="#proxy-cache-methods" class="headerlink" title="proxy_cache_methods"></a>proxy_cache_methods</h3><p>该指令用于设置缓存哪些HTTP方法，默认缓存HTTP GET/HEAD方法，不缓存HTTP POST方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_methods GET HEAD;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache my_cache;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="proxy-cache-methods"><a href="#proxy-cache-methods" class="headerlink" title="proxy_cache_methods"></a>proxy_cache_methods</h3><p>该指令用于设置缓存哪些HTTP方法，默认缓存HTTP GET&#x2F;HEAD方法，不缓存HTTP POST方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_methods GET HEAD;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="proxy-cache-min-uses"><a href="#proxy-cache-min-uses" class="headerlink" title="proxy_cache_min_uses"></a>proxy_cache_min_uses</h3><p>是指同一个url，不管时间间隔多长，是否在一个缓存周期外，只要总次数到达<code>proxy_cache_min_uses</code>次数，就会触发缓存功能。后续缓存失效以后，只要访问一次，又会缓存。<code>proxy_cache_min_uses</code>默认值是<code>1</code>，当缓存不断被填满时，这项设置便十分有用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_min_uses 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_min_uses 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="proxy-cache-use-stale"><a href="#proxy-cache-use-stale" class="headerlink" title="proxy_cache_use_stale"></a>proxy_cache_use_stale</h3><p>当无法从原始服务器获取最新的内容时，NGINX可以分发缓存中的陈旧内容。这种情况一般发生在关联缓存内容的原始服务器宕机或者繁忙时。比起对客户端传达错误信息，NGINX可发送在其内存中的陈旧的文件。NGINX的这种代理方式，为服务器提供额外级别的容错能力，并确保了在服务器故障或流量峰值的情况下的正常运行。</p>
 <p><code>proxy_cache_use_stale</code>还有个取值<code>updating</code>，它的意思在缓存过期时当第一个请求正在获取新资源的时候如果有其它请求过来，那么现在先给它们旧的资源。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="proxy-cache-lock"><a href="#proxy-cache-lock" class="headerlink" title="proxy_cache_lock"></a>proxy_cache_lock</h3><p>当<code>proxy_cache_lock</code>被启用时，当多个客户端请求一个缓存中不存在的文件（或称之为一个<code>MISS</code>），只有这些请求中的第一个被允许发送至服务器。其他请求在第一个请求得到满意结果之后在缓存中得到文件。如果不启用<code>proxy_cache_lock</code>，则所有在缓存中找不到文件的请求都会直接与服务器通信。</p>
 <p>这和<code>proxy_cache_use_stale</code>取<code>updating</code>不太一样，<code>proxy_cache_use_stale</code>取<code>updating</code>时后续的请求不会等待，而是直接先使用过期的资源。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_lock on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_lock on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="proxy-cache-revalidate"><a href="#proxy-cache-revalidate" class="headerlink" title="proxy_cache_revalidate"></a>proxy_cache_revalidate</h3><p>缓存再验证，使用HTTP的304机制。文件过期不代表文件真的有变化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_revalidate on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_revalidate on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="proxy-cache-valid"><a href="#proxy-cache-valid" class="headerlink" title="proxy_cache_valid"></a>proxy_cache_valid</h3><p>该指令用于对不同返回状态码的URL设置不同的缓存时间。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_valid 200 302 10m;</span><br><span class="line">    proxy_cache_valid 301 1h;</span><br><span class="line">    proxy_cache_valid any 1m;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="proxy-ignore-headers"><a href="#proxy-ignore-headers" class="headerlink" title="proxy_ignore_headers"></a>proxy_ignore_headers</h3><p>对于源站而言，Nginx也就是一个大的浏览器，源站告诉Nginx的Expires/Cache-Control指定了max-age值，按照规则是轮不到proxy_cache_valid的。那么如果一定要根据Nginx缓存时间为准怎么办呢？那就是忽略源站的Expires/Cache-Control控制。</p>
-<p>location / {<br>    …<br>    proxy_ignore_headers Cache-Control;<br>    proxy_ignore_headers Expires;<br>}</p>
-<h3 id="ngx-cache-purge"><a href="#ngx-cache-purge" class="headerlink" title="ngx_cache_purge"></a>ngx_cache_purge</h3><p>如果要想更灵活点，我们可能还需要清理缓存功能。默认Nginx缓存模块没提供这个功能，我们需要使用一个第三方的模块来实现<a href="https://github.com/FRiCKLE/ngx_cache_purge" target="_blank" rel="noopener">ngx_cache_purge</a></p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_path /usr/local/openresty/nginx/proxy_cache/ levels=1:2 keys_zone=my_cache:5m max_size=1g inactive=7d;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache my_cache;</span><br><span class="line">    proxy_cache_revalidate on;</span><br><span class="line">    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;</span><br><span class="line">    proxy_cache_lock on;</span><br><span class="line">    proxy_cache_valid any 1d; # 在源站没有设置缓存时间时生效</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_valid 200 302 10m;</span><br><span class="line">    proxy_cache_valid 301 1h;</span><br><span class="line">    proxy_cache_valid any 1m;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="proxy-ignore-headers"><a href="#proxy-ignore-headers" class="headerlink" title="proxy_ignore_headers"></a>proxy_ignore_headers</h3><p>对于源站而言，Nginx也就是一个大的浏览器，源站告诉Nginx的Expires&#x2F;Cache-Control指定了max-age值，按照规则是轮不到proxy_cache_valid的。那么如果一定要根据Nginx缓存时间为准怎么办呢？那就是忽略源站的Expires&#x2F;Cache-Control控制。</p>
+<p>location &#x2F; {<br>    …<br>    proxy_ignore_headers Cache-Control;<br>    proxy_ignore_headers Expires;<br>}</p>
+<h3 id="ngx-cache-purge"><a href="#ngx-cache-purge" class="headerlink" title="ngx_cache_purge"></a>ngx_cache_purge</h3><p>如果要想更灵活点，我们可能还需要清理缓存功能。默认Nginx缓存模块没提供这个功能，我们需要使用一个第三方的模块来实现<a href="https://github.com/FRiCKLE/ngx_cache_purge">ngx_cache_purge</a></p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache_path /usr/local/openresty/nginx/proxy_cache/ levels=1:2 keys_zone=my_cache:5m max_size=1g inactive=7d;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy_cache my_cache;</span><br><span class="line">    proxy_cache_revalidate on;</span><br><span class="line">    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;</span><br><span class="line">    proxy_cache_lock on;</span><br><span class="line">    proxy_cache_valid any 1d; # 在源站没有设置缓存时间时生效</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.jfh.com/jfperiodical/article/949" target="_blank" rel="noopener">NGINX缓存使用官方指南</a></li>
+<li><a href="http://www.jfh.com/jfperiodical/article/949">NGINX缓存使用官方指南</a></li>
 <li>实战Nginx：取代Apache的高性能Web服务器（第九章）</li>
-<li><a href="http://www.firefoxbug.com/index.php/archives/2089/" target="_blank" rel="noopener">Nginx缓存详细配置</a></li>
-<li><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html?#proxy_ignore_headers" target="_blank" rel="noopener">http://nginx.org/en/docs/http/ngx_http_proxy_module.html?#proxy_ignore_headers</a></li>
+<li><a href="http://www.firefoxbug.com/index.php/archives/2089/">Nginx缓存详细配置</a></li>
+<li><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ignore_headers">http://nginx.org/en/docs/http/ngx_http_proxy_module.html?#proxy_ignore_headers</a></li>
 </ul>
 
   </div>

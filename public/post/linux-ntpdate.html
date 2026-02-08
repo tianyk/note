@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="安装ntpdate 12345yum install ntpdate.x86_64ORapt-get install ntpdate  同步时间 1ntpdate time.nist.gov  定时同步 123# 每10分钟同步一次crontab -e*&#x2F;10 * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate time.nist.gov    ntp 服务器使用udp，默认端口123">
+    <meta name="description" content="安装ntpdate  12345yum install ntpdate.x86_64ORapt-get install ntpdate   同步时间  1ntpdate time.nist.gov   定时同步  123# 每10分钟同步一次crontab -e*&#x2F;10 * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate time.nist.gov   ntp 服务器使用udp，默认端口123">
 <meta property="og:type" content="article">
 <meta property="og:title" content="时间同步.md">
 <meta property="og:url" content="https://kekek.cc/post/linux-ntpdate.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="安装ntpdate 12345yum install ntpdate.x86_64ORapt-get install ntpdate  同步时间 1ntpdate time.nist.gov  定时同步 123# 每10分钟同步一次crontab -e*&#x2F;10 * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate time.nist.gov    ntp 服务器使用udp，默认端口123">
+<meta property="og:description" content="安装ntpdate  12345yum install ntpdate.x86_64ORapt-get install ntpdate   同步时间  1ntpdate time.nist.gov   定时同步  123# 每10分钟同步一次crontab -e*&#x2F;10 * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate time.nist.gov   ntp 服务器使用udp，默认端口123">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-08-08T07:36:52.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.485Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.693Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -142,16 +142,20 @@
 
   <div class="content" itemprop="articleBody">
     <ol>
-<li><p>安装ntpdate</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install ntpdate.x86_64</span><br><span class="line"></span><br><span class="line">OR</span><br><span class="line"></span><br><span class="line">apt-get install ntpdate</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>同步时间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntpdate time.nist.gov</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>定时同步</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 每10分钟同步一次</span><br><span class="line">crontab -e</span><br><span class="line">*/10 * * * * /usr/sbin/ntpdate time.nist.gov</span><br></pre></td></tr></table></figure>
-</li>
+<li>安装ntpdate</li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install ntpdate.x86_64</span><br><span class="line"></span><br><span class="line">OR</span><br><span class="line"></span><br><span class="line">apt-get install ntpdate</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>同步时间</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntpdate time.nist.gov</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>定时同步</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 每10分钟同步一次</span><br><span class="line">crontab -e</span><br><span class="line">*/10 * * * * /usr/sbin/ntpdate time.nist.gov</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>ntp 服务器使用udp，默认端口123</p>
 </blockquote>

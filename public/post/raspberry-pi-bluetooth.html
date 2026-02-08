@@ -16,13 +16,13 @@
 <meta property="og:site_name" content="Keke的个人网站">
 <meta property="og:description" content="Linux中蓝牙管理蓝牙管理工具bluetoothctl 12345678910111213141516171819202122list               显示机器上的蓝牙设备show [ctrl]        显示机器上蓝牙状态信息select &lt;ctrl&gt;      选着一个蓝牙设备devices            列出所有的蓝牙设备paired-devices">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://kekek.cc/post/images/bluetooth-connect.png">
+<meta property="og:image" content="https://kekek.cc/images/bluetooth-connect.png">
 <meta property="article:published_time" content="2016-07-16T11:43:54.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.715Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="RaspberryPi">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://kekek.cc/post/images/bluetooth-connect.png">
+<meta name="twitter:image" content="https://kekek.cc/images/bluetooth-connect.png">
     
     
         
@@ -150,15 +150,19 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="Linux中蓝牙管理"><a href="#Linux中蓝牙管理" class="headerlink" title="Linux中蓝牙管理"></a>Linux中蓝牙管理</h3><p>蓝牙管理工具<code>bluetoothctl</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">list               显示机器上的蓝牙设备</span><br><span class="line">show [ctrl]        显示机器上蓝牙状态信息</span><br><span class="line">select &lt;ctrl&gt;      选着一个蓝牙设备</span><br><span class="line">devices            列出所有的蓝牙设备</span><br><span class="line">paired-devices     列出一配对的设备</span><br><span class="line">power &lt;on/off&gt;     打开蓝牙</span><br><span class="line">pairable &lt;on/off&gt;  设置设备是否可以配对</span><br><span class="line">discoverable &lt;on/off&gt;  设置是否可见</span><br><span class="line">agent &lt;on/off/capability&gt;  Enable/disable agent with given capability</span><br><span class="line">default-agent  Set agent as the default one</span><br><span class="line">scan &lt;on/off&gt;     扫描设备</span><br><span class="line">info &lt;dev&gt;        设备信息</span><br><span class="line">pair &lt;dev&gt;        配对</span><br><span class="line">trust &lt;dev&gt;       信任设备</span><br><span class="line">untrust &lt;dev&gt;     Untrust device</span><br><span class="line">block &lt;dev&gt;       拉黑设备</span><br><span class="line">unblock &lt;dev&gt;     Unblock device</span><br><span class="line">remove &lt;dev&gt;      删除一个设备</span><br><span class="line">connect &lt;dev&gt;     连接设备</span><br><span class="line">disconnect &lt;dev&gt;  断开</span><br><span class="line">version           Display version</span><br><span class="line">quit              Quit program</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">list               显示机器上的蓝牙设备</span><br><span class="line">show [ctrl]        显示机器上蓝牙状态信息</span><br><span class="line">select &lt;ctrl&gt;      选着一个蓝牙设备</span><br><span class="line">devices            列出所有的蓝牙设备</span><br><span class="line">paired-devices     列出一配对的设备</span><br><span class="line">power &lt;on/off&gt;     打开蓝牙</span><br><span class="line">pairable &lt;on/off&gt;  设置设备是否可以配对</span><br><span class="line">discoverable &lt;on/off&gt;  设置是否可见</span><br><span class="line">agent &lt;on/off/capability&gt;  Enable/disable agent with given capability</span><br><span class="line">default-agent  Set agent as the default one</span><br><span class="line">scan &lt;on/off&gt;     扫描设备</span><br><span class="line">info &lt;dev&gt;        设备信息</span><br><span class="line">pair &lt;dev&gt;        配对</span><br><span class="line">trust &lt;dev&gt;       信任设备</span><br><span class="line">untrust &lt;dev&gt;     Untrust device</span><br><span class="line">block &lt;dev&gt;       拉黑设备</span><br><span class="line">unblock &lt;dev&gt;     Unblock device</span><br><span class="line">remove &lt;dev&gt;      删除一个设备</span><br><span class="line">connect &lt;dev&gt;     连接设备</span><br><span class="line">disconnect &lt;dev&gt;  断开</span><br><span class="line">version           Display version</span><br><span class="line">quit              Quit program</span><br></pre></td></tr></table></figure>
+
 <p><code>service bluetooth status</code>查看蓝牙服务状态</p>
 <p>问题：</p>
 <ol>
-<li>connect 报错<br><img src="./images/bluetooth-connect.png" alt></li>
+<li>connect 报错<br><img src="/./images/bluetooth-connect.png"></li>
 </ol>
-<p>补充：<br>bluetoothctrl connect 报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[bluetooth]# connect 22:22:04:EE:32:B0</span><br><span class="line">Attempting to connect to 22:22:04:EE:32:B0</span><br><span class="line">Failed to connect: org.bluez.Error.Failed</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install pulseaudio pulseaudio-module-bluetooth pavucontrol</span><br><span class="line">pulseaudio --start</span><br></pre></td></tr></table></figure>
-<p>参考<a href="https://wiki.archlinux.org/index.php/Bluetooth_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87" target="_blank" rel="noopener">【1】</a>) <a href="http://unix.stackexchange.com/questions/258074/error-when-trying-to-connect-to-bluetooth-speaker-org-bluez-error-failed" target="_blank" rel="noopener">【2】</a></p>
+<p>补充：<br>bluetoothctrl connect 报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[bluetooth]# connect 22:22:04:EE:32:B0</span><br><span class="line">Attempting to connect to 22:22:04:EE:32:B0</span><br><span class="line">Failed to connect: org.bluez.Error.Failed</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install pulseaudio pulseaudio-module-bluetooth pavucontrol</span><br><span class="line">pulseaudio --start</span><br></pre></td></tr></table></figure>
+
+<p>参考<a href="https://wiki.archlinux.org/index.php/Bluetooth_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">【1】</a> <a href="http://unix.stackexchange.com/questions/258074/error-when-trying-to-connect-to-bluetooth-speaker-org-bluez-error-failed">【2】</a></p>
 
   </div>
   <div class="article-license">

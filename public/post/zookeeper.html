@@ -18,7 +18,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/zk-dubbo2.jpg">
 <meta property="article:published_time" content="2017-04-28T10:40:03.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.488Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.726Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/zk-dubbo2.jpg">
@@ -146,35 +146,31 @@
     <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Zookeeper 是Apache软件基金会的一个软件项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。</p>
 <h3 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h3><p>Zookeeper 有三种不同的运行环境：单机模式、伪集群模式、集群模式。在测试环境中资源有限我们常常使用单机模式或者伪集群模式，生产环境中使用集群模式。</p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ol>
-<li><p>下载<br> 去 Zookeeper <a href="https://zookeeper.apache.org/" target="_blank" rel="noopener">官网</a> 选着合适的版本下载即可。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
+<li><p>下载<br> 去 Zookeeper <a href="https://zookeeper.apache.org/">官网</a> 选着合适的版本下载即可。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz</span><br></pre></td></tr></table></figure></li>
 <li><p>解压安装<br> 下载完成直接解压就行了</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf zookeeper-3.4.10.tar.gz -C /usr/<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf zookeeper-3.4.10.tar.gz -C /usr/local</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>启动与停止<br> 在解压完的 bin 目录下会有 zkServer[.sh|.bat] 脚本文件，运行脚本文件指定命令和配置文件即可。</p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动</span></span><br><span class="line">./bin/zkServer.sh start /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
+
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 停止</span></span><br><span class="line">./bin/zkServer.sh stop /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>建立连接</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 连接单机</span><br><span class="line">./bin/zkCli.sh -server 127.0.0.1:2181</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 连接集群</span><br><span class="line">./bin/zkCli.sh -server 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 连接单机</span><br><span class="line">./bin/zkCli.sh -server 127.0.0.1:2181</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 连接集群</span><br><span class="line">./bin/zkCli.sh -server 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h4 id="单机模式配置"><a href="#单机模式配置" class="headerlink" title="单机模式配置"></a>单机模式配置</h4><p>单机模式就是在一台机器上启动一个 Zookeeper 服务。    </p>
 <ol>
 <li><p>复制配置文件</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改配置<br> vim /etc/zookeeper/zoo.cfg</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data/zookeeper/data</span><br><span class="line">dataLogDir=/data/zookeeper/logs</span><br><span class="line">clientPort=2181</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure></li>
+<li><p>修改配置<br> vim &#x2F;etc&#x2F;zookeeper&#x2F;zoo.cfg</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data/zookeeper/data</span><br><span class="line">dataLogDir=/data/zookeeper/logs</span><br><span class="line">clientPort=2181</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>配置说明：<br>dataDir：数据目录<br>dataLogDir：日志目录<br>clientPort：客户端连接端口<br>tickTime：Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。<br>initLimit：Zookeeper的Leader 接受客户端（Follower）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 5个心跳的时间（也就是tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5<em>2000=10 秒<br>syncLimit：表示 Leader 与 Follower 之间发送消息时请求和应答时间长度，最长不能超过多少个tickTime 的时间长度，总的时间长度就是 2</em>2000=4 秒。    </p>
+<p>配置说明：<br>dataDir：数据目录<br>dataLogDir：日志目录<br>clientPort：客户端连接端口<br>tickTime：Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。<br>initLimit：Zookeeper的Leader 接受客户端（Follower）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 5个心跳的时间（也就是tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5<em>2000&#x3D;10 秒<br>syncLimit：表示 Leader 与 Follower 之间发送消息时请求和应答时间长度，最长不能超过多少个tickTime 的时间长度，总的时间长度就是 2</em>2000&#x3D;4 秒。    </p>
 </blockquote>
-<ol start="3">
-<li>启动服务 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>启动服务</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h4 id="伪集群模式配置"><a href="#伪集群模式配置" class="headerlink" title="伪集群模式配置"></a>伪集群模式配置</h4><p>伪集群模式就是在一台机器上面启动多个 Zookeeper 服务。    </p>
 <table>
@@ -188,75 +184,90 @@
 <th>配置文件</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>1</td>
-<td>/data/zookeeper/cluster/zoo1/data</td>
+<td>&#x2F;data&#x2F;zookeeper&#x2F;cluster&#x2F;zoo1&#x2F;data</td>
 <td>2181</td>
 <td>2222</td>
 <td>2223</td>
-<td>/etc/zookeeper/cluster/zoo1.cfg</td>
+<td>&#x2F;etc&#x2F;zookeeper&#x2F;cluster&#x2F;zoo1.cfg</td>
 </tr>
 <tr>
 <td>2</td>
-<td>/data/zookeeper/cluster/zoo2/data</td>
+<td>&#x2F;data&#x2F;zookeeper&#x2F;cluster&#x2F;zoo2&#x2F;data</td>
 <td>2182</td>
 <td>3333</td>
 <td>3334</td>
-<td>/etc/zookeeper/cluster/zoo2.cfg</td>
+<td>&#x2F;etc&#x2F;zookeeper&#x2F;cluster&#x2F;zoo2.cfg</td>
 </tr>
 <tr>
 <td>3</td>
-<td>/data/zookeeper/cluster/zoo3/data</td>
+<td>&#x2F;data&#x2F;zookeeper&#x2F;cluster&#x2F;zoo3&#x2F;data</td>
 <td>2183</td>
 <td>4444</td>
 <td>4445</td>
-<td>/etc/zookeeper/cluster/zoo3.cfg</td>
+<td>&#x2F;etc&#x2F;zookeeper&#x2F;cluster&#x2F;zoo3.cfg</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <ol>
 <li><p>创建多份配置文件初始化数据目录</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/zookeeper/cluster</span><br><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/cluster/zoo1.cfg</span><br><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/cluster/zoo2.cfg</span><br><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/cluster/zoo3.cfg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mkdir -p /data/zookeeper/cluster/zoo1/data /data/zookeeper/cluster/zoo1/logs</span><br><span class="line">mkdir -p /data/zookeeper/cluster/zoo2/data /data/zookeeper/cluster/zoo2/logs</span><br><span class="line">mkdir -p /data/zookeeper/cluster/zoo2/data /data/zookeeper/cluster/zoo2/logs</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/zookeeper/cluster</span><br><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/cluster/zoo1.cfg</span><br><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/cluster/zoo2.cfg</span><br><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/cluster/zoo3.cfg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mkdir -p /data/zookeeper/cluster/zoo1/data /data/zookeeper/cluster/zoo1/logs</span><br><span class="line">mkdir -p /data/zookeeper/cluster/zoo2/data /data/zookeeper/cluster/zoo2/logs</span><br><span class="line">mkdir -p /data/zookeeper/cluster/zoo2/data /data/zookeeper/cluster/zoo2/logs</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>修改配置文件<br> vim /etc/zookeeper/cluster/zoo1.cfg</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data/zookeeper/cluster/zoo1/data</span><br><span class="line">dataLogDir=/data/zookeeper/cluster/zoo1/logs</span><br><span class="line">clientPort=2181</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br><span class="line"></span><br><span class="line"># 集群配置</span><br><span class="line">server.1=127.0.0.1:2222:2225  </span><br><span class="line">server.2=127.0.0.1:3333:3335  </span><br><span class="line">server.3=127.0.0.1:4444:4445</span><br></pre></td></tr></table></figure>
+<li><p>修改配置文件<br> vim &#x2F;etc&#x2F;zookeeper&#x2F;cluster&#x2F;zoo1.cfg</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data/zookeeper/cluster/zoo1/data</span><br><span class="line">dataLogDir=/data/zookeeper/cluster/zoo1/logs</span><br><span class="line">clientPort=2181</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br><span class="line"></span><br><span class="line"># 集群配置</span><br><span class="line">server.1=127.0.0.1:2222:2225  </span><br><span class="line">server.2=127.0.0.1:3333:3335  </span><br><span class="line">server.3=127.0.0.1:4444:4445</span><br></pre></td></tr></table></figure>
+
 <p> 集群配置格式<code>server.A=B:C:D</code>其中 A 是一个数字，表示这个是第几号服务器（在数据目录的 myid 中的值和它一样）；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</p>
 <p> 在每个数据存储目录新建 myid 文件，写入服务器 ID。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">touch /data/zookeeper/cluster/zoo1/data/myid /data/zookeeper/cluster/zoo2/data/myid /data/zookeeper/cluster/zoo3/data/myid</span><br><span class="line"></span><br><span class="line">echo 1 &gt; /data/zookeeper/cluster/zoo1/data/myid</span><br><span class="line">echo 2 &gt; /data/zookeeper/cluster/zoo2/data/myid</span><br><span class="line">echo 3 &gt; /data/zookeeper/cluster/zoo3/data/myid</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">touch /data/zookeeper/cluster/zoo1/data/myid /data/zookeeper/cluster/zoo2/data/myid /data/zookeeper/cluster/zoo3/data/myid</span><br><span class="line"></span><br><span class="line">echo 1 &gt; /data/zookeeper/cluster/zoo1/data/myid</span><br><span class="line">echo 2 &gt; /data/zookeeper/cluster/zoo2/data/myid</span><br><span class="line">echo 3 &gt; /data/zookeeper/cluster/zoo3/data/myid</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>服务器交互端口不需要单独配置，只需要集群配置中写好就行了。<br>在伪集配置中，注意 clientPort 不要冲突，每个服务有单独的数据目录。</p>
 </blockquote>
 </li>
 <li><p>启动服务</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start /etc/zookeeper/cluster/zoo1.cfg</span><br><span class="line">./bin/zkServer.sh start /etc/zookeeper/cluster/zoo2.cfg</span><br><span class="line">./bin/zkServer.sh start /etc/zookeeper/cluster/zoo3.cfg</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start /etc/zookeeper/cluster/zoo1.cfg</span><br><span class="line">./bin/zkServer.sh start /etc/zookeeper/cluster/zoo2.cfg</span><br><span class="line">./bin/zkServer.sh start /etc/zookeeper/cluster/zoo3.cfg</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h4 id="集群模式配置"><a href="#集群模式配置" class="headerlink" title="集群模式配置"></a>集群模式配置</h4><p>集群模式就是在不同的机器部署多个 Zookeeper 服务，组成一个集群。这种配置可用性更高。</p>
 <p>集群配置和伪集群配置基本一样，但是集群配置中由于不同的机器，使用资源不会冲突。配置文件中可以使用同样的端口，数据文件目录。</p>
 <ol>
 <li><p>在每台机器上创建配置文件</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/zookeeper/conf/zoo_sample.cfg /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>修改配置文件<br> vim /etc/zookeeper/zoo.cfg</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data/zookeeper/data</span><br><span class="line">dataLogDir=/data/zookeeper/logs</span><br><span class="line">clientPort=2181</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br><span class="line"></span><br><span class="line"># 集群配置</span><br><span class="line">server.1=10.0.1.11:2222:2225  </span><br><span class="line">server.2=10.0.1.12:2222:2225  </span><br><span class="line">server.3=10.0.1.13:2222:2225</span><br></pre></td></tr></table></figure>
+<li><p>修改配置文件<br> vim &#x2F;etc&#x2F;zookeeper&#x2F;zoo.cfg</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dataDir=/data/zookeeper/data</span><br><span class="line">dataLogDir=/data/zookeeper/logs</span><br><span class="line">clientPort=2181</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=5</span><br><span class="line">syncLimit=2</span><br><span class="line"></span><br><span class="line"># 集群配置</span><br><span class="line">server.1=10.0.1.11:2222:2225  </span><br><span class="line">server.2=10.0.1.12:2222:2225  </span><br><span class="line">server.3=10.0.1.13:2222:2225</span><br></pre></td></tr></table></figure>
+
 <p> 在各个机器的数据目录中写入响应的 myid 文件。例如 <code>10.0.1.11</code> 机器</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch /data/zookeeper/data/myid</span><br><span class="line">echo 1 &gt; /data/zookeeper/data/myid</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch /data/zookeeper/data/myid</span><br><span class="line">echo 1 &gt; /data/zookeeper/data/myid</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在各个机器中启动 Zookeeper 服务</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/zkServer.sh start /etc/zookeeper/zoo.cfg</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="客户端命令"><a href="#客户端命令" class="headerlink" title="客户端命令"></a>客户端命令</h3><h4 id="链接到-Zookeeper"><a href="#链接到-Zookeeper" class="headerlink" title="链接到 Zookeeper"></a>链接到 Zookeeper</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/zkCli.sh -server 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</span><br></pre></td></tr></table></figure>
-<h4 id="Zookeeper-目录树操作"><a href="#Zookeeper-目录树操作" class="headerlink" title="Zookeeper 目录树操作"></a>Zookeeper 目录树操作</h4><p>Zookeeper，内部是一个分层的文件系统目录树结构，每一个节点对应一个Znode。<a href="https://zookeeper.apache.org/doc/trunk/zookeeperStarted.html" target="_blank" rel="noopener">参考</a></p>
-<p>查看根目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 8] ls /</span><br><span class="line">[zookeeper]</span><br></pre></td></tr></table></figure></p>
-<p>创建一个新的Znode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 9] create /zk_test my_data</span><br><span class="line">Created /zk_test</span><br></pre></td></tr></table></figure></p>
-<p>再次查看就能看到新创建的Znode了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 11] ls /</span><br><span class="line">[zookeeper, zk_test]</span><br></pre></td></tr></table></figure></p>
-<p>读取内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 12] get /zk_test</span><br><span class="line">my_data</span><br><span class="line">cZxid = 5</span><br><span class="line">ctime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">mZxid = 5</span><br><span class="line">mtime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">pZxid = 5</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0</span><br><span class="line">dataLength = 7</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure></p>
-<p>重新设置值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 14] set /zk_test junk</span><br><span class="line">cZxid = 5</span><br><span class="line">ctime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">mZxid = 6</span><br><span class="line">mtime = Fri Jun 05 14:01:52 PDT 2009</span><br><span class="line">pZxid = 5</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0</span><br><span class="line">dataLength = 4</span><br><span class="line">numChildren = 0</span><br><span class="line">[zkshell: 15] get /zk_test</span><br><span class="line">junk</span><br><span class="line">cZxid = 5</span><br><span class="line">ctime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">mZxid = 6</span><br><span class="line">mtime = Fri Jun 05 14:01:52 PDT 2009</span><br><span class="line">pZxid = 5</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0</span><br><span class="line">dataLength = 4</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure></p>
-<p>删除Znode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 16] delete /zk_test</span><br><span class="line">[zkshell: 17] ls /</span><br><span class="line">[zookeeper]</span><br><span class="line">[zkshell: 18]</span><br></pre></td></tr></table></figure></p>
-<h3 id="使用场景分析"><a href="#使用场景分析" class="headerlink" title="使用场景分析"></a>使用场景分析</h3><h3 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h3><h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><h3 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h3><p><img src="/images/zk-dubbo2.jpg" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dubbo://10.0.1.3:20880/cc.kekek.dubbo.demo.DemoService?anyhost=true&amp;application=demo-provider&amp;dubbo=2.5.7&amp;generic=false&amp;interface=cc.kekek.dubbo.demo.DemoService&amp;methods=sayHello,sayName&amp;pid=54299&amp;side=provider&amp;timestamp=1511263842858</span><br></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://taoistwar.gitbooks.io/spark-operationand-maintenance-management/content/spark_relate_software/zookeeper_install.html" target="_blank" rel="noopener">【1】</a> <a href="http://www.jianshu.com/p/0ba61bf7149f" target="_blank" rel="noopener">【2】</a> <a href="https://my.oschina.net/jackieyeah/blog/709130" target="_blank" rel="noopener">【3】</a></p>
+<h3 id="客户端命令"><a href="#客户端命令" class="headerlink" title="客户端命令"></a>客户端命令</h3><h4 id="链接到-Zookeeper"><a href="#链接到-Zookeeper" class="headerlink" title="链接到 Zookeeper"></a>链接到 Zookeeper</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/zkCli.sh -server 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</span><br></pre></td></tr></table></figure>
+
+<h4 id="Zookeeper-目录树操作"><a href="#Zookeeper-目录树操作" class="headerlink" title="Zookeeper 目录树操作"></a>Zookeeper 目录树操作</h4><p>Zookeeper，内部是一个分层的文件系统目录树结构，每一个节点对应一个Znode。<a href="https://zookeeper.apache.org/doc/trunk/zookeeperStarted.html">参考</a></p>
+<p>查看根目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 8] ls /</span><br><span class="line">[zookeeper]</span><br></pre></td></tr></table></figure>
+
+<p>创建一个新的Znode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 9] create /zk_test my_data</span><br><span class="line">Created /zk_test</span><br></pre></td></tr></table></figure>
+
+<p>再次查看就能看到新创建的Znode了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 11] ls /</span><br><span class="line">[zookeeper, zk_test]</span><br></pre></td></tr></table></figure>
+
+<p>读取内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 12] get /zk_test</span><br><span class="line">my_data</span><br><span class="line">cZxid = 5</span><br><span class="line">ctime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">mZxid = 5</span><br><span class="line">mtime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">pZxid = 5</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 0</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0</span><br><span class="line">dataLength = 7</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure>
+
+<p>重新设置值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 14] set /zk_test junk</span><br><span class="line">cZxid = 5</span><br><span class="line">ctime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">mZxid = 6</span><br><span class="line">mtime = Fri Jun 05 14:01:52 PDT 2009</span><br><span class="line">pZxid = 5</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0</span><br><span class="line">dataLength = 4</span><br><span class="line">numChildren = 0</span><br><span class="line">[zkshell: 15] get /zk_test</span><br><span class="line">junk</span><br><span class="line">cZxid = 5</span><br><span class="line">ctime = Fri Jun 05 13:57:06 PDT 2009</span><br><span class="line">mZxid = 6</span><br><span class="line">mtime = Fri Jun 05 14:01:52 PDT 2009</span><br><span class="line">pZxid = 5</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0</span><br><span class="line">dataLength = 4</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure>
+
+<p>删除Znode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[zkshell: 16] delete /zk_test</span><br><span class="line">[zkshell: 17] ls /</span><br><span class="line">[zookeeper]</span><br><span class="line">[zkshell: 18]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用场景分析"><a href="#使用场景分析" class="headerlink" title="使用场景分析"></a>使用场景分析</h3><h3 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h3><h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><h3 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h3><p><img src="/images/zk-dubbo2.jpg"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dubbo://10.0.1.3:20880/cc.kekek.dubbo.demo.DemoService?anyhost=true&amp;application=demo-provider&amp;dubbo=2.5.7&amp;generic=false&amp;interface=cc.kekek.dubbo.demo.DemoService&amp;methods=sayHello,sayName&amp;pid=54299&amp;side=provider&amp;timestamp=1511263842858</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://taoistwar.gitbooks.io/spark-operationand-maintenance-management/content/spark_relate_software/zookeeper_install.html">【1】</a> <a href="http://www.jianshu.com/p/0ba61bf7149f">【2】</a> <a href="https://my.oschina.net/jackieyeah/blog/709130">【3】</a></p>
 
   </div>
   <div class="article-license">

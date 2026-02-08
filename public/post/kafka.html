@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="安装与配置从官网下载最新的二进制包。1wget http:&#x2F;&#x2F;mirror.bit.edu.cn&#x2F;apache&#x2F;kafka&#x2F;0.10.2.0&#x2F;kafka_2.10-0.10.2.0.tgz 解压1tar -zxvf kafka_2.10-0.10.2.0.tgz -C &#x2F;usr&#x2F;local  Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考Zookeeper快速开">
+    <meta name="description" content="安装与配置从官网下载最新的二进制包。 1wget http:&#x2F;&#x2F;mirror.bit.edu.cn&#x2F;apache&#x2F;kafka&#x2F;0.10.2.0&#x2F;kafka_2.10-0.10.2.0.tgz 解压 1tar -zxvf kafka_2.10-0.10.2.0.tgz -C &#x2F;usr&#x2F;local   Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考Zookeeper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka 快速开始">
 <meta property="og:url" content="https://kekek.cc/post/kafka.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="安装与配置从官网下载最新的二进制包。1wget http:&#x2F;&#x2F;mirror.bit.edu.cn&#x2F;apache&#x2F;kafka&#x2F;0.10.2.0&#x2F;kafka_2.10-0.10.2.0.tgz 解压1tar -zxvf kafka_2.10-0.10.2.0.tgz -C &#x2F;usr&#x2F;local  Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考Zookeeper快速开">
+<meta property="og:description" content="安装与配置从官网下载最新的二进制包。 1wget http:&#x2F;&#x2F;mirror.bit.edu.cn&#x2F;apache&#x2F;kafka&#x2F;0.10.2.0&#x2F;kafka_2.10-0.10.2.0.tgz 解压 1tar -zxvf kafka_2.10-0.10.2.0.tgz -C &#x2F;usr&#x2F;local   Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考Zookeeper">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/hW6hL.png">
 <meta property="article:published_time" content="2017-04-28T10:40:03.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.484Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.691Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/hW6hL.png">
@@ -143,14 +143,17 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h3><p>从<a href="http://kafka.apache.org/" target="_blank" rel="noopener">官网</a>下载最新的二进制包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz</span><br></pre></td></tr></table></figure></p>
-<p>解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf kafka_2.10-0.10.2.0.tgz -C /usr/local</span><br></pre></td></tr></table></figure></p>
+    <h3 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h3><p>从<a href="http://kafka.apache.org/">官网</a>下载最新的二进制包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.bit.edu.cn/apache/kafka/0.10.2.0/kafka_2.10-0.10.2.0.tgz</span><br></pre></td></tr></table></figure>
+<p>解压</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf kafka_2.10-0.10.2.0.tgz -C /usr/local</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>Kafka 依赖 Zookeeper，首先要安装 Zookeeper。使用说明参考<a href="/2017/04/28/zookeeper/">Zookeeper快速开始</a></p>
 </blockquote>
-<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/Kafka+data+structures+in+Zookeeper" target="_blank" rel="noopener">Kafka 数据在 Zookeeper 中的存储结构</a></p>
+<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/Kafka+data+structures+in+Zookeeper">Kafka 数据在 Zookeeper 中的存储结构</a></p>
 <p>新旧版本的存储结构不同，主要在于 Consumer offset 的保存，旧版保存在 Zookeeper 中，新版保存在 kafka 中。</p>
-<p>0.8 等早期版本在 Zookeeper 中的存储结构<br><img src="/images/hW6hL.png" alt></p>
+<p>0.8 等早期版本在 Zookeeper 中的存储结构<br><img src="/images/hW6hL.png"></p>
 <h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><ul>
 <li><p>Broker<br>  Kafka集群包含一个或多个服务器，这种服务器被称为broker</p>
 </li>
@@ -168,32 +171,43 @@
 </blockquote>
 <ol>
 <li><p>下载编译</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git ccone https://github.com/quantifind/KafkaOffsetMonitor.git</span><br><span class="line">cd KafkaOffsetMonitor</span><br><span class="line">sbt assembly</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git ccone https://github.com/quantifind/KafkaOffsetMonitor.git</span><br><span class="line">cd KafkaOffsetMonitor</span><br><span class="line">sbt assembly</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>brew install sbt<br>编译完在target目录中</p>
 </blockquote>
 </li>
 <li><p>运行</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java -cp KafkaOffsetMonitor-assembly-0.3.0-SNAPSHOT.jar \</span><br><span class="line">    com.quantifind.kafka.offsetapp.OffsetGetterWeb \</span><br><span class="line">    --offsetStorage kafka \</span><br><span class="line">    --zk 127.0.0.1:2181 \</span><br><span class="line">    --port 8989 \</span><br><span class="line">    --refresh 10.seconds \</span><br><span class="line">    --retain 2.days</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java -cp KafkaOffsetMonitor-assembly-0.3.0-SNAPSHOT.jar \</span><br><span class="line">    com.quantifind.kafka.offsetapp.OffsetGetterWeb \</span><br><span class="line">    --offsetStorage kafka \</span><br><span class="line">    --zk 127.0.0.1:2181 \</span><br><span class="line">    --port 8989 \</span><br><span class="line">    --refresh 10.seconds \</span><br><span class="line">    --retain 2.days</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>offsetStorage offset 存储的位置，支持 zookeeper、kafka、storm。从 kafka 0.10.x 默认偏移量建议存储到 kafka 中。consumer 以 <code>zookeeper.connect</code> 方式连接到 kafka 的 offset 存储在 zookeeper 中，以 <code>bootstrap.servers</code> 方式连接到 kafka 的 offset 存储在 kafka <code>__consumer_offsets</code> topic 中。</li>
+<li><p>offsetStorage offset 存储的位置，支持 zookeeper、kafka、storm。从 kafka 0.10.x 默认偏移量建议存储到 kafka 中。consumer 以 <code>zookeeper.connect</code> 方式连接到 kafka 的 offset 存储在 zookeeper 中，以 <code>bootstrap.servers</code> 方式连接到 kafka 的 offset 存储在 kafka <code>__consumer_offsets</code> topic 中。</p>
+</li>
 <li><p>zk kafka 连接的 zookeeper 地址 （无论使用哪一种类型的 offsetStorage ，这里都是 zookeeper 的地址。</p>
 </li>
 <li><p>offsetStorage valid options are ‘’zookeeper’’, ‘’kafka’’ or ‘’storm’’. Anything else falls back to ‘’zookeeper’’</p>
 </li>
-<li>zk the ZooKeeper hosts</li>
-<li>port on what port will the app be available</li>
-<li>refresh how often should the app refresh and store a point in the DB</li>
-<li>retain how long should points be kept in the DB</li>
-<li>dbName where to store the history (default ‘offsetapp’)</li>
-<li>kafkaOffsetForceFromStart only applies to ‘’kafka’’ format. Force KafkaOffsetMonitor to scan the commit messages from start (see notes below)</li>
-<li>stormZKOffsetBase only applies to ‘’storm’’ format. Change the offset storage base in zookeeper, default to ‘’/stormconsumers’’ (see notes below)</li>
-<li>pluginsArgs additional arguments used by extensions (see below)</li>
+<li><p>zk the ZooKeeper hosts</p>
+</li>
+<li><p>port on what port will the app be available</p>
+</li>
+<li><p>refresh how often should the app refresh and store a point in the DB</p>
+</li>
+<li><p>retain how long should points be kept in the DB</p>
+</li>
+<li><p>dbName where to store the history (default ‘offsetapp’)</p>
+</li>
+<li><p>kafkaOffsetForceFromStart only applies to ‘’kafka’’ format. Force KafkaOffsetMonitor to scan the commit messages from start (see notes below)</p>
+</li>
+<li><p>stormZKOffsetBase only applies to ‘’storm’’ format. Change the offset storage base in zookeeper, default to ‘’&#x2F;stormconsumers’’ (see notes below)</p>
+</li>
+<li><p>pluginsArgs additional arguments used by extensions (see below)</p>
+</li>
 </ul>
 </li>
 </ol>
 <blockquote>
 <p>监控图表参数说明</p>
+</blockquote>
 <ul>
 <li>Topic：创建Topic名称</li>
 <li>Partition：分区编号</li>
@@ -204,65 +218,60 @@
 <li>Created：表示该Partition创建时间</li>
 <li>Last Seen：表示消费状态刷新最新时间</li>
 </ul>
-</blockquote>
-<p>正常的情况下 LogSize = Offset + Lag。LogSize 和 Offset 线重合表示消费完毕。Lag 斜率持续比 Offset 大，需要此时应该考虑添加 consumer 。</p>
+<p>正常的情况下 LogSize &#x3D; Offset + Lag。LogSize 和 Offset 线重合表示消费完毕。Lag 斜率持续比 Offset 大，需要此时应该考虑添加 consumer 。</p>
 <h3 id="Kafka-命令行工具"><a href="#Kafka-命令行工具" class="headerlink" title="Kafka 命令行工具"></a>Kafka 命令行工具</h3><h4 id="Topic-相关"><a href="#Topic-相关" class="headerlink" title="Topic 相关"></a>Topic 相关</h4><ol>
 <li><p>创建 Topic</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --create --zookeeper zk01.example.com:2181 --replication-factor 1 --partitions 3 --topic your_topic_name</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --create --zookeeper zk01.example.com:2181 --replication-factor 1 --partitions 3 --topic your_topic_name</span><br></pre></td></tr></table></figure>
 <ul>
 <li>replication-factor 副本数量</li>
 <li>partitions Partition 数量</li>
 </ul>
 </li>
 <li><p>列出所有的 Topic</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --zookeeper zk01.example.com:2181 --list</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --zookeeper zk01.example.com:2181 --list</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>删除 Topic</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --delete --zookeeper zk01.example.com:2181 --topic your_topic_name</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --delete --zookeeper zk01.example.com:2181 --topic your_topic_name</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>需要在 <code>server.properties</code> 中设置 <code>delete.topic.enable=true</code><br>另外需要注意：如果当前 Topic 没有传输过信息是彻底删除。如果已经传输过数据，只是将此 Topic 标记为删除。</p>
 </blockquote>
 </li>
 </ol>
 <h4 id="Producer-相关"><a href="#Producer-相关" class="headerlink" title="Producer 相关"></a>Producer 相关</h4><ol>
-<li><p>生产消息</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.sh --broker-list broker1:9092 --topic your_topic_name</span><br></pre></td></tr></table></figure>
-<p> 或者直接从文件中读</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.sh --broker-list broker1:9092 --topic streams-file-input &lt; file-input.txt</span><br></pre></td></tr></table></figure>
+<li>生产消息 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.sh --broker-list broker1:9092 --topic your_topic_name</span><br></pre></td></tr></table></figure>
+ 或者直接从文件中读 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.sh --broker-list broker1:9092 --topic streams-file-input &lt; file-input.txt</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>通过 <code>--producer.config</code> 参数指定 Producer 配置文件。<a href="https://kafka.apache.org/documentation/#producerconfigs" target="_blank" rel="noopener">配置参考</a></p>
+<p>通过 <code>--producer.config</code> 参数指定 Producer 配置文件。<a href="https://kafka.apache.org/documentation/#producerconfigs">配置参考</a></p>
 </blockquote>
 </li>
 </ol>
 <h4 id="Consumer-相关"><a href="#Consumer-相关" class="headerlink" title="Consumer 相关"></a>Consumer 相关</h4><ol>
 <li><p>消费消息</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh  --bootstrap-server broker1:9092 --topic your_topic_name --from-beginning</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh  --bootstrap-server broker1:9092 --topic your_topic_name --from-beginning</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>–from-beginning 设置消费者偏置位为最开始（默认为末尾）。</p>
-<blockquote>
-<p>Consumer 其它配置信息可以通过 <code>--consumer-property</code> 参数配置，或者使用 <code>--consumer.config</code> 指定配置文件路径。e.g. <code>--consumer-property group.id=print</code> <a href="https://kafka.apache.org/documentation/#consumerconfigs" target="_blank" rel="noopener">配置参数</a></p>
-</blockquote>
-</li>
+<li>–from-beginning 设置消费者偏置位为最开始（默认为末尾）。</li>
 </ul>
+<blockquote>
+<p>Consumer 其它配置信息可以通过 <code>--consumer-property</code> 参数配置，或者使用 <code>--consumer.config</code> 指定配置文件路径。e.g. <code>--consumer-property group.id=print</code> <a href="https://kafka.apache.org/documentation/#consumerconfigs">配置参数</a></p>
+</blockquote>
 </li>
 </ol>
 <h4 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h4><ol>
 <li><p>列出所有的 Consumer Group</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --list</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --list</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>列出来消费者的 offset</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --describe --group test-consumer-group</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --describe --group test-consumer-group</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这里只显示客户端直接链接到 Kafka 集群上面的消费者信息，通过 zookeeper 连接的需要使用 <code>--zookeeper</code> 参数来代替 <code>--bootstrap-server</code>。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TOPIC      PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG      CONSUMER-ID     HOST     CLIENT-ID</span><br><span class="line">tp         1          38192           38192           0        -               -        -</span><br><span class="line">tp         0          37775           37775           0        -               -        -</span><br><span class="line">tp         2          37927           37927           0        -               -        -</span><br></pre></td></tr></table></figure>
-</blockquote>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TOPIC      PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG      CONSUMER-ID     HOST     CLIENT-ID</span><br><span class="line">tp         1          38192           38192           0        -               -        -</span><br><span class="line">tp         0          37775           37775           0        -               -        -</span><br><span class="line">tp         2          37927           37927           0        -               -        -</span><br></pre></td></tr></table></figure>
 <p> CURRENT-OFFSET：当前消费到的位置<br> LOG-END-OFFSET：队列最后的位置<br> LAG：未被消费的个数</p>
+</blockquote>
 </li>
 <li><p>删除 Consumer Group</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --delete --group &lt;group-name&gt;</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server broker1:9092 --delete --group &lt;group-name&gt;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener">【1】</a><a href="https://mos.meituan.com/library/32/how-to-install-kafka-on-centos7/" target="_blank" rel="noopener">【2】</a> <a href="http://blog.csdn.net/suifeng3051/article/details/38321043" target="_blank" rel="noopener">【3】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://kafka.apache.org/documentation/">【1】</a><a href="https://mos.meituan.com/library/32/how-to-install-kafka-on-centos7/">【2】</a> <a href="http://blog.csdn.net/suifeng3051/article/details/38321043">【3】</a></p>
 
   </div>
   <div class="article-license">

@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="digdig命令是常用的域名查询工具，可以用来测试域名系统工作是否正常。 1yum install bind-utils 语法dig @DNS_SERVER DOMAIN_NAME [ANY|ANY|A|MX|SIG]  查询域名的A地址   1dig @8.8.8.8 www.baidu.com A  查询域名的CNAME    1dig @8.8.8.8 www.baidu.com CNAME">
+    <meta name="description" content="digdig命令是常用的域名查询工具，可以用来测试域名系统工作是否正常。 1yum install bind-utils  语法dig @DNS_SERVER DOMAIN_NAME [ANY|ANY|A|MX|SIG]  查询域名的A地址   1dig @8.8.8.8 www.baidu.com A  查询域名的CNAME    1dig @8.8.8.8 www.baidu.com CNAM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dig">
 <meta property="og:url" content="https://kekek.cc/post/dig.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="digdig命令是常用的域名查询工具，可以用来测试域名系统工作是否正常。 1yum install bind-utils 语法dig @DNS_SERVER DOMAIN_NAME [ANY|ANY|A|MX|SIG]  查询域名的A地址   1dig @8.8.8.8 www.baidu.com A  查询域名的CNAME    1dig @8.8.8.8 www.baidu.com CNAME">
+<meta property="og:description" content="digdig命令是常用的域名查询工具，可以用来测试域名系统工作是否正常。 1yum install bind-utils  语法dig @DNS_SERVER DOMAIN_NAME [ANY|ANY|A|MX|SIG]  查询域名的A地址   1dig @8.8.8.8 www.baidu.com A  查询域名的CNAME    1dig @8.8.8.8 www.baidu.com CNAM">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-08-31T06:30:44.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.672Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="dig">
 <meta property="article:tag" content="dns">
@@ -149,20 +149,20 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="dig"><a href="#dig" class="headerlink" title="dig"></a>dig</h2><p>dig命令是常用的域名查询工具，可以用来测试域名系统工作是否正常。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install <span class="built_in">bind</span>-utils</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install bind-utils</span><br></pre></td></tr></table></figure>
+
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>dig @DNS_SERVER DOMAIN_NAME [ANY|ANY|A|MX|SIG]</p>
 <ul>
 <li><p>查询域名的A地址</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @8.8.8.8 www.baidu.com A</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @8.8.8.8 www.baidu.com A</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查询域名的CNAME </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @8.8.8.8 www.baidu.com CNAME</span><br></pre></td></tr></table></figure>
-</li>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @8.8.8.8 www.baidu.com CNAME</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://blog.csdn.net/reyleon/article/details/12976889" target="_blank" rel="noopener">使用dig命令解析域名</a></li>
-<li><a href="http://www.cnblogs.com/daxian2012/archive/2013/01/10/2854126.html" target="_blank" rel="noopener">dig命令使用大全</a></li>
-<li><a href="http://man.linuxde.net/dig" target="_blank" rel="noopener">dig命令</a></li>
+<li><a href="http://blog.csdn.net/reyleon/article/details/12976889">使用dig命令解析域名</a></li>
+<li><a href="http://www.cnblogs.com/daxian2012/archive/2013/01/10/2854126.html">dig命令使用大全</a></li>
+<li><a href="http://man.linuxde.net/dig">dig命令</a></li>
 </ul>
 
   </div>

@@ -9,18 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Http Cachehttp缓存主要有两个地方，浏览器和缓存服务器。    参数 含义     Age Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。   Date Date 表明创建 HTTP 报文的日期和时间。   Cache-Control:max-age 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生">
+    <meta name="description" content="Http Cachehttp缓存主要有两个地方，浏览器和缓存服务器。    参数 含义    Age Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。   Date Date 表明创建 HTTP 报文的日期和时间。   Cache-Control:max-age 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP缓存.md">
 <meta property="og:url" content="https://kekek.cc/post/http-cache.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Http Cachehttp缓存主要有两个地方，浏览器和缓存服务器。    参数 含义     Age Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。   Date Date 表明创建 HTTP 报文的日期和时间。   Cache-Control:max-age 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生">
+<meta property="og:description" content="Http Cachehttp缓存主要有两个地方，浏览器和缓存服务器。    参数 含义    Age Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。   Date Date 表明创建 HTTP 报文的日期和时间。   Cache-Control:max-age 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/QQ20160906-0@2x.jpg">
 <meta property="og:image" content="https://kekek.cc/images/QQ20170505-140727@2x.jpg">
 <meta property="og:image" content="https://kekek.cc/images/QQ20170505-142938@2x.jpg">
 <meta property="article:published_time" content="2016-09-06T09:53:51.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.679Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="cache">
 <meta property="article:tag" content="http">
@@ -152,7 +152,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="Http-Cache"><a href="#Http-Cache" class="headerlink" title="Http Cache"></a>Http Cache</h3><p>http缓存主要有两个地方，浏览器和缓存服务器。<br><img src="/images/QQ20160906-0@2x.jpg" alt></p>
+    <h3 id="Http-Cache"><a href="#Http-Cache" class="headerlink" title="Http Cache"></a>Http Cache</h3><p>http缓存主要有两个地方，浏览器和缓存服务器。<br><img src="/images/QQ20160906-0@2x.jpg"></p>
 <table>
 <thead>
 <tr>
@@ -160,8 +160,7 @@
 <th>含义</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>Age</td>
 <td>Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。</td>
 </tr>
@@ -171,15 +170,15 @@
 </tr>
 <tr>
 <td>Cache-Control:max-age</td>
-<td>定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存时间(以秒为单位) Cache-Control: max-age=484200</td>
+<td>定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存时间(以秒为单位) Cache-Control: max-age&#x3D;484200</td>
 </tr>
 <tr>
 <td>Expires</td>
-<td>指定一个绝对的过期日期。如果过期日期已经过了,就说明文档不再新鲜了 Expires: Fri, 05 Jul 2002, 05:00:00 GMT。如果是缓存服务器，缓存服务器在这段时间内不会再去请求源服务器。Expires是HTTP/1.0的写法，HTTP/1.1使用Cache-Control:max-age。</td>
+<td>指定一个绝对的过期日期。如果过期日期已经过了,就说明文档不再新鲜了 Expires: Fri, 05 Jul 2002, 05:00:00 GMT。如果是缓存服务器，缓存服务器在这段时间内不会再去请求源服务器。Expires是HTTP&#x2F;1.0的写法，HTTP&#x2F;1.1使用Cache-Control:max-age。</td>
 </tr>
 <tr>
 <td>Pragma</td>
-<td>Pragma 是 HTTP/1.1 之前版本的历史遗留字段。 Cache-Control: no-cache和  Pragma: no-cache含义一样。</td>
+<td>Pragma 是 HTTP&#x2F;1.1 之前版本的历史遗留字段。 Cache-Control: no-cache和  Pragma: no-cache含义一样。</td>
 </tr>
 <tr>
 <td>Last-Modified</td>
@@ -197,8 +196,7 @@
 <td>If-None-Match:tags</td>
 <td>和Etag是一对</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><blockquote>
 <p>Expires 首部和 Cache-Control: max-age 首部所做的事情本质上是一样的,但由于 Cache-Control 首部使用的是相对时间而不是绝对日期,所以我们更倾向于使用比较新的 Cache-Control 首部。绝对日期依赖于计算机时钟的正确设置。</p>
 </blockquote>
@@ -212,15 +210,17 @@
 </blockquote>
 <hr>
 <blockquote>
-<p>If-Modified-Since 首部可以与 Last-Modified 服务器响应首部配合工作。原始 服务器会将最后的修改日期附加到所提供的文档上去。当缓存要对已缓存文档进行 再验证时,就会包含一个 If-Modified-Since 首部,其中携带有最后修改已缓存副 本的日期:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Modified-Since: &lt;cached last-modified date&gt;</span><br></pre></td></tr></table></figure></p>
+<p>If-Modified-Since 首部可以与 Last-Modified 服务器响应首部配合工作。原始 服务器会将最后的修改日期附加到所提供的文档上去。当缓存要对已缓存文档进行 再验证时,就会包含一个 If-Modified-Since 首部,其中携带有最后修改已缓存副 本的日期:</p>
 </blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Modified-Since: &lt;cached last-modified date&gt;</span><br></pre></td></tr></table></figure>
+
 <h3 id="浏览器缓存再验证"><a href="#浏览器缓存再验证" class="headerlink" title="浏览器缓存再验证"></a>浏览器缓存再验证</h3><ol>
 <li><p>检查本地有没有缓存。如果没有直接发出请求，如果有则检查缓存是否过期。</p>
 </li>
-<li><p>服务器用 HTTP/1.0+ 的 Expires 首部或 HTTP/1.1 的 Cache-Control: max-age 响应首部来指定过期日期。如果响应中没有 Cache-Control: max-age 首部，也没有 Expires 首部，缓存可以计算出一个<code>试探性最大使用期</code>。LM-Factor 算法是一种很常用的试探性过期算法，算法的逻辑如下所示。</p>
+<li><p>服务器用 HTTP&#x2F;1.0+ 的 Expires 首部或 HTTP&#x2F;1.1 的 Cache-Control: max-age 响应首部来指定过期日期。如果响应中没有 Cache-Control: max-age 首部，也没有 Expires 首部，缓存可以计算出一个<code>试探性最大使用期</code>。LM-Factor 算法是一种很常用的试探性过期算法，算法的逻辑如下所示。</p>
 <ul>
 <li>如果已缓存文档最后一次修改发生在很久以前，它可能会是一份稳定的文档，不 太会突然发生变化，因此将其继续保存在缓存中会比较安全。</li>
-<li>如果已缓存文挡最近被修改过，就说明它很可能会频繁地发生变化，因此在与服 务器进行再验证之前，只应该将其缓存很短一段时间。<br><a href="https://tools.ietf.org/html/rfc2616#section-13.2.2" target="_blank" rel="noopener"><img src="/images/QQ20170505-140727@2x.jpg" alt></a><blockquote>
+<li>如果已缓存文挡最近被修改过，就说明它很可能会频繁地发生变化，因此在与服 务器进行再验证之前，只应该将其缓存很短一段时间。<br> <a href="https://tools.ietf.org/html/rfc2616#section-13.2.2"><img src="/images/QQ20170505-140727@2x.jpg"></a><blockquote>
 <p>这个 <code>试探性最大使用期</code> 的值和文档修改日期有关，也就是响应头中的 <code>Last-Modified</code> 首部。如果 <code>Last-Modified</code> 日期距今比较久，就会算出来一个比较长的 <code>试探性最大使用期</code> 。</p>
 </blockquote>
 </li>
@@ -232,9 +232,9 @@
 <blockquote>
 <p>正常情况下服务器都应该明确指定过期时间，如果没有提供过期时间并且提供了 Last-Modified time 浏览器就会给我们算出来一个过期时间。这个时间是隐式的，再次发出请求时浏览器回去根据这个 <code>试探性最大使用期</code> 检查文档是否过期。如果没有过期，就不会再进行 revalidated ，我们也就不会看到发出请求响应 304 的情况（304 是进行在验证的结果）。如果我们希望浏览器都回去服务器进行 revalidated，可以设置响应头 <code>Cache-Control: max-age=0</code>。</p>
 </blockquote>
-<p><a href="https://tools.ietf.org/html/rfc2616#section-13.2.6" target="_blank" rel="noopener"><img src="/images/QQ20170505-142938@2x.jpg" alt></a></p>
+<p><a href="https://tools.ietf.org/html/rfc2616#section-13.2.6"><img src="/images/QQ20170505-142938@2x.jpg"></a></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>《HTTP权威指南》 《图解HTTP》</p>
-<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn" target="_blank" rel="noopener">Google developers HTTP 缓存</a><br><a href="https://tools.ietf.org/html/rfc2616#section-13.2.2" target="_blank" rel="noopener">Heuristic Expiration</a><br><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.6" target="_blank" rel="noopener">revalidate cache use Cache-Control</a><br><a href="https://jakearchibald.com/2016/caching-best-practices/" target="_blank" rel="noopener">Caching best practices</a><br><a href="http://www.alloyteam.com/2016/03/discussion-on-web-caching/" target="_blank" rel="noopener">浅谈Web缓存</a></p>
+<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn">Google developers HTTP 缓存</a><br><a href="https://tools.ietf.org/html/rfc2616#section-13.2.2">Heuristic Expiration</a><br><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.6">revalidate cache use Cache-Control</a><br><a href="https://jakearchibald.com/2016/caching-best-practices/">Caching best practices</a><br><a href="http://www.alloyteam.com/2016/03/discussion-on-web-caching/">浅谈Web缓存</a></p>
 
   </div>
   <div class="article-license">

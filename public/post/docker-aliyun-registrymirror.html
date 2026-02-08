@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="阿里云Docker镜像加速注册私人镜像镜像加速 配置加速器 Ubuntu 12echo &quot;DOCKER_OPTS&#x3D;\&quot;\$DOCKER_OPTS --registry-mirror&#x3D;你的镜像加速地址\&quot;&quot; | sudo tee -a &#x2F;etc&#x2F;default&#x2F;dockersudo service docker restart  Centos 12sudo sed -i &#39;s|OPTIONS&#x3D;|OP">
+    <meta name="description" content="阿里云Docker镜像加速注册私人镜像镜像加速 配置加速器 Ubuntu  12echo &quot;DOCKER_OPTS&#x3D;\&quot;\$DOCKER_OPTS --registry-mirror&#x3D;你的镜像加速地址\&quot;&quot; | sudo tee -a &#x2F;etc&#x2F;default&#x2F;dockersudo service docker restart  Centos  12sudo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="阿里云docker镜像加速">
 <meta property="og:url" content="https://kekek.cc/post/docker-aliyun-registrymirror.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="阿里云Docker镜像加速注册私人镜像镜像加速 配置加速器 Ubuntu 12echo &quot;DOCKER_OPTS&#x3D;\&quot;\$DOCKER_OPTS --registry-mirror&#x3D;你的镜像加速地址\&quot;&quot; | sudo tee -a &#x2F;etc&#x2F;default&#x2F;dockersudo service docker restart  Centos 12sudo sed -i &#39;s|OPTIONS&#x3D;|OP">
+<meta property="og:description" content="阿里云Docker镜像加速注册私人镜像镜像加速 配置加速器 Ubuntu  12echo &quot;DOCKER_OPTS&#x3D;\&quot;\$DOCKER_OPTS --registry-mirror&#x3D;你的镜像加速地址\&quot;&quot; | sudo tee -a &#x2F;etc&#x2F;default&#x2F;dockersudo service docker restart  Centos  12sudo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://kekek.cc/images/%E9%98%BF%E9%87%8C%E4%BA%91Docker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F.jpeg">
 <meta property="article:published_time" content="2016-11-08T06:55:50.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.673Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://kekek.cc/images/%E9%98%BF%E9%87%8C%E4%BA%91Docker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F.jpeg">
@@ -143,16 +143,17 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="阿里云Docker镜像加速"><a href="#阿里云Docker镜像加速" class="headerlink" title="阿里云Docker镜像加速"></a>阿里云Docker镜像加速</h3><h4 id="注册私人镜像"><a href="#注册私人镜像" class="headerlink" title="注册私人镜像"></a>注册私人镜像</h4><p><a href="http://mirror.aliyun.com/" target="_blank" rel="noopener">镜像加速</a><br><img src="/images/阿里云Docker镜像加速.jpeg" alt></p>
+    <h3 id="阿里云Docker镜像加速"><a href="#阿里云Docker镜像加速" class="headerlink" title="阿里云Docker镜像加速"></a>阿里云Docker镜像加速</h3><h4 id="注册私人镜像"><a href="#注册私人镜像" class="headerlink" title="注册私人镜像"></a>注册私人镜像</h4><p><a href="http://mirror.aliyun.com/">镜像加速</a><br><img src="/images/%E9%98%BF%E9%87%8C%E4%BA%91Docker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F.jpeg"></p>
 <h4 id="配置加速器"><a href="#配置加速器" class="headerlink" title="配置加速器"></a>配置加速器</h4><ol>
-<li><p>Ubuntu</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo "DOCKER_OPTS=\"\$DOCKER_OPTS --registry-mirror=你的镜像加速地址\"" | sudo tee -a /etc/default/docker</span><br><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Centos</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo sed -i 's|OPTIONS=|OPTIONS=--registry-mirror=你的镜像加速地址|g' /etc/sysconfig/docker</span><br><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
-</li>
+<li>Ubuntu</li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://baichuan.taobao.com/doc2/detail.htm?treeId=39&amp;articleId=103049&amp;docType=1" target="_blank" rel="noopener">【1】</a><br><a href="https://cr.console.aliyun.com/#/accelerator" target="_blank" rel="noopener">【加速器】</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;DOCKER_OPTS=\&quot;\$DOCKER_OPTS --registry-mirror=你的镜像加速地址\&quot;&quot; | sudo tee -a /etc/default/docker</span><br><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Centos</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo sed -i &#x27;s|OPTIONS=|OPTIONS=--registry-mirror=你的镜像加速地址|g&#x27; /etc/sysconfig/docker</span><br><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://baichuan.taobao.com/doc2/detail.htm?treeId=39&articleId=103049&docType=1">【1】</a><br><a href="https://cr.console.aliyun.com/#/accelerator">【加速器】</a></p>
 
   </div>
   <div class="article-license">

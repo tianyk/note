@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="页面自动刷新1.页面自动刷新：把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20&quot;&gt; 其中20指每隔20秒刷新一次页面. 2.页面自动跳转： 把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20; URL&#x3D;http:&#x2F;&#x2F;www.baidu.com&quot;&gt; 其中20指隔20秒后跳转到">
+    <meta name="description" content="页面自动刷新1.页面自动刷新：把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20&quot;&gt;  其中20指每隔20秒刷新一次页面. 2.页面自动跳转： 把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20; URL&#x3D;htt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="页面自动刷新">
 <meta property="og:url" content="https://kekek.cc/post/page-auto-refresh.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="页面自动刷新1.页面自动刷新：把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20&quot;&gt; 其中20指每隔20秒刷新一次页面. 2.页面自动跳转： 把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20; URL&#x3D;http:&#x2F;&#x2F;www.baidu.com&quot;&gt; 其中20指隔20秒后跳转到">
+<meta property="og:description" content="页面自动刷新1.页面自动刷新：把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20&quot;&gt;  其中20指每隔20秒刷新一次页面. 2.页面自动跳转： 把如下代码加入区域中 1&lt;meta http-equiv&#x3D;&quot;refresh&quot; content&#x3D;&quot;20; URL&#x3D;htt">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-12-26T10:16:21.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.712Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -141,16 +141,19 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="页面自动刷新"><a href="#页面自动刷新" class="headerlink" title="页面自动刷新"></a>页面自动刷新</h3><p>1.页面自动刷新：把如下代码加入<head><meta name="generator" content="Hexo 3.9.0">区域中</head></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"20"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+    <h3 id="页面自动刷新"><a href="#页面自动刷新" class="headerlink" title="页面自动刷新"></a>页面自动刷新</h3><p>1.页面自动刷新：把如下代码加入<head>区域中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;refresh&quot;</span> <span class="attr">content</span>=<span class="string">&quot;20&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>其中20指每隔20秒刷新一次页面.</p>
-<p>2.页面自动跳转： 把如下代码加入<head><meta name="generator" content="Hexo 3.9.0">区域中</head></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"20; URL=http://www.baidu.com"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.页面自动跳转： 把如下代码加入<head>区域中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;refresh&quot;</span> <span class="attr">content</span>=<span class="string">&quot;20; URL=http://www.baidu.com&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>其中20指隔20秒后跳转到<code>http://www.baidu.com</code>页面</p>
 <p>3.页面自动刷新js版</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">refresh</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setTimeout(refresh, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
-<p>// 指定1秒刷新一次</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/lhws/archive/2012/03/05/2380249.html" target="_blank" rel="noopener">【1】</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">refresh</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">location</span>.<span class="title function_">reload</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(refresh, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>&#x2F;&#x2F; 指定1秒刷新一次</script></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/lhws/archive/2012/03/05/2380249.html">【1】</a></p>
 
   </div>
   <div class="article-license">

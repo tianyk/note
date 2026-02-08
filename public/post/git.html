@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="Git安装 下载最新版 12wget https:&#x2F;&#x2F;github.com&#x2F;git&#x2F;git&#x2F;archive&#x2F;v2.13.2.tar.gztar -zxf v2.13.2.tar.gz  编译安装 123yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel  sudo make prefix&#x3D;&#x2F;us">
+    <meta name="description" content="Git安装 下载最新版  12wget https:&#x2F;&#x2F;github.com&#x2F;git&#x2F;git&#x2F;archive&#x2F;v2.13.2.tar.gztar -zxf v2.13.2.tar.gz  编译安装  123yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel  sudo make prefix&#x3D;&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git">
 <meta property="og:url" content="https://kekek.cc/post/git.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="Git安装 下载最新版 12wget https:&#x2F;&#x2F;github.com&#x2F;git&#x2F;git&#x2F;archive&#x2F;v2.13.2.tar.gztar -zxf v2.13.2.tar.gz  编译安装 123yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel  sudo make prefix&#x3D;&#x2F;us">
+<meta property="og:description" content="Git安装 下载最新版  12wget https:&#x2F;&#x2F;github.com&#x2F;git&#x2F;git&#x2F;archive&#x2F;v2.13.2.tar.gztar -zxf v2.13.2.tar.gz  编译安装  123yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel  sudo make prefix&#x3D;&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-03-07T10:14:57.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.677Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -148,26 +148,27 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
-<li><p><a href="https://github.com/git/git/releases" target="_blank" rel="noopener">下载</a>最新版</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/git/git/archive/v2.13.2.tar.gz</span><br><span class="line">tar -zxf v2.13.2.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel  </span><br><span class="line"></span><br><span class="line">sudo make prefix=/usr/local install</span><br></pre></td></tr></table></figure>
-</li>
+<li><a href="https://github.com/git/git/releases">下载</a>最新版</li>
 </ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/git/git/archive/v2.13.2.tar.gz</span><br><span class="line">tar -zxf v2.13.2.tar.gz</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>编译安装</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel  </span><br><span class="line"></span><br><span class="line">sudo make prefix=/usr/local install</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>指定 prefix 为 /usr/local 会安装到 /usr/local/bin 下，指定 prefix 为 /use 会安装到/usr/bin 下。</p>
+<p>指定 prefix 为 &#x2F;usr&#x2F;local 会安装到 &#x2F;usr&#x2F;local&#x2F;bin 下，指定 prefix 为 &#x2F;use 会安装到&#x2F;usr&#x2F;bin 下。</p>
 </blockquote>
-<h3 id="私有git仓库"><a href="#私有git仓库" class="headerlink" title="私有git仓库"></a>私有git仓库</h3><p><a href="https://www.liaoxuefeng.com/article/001373894410719a19c79d040c84fd4a7492efc60081be1000" target="_blank" rel="noopener">https://www.liaoxuefeng.com/article/001373894410719a19c79d040c84fd4a7492efc60081be1000</a></p>
+<h3 id="私有git仓库"><a href="#私有git仓库" class="headerlink" title="私有git仓库"></a>私有git仓库</h3><p><a href="https://www.liaoxuefeng.com/article/001373894410719a19c79d040c84fd4a7492efc60081be1000">https://www.liaoxuefeng.com/article/001373894410719a19c79d040c84fd4a7492efc60081be1000</a></p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ol>
 <li><p>设置代理</p>
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy http://127.0.0.1:1080</span><br><span class="line">git config --global --unset http.proxy</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>中文编码</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="revert"><a href="#revert" class="headerlink" title="revert"></a>revert</h4><p><code>revert</code>会丢弃掉提交，并生成一个新的<code>commit</code>。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git revert HEAD # 丢弃掉最新的提交</span><br><span class="line">git revert HEAD^ 或 git git revert HEAD~1 # 丢弃掉倒数第二次提交 HEAD^^倒数第三次，等同于HEAD~2</span><br><span class="line">git revert bb72c804 # 丢弃掉提交</span><br></pre></td></tr></table></figure></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="revert"><a href="#revert" class="headerlink" title="revert"></a>revert</h4><p><code>revert</code>会丢弃掉提交，并生成一个新的<code>commit</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git revert HEAD # 丢弃掉最新的提交</span><br><span class="line">git revert HEAD^ 或 git git revert HEAD~1 # 丢弃掉倒数第二次提交 HEAD^^倒数第三次，等同于HEAD~2</span><br><span class="line">git revert bb72c804 # 丢弃掉提交</span><br></pre></td></tr></table></figure>
+
 <h4 id="reset"><a href="#reset" class="headerlink" title="reset"></a>reset</h4><p><code>reset</code>恢复为某次提交，后面的变更会全部丢弃掉。</p>
 <ul>
 <li>–soft – 缓存区和工作目录都不会被改变。</li>
@@ -178,8 +179,9 @@
 </li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^ # 恢复到上次提交</span><br><span class="line">git reset --hard bb72c804 # 回复到bb72c804</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://github.com/geeeeeeeeek/git-recipes/wiki/5.2-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A%EF%BC%9AReset%E3%80%81Checkout%E3%80%81Revert-%E7%9A%84%E9%80%89%E6%8B%A9" target="_blank" rel="noopener">代码回滚：Reset、Checkout、Revert 的选择</a></li>
+<li><a href="https://github.com/geeeeeeeeek/git-recipes/wiki/5.2-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A%EF%BC%9AReset%E3%80%81Checkout%E3%80%81Revert-%E7%9A%84%E9%80%89%E6%8B%A9">代码回滚：Reset、Checkout、Revert 的选择</a></li>
 </ul>
 
   </div>

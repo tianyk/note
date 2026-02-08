@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="常用命令 apt-get123456789101112參數：-q ：不要在螢幕上輸出訊息，常用在背景環境的執行當中喔！-y ：自動在進行 apt-get 時回答 y 的回應；-c ：後面接的是設定檔，一般系統會主動的以 &#x2F;etc&#x2F;apt 內的設定檔為依據。[更新項目]：要 apt-get 進行的工作，主要有這幾項：   update      ：就是更新伺服器與用戶端的套件表頭清單，這個動作務必要">
+    <meta name="description" content="常用命令 apt-get  123456789101112參數：-q ：不要在螢幕上輸出訊息，常用在背景環境的執行當中喔！-y ：自動在進行 apt-get 時回答 y 的回應；-c ：後面接的是設定檔，一般系統會主動的以 &#x2F;etc&#x2F;apt 內的設定檔為依據。[更新項目]：要 apt-get 進行的工作，主要有這幾項：   update      ：就是更新伺服器與用戶端的套件表頭清單，這個動作務">
 <meta property="og:type" content="article">
 <meta property="og:title" content="apt">
 <meta property="og:url" content="https://kekek.cc/post/apt.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="常用命令 apt-get123456789101112參數：-q ：不要在螢幕上輸出訊息，常用在背景環境的執行當中喔！-y ：自動在進行 apt-get 時回答 y 的回應；-c ：後面接的是設定檔，一般系統會主動的以 &#x2F;etc&#x2F;apt 內的設定檔為依據。[更新項目]：要 apt-get 進行的工作，主要有這幾項：   update      ：就是更新伺服器與用戶端的套件表頭清單，這個動作務必要">
+<meta property="og:description" content="常用命令 apt-get  123456789101112參數：-q ：不要在螢幕上輸出訊息，常用在背景環境的執行當中喔！-y ：自動在進行 apt-get 時回答 y 的回應；-c ：後面接的是設定檔，一般系統會主動的以 &#x2F;etc&#x2F;apt 內的設定檔為依據。[更新項目]：要 apt-get 進行的工作，主要有這幾項：   update      ：就是更新伺服器與用戶端的套件表頭清單，這個動作務">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-19T03:44:50.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.665Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="apt">
 <meta name="twitter:card" content="summary">
@@ -148,22 +148,25 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ul>
-<li>apt-get<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">參數：</span><br><span class="line">-q ：不要在螢幕上輸出訊息，常用在背景環境的執行當中喔！</span><br><span class="line">-y ：自動在進行 apt-get 時回答 y 的回應；</span><br><span class="line">-c ：後面接的是設定檔，一般系統會主動的以 /etc/apt 內的設定檔為依據。</span><br><span class="line">[更新項目]：要 apt-get 進行的工作，主要有這幾項：</span><br><span class="line">   update      ：就是更新伺服器與用戶端的套件表頭清單，這個動作務必要進行！</span><br><span class="line">   install     ：後面需要加上要安裝的套件名稱才行！</span><br><span class="line">   upgrade     ：進行『已安裝套件』的完整升級，不過未安裝套件則不予安裝；</span><br><span class="line">   dist-upgrade：以 upgrade 相似，但是當新版本的套件有其他相依屬性的套件加入時，</span><br><span class="line">                 單純的 upgrade 將無法進行安裝，此時就得要使用 dist-upgrade 了！</span><br><span class="line">   clean       ：清除已經下載到 /var/cache/apt/archives/ 的套件檔案。</span><br><span class="line">   remove      ：移除某個套件啊！</span><br></pre></td></tr></table></figure>
-</li>
+<li>apt-get</li>
 </ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">參數：</span><br><span class="line">-q ：不要在螢幕上輸出訊息，常用在背景環境的執行當中喔！</span><br><span class="line">-y ：自動在進行 apt-get 時回答 y 的回應；</span><br><span class="line">-c ：後面接的是設定檔，一般系統會主動的以 /etc/apt 內的設定檔為依據。</span><br><span class="line">[更新項目]：要 apt-get 進行的工作，主要有這幾項：</span><br><span class="line">   update      ：就是更新伺服器與用戶端的套件表頭清單，這個動作務必要進行！</span><br><span class="line">   install     ：後面需要加上要安裝的套件名稱才行！</span><br><span class="line">   upgrade     ：進行『已安裝套件』的完整升級，不過未安裝套件則不予安裝；</span><br><span class="line">   dist-upgrade：以 upgrade 相似，但是當新版本的套件有其他相依屬性的套件加入時，</span><br><span class="line">                 單純的 upgrade 將無法進行安裝，此時就得要使用 dist-upgrade 了！</span><br><span class="line">   clean       ：清除已經下載到 /var/cache/apt/archives/ 的套件檔案。</span><br><span class="line">   remove      ：移除某個套件啊！</span><br></pre></td></tr></table></figure>
+
 <p><em>那個 update 的參數並不是在進行更新， 而是在進行伺服器與用戶端的套件表頭清單更新而已， 但這個動作相當重要，如果你沒有作這個動作的話，你的套件就不會更新了！ 在 apt-get update 後，再使用 apt-get dist-upgrade 這樣就能夠將整個系統給他升級了！</em></p>
 <ul>
-<li>apt-cache<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">參數：</span><br><span class="line">[搜尋項目]：apt-cache 可以搜尋 apt 所列出的套件標頭資料喔！可用項目有：</span><br><span class="line">pkgnames：列出本系統上面的所有套件名稱！！有點類似 (rpm -qa)；</span><br><span class="line">dump    ：列出所有的套件標頭以及其相關的相依屬性套件！</span><br><span class="line">search  ：後面可接要搜尋的字串，例如 apt-cache search postfix</span><br><span class="line">show    ：後面接套件名稱，可以顯示出該套件的主要內容的描述！</span><br><span class="line">showpkg ：列出後面所接套件的相依屬性以該其套件提供的相關功能！</span><br><span class="line">depends ：可以列出與後面所接套件有相依屬性或者是衝突的相關資料！</span><br></pre></td></tr></table></figure>
-</li>
+<li>apt-cache</li>
 </ul>
-<h3 id="源配置"><a href="#源配置" class="headerlink" title="源配置"></a>源配置</h3><p>文件/etc/apt/sources.list是一个普通可编辑的文本文件，保存了ubuntu软件更新的源服务器的地址。和sources.list功能一样的是/etc/apt/sources.list.d/<em>.list(</em>代表一个文件名，只能由字母、数字、下划线、英文句号组成)。sources.list.d目录下的*.list文件为在单独文件中写入源的地址提供了一种方式，通常用来安装第三方的软件。  </p>
-<p>每一行的开头是deb或者deb-src，分别表示直接通过.deb文件进行安装和通过源文件的方式进行安装。<br>deb或者deb-src字段之后，是一段URL，之后是五个用空格隔开的字符串，分别对应相应的目录结构。在浏览器中输入 <a href="http://archive.ubuntu.com/ubuntu/" target="_blank" rel="noopener">http://archive.ubuntu.com/ubuntu/</a> ，并进入dists目录，可以发现有5个目录和前述sources.list文件中的第三列字段相对应。任选其中一个目录进入，可以看到和sources.list后四列相对应的目录结构。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">參數：</span><br><span class="line">[搜尋項目]：apt-cache 可以搜尋 apt 所列出的套件標頭資料喔！可用項目有：</span><br><span class="line">pkgnames：列出本系統上面的所有套件名稱！！有點類似 (rpm -qa)；</span><br><span class="line">dump    ：列出所有的套件標頭以及其相關的相依屬性套件！</span><br><span class="line">search  ：後面可接要搜尋的字串，例如 apt-cache search postfix</span><br><span class="line">show    ：後面接套件名稱，可以顯示出該套件的主要內容的描述！</span><br><span class="line">showpkg ：列出後面所接套件的相依屬性以該其套件提供的相關功能！</span><br><span class="line">depends ：可以列出與後面所接套件有相依屬性或者是衝突的相關資料！</span><br></pre></td></tr></table></figure>
+
+<h3 id="源配置"><a href="#源配置" class="headerlink" title="源配置"></a>源配置</h3><p>文件&#x2F;etc&#x2F;apt&#x2F;sources.list是一个普通可编辑的文本文件，保存了ubuntu软件更新的源服务器的地址。和sources.list功能一样的是&#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;*.list(<em>代表一个文件名，只能由字母、数字、下划线、英文句号组成)。sources.list.d目录下的</em>.list文件为在单独文件中写入源的地址提供了一种方式，通常用来安装第三方的软件。  </p>
+<p>每一行的开头是deb或者deb-src，分别表示直接通过.deb文件进行安装和通过源文件的方式进行安装。<br>deb或者deb-src字段之后，是一段URL，之后是五个用空格隔开的字符串，分别对应相应的目录结构。在浏览器中输入 <a href="http://archive.ubuntu.com/ubuntu/">http://archive.ubuntu.com/ubuntu/</a> ，并进入dists目录，可以发现有5个目录和前述sources.list文件中的第三列字段相对应。任选其中一个目录进入，可以看到和sources.list后四列相对应的目录结构。</p>
 <p>树莓派apt源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi</span><br></pre></td></tr></table></figure>
+
 <h3 id="国内的apt源"><a href="#国内的apt源" class="headerlink" title="国内的apt源"></a>国内的apt源</h3><ol>
-<li><a href="http://mirrors.aliyun.com/" target="_blank" rel="noopener">阿里</a></li>
+<li><a href="http://mirrors.aliyun.com/">阿里</a></li>
 </ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://linux.vbird.org/linux_server/0210network-secure/0220upgrade.php#apt_config" target="_blank" rel="noopener">【1】</a><a href="http://www.tuicool.com/articles/EjMJNz/" target="_blank" rel="noopener">【2】</a><a href="http://outofmemory.cn/code-snippet/35699/raspberry-pi-apt-get-source-list" target="_blank" rel="noopener">【3】</a><a href="http://shumeipai.nxez.com/2013/08/31/raspbian-chinese-software-source.html" target="_blank" rel="noopener">【4】</a><a href="https://www.raspbian.org/RaspbianMirrors" target="_blank" rel="noopener">【5】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://linux.vbird.org/linux_server/0210network-secure/0220upgrade.php#apt_config">【1】</a><a href="http://www.tuicool.com/articles/EjMJNz/">【2】</a><a href="http://outofmemory.cn/code-snippet/35699/raspberry-pi-apt-get-source-list">【3】</a><a href="http://shumeipai.nxez.com/2013/08/31/raspbian-chinese-software-source.html">【4】</a><a href="https://www.raspbian.org/RaspbianMirrors">【5】</a></p>
 
   </div>
   <div class="article-license">

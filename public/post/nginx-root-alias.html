@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="nginx root &amp; aliasroot是指定一个项目根目录，alias表示一个拼接的意思。 例如我们请求路径为https:&#x2F;&#x2F;www.domain.com&#x2F;images&#x2F;logo.png root123location ^~ &#x2F;images&#x2F; &#123;    root &#x2F;var&#x2F;www;&#125; 实际映射路径是 &#x2F;var&#x2F;www&#x2F;images&#x2F;logo.png alias12">
+    <meta name="description" content="nginx root &amp; aliasroot是指定一个项目根目录，alias表示一个拼接的意思。 例如我们请求路径为https:&#x2F;&#x2F;www.domain.com&#x2F;images&#x2F;logo.png root 123location ^~ &#x2F;images&#x2F; &#123;    root &#x2F;var&#x2F;www;&#125; 实际映射路径是 &#x2F;var&#x2F;www&#x2F;images&#x2F;logo.png alias">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx-root-alias">
 <meta property="og:url" content="https://kekek.cc/post/nginx-root-alias.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="nginx root &amp; aliasroot是指定一个项目根目录，alias表示一个拼接的意思。 例如我们请求路径为https:&#x2F;&#x2F;www.domain.com&#x2F;images&#x2F;logo.png root123location ^~ &#x2F;images&#x2F; &#123;    root &#x2F;var&#x2F;www;&#125; 实际映射路径是 &#x2F;var&#x2F;www&#x2F;images&#x2F;logo.png alias12">
+<meta property="og:description" content="nginx root &amp; aliasroot是指定一个项目根目录，alias表示一个拼接的意思。 例如我们请求路径为https:&#x2F;&#x2F;www.domain.com&#x2F;images&#x2F;logo.png root 123location ^~ &#x2F;images&#x2F; &#123;    root &#x2F;var&#x2F;www;&#125; 实际映射路径是 &#x2F;var&#x2F;www&#x2F;images&#x2F;logo.png alias">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-10-15T11:24:32.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.708Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -108,7 +108,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-root-amp-alias"><span class="toc-number">1.</span> <span class="toc-text">nginx root &amp; alias</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-root-alias"><span class="toc-number">1.</span> <span class="toc-text">nginx root &amp; alias</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -147,11 +147,14 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="nginx-root-amp-alias"><a href="#nginx-root-amp-alias" class="headerlink" title="nginx root &amp; alias"></a>nginx root &amp; alias</h3><p><code>root</code>是指定一个项目根目录，<code>alias</code>表示一个拼接的意思。</p>
+    <h3 id="nginx-root-alias"><a href="#nginx-root-alias" class="headerlink" title="nginx root &amp; alias"></a>nginx root &amp; alias</h3><p><code>root</code>是指定一个项目根目录，<code>alias</code>表示一个拼接的意思。</p>
 <p>例如我们请求路径为<code>https://www.domain.com/images/logo.png</code></p>
-<p><strong>root</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /images/ &#123;</span><br><span class="line">    root /var/www;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>root</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /images/ &#123;</span><br><span class="line">    root /var/www;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实际映射路径是 <code>/var/www/images/logo.png</code></p>
-<p><strong>alias</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /images/ &#123;</span><br><span class="line">    alias /var/www/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>alias</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /images/ &#123;</span><br><span class="line">    alias /var/www/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>实际映射路径是 <code>/var/www/logo.png</code></p>
 <blockquote>
 <p>注意：<code>alias</code>的后面如果指定的是一个文件夹斜杠不能省略。<code>alias</code>的最终处理是拼接的过程。</p>
@@ -201,7 +204,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-root-amp-alias"><span class="toc-number">1.</span> <span class="toc-text">nginx root &amp; alias</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-root-alias"><span class="toc-number">1.</span> <span class="toc-text">nginx root &amp; alias</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

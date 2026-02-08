@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="VirtualBox下CentOS7常见问题启动后显示CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr&#x3D;0xaddr1、检查一下 i2c_piix4 模块是否存在(一般正常安装都是已经加载的，确认一下比较好)123[root@localhost ~]# lsmod | grep i">
+    <meta name="description" content="VirtualBox下CentOS7常见问题启动后显示CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr&#x3D;0xaddr1、检查一下 i2c_piix4 模块是否存在(一般正常安装都是已经加载的，确认一下比较好) 123[root@localhost ~]# lsmod | grep">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VirtualBox-CentOS7">
 <meta property="og:url" content="https://kekek.cc/post/virtualbox-contos7.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="VirtualBox下CentOS7常见问题启动后显示CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr&#x3D;0xaddr1、检查一下 i2c_piix4 模块是否存在(一般正常安装都是已经加载的，确认一下比较好)123[root@localhost ~]# lsmod | grep i">
+<meta property="og:description" content="VirtualBox下CentOS7常见问题启动后显示CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr&#x3D;0xaddr1、检查一下 i2c_piix4 模块是否存在(一般正常安装都是已经加载的，确认一下比较好) 123[root@localhost ~]# lsmod | grep">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-12-06T11:07:36.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.487Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.724Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -141,13 +141,21 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="VirtualBox下CentOS7常见问题"><a href="#VirtualBox下CentOS7常见问题" class="headerlink" title="VirtualBox下CentOS7常见问题"></a>VirtualBox下CentOS7常见问题</h3><h4 id="启动后显示CentOS7-Virtualbox-SMBus-base-address-uninitialized-upgrade-BIOS-or-use-force-addr-0xaddr"><a href="#启动后显示CentOS7-Virtualbox-SMBus-base-address-uninitialized-upgrade-BIOS-or-use-force-addr-0xaddr" class="headerlink" title="启动后显示CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr=0xaddr"></a>启动后显示<code>CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr=0xaddr</code></h4><p>1、检查一下 <code>i2c_piix4</code> 模块是否存在(一般正常安装都是已经加载的，确认一下比较好)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsmod | grep i2c_piix4</span><br><span class="line">i2c_piix4 11098 0</span><br><span class="line">i2c_core 25799 1 i2c_piix4</span><br></pre></td></tr></table></figure></p>
-<p>2、编辑黑名单文件…<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure></p>
-<p>3、将下面的语句加入黑名单的最后一行，<code>:wq</code>保存退出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blacklist i2c_piix4</span><br></pre></td></tr></table></figure></p>
+    <h3 id="VirtualBox下CentOS7常见问题"><a href="#VirtualBox下CentOS7常见问题" class="headerlink" title="VirtualBox下CentOS7常见问题"></a>VirtualBox下CentOS7常见问题</h3><h4 id="启动后显示CentOS7-Virtualbox-SMBus-base-address-uninitialized-upgrade-BIOS-or-use-force-addr-0xaddr"><a href="#启动后显示CentOS7-Virtualbox-SMBus-base-address-uninitialized-upgrade-BIOS-or-use-force-addr-0xaddr" class="headerlink" title="启动后显示CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr=0xaddr"></a>启动后显示<code>CentOS7 Virtualbox  SMBus base address uninitialized upgrade BIOS or use force_addr=0xaddr</code></h4><p>1、检查一下 <code>i2c_piix4</code> 模块是否存在(一般正常安装都是已经加载的，确认一下比较好)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsmod | grep i2c_piix4</span><br><span class="line">i2c_piix4 11098 0</span><br><span class="line">i2c_core 25799 1 i2c_piix4</span><br></pre></td></tr></table></figure>
+
+<p>2、编辑黑名单文件…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure>
+
+<p>3、将下面的语句加入黑名单的最后一行，<code>:wq</code>保存退出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blacklist i2c_piix4</span><br></pre></td></tr></table></figure>
+
 <p>4、reboot重启系统，那行错误就不见了…</p>
 <h4 id="启动后无网络Network-is-unreachable"><a href="#启动后无网络Network-is-unreachable" class="headerlink" title="启动后无网络Network is unreachable"></a>启动后无网络<code>Network is unreachable</code></h4><p>检查 <code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code>选项<code>ONBOOT</code>是否为<code>yes</code>。如果不为<code>yes</code>修改为<code>yes</code>然后重启。</p>
-<h4 id="无ifconfig命令"><a href="#无ifconfig命令" class="headerlink" title="无ifconfig命令"></a>无<code>ifconfig</code>命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y net-tools</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.slyar.com/blog/mbus-base-address-uninitialized.html" target="_blank" rel="noopener">【解决VirtualBox下CentOS启动时”MBus base address uninitialized”错误】</a><br><a href="http://www.centoscn.com/CentosBug/osbug/2014/0916/3750.html" target="_blank" rel="noopener">【centos7没有安装ifconfig命令的解决方法】</a><br><a href="https://my.oschina.net/u/1428349/blog/288708" target="_blank" rel="noopener">【CentOS 7 下 ifconfig command not found 解决办法】</a><br><a href="https://my.oschina.net/u/1428349/blog/288708" target="_blank" rel="noopener">【CentOS 7 Network is unreachable】</a>   </p>
+<h4 id="无ifconfig命令"><a href="#无ifconfig命令" class="headerlink" title="无ifconfig命令"></a>无<code>ifconfig</code>命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y net-tools  </span><br></pre></td></tr></table></figure>
+
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.slyar.com/blog/mbus-base-address-uninitialized.html">【解决VirtualBox下CentOS启动时”MBus base address uninitialized”错误】</a><br><a href="http://www.centoscn.com/CentosBug/osbug/2014/0916/3750.html">【centos7没有安装ifconfig命令的解决方法】</a><br><a href="https://my.oschina.net/u/1428349/blog/288708">【CentOS 7 下 ifconfig command not found 解决办法】</a><br><a href="https://my.oschina.net/u/1428349/blog/288708">【CentOS 7 Network is unreachable】</a>   </p>
 
   </div>
   <div class="article-license">

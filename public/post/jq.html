@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="JQjq 是个非常强大的处理 JSON 数据的命令行工具。 安装 Linux   1yum install jq  macOS   1brew install jq   使用示例 注意：示例数据不是一段json数据，它的每一行都是一条json数据。每一行都会处理一次。   格式化   这里的 . 表示当前JSON对象  1curl -s https:&#x2F;&#x2F;kekek.cc&#x2F;static&#x2F;jq.jso">
+    <meta name="description" content="JQjq 是个非常强大的处理 JSON 数据的命令行工具。 安装 Linux   1yum install jq  macOS   1brew install jq  使用示例 注意：示例数据不是一段json数据，它的每一行都是一条json数据。每一行都会处理一次。   格式化   这里的 . 表示当前JSON对象  1curl -s https:&#x2F;&#x2F;kekek.cc&#x2F;static&#x2F;jq.json">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jq">
 <meta property="og:url" content="https://kekek.cc/post/jq.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="JQjq 是个非常强大的处理 JSON 数据的命令行工具。 安装 Linux   1yum install jq  macOS   1brew install jq   使用示例 注意：示例数据不是一段json数据，它的每一行都是一条json数据。每一行都会处理一次。   格式化   这里的 . 表示当前JSON对象  1curl -s https:&#x2F;&#x2F;kekek.cc&#x2F;static&#x2F;jq.jso">
+<meta property="og:description" content="JQjq 是个非常强大的处理 JSON 数据的命令行工具。 安装 Linux   1yum install jq  macOS   1brew install jq  使用示例 注意：示例数据不是一段json数据，它的每一行都是一条json数据。每一行都会处理一次。   格式化   这里的 . 表示当前JSON对象  1curl -s https:&#x2F;&#x2F;kekek.cc&#x2F;static&#x2F;jq.json">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-06-21T11:14:31.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.484Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.690Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -144,11 +144,10 @@
     <h2 id="JQ"><a href="#JQ" class="headerlink" title="JQ"></a>JQ</h2><p>jq 是个非常强大的处理 JSON 数据的命令行工具。</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
 <li><p>Linux</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jq</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jq</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>macOS</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install jq</span><br></pre></td></tr></table></figure>
-</li>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install jq</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><blockquote>
 <p>注意：示例数据不是一段json数据，它的每一行都是一条json数据。每一行都会处理一次。</p>
@@ -160,23 +159,28 @@
 <p>这里的 <code>.</code> 表示当前JSON对象</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq .</span><br></pre></td></tr></table></figure>
+
 <ol start="2">
 <li>查询</li>
 </ol>
 <blockquote>
 <p>查询 <code>remote_addr</code> 为 <code>187.141.142.230</code> 的用户</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">'select (.["remote_addr"] == "187.141.142.230")'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">&#x27;select (.[&quot;remote_addr&quot;] == &quot;187.141.142.230&quot;)&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p><code>select(boolean_expression)</code> 为查询语句，<code>.[&quot;remote_addr&quot;]</code> 表示取对象的<code>remote_addr</code>属性（除了可以用<code>.[]</code>取值还可以直接<code>.</code>取值，前者可以处理特殊字符的情况）。 <code>==</code> 表示等于。</p>
 <blockquote>
 <p>查询 <code>method</code> 为 <code>GET</code> 的请求，并且<code>status</code> 为 <code>200</code></p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">'select (.["method"] == "GET" and .status == 200)'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">&#x27;select (.[&quot;method&quot;] == &quot;GET&quot; and .status == 200)&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <ol start="3">
 <li>管道</li>
 </ol>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> AccessLog &#123;</span><br><span class="line">	ip: <span class="built_in">string</span>;</span><br><span class="line">	method: <span class="built_in">string</span>;</span><br><span class="line">	url: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">'. | &#123;ip: .["remote_addr"], method: .method, url: .["request_uri"]&#125;'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">AccessLog</span> &#123;</span><br><span class="line">	<span class="attr">ip</span>: <span class="built_in">string</span>;</span><br><span class="line">	<span class="attr">method</span>: <span class="built_in">string</span>;</span><br><span class="line">	<span class="attr">url</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">&#x27;. | &#123;ip: .[&quot;remote_addr&quot;], method: .method, url: .[&quot;request_uri&quot;]&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>这里使用了管道符 <code>|</code> 可以多次处理结果</p>
 <ol start="4">
 <li>输出csv格式</li>
@@ -184,15 +188,16 @@
 <blockquote>
 <p>csv 的输入要求必须是一个数组</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">'. | [.["remote_addr"], .method, .status]] | @csv'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://kekek.cc/static/jq.json | jq <span class="string">&#x27;. | [.[&quot;remote_addr&quot;], .method, .status]] | @csv&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <ol start="5">
-<li>数组 </li>
+<li>数组</li>
 </ol>
 <p><code>.[]</code> 表示取整个数组，一般配合管道符号一起使用 <code>.[] | {ip: .[&quot;remote_addr&quot;], method: .method, url: .[&quot;request_uri&quot;]}</code></p>
 <p><code>.[0]</code> 表示取数组的第一个元素</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://stedolan.github.io/jq/tutorial/" target="_blank" rel="noopener">Tutorial</a></li>
-<li><a href="https://stedolan.github.io/jq/manual/" target="_blank" rel="noopener">jq Manual</a></li>
+<li><a href="https://stedolan.github.io/jq/tutorial/">Tutorial</a></li>
+<li><a href="https://stedolan.github.io/jq/manual/">jq Manual</a></li>
 </ul>
 
   </div>

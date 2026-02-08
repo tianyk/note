@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="文件模式文件 I&#x2F;O 操作将在文本或二进制这两种转换模式之一中进行，具体取决于文件时在哪种模式下打开的。数据文件通常在文本模式下处理，这可以给我们提供一下便利的操作。 二进制模式与文本模式物理上计算机上所有的文件都是以二进制方式存储的。如果我们知道文件是一个文本，我们可以使用文本模式读写文件。文本模式下，我们可以以行为单位读取写入，不然我们需要手动去处理换行符。 在二进制模式下换行符会作为一">
+    <meta name="description" content="文件模式文件 I&#x2F;O 操作将在文本或二进制这两种转换模式之一中进行，具体取决于文件时在哪种模式下打开的。数据文件通常在文本模式下处理，这可以给我们提供一下便利的操作。 二进制模式与文本模式物理上计算机上所有的文件都是以二进制方式存储的。如果我们知道文件是一个文本，我们可以使用文本模式读写文件。文本模式下，我们可以以行为单位读取写入，不然我们需要手动去处理换行符。 在二进制模式下换行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文件模式">
 <meta property="og:url" content="https://kekek.cc/post/file-mode.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="文件模式文件 I&#x2F;O 操作将在文本或二进制这两种转换模式之一中进行，具体取决于文件时在哪种模式下打开的。数据文件通常在文本模式下处理，这可以给我们提供一下便利的操作。 二进制模式与文本模式物理上计算机上所有的文件都是以二进制方式存储的。如果我们知道文件是一个文本，我们可以使用文本模式读写文件。文本模式下，我们可以以行为单位读取写入，不然我们需要手动去处理换行符。 在二进制模式下换行符会作为一">
+<meta property="og:description" content="文件模式文件 I&#x2F;O 操作将在文本或二进制这两种转换模式之一中进行，具体取决于文件时在哪种模式下打开的。数据文件通常在文本模式下处理，这可以给我们提供一下便利的操作。 二进制模式与文本模式物理上计算机上所有的文件都是以二进制方式存储的。如果我们知道文件是一个文本，我们可以使用文本模式读写文件。文本模式下，我们可以以行为单位读取写入，不然我们需要手动去处理换行符。 在二进制模式下换行">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-03-07T10:14:57.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.676Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="file">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="文件模式"><a href="#文件模式" class="headerlink" title="文件模式"></a>文件模式</h2><p>文件 I/O 操作将在文本或二进制这两种转换模式之一中进行，具体取决于文件时在哪种模式下打开的。数据文件通常在文本模式下处理，这可以给我们提供一下便利的操作。</p>
+    <h2 id="文件模式"><a href="#文件模式" class="headerlink" title="文件模式"></a>文件模式</h2><p>文件 I&#x2F;O 操作将在文本或二进制这两种转换模式之一中进行，具体取决于文件时在哪种模式下打开的。数据文件通常在文本模式下处理，这可以给我们提供一下便利的操作。</p>
 <h3 id="二进制模式与文本模式"><a href="#二进制模式与文本模式" class="headerlink" title="二进制模式与文本模式"></a>二进制模式与文本模式</h3><p>物理上计算机上所有的文件都是以二进制方式存储的。如果我们知道文件是一个文本，我们可以使用文本模式读写文件。文本模式下，我们可以以行为单位读取写入，不然我们需要手动去处理换行符。</p>
 <p>在二进制模式下换行符会作为一个字节，文本模式下读取时会忽略换行符。</p>
 <p>文本文件，操作系统会对’\n’进行一些隐式变换，因此文本文件直接跨平台使用会出问题。</p>
@@ -158,8 +158,8 @@
 <p>二进制文件，操作系统不会对’\n’进行隐式变换，很多二进制文件（如电影、图片等）可以跨平台使用。如果我们使用文本模式<strong>先读后写</strong>二进制文件可能照成文件损坏。</p>
 <p>例如我们读取一张图片，如果是文本模式(readLine)就会直到遇到<code>\n</code>这个字符一次读取才结束。但是，实际上<code>\n</code>这个字符不像在文本中具有特殊意义，这种读取方式是毫无意义的。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://docs.microsoft.com/zh-cn/cpp/c-runtime-library/text-and-binary-mode-file-i-o" target="_blank" rel="noopener">文本和二进制模式文件 I/O</a></li>
-<li><a href="http://blog.csdn.net/timberwolf_2012/article/details/28499615" target="_blank" rel="noopener">文本文件和二进制文件比较</a></li>
+<li><a href="https://docs.microsoft.com/zh-cn/cpp/c-runtime-library/text-and-binary-mode-file-i-o">文本和二进制模式文件 I&#x2F;O</a></li>
+<li><a href="http://blog.csdn.net/timberwolf_2012/article/details/28499615">文本文件和二进制文件比较</a></li>
 </ul>
 
   </div>

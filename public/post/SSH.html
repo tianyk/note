@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="常用命令 SSH登录时指定私钥 1ssh username@ip -i .&#x2F;xxx&#x2F;privateKey -p prot  SSH代理    1ssh -N -L -f 0.0.0.0:3306:127.0.0.1:3306 user@host  -N 只发送数据不连接 -L 映射  localhost:localport:remotehost:remoteport 代理主机 -f 后台运行  经">
+    <meta name="description" content="常用命令 SSH登录时指定私钥  1ssh username@ip -i .&#x2F;xxx&#x2F;privateKey -p prot   SSH代理  1ssh -N -L -f 0.0.0.0:3306:127.0.0.1:3306 user@host    -N 只发送数据不连接 -L 映射  localhost:localport:remotehost:remoteport 代理主机 -f 后台运行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSH">
 <meta property="og:url" content="https://kekek.cc/post/SSH.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="常用命令 SSH登录时指定私钥 1ssh username@ip -i .&#x2F;xxx&#x2F;privateKey -p prot  SSH代理    1ssh -N -L -f 0.0.0.0:3306:127.0.0.1:3306 user@host  -N 只发送数据不连接 -L 映射  localhost:localport:remotehost:remoteport 代理主机 -f 后台运行  经">
+<meta property="og:description" content="常用命令 SSH登录时指定私钥  1ssh username@ip -i .&#x2F;xxx&#x2F;privateKey -p prot   SSH代理  1ssh -N -L -f 0.0.0.0:3306:127.0.0.1:3306 user@host    -N 只发送数据不连接 -L 映射  localhost:localport:remotehost:remoteport 代理主机 -f 后台运行">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-25T02:12:21.000Z">
 <meta property="article:modified_time" content="2019-09-25T11:36:24.000Z">
@@ -148,31 +148,35 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
-<li><p>SSH登录时指定私钥</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@ip -i ./xxx/privateKey -p prot</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>SSH代理 </p>
-</li>
+<li>SSH登录时指定私钥</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -N -L -f 0.0.0.0:3306:127.0.0.1:3306 user@host</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@ip -i ./xxx/privateKey -p prot</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>SSH代理</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -N -L -f 0.0.0.0:3306:127.0.0.1:3306 user@host </span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>-N 只发送数据不连接</li>
 <li>-L 映射  localhost:localport:remotehost:remoteport 代理主机</li>
 <li>-f 后台运行</li>
 </ul>
 <p>经过本机<code>3306</code>端口的流量都经<code>user@host</code>机器转发到<code>127.0.0.1:3306</code>上去</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>在.ssh文件夹下新建<code>config</code>文件，示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Host www</span><br><span class="line">    HostName 192.168.1.111</span><br><span class="line">    Port 50</span><br><span class="line">    User root</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_2048</span><br><span class="line"></span><br><span class="line"># git指定私钥</span><br><span class="line">Host api</span><br><span class="line">    HostName api.domain.com</span><br><span class="line">    User git</span><br><span class="line">    Port 22</span><br><span class="line">    IdentityFile ~/.ssh/git_id_rsa</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>在.ssh文件夹下新建<code>config</code>文件，示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Host www</span><br><span class="line">    HostName 192.168.1.111</span><br><span class="line">    Port 50</span><br><span class="line">    User root</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_2048</span><br><span class="line"></span><br><span class="line"># git指定私钥</span><br><span class="line">Host api</span><br><span class="line">    HostName api.domain.com</span><br><span class="line">    User git</span><br><span class="line">    Port 22</span><br><span class="line">    IdentityFile ~/.ssh/git_id_rsa</span><br></pre></td></tr></table></figure>
+
 <p>访问的时候只需运行<code>ssh www</code>就能访问<code>192.168.1.111</code>服务器了</p>
-<h3 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h3><p>/etc/ssh/sshd_config</p>
+<h3 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h3><p>&#x2F;etc&#x2F;ssh&#x2F;sshd_config</p>
 <ol>
 <li><p>禁止密码登录</p>
-<p> vim /etc/ssh/sshd_config</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></table></figure>
+<p> vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PasswordAuthentication no </span><br></pre></td></tr></table></figure>
 <p> 修改后重新加载配置</p>
 </li>
 <li><p>避免自动断开</p>
-<p> vim /etc/ssh/sshd_config</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 60s 一次心跳</span><br><span class="line">ClientAliveInterval 60</span><br><span class="line"># 5 次失败后自动段考</span><br><span class="line">ClientAliveCountMax 5</span><br></pre></td></tr></table></figure>
+<p> vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 60s 一次心跳</span><br><span class="line">ClientAliveInterval 60</span><br><span class="line"># 5 次失败后自动段考</span><br><span class="line">ClientAliveCountMax 5 </span><br></pre></td></tr></table></figure>
 <p> 修改后重新加载配置</p>
 </li>
 </ol>
@@ -180,25 +184,23 @@
 <li><p>已经在<code>authorized_keys</code>加入过publicKey，但是还是要求输入密码。</p>
 <blockquote>
 <p>权限问题，一般.ssh目录的文件权限为<code>600</code>。</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 600 authorized_keys</span><br><span class="line">restorecon -r -vv /root/.ssh</span><br></pre></td></tr></table></figure>
-</blockquote>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 600 authorized_keys</span><br><span class="line">restorecon -r -vv /root/.ssh</span><br></pre></td></tr></table></figure></blockquote>
 </li>
-<li><p><code>ssh-copy-id</code> 命令<br> <code>ssh-copy-id</code>命令可以把本地主机的公钥复制到远程主机的 authorized_keys 文件上，ssh-copy-id 命令也会给远程主机的用户主目录（home）和 ~/.ssh, 和~/.ssh/authorized_keys设置合适的权限。</p>
+<li><p><code>ssh-copy-id</code> 命令<br> <code>ssh-copy-id</code>命令可以把本地主机的公钥复制到远程主机的 authorized_keys 文件上，ssh-copy-id 命令也会给远程主机的用户主目录（home）和 <del>&#x2F;.ssh, 和</del>&#x2F;.ssh&#x2F;authorized_keys设置合适的权限。</p>
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id user@server</span><br><span class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub user@server</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>sshpass</code> 输入密码<br> ssh 登录时不能指定密码，有时间很不方便。使用 sshpass 可以来处理这个问题。</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sshpass -p 'passwd' ssh user@domain</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sshpass -p &#x27;passwd&#x27; ssh user@domain</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>连接自动断开<br> 修改<code>/etc/ssh/sshd_config</code> <code>ClientAliveInterval</code>和<code>ClientAliveInterval</code>参数</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 指定了服务器端向客户端请求消息的时间间隔。默认是0，不发送，而ClientAliveInterval 60表示每分钟发送一次。</span><br><span class="line">ClientAliveInterval 60</span><br><span class="line"># ClientAliveCountMax表示服务器发出请求后客户端没有响应的次数达到一定值, 就自动断开。</span><br><span class="line">ClientAliveCountMax 3</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 指定了服务器端向客户端请求消息的时间间隔。默认是0，不发送，而ClientAliveInterval 60表示每分钟发送一次。</span><br><span class="line">ClientAliveInterval 60</span><br><span class="line"># ClientAliveCountMax表示服务器发出请求后客户端没有响应的次数达到一定值, 就自动断开。</span><br><span class="line">ClientAliveCountMax 3</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://segmentfault.com/q/1010000000445726" target="_blank" rel="noopener">CentOS SSH公钥登录问题</a></li>
-<li><a href="http://serverfault.com/questions/321534/public-key-authentication-fails-only-when-sshd-is-daemon" target="_blank" rel="noopener">public key authentication fails ONLY when sshd is daemon</a></li>
-<li><a href="https://web.archive.org/web/20170801031147/http://www.cnblogs.com/qcly/archive/2013/07/27/3219535.html" target="_blank" rel="noopener">一次由SELinux引起的ssh公钥认证失败问题</a> </li>
-<li><a href="http://www.2cto.com/os/201212/173257.html" target="_blank" rel="noopener">ssh免密码登录(公钥登录)失败的原因</a> </li>
-<li><a href="http://blog.csdn.net/wangjunjun2008/article/details/19993395" target="_blank" rel="noopener">Linux命令之非交互SSH密码验证-sshpass</a></li>
+<li><a href="https://segmentfault.com/q/1010000000445726">CentOS SSH公钥登录问题</a></li>
+<li><a href="http://serverfault.com/questions/321534/public-key-authentication-fails-only-when-sshd-is-daemon">public key authentication fails ONLY when sshd is daemon</a></li>
+<li><a href="https://web.archive.org/web/20170801031147/http://www.cnblogs.com/qcly/archive/2013/07/27/3219535.html">一次由SELinux引起的ssh公钥认证失败问题</a> </li>
+<li><a href="http://www.2cto.com/os/201212/173257.html">ssh免密码登录(公钥登录)失败的原因</a> </li>
+<li><a href="http://blog.csdn.net/wangjunjun2008/article/details/19993395">Linux命令之非交互SSH密码验证-sshpass</a></li>
 </ul>
 
   </div>

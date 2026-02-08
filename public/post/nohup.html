@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="简介nohup 命令可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。   该命令的一般形式为nohup command &amp;。 常用命令1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1   # doesn&#39;t create nohup.out 1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;a">
+    <meta name="description" content="简介nohup 命令可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。   该命令的一般形式为nohup command &amp;。 常用命令1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1   # doesn&#x27;t create nohup.out  1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;am">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nohup">
 <meta property="og:url" content="https://kekek.cc/post/nohup.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="简介nohup 命令可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。   该命令的一般形式为nohup command &amp;。 常用命令1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1   # doesn&#39;t create nohup.out 1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;a">
+<meta property="og:description" content="简介nohup 命令可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。   该命令的一般形式为nohup command &amp;。 常用命令1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1   # doesn&#x27;t create nohup.out  1nohup command &gt;&#x2F;dev&#x2F;null 2&gt;&amp;am">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-01-05T03:34:52.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.711Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -143,13 +143,16 @@
   <div class="content" itemprop="articleBody">
     <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>nohup 命令可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。  </p>
 <p>该命令的一般形式为<code>nohup command &amp;</code>。</p>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt;/dev/null 2&gt;&amp;1   # doesn't create nohup.out</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt;/dev/null 2&gt;&amp;1 &amp; # runs in background, still doesn't create nohup.out</span><br></pre></td></tr></table></figure>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt;/dev/null 2&gt;&amp;1   # doesn&#x27;t create nohup.out</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt;/dev/null 2&gt;&amp;1 &amp; # runs in background, still doesn&#x27;t create nohup.out</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &lt;/dev/null &gt;/dev/null 2&gt;&amp;1 &amp; # completely detached from terminal</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>解释：<br>前面的 nohup 和后面的 &amp; 我想大家都能明白了把。<br>主要是中间的 2&gt;&amp;1 的意思<br>这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件 output 里面，<br>所以结果是标准错误和标准输出都导入文件 output 里面了。<br>至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。<br>这就会导致 &gt;output 2&gt;output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的。<br>这就是为什么有人会写成：<br>nohup ./command.sh &gt;output 2&gt;output出错的原因了  </p>
+<p>解释：<br>前面的 nohup 和后面的 &amp; 我想大家都能明白了把。<br>主要是中间的 2&gt;&amp;1 的意思<br>这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件 output 里面，<br>所以结果是标准错误和标准输出都导入文件 output 里面了。<br>至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。<br>这就会导致 &gt;output 2&gt;output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的。<br>这就是为什么有人会写成：<br>nohup .&#x2F;command.sh &gt;output 2&gt;output出错的原因了  </p>
 </blockquote>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.sina.com.cn/s/blog_6c9eaa1501011zml.html" target="_blank" rel="noopener">【1】</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.sina.com.cn/s/blog_6c9eaa1501011zml.html">【1】</a></p>
 
   </div>
   <div class="article-license">

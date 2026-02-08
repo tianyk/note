@@ -17,7 +17,7 @@
 <meta property="og:description" content="HTTP分块传输编码HTTP 分块传输编码是 HTTP&#x2F;1.1 版本新增的内容。主要用于解决我们事先不太好确定内容大小的问题，每次可以只传输一部分内容。它的格式是首行一个十六进制的块大小，然后\r\n块正文。可以传输多个块，最后一个块大小0代表整个响应结束。 123456789101112HTTP&#x2F;1.1 200 OK Content-Type: text&#x2F;plain Transfer-Encod">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-11-13T10:29:12.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.669Z">
 <meta property="article:author" content="tyk">
 <meta property="article:tag" content="http">
 <meta property="article:tag" content="transfer-encoding">
@@ -149,7 +149,8 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="HTTP分块传输编码"><a href="#HTTP分块传输编码" class="headerlink" title="HTTP分块传输编码"></a>HTTP分块传输编码</h2><p>HTTP 分块传输编码是 <code>HTTP/1.1</code> 版本新增的内容。主要用于解决我们事先不太好确定内容大小的问题，每次可以只传输一部分内容。它的格式是首行一个十六进制的块大小，然后<code>\r\n</code>块正文。可以传输多个块，最后一个块大小0代表整个响应结束。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK </span><br><span class="line">Content-Type: text/plain </span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">7\r\n</span><br><span class="line">Mozilla\r\n </span><br><span class="line">9\r\n</span><br><span class="line">Developer\r\n</span><br><span class="line">7\r\n</span><br><span class="line">Network\r\n</span><br><span class="line">0\r\n </span><br><span class="line">\r\n</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK </span><br><span class="line">Content-Type: text/plain </span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">7\r\n</span><br><span class="line">Mozilla\r\n </span><br><span class="line">9\r\n</span><br><span class="line">Developer\r\n</span><br><span class="line">7\r\n</span><br><span class="line">Network\r\n</span><br><span class="line">0\r\n </span><br><span class="line">\r\n</span><br></pre></td></tr></table></figure>
+
 <h3 id="头信息"><a href="#头信息" class="headerlink" title="头信息"></a>头信息</h3><ul>
 <li><p>TE<br>用在请求首部中，告知服务器可以使用哪些传输编码扩展。如果这个首部起名叫 <code>Accept-Transfer-Encoding</code>，它的意义就会更直白。</p>
 </li>
@@ -157,7 +158,7 @@
 </li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Transfer-Encoding" target="_blank" rel="noopener">Transfer-Encoding - MDN</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Transfer-Encoding">Transfer-Encoding - MDN</a></li>
 </ul>
 
   </div>

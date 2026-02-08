@@ -17,7 +17,7 @@
 <meta property="og:description" content="npm-confignpm 配置管理 12345678910$ npm config --helpnpm config set &lt;key&gt; &lt;value&gt;npm config get [&lt;key&gt;]npm config delete &lt;key&gt;npm config listnpm config editnpm set &lt;key&gt; &lt;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-02-06T07:18:57.000Z">
-<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.711Z">
 <meta property="article:author" content="tyk">
 <meta name="twitter:card" content="summary">
     
@@ -142,9 +142,10 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="npm-config"><a href="#npm-config" class="headerlink" title="npm-config"></a>npm-config</h3><p>npm 配置管理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ npm config --help</span><br><span class="line">npm config set &lt;key&gt; &lt;value&gt;</span><br><span class="line">npm config get [&lt;key&gt;]</span><br><span class="line">npm config delete &lt;key&gt;</span><br><span class="line">npm config list</span><br><span class="line">npm config edit</span><br><span class="line">npm set &lt;key&gt; &lt;value&gt;</span><br><span class="line">npm get [&lt;key&gt;]</span><br><span class="line"></span><br><span class="line">alias: c</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ npm config --help</span><br><span class="line">npm config set &lt;key&gt; &lt;value&gt;</span><br><span class="line">npm config get [&lt;key&gt;]</span><br><span class="line">npm config delete &lt;key&gt;</span><br><span class="line">npm config list</span><br><span class="line">npm config edit</span><br><span class="line">npm set &lt;key&gt; &lt;value&gt;</span><br><span class="line">npm get [&lt;key&gt;]</span><br><span class="line"></span><br><span class="line">alias: c</span><br></pre></td></tr></table></figure>
+
 <h3 id="npm获取配置有6种方式，优先级由高到底。"><a href="#npm获取配置有6种方式，优先级由高到底。" class="headerlink" title="npm获取配置有6种方式，优先级由高到底。"></a>npm获取配置有6种方式，优先级由高到底。</h3><ol>
-<li><p>命令行参数<br>–proxy <a href="http://server:port" target="_blank" rel="noopener">http://server:port</a> 即将 proxy 的值设为 <a href="http://server:port" target="_blank" rel="noopener">http://server:port</a> 。</p>
+<li><p>命令行参数<br>–proxy <a href="http://server:port">http://server:port</a> 即将 proxy 的值设为 <a href="http://server:port">http://server:port</a> 。</p>
 </li>
 <li><p>环境变量<br>以<code>npm_config_</code>为前缀的环境变量将会被认为是 npm 的配置属性。如设置 proxy 可以加入这样的环境变量<code>npm_config_proxy=http://server:port</code>。</p>
 </li>
@@ -157,8 +158,9 @@
 <li><p>默认配置<br>npm本身有默认配置参数，如果以上5条都没设置，则npm会使用默认配置参数。</p>
 </li>
 </ol>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https://registry.npm.taobao.org/</span><br><span class="line">npm config set prefix /usr/local</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/huang0925/archive/2013/05/17/3083207.html" target="_blank" rel="noopener">【1】</a> <a href="http://www.cnblogs.com/breakdown/archive/2012/12/18/2823646.html" target="_blank" rel="noopener">【2】</a> <a href="https://docs.npmjs.com/misc/config" target="_blank" rel="noopener">【3】</a></p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https://registry.npm.taobao.org/</span><br><span class="line">npm config set prefix /usr/local</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/huang0925/archive/2013/05/17/3083207.html">【1】</a> <a href="http://www.cnblogs.com/breakdown/archive/2012/12/18/2823646.html">【2】</a> <a href="https://docs.npmjs.com/misc/config">【3】</a></p>
 
   </div>
   <div class="article-license">

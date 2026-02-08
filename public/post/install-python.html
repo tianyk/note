@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
     
-    <meta name="description" content="安装Python源码安装 下载源码  1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;2.7.12&#x2F;Python-2.7.12.tgz  解压  1tar -zxvf Python-2.7.12.tgz  编译安装  1cd Python-2.7.12  12345.&#x2F;configure  make allmake installmake cleanmake dis">
+    <meta name="description" content="安装Python源码安装 下载源码  1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;2.7.12&#x2F;Python-2.7.12.tgz  解压  1tar -zxvf Python-2.7.12.tgz  编译安装  1cd Python-2.7.12   12345.&#x2F;configure  make allmake installmake cleanmake di">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安装Python">
 <meta property="og:url" content="https://kekek.cc/post/install-python.html">
 <meta property="og:site_name" content="Keke的个人网站">
-<meta property="og:description" content="安装Python源码安装 下载源码  1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;2.7.12&#x2F;Python-2.7.12.tgz  解压  1tar -zxvf Python-2.7.12.tgz  编译安装  1cd Python-2.7.12  12345.&#x2F;configure  make allmake installmake cleanmake dis">
+<meta property="og:description" content="安装Python源码安装 下载源码  1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;2.7.12&#x2F;Python-2.7.12.tgz  解压  1tar -zxvf Python-2.7.12.tgz  编译安装  1cd Python-2.7.12   12345.&#x2F;configure  make allmake installmake cleanmake di">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-12-06T11:07:36.000Z">
 <meta property="article:modified_time" content="2018-09-11T10:53:05.000Z">
@@ -86,10 +86,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/post/iotop.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/post/gnu-paralell.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/post/pigz.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/post/iotop.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -156,18 +156,19 @@
 </li>
 <li><p>编译安装</p>
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd Python-2.7.12</span><br></pre></td></tr></table></figure>
+
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./configure  </span><br><span class="line">make all</span><br><span class="line">make install</span><br><span class="line">make clean</span><br><span class="line">make distclean</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>建立软连接，使系统默认的 python指向 python2.7</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/bin/python2.7 /usr/bin/python</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/bin/python2.7 /usr/bin/python  </span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看版本</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -V</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -V</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="pyenv"><a href="#pyenv" class="headerlink" title="pyenv"></a>pyenv</h3><p>由于Python3和2不兼容，系统中使用的部分软件可能是使用的Python2编写的，例如yum。我们开发中可能又需要使用Python3，如果直接装全局的Python3可能很多软件就无法运行。这种情况下就需要一个Python版本管理软件，pyenv正是解决这种问题的。</p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><a href="https://github.com/pyenv/pyenv-installer" target="_blank" rel="noopener">https://github.com/pyenv/pyenv-installer</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash</span><br></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><a href="https://github.com/pyenv/pyenv-installer">https://github.com/pyenv/pyenv-installer</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash</span><br></pre></td></tr></table></figure>
+
 <h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><ol>
 <li><p>pyenv versions：列出系统安装的Python版本</p>
 </li>
@@ -175,10 +176,8 @@
 </li>
 <li><p>pyenv install 3.7.0：安装3.7.0版本到系统</p>
 <p> 如果直接安装太慢可以采用离线安装的方法：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz -P ~/.pyenv/cache</span><br><span class="line">export PYENV_ROOT=$HOME/.pyenv</span><br><span class="line">pyenv install 3.7.0</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz -P ~/.pyenv/cache</span><br><span class="line">export PYENV_ROOT=$HOME/.pyenv</span><br><span class="line">pyenv install 3.7.0 </span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="4">
 <li><p>pyenv uninstall 3.7.0：卸载3.7.0版本</p>
 </li>
 <li><p>pyenv global 3.7.0：设置全局Python版本</p>
@@ -193,11 +192,10 @@
 <li><p>升级后YUM不能使用</p>
 <p> 编辑<code>/usr/bin/yum</code>，将头部的<code>#!/usr/bin/python</code>改为<code>#!/usr/bin/python2.6</code></p>
 </li>
-<li><p><a href="https://github.com/pypa/pip/issues/1919" target="_blank" rel="noopener">zipimport.ZipImportError</a></p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix= --with-zlib-dir=/usr/local/lib</span><br></pre></td></tr></table></figure>
-</li>
+<li><p><a href="https://github.com/pypa/pip/issues/1919">zipimport.ZipImportError</a></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix= --with-zlib-dir=/usr/local/lib</span><br></pre></td></tr></table></figure></li>
 <li><p>ModuleNotFoundError: No module named ‘_ctypes’</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libffi-dev </span><br><span class="line"># or </span><br><span class="line">yum install libffi-devel</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libffi-dev </span><br><span class="line"># or </span><br><span class="line">yum install libffi-devel</span><br></pre></td></tr></table></figure></li>
 </ol>
 
   </div>

@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /search
+Disallow: /tags
+Disallow: /categories
+Allow: /
+Sitemap: https://kekek.cc/sitemap.xml
