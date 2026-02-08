@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="brew.md  JavaScript&#x3D;&#x3D;中的类型转换.md  JavaScript类型转换.md  Linux时区.md  SSH.md  apt.md  cdn.md  elasticsearch.md  install-elasticsearch.md  install-kibana.md  install-logstash.md  时间同步.md  kibana.md  logstas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="README">
+<meta property="og:url" content="https://kekek.cc/post/README.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="brew.md  JavaScript&#x3D;&#x3D;中的类型转换.md  JavaScript类型转换.md  Linux时区.md  SSH.md  apt.md  cdn.md  elasticsearch.md  install-elasticsearch.md  install-kibana.md  install-logstash.md  时间同步.md  kibana.md  logstas">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-08-16T02:44:29.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:author" content="tyk">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>README</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/atom-keymap.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/iptables.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=README&body=Check out this article: https://kekek.cc/post/README.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/README.html&title=README"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        README
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-08-16T02:44:29.000Z" itemprop="datePublished">2016-08-16</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li style="list-style: none"><input type="checkbox" checked> <a href="brew.md">brew.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="JavaScript==中的类型转换.md">JavaScript==中的类型转换.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="JavaScript类型转换.md">JavaScript类型转换.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="Linux时区.md">Linux时区.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="SSH.md">SSH.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="apt.md">apt.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="cdn.md">cdn.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="elasticsearch.md">elasticsearch.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-elasticsearch.md">install-elasticsearch.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-kibana.md">install-kibana.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-logstash.md">install-logstash.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="时间同步.md">时间同步.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="kibana.md">kibana.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="logstash.md">logstash.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="node模块查找策略.md">node模块查找策略.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="npm.md">npm.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="vscode-keymap.md">vscode-keymap.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="yum-zip.md">yum-zip.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="树莓派蓝牙.md">树莓派蓝牙.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="虚拟机网络.md">虚拟机网络.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="树莓派设置WIFI.md">树莓派设置WIFI.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="树莓派摄像头挂载.md">树莓派摄像头挂载.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="树莓派安装操作系统.md">树莓派安装操作系统.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="git-submodules.md">git子模块</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="iptables.md">iptables.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="atom-keymap.md">atom-keymap.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="process-thread-coroutine.md">进程线程协程</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="crontab.md">crontab.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="ip-mask.md">ip-mask.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="python字符编码.md">python字符编码.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="安装nginx.md">安装nginx.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="nginx常用模块.md">nginx常用模块.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="tar.md">tar.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="yum.md">yum.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="express-view.md">express-view.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="cookie.md">cookie.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="https.md">https.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="supervisor.md">supervisor.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="undefined.md">undefined.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="typeof&amp;instanceof.md">typeof&amp;instanceof.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="闭包.md">闭包.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="etag.md">etag.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="redis.md">redis</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="java-redis-session.md">java-redis-session.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx开机启动.md">nginx开机启动.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="linux-chkconfig.md">linux-chkconfig.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-openresty.md">install-openresty.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-grep.md">linux-grep.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="http-cache.md">HTTP缓存.md</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="计算机中的时间表示.md">计算机中的时间表示.md</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-kernel.md">Linux内核</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="环境变量.md">环境变量</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="Linux重定向.md">Linux重定向</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="Mac不能清空废纸篓.md">Mac不能清空废纸篓</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="mongoose-validation.md">mongoose-validation</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-docker.md">install-docker</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-端口.md">linux-端口</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="fish-shell.md">fish-shell</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-常用命令.md">linux-常用命令</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="Docker的镜像存放目录修改与迁移.md">Docker的镜像存放目录修改与迁移</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="阿里云docker镜像加速.md">阿里云docker镜像加速</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="OpenResty总结.md">OpenResty总结</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="Node.js性能问题排查.md">Node.js性能问题排查</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="Install-Docker-Compose.md">Install-Docker-Compose</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="zip.md">zip</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="http://t.cn/RfGBh0H" target="_blank" rel="noopener">Linux信号机制</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="http://t.cn/Rftexm0" target="_blank" rel="noopener">VSCode智能提示</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx-location.md">nginx-location</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx-virtual-host.md">Nginx虚拟主机</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx-http-limit.md">Nginx限流</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="telnet.md">telnet</a>  </li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="ab.md">ab</a>  </li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="pip.md">pip</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="python-virtualenv.md">python-virtualenv</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="tensorflow.md">tensorflow</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="protobuf.md">protobuf</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="notebook.md">notebook</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="iotop.md">iotop</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-python.md">install-python</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="gnu-paralell.md">gnu-paralell</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="pigz.md">pigz</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="VirtualBox-CentOS7.md">VirtualBox-CentOS7</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="rsync.md">rsync</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="synchronousVSasynchronous&amp;blockingVSnon-blocking.md">同步/异步&amp;阻塞/非阻塞</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="web-messaging.md">web通信</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="eslint.md">ESLint</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="node_modules.md">node_modules</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="page-auto-refresh.md">页面自动刷新</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="curl.md">curl</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="mysql.md">mysql</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="socket-error.md">socket常见错误</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-system-directory.md">linux系统目录</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nodejs-best-practice.md">Node.js最佳实践</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="rabbitmq.md">RabbitMQ</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nohup.md">nohup</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="GUID.md">GUID</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="jvm.md">Java虚拟机</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="speedtest.md">网速测试</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="httpstat.md">httpstat</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nodejs-dns-cache.md">nodejs-dns-cache</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="modify-dns.md">修改DNS</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="mysql-explain.md">Mysql Explain 解释</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="understand-docker.md">理解Docker</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="npm-config.md">NPM配置</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="soft-link&amp;hard-link.md">软连接与硬链接</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="localtunnel.md">localtunnel</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="spring-framework.md">Spring 核心框架体系结构</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="node-debugger.md">Node.js调试</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="prefetching-preloading-prebrowsing.md">网站预加载技术</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="html5-application-cache.md">HTML5 应用程序缓存</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="cors.md">跨域资源共享 CORS</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="compact-sparse-bundle-image.md">压缩稀疏镜像</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="git-delete-large-file.md">Git 清理大文件</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="bitwise-permission.md">位运算和权限管理系统</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="webp.md">WebP</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="mysql-binlog.md">MySQL Binlog</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="mysql-master-slave.md">MySQL 主从同步</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="make-makefile-cmake.md">make&amp;Makefile&amp;cmake</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="algorithmic-analysis.md">算法复杂度分析</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="intellij-keymap.md">Intellij快捷键</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="2fa.md">两步验证</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="java-logging.md">Java 中的日志库</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="vim.md">Vim 入门</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="zookeeper.md">Zookeeper 快速开始</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="kafka.md">Kafka 快速开始</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="select-vs-poll-vs-epoll.md">select vs poll vs epoll</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="java-lambda.md">Java Lambda</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="http.md">http</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="http2.md">http2</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="git.md">git</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="async-await.md">async/await</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="dig.md">dig</a></li>
+<li style="list-style: none"><input type="checkbox"> [分布式系统]</li>
+<li style="list-style: none"><input type="checkbox"> <a href="https://github.com/tencent-wechat/phxsql" target="_blank" rel="noopener">分布式数据库</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="consistent-hashing.md">一致性Hash</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx-root-alias.md">nginx-root-alias</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx-rewrite.md">nginx-rewrite</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="viewport.md">viewport</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="v8-heapdump.md">v8堆内存分析</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="nginx-proxy-cache.md">Nginx缓存配置</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="chunked-transfer-encoding.md">HTTP 分块传输编码</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-user-group.md">Linux 用户和用户组</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="mini-rpc.md">迷你RPC</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="traceroute.md">路由诊断</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="socks5.md">SOCKS5</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="browserify.md">Browserify</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="java.util.concurrent.md">Java并发</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="http.md">HTTP协议</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="chrome.md">Chrome使用及配置</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="dns.md">DNS协议</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="install-gcc.md">GCC</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="shadowsocks.md">Shadowsocks</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="http-vary.md">Http Vary</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="linux-service.md">Linux服务</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="file-mode.md">文件模式</a></li>
+<li style="list-style: none"><input type="checkbox" checked> <a href="java8-optional.md">Java8 Optional</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="transaction-isolation.md">事物隔离级别</a></li>
+<li style="list-style: none"><input type="checkbox"> <a href="awk.md">awk</a></li>
+</ul>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=README&body=Check out this article: https://kekek.cc/post/README.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/README.html&title=README"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

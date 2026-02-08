@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="部署全球CDN网络我们现在除了大陆的还有美国及东南亚的用户，在国内可以使用阿里或者腾讯的CDN服务。但是上面两家在国外的节点不是很多，而国外厂商有Amazon CloudFront和Cloudflare在大陆地区的服务又不好。那有没有办法让一个域名大陆用户使用阿里的服务，国外的用户是用CloudFront服务呢？ 答案是有的，我们知道现在主流的CDN都是采用CNAME的形式配置DNS。CNAME的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="部署全球CDN网络">
+<meta property="og:url" content="https://kekek.cc/post/global-cdn.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="部署全球CDN网络我们现在除了大陆的还有美国及东南亚的用户，在国内可以使用阿里或者腾讯的CDN服务。但是上面两家在国外的节点不是很多，而国外厂商有Amazon CloudFront和Cloudflare在大陆地区的服务又不好。那有没有办法让一个域名大陆用户使用阿里的服务，国外的用户是用CloudFront服务呢？ 答案是有的，我们知道现在主流的CDN都是采用CNAME的形式配置DNS。CNAME的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/global-dns.png">
+<meta property="og:image" content="https://kekek.cc/images/cdn-cn-kekek.png">
+<meta property="og:image" content="https://kekek.cc/images/cdn-world-kekek.png">
+<meta property="og:image" content="https://kekek.cc/images/dns-kekek.png">
+<meta property="article:published_time" content="2018-07-04T14:49:21.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:author" content="tyk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/global-dns.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>部署全球CDN网络</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/nginx-log.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/lrc-player.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=部署全球CDN网络&body=Check out this article: https://kekek.cc/post/global-cdn.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/global-cdn.html&title=部署全球CDN网络"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%85%A8%E7%90%83CDN%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">部署全球CDN网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">具体操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E5%86%85%E5%A4%96%E6%BA%90%E7%AB%99%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">国内外源站问题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        部署全球CDN网络
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tyk</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-07-04T14:49:21.000Z" itemprop="datePublished">2018-07-04</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="部署全球CDN网络"><a href="#部署全球CDN网络" class="headerlink" title="部署全球CDN网络"></a>部署全球CDN网络</h2><p>我们现在除了大陆的还有美国及东南亚的用户，在国内可以使用<a href="https://www.aliyun.com/product/cdn" target="_blank" rel="noopener">阿里</a>或者<a href="https://cloud.tencent.com/product/cdn" target="_blank" rel="noopener">腾讯</a>的CDN服务。但是上面两家在国外的节点不是很多，而国外厂商有<a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener">Amazon CloudFront</a>和<a href="https://www.cloudflare.com/" target="_blank" rel="noopener">Cloudflare</a>在大陆地区的服务又不好。那有没有办法让一个域名大陆用户使用阿里的服务，国外的用户是用CloudFront服务呢？</p>
+<p>答案是有的，我们知道现在主流的CDN都是采用CNAME的形式配置DNS。CNAME的核心就是智能DNS，那我们如果搭建一个DNS让它给国内外用户返回不同的CNAME不就解决了吗，也就是CDN的DNS。所幸，不用我们麻烦自己去搭建这个智能DNS，现在像阿里的云DNS和DNSPod都提供了比我们需求更强大的功能。下面是具体网络拓扑图：</p>
+<p><img src="/images/global-dns.png" alt="暂缺"></p>
+<h3 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h3><blockquote>
+<p>由于暂时没有Amazon CloudFront和Cloudflare账号，国外CDN我就用腾讯CDN模拟了。实际操作时将腾讯CDN换成Amazon CloudFront或Cloudflare即可。</p>
+</blockquote>
+<ol>
+<li><p>首先分别在阿里CDN和腾讯CDN开启服务</p>
+<p> 阿里CDN：s.kekek.cc.w.kunlunar.com.<br> <img src="/images/cdn-cn-kekek.png" alt="阿里CDN"></p>
+<p> 腾讯CDN：s.kekek.cc.cdn.dnsv1.com.<br> <img src="/images/cdn-world-kekek.png" alt="腾讯CDN"></p>
+</li>
+<li><p>为域名配置智能DNS</p>
+<p> 境外服务配置为腾讯DNS的CNAME，默认线路（境内）配置为阿里CDN的CNANME。<br> <img src="/images/dns-kekek.png" alt></p>
+</li>
+</ol>
+<p>下面我们测试一下线路：</p>
+<ol>
+<li><p>114dns</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ dig @114.114.114.114 s.kekek.cc CNAME</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; @114.114.114.114 s.kekek.cc CNAME</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 41126</span><br><span class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0</span><br><span class="line"></span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;s.kekek.cc.			IN	CNAME</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">s.kekek.cc.		600	IN	CNAME	s.kekek.cc.w.kunlunar.com.</span><br><span class="line"></span><br><span class="line">;; Query time: 2735 msec</span><br><span class="line">;; SERVER: 114.114.114.114#53(114.114.114.114)</span><br><span class="line">;; WHEN: Wed Jul 04 23:28:47 CST 2018</span><br><span class="line">;; MSG SIZE  rcvd: 67</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Cloudflare DNS</p>
+<blockquote>
+<p>使用 1.1.1.1 DNS相当于模拟用户在境外进行DNS查询。</p>
+</blockquote>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ dig @1.1.1.1 s.kekek.cc CNAME</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; @1.1.1.1 s.kekek.cc CNAME</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 5551</span><br><span class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1</span><br><span class="line"></span><br><span class="line">;; OPT PSEUDOSECTION:</span><br><span class="line">; EDNS: version: 0, flags:; udp: 1452</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;s.kekek.cc.			IN	CNAME</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">s.kekek.cc.		345	IN	CNAME	s.kekek.cc.cdn.dnsv1.com.</span><br><span class="line"></span><br><span class="line">;; Query time: 320 msec</span><br><span class="line">;; SERVER: 1.1.1.1#53(1.1.1.1)</span><br><span class="line">;; WHEN: Wed Jul 04 23:27:39 CST 2018</span><br><span class="line">;; MSG SIZE  rcvd: 77</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以看到我们我们使用114DNS时，返回的CNAME为<code>s.kekek.cc.w.kunlunar.com.</code>，对应的就是我们配置的阿里CDN。使用Cloudflare DNS是模拟海外用户得到的CNAME是<code>s.kekek.cc.cdn.dnsv1.com.</code>，这个刚好是我们腾讯的CDN。</p>
+<p>现在我们境内用户访问<a href="http://ss.kekek.cc" target="_blank" rel="noopener">s.kekek.cc</a>时就可以使用阿里的CDN提供加速了，境外用户访问时就可以由腾讯CDN提供加速服务了。</p>
+<h3 id="国内外源站问题"><a href="#国内外源站问题" class="headerlink" title="国内外源站问题"></a>国内外源站问题</h3><p>对于国内外是否是用同一个源站，两者都可。可以根据实际情况去测试哪种更符合自身业务，从洛杉矶到上海的最小延迟在<code>180ms</code>左右，也就是说境外用户访问首次加载的新资源时会出现比较严重的延迟。如果对首次加载延迟太在意可以使用一个源站，如果<strong>频繁</strong>回源可考虑境内境外使用不同的源站。</p>
+<p>使用不同源站时可以采用主动文件同步、<a href="nginx-proxy-cache.html">Nginx代理缓存</a>等方案同步两个源站资源。</p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%85%A8%E7%90%83CDN%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">部署全球CDN网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">具体操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E5%86%85%E5%A4%96%E6%BA%90%E7%AB%99%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">国内外源站问题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=部署全球CDN网络&body=Check out this article: https://kekek.cc/post/global-cdn.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/global-cdn.html&title=部署全球CDN网络"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

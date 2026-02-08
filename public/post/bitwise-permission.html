@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="简介在 Linux 文件系统中用户对文件有 读、写、执行三种权限，可以分别使用数字：4、2、1 三个数字来表示。三个数字任意组合可以表示不同的权限，例如： 7 （4 + 2 + 1）表示用户对对此文件拥有所有权限，6 （4 + 2）表示用户对此文件有读、写权限。 为什么是1、2、4 ？对于 读、写、执行 我们用0表示由此权限，1表示无此权限。12345678910读 写 执行        二进制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算和权限管理系统">
+<meta property="og:url" content="https://kekek.cc/post/bitwise-permission.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="简介在 Linux 文件系统中用户对文件有 读、写、执行三种权限，可以分别使用数字：4、2、1 三个数字来表示。三个数字任意组合可以表示不同的权限，例如： 7 （4 + 2 + 1）表示用户对对此文件拥有所有权限，6 （4 + 2）表示用户对此文件有读、写权限。 为什么是1、2、4 ？对于 读、写、执行 我们用0表示由此权限，1表示无此权限。12345678910读 写 执行        二进制">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-23T05:33:45.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="bitwise">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>位运算和权限管理系统</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/webp.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/compact-sparse-bundle-image.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=位运算和权限管理系统&body=Check out this article: https://kekek.cc/post/bitwise-permission.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/bitwise-permission.html&title=位运算和权限管理系统"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF1%E3%80%812%E3%80%814-%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">为什么是1、2、4 ？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">位运算实现权限操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%96%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E7%9A%84%E6%B7%BB%E5%8A%A0"><span class="toc-number">3.1.</span> <span class="toc-text">或运算实现权限的添加</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8E%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">3.2.</span> <span class="toc-text">与运算实现权限的判断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E7%9A%84%E5%87%8F%E5%B0%91"><span class="toc-number">3.3.</span> <span class="toc-text">非运算实现权限的减少</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E4%BC%B8"><span class="toc-number">4.</span> <span class="toc-text">延伸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        位运算和权限管理系统
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-03-23T05:33:45.000Z" itemprop="datePublished">2017-03-23</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/bitwise/" rel="tag">bitwise</a>, <a class="tag-link-link" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在 Linux 文件系统中用户对文件有 <code>读</code>、<code>写</code>、<code>执行</code>三种权限，可以分别使用数字：<code>4</code>、<code>2</code>、<code>1</code> 三个数字来表示。三个数字任意组合可以表示不同的权限，例如： 7 （4 + 2 + 1）表示用户对对此文件拥有所有权限，6 （4 + 2）表示用户对此文件有<code>读</code>、<code>写</code>权限。</p>
+<h3 id="为什么是1、2、4-？"><a href="#为什么是1、2、4-？" class="headerlink" title="为什么是1、2、4 ？"></a>为什么是1、2、4 ？</h3><p>对于 <code>读</code>、<code>写</code>、<code>执行</code> 我们用<code>0</code>表示由此权限，<code>1</code>表示无此权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">读 写 执行        二进制     十进制</span><br><span class="line">0  0  0    ==&gt;   000   ==&gt;   0</span><br><span class="line">0  0  1    ==&gt;   001   ==&gt;   1   // 执行</span><br><span class="line">0  1  0    ==&gt;   010   ==&gt;   2   // 写</span><br><span class="line">1  0  0    ==&gt;   100   ==&gt;   4   // 读</span><br><span class="line"></span><br><span class="line">0  1  1    ==&gt;   011   ==&gt;   3   // 执行 + 写</span><br><span class="line">1  0  1    ==&gt;   101   ==&gt;   5   // 读 + 执行</span><br><span class="line">1  1  0    ==&gt;   110   ==&gt;   6   // 读 + 写</span><br><span class="line">1  1  1    ==&gt;   111   ==&gt;   7   // 读 + 写 + 执行</span><br></pre></td></tr></table></figure></p>
+<p>为什么是<code>1</code>、<code>2</code>、<code>4</code>?<br><code>1</code>、<code>2</code>、<code>4</code> 的二进制表现形式是<code>001</code>、<code>010</code>、<code>100</code>，它们的二进制表现形式只有一位是<code>1</code>。这样，在权限叠加时，不会出现进位的情况。我们就可以判断最终结果的二进制位的<code>0</code>、<code>1</code>情况来判断是否有此权限。<br>例如<code>读 + 写</code> 权限 <code>101</code>。第一位<code>读</code>权限为<code>1</code>，有<code>读</code>权限。第二位<code>写</code>权限为<code>0</code>，无写权限。第三位<code>执行</code>权限为<code>1</code>表示有执行权限。</p>
+<h3 id="位运算实现权限操作"><a href="#位运算实现权限操作" class="headerlink" title="位运算实现权限操作"></a>位运算实现权限操作</h3><h4 id="或运算实现权限的添加"><a href="#或运算实现权限的添加" class="headerlink" title="或运算实现权限的添加"></a>或运算实现权限的添加</h4><p>增加权限使用<code>或</code>（<code>|</code>）运算实现。</p>
+<p>如，为用户增加“读取”、“写入”两种权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读   写   执行      二进制     十进制</span><br><span class="line">0    1    0   ==&gt;   010  ==&gt;  2</span><br><span class="line">1    0    0   ==&gt;   100  ==&gt;  4</span><br><span class="line">1    1    0   ==&gt;   110  ==&gt;  6  // 或（|）运算结果</span><br></pre></td></tr></table></figure></p>
+<p>“读写”两种权限，权限码为<code>6</code>（<code>110</code>），其由权限码<code>2</code>（<code>010</code>）和<code>4</code>（<code>100</code>）进行<code>或</code>（<code>|</code>）运算后实现，即：<code>6 = 2 | 4</code>，也可以由<code>6 = 2 + 4</code>计算得出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">addPermission (权限集值, 权限项) &#123;</span><br><span class="line">    return 权限集值 | 权限项</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="与运算实现权限的判断"><a href="#与运算实现权限的判断" class="headerlink" title="与运算实现权限的判断"></a>与运算实现权限的判断</h4><p>在需要进行用户权限判断时，可以使用<code>与</code>（<code>&amp;</code>）运算判断用户是否据有某项权限。</p>
+<p>如，判断权限码为<code>6</code>用户是否有读取权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读   写   执行      二进制     十进制</span><br><span class="line">1    1    0   ==&gt;   110  ==&gt;  6</span><br><span class="line">1    0    0   ==&gt;   100  ==&gt;  4</span><br><span class="line">1    0    0   ==&gt;   100  ==&gt;  4  // 与（&amp;）运算结果</span><br></pre></td></tr></table></figure></p>
+<p>权限码<code>6</code>（<code>110</code>）和<code>4</code>（<code>100</code>）的与运算结果为 <code>4</code>，即：<code>4 = 6 &amp; 4</code>。</p>
+<p>判断权限码为6用户是否有执行权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读   写   执行      二进制      十进制</span><br><span class="line">1    1    0   ==&gt;   110   ==&gt;  6</span><br><span class="line">0    0    1   ==&gt;   001   ==&gt;  1</span><br><span class="line">0    0    0   ==&gt;   000   ==&gt;  0  // 与（&amp;）运算结果</span><br></pre></td></tr></table></figure></p>
+<p>权限码<code>6</code>（<code>110</code>）和<code>1</code>（<code>001</code>）的与运算结果为<code>0</code>，即：<code>0 = 6 &amp; 1</code>。</p>
+<p>根据与运算的计算规律，当运算结果为所要判断权限本身值时，我们可以认为用户具有这个权限。而当运算结果为 <code>0</code> 时，我们可以认为用户不具有这个权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">checkPermission (权限集值, 权限项) &#123;</span><br><span class="line">    return 权限集值 &amp; 权限项 == 权限项</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="非运算实现权限的减少"><a href="#非运算实现权限的减少" class="headerlink" title="非运算实现权限的减少"></a>非运算实现权限的减少</h4><p>位运算同样可以实现用户权限的减少，减少用户权限使用<code>非</code>（<code>^</code>）运算。</p>
+<p>如，将权限码为<code>7</code>用户，移除执行权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读   写   执行      二进制      十进制</span><br><span class="line">1    1    1   ==&gt;   110   ==&gt;  7</span><br><span class="line">0    0    1   ==&gt;   001   ==&gt;  1</span><br><span class="line">1    1    0   ==&gt;   000   ==&gt;  6  // 非（^）运算结果</span><br></pre></td></tr></table></figure></p>
+<p>权限码<code>7</code>（<code>111</code>）和<code>1</code>（<code>001</code>）的非运算结果为<code>6</code>，即：<code>6 = 7 ^ 1</code>，也可以由<code>6 = 7 - 1</code>计算得出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deletePermission (权限集值, 权限项) &#123;</span><br><span class="line">    return 权限集值 ^ 权限项</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="延伸"><a href="#延伸" class="headerlink" title="延伸"></a>延伸</h3><p>如果权限集超过三种呢？<br>例子：用位权限表示<code>增</code>、<code>删</code>、<code>改</code>、<code>查</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">增 删 改  查        二进制     十进制</span><br><span class="line">0  0  0  0   ==&gt;   0000   ==&gt;   0</span><br><span class="line">0  0  0  1   ==&gt;   0001   ==&gt;   1   // 查</span><br><span class="line">0  0  1  0   ==&gt;   0010   ==&gt;   2   // 改</span><br><span class="line">0  1  0  0   ==&gt;   0100   ==&gt;   4   // 删</span><br><span class="line">1  0  0  0   ==&gt;   1000   ==&gt;   8   // 增</span><br><span class="line"></span><br><span class="line">0  0  1  1  ==&gt;   0011   ==&gt;   3   // 改 + 查</span><br><span class="line">0  1  1  1  ==&gt;   0111   ==&gt;   7   // 删 + 改 + 查</span><br><span class="line">1  1  1  1  ==&gt;   1111   ==&gt;   15  // 增 + 删 + 改 + 查</span><br><span class="line">1  0  1  1  ==&gt;   1011   ==&gt;   11  // 增 + 改 + 查</span><br></pre></td></tr></table></figure></p>
+<p>如果类型有<code>N</code>种，我们就用<code>N</code>位二进制来表示。</p>
+<blockquote>
+<p>位运算也有一些局限性，随着权限码增加，数据长度也相应的增长。这就要求权限码不能超过计算本身运算长度，在数据库中存储权限码时，权限码长度也不能的超过所使用数据类型。如：在32位系统中不能超过232，也就是权限数量不能多于32个。而mySQL数据库的BIGINT，其存储空间为8Byte，使用BIGINT存储存储码时，权限数不能多于64个(8*8-1)。</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://itbilu.com/other/relate/4yJxR6awl.html" target="_blank" rel="noopener">【1】</a> <a href="http://blog.csdn.net/ajian005/article/details/8490899" target="_blank" rel="noopener">【2】</a> <a href="https://xiaobin.net/200906/bitwise-permission/" target="_blank" rel="noopener">【3】</a></p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF1%E3%80%812%E3%80%814-%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">为什么是1、2、4 ？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">位运算实现权限操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%96%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E7%9A%84%E6%B7%BB%E5%8A%A0"><span class="toc-number">3.1.</span> <span class="toc-text">或运算实现权限的添加</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8E%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">3.2.</span> <span class="toc-text">与运算实现权限的判断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%E6%9D%83%E9%99%90%E7%9A%84%E5%87%8F%E5%B0%91"><span class="toc-number">3.3.</span> <span class="toc-text">非运算实现权限的减少</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E4%BC%B8"><span class="toc-number">4.</span> <span class="toc-text">延伸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=位运算和权限管理系统&body=Check out this article: https://kekek.cc/post/bitwise-permission.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/bitwise-permission.html&title=位运算和权限管理系统"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

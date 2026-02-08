@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="双重认证双重认证（英语：Two-factor authentication，缩写为2FA），是一种认证方法，使用两种不同的元素，合并在一起，来确认使用者的身份，是多因素验证中的一个特例。目前流行的主要是基于智能手机的两步验证，其中主流的又分 APP 方式和短信方式。 Google AuthenticatorGoogle Authenticator 是一种 APP 方式的两步验证。谷歌验证应用的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="两步验证">
+<meta property="og:url" content="https://kekek.cc/post/2fa.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="双重认证双重认证（英语：Two-factor authentication，缩写为2FA），是一种认证方法，使用两种不同的元素，合并在一起，来确认使用者的身份，是多因素验证中的一个特例。目前流行的主要是基于智能手机的两步验证，其中主流的又分 APP 方式和短信方式。 Google AuthenticatorGoogle Authenticator 是一种 APP 方式的两步验证。谷歌验证应用的使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/WechatIMG47.jpeg">
+<meta property="article:published_time" content="2017-04-18T14:48:51.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.481Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="2fa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/WechatIMG47.jpeg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>两步验证</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/zookeeper.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/intellij-keymap.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=两步验证&body=Check out this article: https://kekek.cc/post/2fa.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/2fa.html&title=两步验证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E9%87%8D%E8%AE%A4%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">双重认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Google-Authenticator"><span class="toc-number">2.</span> <span class="toc-text">Google Authenticator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Google-%E4%B8%A4%E6%AD%A5%E9%AA%8C%E8%AF%81%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">Google 两步验证的原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TOTP"><span class="toc-number">2.2.</span> <span class="toc-text">TOTP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HOTP"><span class="toc-number">2.3.</span> <span class="toc-text">HOTP</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        两步验证
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-04-18T14:48:51.000Z" itemprop="datePublished">2017-04-18</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/2fa/" rel="tag">2fa</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="双重认证"><a href="#双重认证" class="headerlink" title="双重认证"></a>双重认证</h3><p>双重认证（英语：Two-factor authentication，缩写为2FA），是一种认证方法，使用两种不同的元素，合并在一起，来确认使用者的身份，是多因素验证中的一个特例。目前流行的主要是基于智能手机的两步验证，其中主流的又分 APP 方式和短信方式。</p>
+<h3 id="Google-Authenticator"><a href="#Google-Authenticator" class="headerlink" title="Google Authenticator"></a>Google Authenticator</h3><p>Google Authenticator 是一种 APP 方式的两步验证。谷歌验证应用的使用方法是：用户安装手机客户端，生成临时身份验证码，提交到服务器验证身份。</p>
+<h4 id="Google-两步验证的原理"><a href="#Google-两步验证的原理" class="headerlink" title="Google 两步验证的原理"></a>Google 两步验证的原理</h4><p>服务器首先要给每个用户生成一个 KEY，然后按照 <code>HOTP</code>（HMAC-based One-time Password） 或者 <code>TOTP</code>（Time-Based One-Time Password） 协议生成 <code>CODE</code>，根据协议不同，生成的 <code>CODE</code> 分别是<code>基于计数</code>的或者<code>基于时间</code>的。<br><img src="/images/WechatIMG47.jpeg" alt></p>
+<h4 id="TOTP"><a href="#TOTP" class="headerlink" title="TOTP"></a>TOTP</h4><ol>
+<li><p>共享密钥<br> 服务器端生成一个32位的密钥，共享给客户端。</p>
+</li>
+<li><p>客户端生成随机令牌<br> 客户端根据当前时间片和共享密钥生成一个随机令牌。</p>
+<blockquote>
+<p>这里比较重要的是用户手机时间要准确</p>
+</blockquote>
+</li>
+<li><p>服务器验签<br> 服务器端根据当前时间和共享密钥生成一个随机令牌，两者比对。</p>
+<blockquote>
+<p>服务器使用和客户端同样的共享密钥和时间片得到的随机令牌，两者是一样的。  </p>
+</blockquote>
+<p> 伪代码</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmac = SHA1(secret + SHA1(secret + input))</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>服务器时间和客户端时间可能不一致，这样就会导致服务器计算的令牌与用户输入的不同，验证失败。解决这个问题个一个方法是，服务器计算当前时间片以及前面的 n 个时间片内的一次性密码值，只要其中有一个与用户输入的密码相同，则验证通过。当然，n 不能太大，否则会降低安全性。</p>
+<h4 id="HOTP"><a href="#HOTP" class="headerlink" title="HOTP"></a>HOTP</h4><ol>
+<li><p>共享密钥和计数器<br> 服务器端生成一个32位密钥，另外客户端和服务器各有一个计数器C，并且事先将计数值同步。</p>
+</li>
+<li><p>客户端生成随机令牌<br> 客户端根据共享密钥和计数器的组合生成一个生成一个随机令牌，生成后客户端计数器计数值加1。</p>
+</li>
+<li><p>服务器验签<br> 服务器同样根据共享密钥和计数器生成一个随机令牌，两者比对。如果相同，服务器计数器加1。</p>
+</li>
+</ol>
+<blockquote>
+<p>如果验证失败或者客户端不小心多进行了一次生成密码操作，那么服务器和客户端之间的计数器C将不再同步，因此需要有一个重新同步（Resynchronization）的机制。</p>
+</blockquote>
+<p><code>HOTP</code> 算法中的计数器类似于 <code>TOTP</code> 中的时间片。<code>TOTP</code> 接收完共享密钥后就不需要和服务器进行交互了，<code>HOTP</code> 后面还需要和服务器同步计数器。这样看来 <code>TOTP</code>的方式可用性更高（特别是在国内不能访问Google服务的情况下），实现也更加简单。另外，为了安全两者本地的功效密钥都不能被第三方获知。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/20462696" target="_blank" rel="noopener">【1】</a> <a href="http://www.infoq.com/cn/news/2014/09/system-verification" target="_blank" rel="noopener">【2】</a> <a href="http://blog.zlxstar.me/blog/2015/09/02/qian-tan-liang-bu-yan-zheng/" target="_blank" rel="noopener">【3】</a> <a href="https://linux.cn/article-2641-1.html" target="_blank" rel="noopener">【4】</a></p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E9%87%8D%E8%AE%A4%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">双重认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Google-Authenticator"><span class="toc-number">2.</span> <span class="toc-text">Google Authenticator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Google-%E4%B8%A4%E6%AD%A5%E9%AA%8C%E8%AF%81%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">Google 两步验证的原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TOTP"><span class="toc-number">2.2.</span> <span class="toc-text">TOTP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HOTP"><span class="toc-number">2.3.</span> <span class="toc-text">HOTP</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=两步验证&body=Check out this article: https://kekek.cc/post/2fa.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/2fa.html&title=两步验证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

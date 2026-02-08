@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="Http Cachehttp缓存主要有两个地方，浏览器和缓存服务器。    参数 含义     Age Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。   Date Date 表明创建 HTTP 报文的日期和时间。   Cache-Control:max-age 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP缓存.md">
+<meta property="og:url" content="https://kekek.cc/post/http-cache.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="Http Cachehttp缓存主要有两个地方，浏览器和缓存服务器。    参数 含义     Age Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。   Date Date 表明创建 HTTP 报文的日期和时间。   Cache-Control:max-age 定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/QQ20160906-0@2x.jpg">
+<meta property="og:image" content="https://kekek.cc/images/QQ20170505-140727@2x.jpg">
+<meta property="og:image" content="https://kekek.cc/images/QQ20170505-142938@2x.jpg">
+<meta property="article:published_time" content="2016-09-06T09:53:51.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.483Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="cache">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/QQ20160906-0@2x.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>HTTP缓存.md</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/linux-kernel.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/java-redis-session.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=HTTP缓存.md&body=Check out this article: https://kekek.cc/post/http-cache.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/http-cache.html&title=HTTP缓存.md"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Http-Cache"><span class="toc-number">1.</span> <span class="toc-text">Http Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E6%B3%A8"><span class="toc-number">2.</span> <span class="toc-text">备注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E5%86%8D%E9%AA%8C%E8%AF%81"><span class="toc-number">3.</span> <span class="toc-text">浏览器缓存再验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        HTTP缓存.md
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-09-06T09:53:51.000Z" itemprop="datePublished">2016-09-06</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/cache/" rel="tag">cache</a>, <a class="tag-link-link" href="/tags/http/" rel="tag">http</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Http-Cache"><a href="#Http-Cache" class="headerlink" title="Http Cache"></a>Http Cache</h3><p>http缓存主要有两个地方，浏览器和缓存服务器。<br><img src="/images/QQ20160906-0@2x.jpg" alt></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Age</td>
+<td>Age 能告知客户端,源服务器在多久前创建了响应。字段 值的单位为秒。表示缓存服务器拿缓存了多久。</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Date 表明创建 HTTP 报文的日期和时间。</td>
+</tr>
+<tr>
+<td>Cache-Control:max-age</td>
+<td>定义了文档的最大使用期——从第一次生成文档到文档不再新鲜、无法使用为止,最大的合法生存时间(以秒为单位) Cache-Control: max-age=484200</td>
+</tr>
+<tr>
+<td>Expires</td>
+<td>指定一个绝对的过期日期。如果过期日期已经过了,就说明文档不再新鲜了 Expires: Fri, 05 Jul 2002, 05:00:00 GMT。如果是缓存服务器，缓存服务器在这段时间内不会再去请求源服务器。Expires是HTTP/1.0的写法，HTTP/1.1使用Cache-Control:max-age。</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>Pragma 是 HTTP/1.1 之前版本的历史遗留字段。 Cache-Control: no-cache和  Pragma: no-cache含义一样。</td>
+</tr>
+<tr>
+<td>Last-Modified</td>
+<td>资源的最新修改时间，和If-Modified-Since是一对。</td>
+</tr>
+<tr>
+<td>If-Modified-Since:date</td>
+<td>客户端再次发送请求时会带上响应时Last-Modified的值，服务端会根据日期去比对资源是否是旧的。</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>它是一种可将资源以字符串形式做唯一性标识的方式。服务器会为每份资源分配对应的 ETag 值。客户端再发请求时会在If-None-Match带上ETag的值，服务器端回去比对是否一致，如果一致则响应304，不再发送响应体。</td>
+</tr>
+<tr>
+<td>If-None-Match:tags</td>
+<td>和Etag是一对</td>
+</tr>
+</tbody>
+</table>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><blockquote>
+<p>Expires 首部和 Cache-Control: max-age 首部所做的事情本质上是一样的,但由于 Cache-Control 首部使用的是相对时间而不是绝对日期,所以我们更倾向于使用比较新的 Cache-Control 首部。绝对日期依赖于计算机时钟的正确设置。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>仅仅是已缓存文档过期了并不意味着它和原始服务器上目前处于活跃状态的文档有实际的区别;这只是意味着到了要进行核对的时间了。这种情况被称为“服务器再 验证”,说明缓存需要询问原始服务器文档是否发生了变化。</p>
+<ul>
+<li>如果再验证显示内容发生了变化,缓存会获取一份新的文档副本,并将其存储在旧文档的位置上,然后将文档发送给客户端。</li>
+<li>如果再验证显示内容没有发生变化,缓存只需要获取新的首部,包括一个新的过期日期,并对缓存中的首部进行更新就行了。</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p>If-Modified-Since 首部可以与 Last-Modified 服务器响应首部配合工作。原始 服务器会将最后的修改日期附加到所提供的文档上去。当缓存要对已缓存文档进行 再验证时,就会包含一个 If-Modified-Since 首部,其中携带有最后修改已缓存副 本的日期:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Modified-Since: &lt;cached last-modified date&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="浏览器缓存再验证"><a href="#浏览器缓存再验证" class="headerlink" title="浏览器缓存再验证"></a>浏览器缓存再验证</h3><ol>
+<li><p>检查本地有没有缓存。如果没有直接发出请求，如果有则检查缓存是否过期。</p>
+</li>
+<li><p>服务器用 HTTP/1.0+ 的 Expires 首部或 HTTP/1.1 的 Cache-Control: max-age 响应首部来指定过期日期。如果响应中没有 Cache-Control: max-age 首部，也没有 Expires 首部，缓存可以计算出一个<code>试探性最大使用期</code>。LM-Factor 算法是一种很常用的试探性过期算法，算法的逻辑如下所示。</p>
+<ul>
+<li>如果已缓存文档最后一次修改发生在很久以前，它可能会是一份稳定的文档，不 太会突然发生变化，因此将其继续保存在缓存中会比较安全。</li>
+<li>如果已缓存文挡最近被修改过，就说明它很可能会频繁地发生变化，因此在与服 务器进行再验证之前，只应该将其缓存很短一段时间。<br><a href="https://tools.ietf.org/html/rfc2616#section-13.2.2" target="_blank" rel="noopener"><img src="/images/QQ20170505-140727@2x.jpg" alt></a><blockquote>
+<p>这个 <code>试探性最大使用期</code> 的值和文档修改日期有关，也就是响应头中的 <code>Last-Modified</code> 首部。如果 <code>Last-Modified</code> 日期距今比较久，就会算出来一个比较长的 <code>试探性最大使用期</code> 。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>如果缓存没有过期，直接使用缓存，不再发出请求。如果仅仅是已缓存文档过期了并不意味着它和原始服务器上目前处于活跃状态的文档有实际的区别，这只是意味着到了要进行核对的时间了。这种情况被称为<code>服务器再验证</code>，说明缓存需要询问原始服务器文档是否发生了变化。最常见的缓存再验证首部是 If-Modified-Since 和 If-None-Match 。If-Modified-Since 与 Last-Modified 服务器响应首部配合工作，If-None-Match 与 ETag 服务器响应首部配合工作。如果服务器验证文档没被修改过，条件就为假，会向客户端返回一个小的 304 Not Modified 响应报文，为了提高有效性，不会返回文档的主体。如果文档呗修改了，服务器会在一个 200 OK 响应中返回新的内容以及相应的新 Last-Modified 和 Etag。</p>
+</li>
+</ol>
+<blockquote>
+<p>正常情况下服务器都应该明确指定过期时间，如果没有提供过期时间并且提供了 Last-Modified time 浏览器就会给我们算出来一个过期时间。这个时间是隐式的，再次发出请求时浏览器回去根据这个 <code>试探性最大使用期</code> 检查文档是否过期。如果没有过期，就不会再进行 revalidated ，我们也就不会看到发出请求响应 304 的情况（304 是进行在验证的结果）。如果我们希望浏览器都回去服务器进行 revalidated，可以设置响应头 <code>Cache-Control: max-age=0</code>。</p>
+</blockquote>
+<p><a href="https://tools.ietf.org/html/rfc2616#section-13.2.6" target="_blank" rel="noopener"><img src="/images/QQ20170505-142938@2x.jpg" alt></a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>《HTTP权威指南》 《图解HTTP》</p>
+<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn" target="_blank" rel="noopener">Google developers HTTP 缓存</a><br><a href="https://tools.ietf.org/html/rfc2616#section-13.2.2" target="_blank" rel="noopener">Heuristic Expiration</a><br><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.6" target="_blank" rel="noopener">revalidate cache use Cache-Control</a><br><a href="https://jakearchibald.com/2016/caching-best-practices/" target="_blank" rel="noopener">Caching best practices</a><br><a href="http://www.alloyteam.com/2016/03/discussion-on-web-caching/" target="_blank" rel="noopener">浅谈Web缓存</a></p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Http-Cache"><span class="toc-number">1.</span> <span class="toc-text">Http Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E6%B3%A8"><span class="toc-number">2.</span> <span class="toc-text">备注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E5%86%8D%E9%AA%8C%E8%AF%81"><span class="toc-number">3.</span> <span class="toc-text">浏览器缓存再验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=HTTP缓存.md&body=Check out this article: https://kekek.cc/post/http-cache.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/http-cache.html&title=HTTP缓存.md"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

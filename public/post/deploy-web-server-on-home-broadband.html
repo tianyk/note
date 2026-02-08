@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="在家庭宽带部署Web服务器端口映射局域网到公网要经过一层net地址转换，在路由器中有一张表记录着：    内网端口 服务器IP 服务器端口     80 192.168.1.10 80    我们要搭建Web服务器就需要把80端口配置到这张表中，  注意：北京地区家庭宽带80端口被封，可以使用HTTPS443端口。  随着这些年宽带提速以及各种直播类的需求现在家庭宽带上行速度已经不是问题。 动态域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在家庭宽带部署Web服务器">
+<meta property="og:url" content="https://kekek.cc/post/deploy-web-server-on-home-broadband.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="在家庭宽带部署Web服务器端口映射局域网到公网要经过一层net地址转换，在路由器中有一张表记录着：    内网端口 服务器IP 服务器端口     80 192.168.1.10 80    我们要搭建Web服务器就需要把80端口配置到这张表中，  注意：北京地区家庭宽带80端口被封，可以使用HTTPS443端口。  随着这些年宽带提速以及各种直播类的需求现在家庭宽带上行速度已经不是问题。 动态域">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-10T09:35:57.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.482Z">
+<meta property="article:author" content="tyk">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>在家庭宽带部署Web服务器</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/network-attached-storage.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/systemd.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=在家庭宽带部署Web服务器&body=Check out this article: https://kekek.cc/post/deploy-web-server-on-home-broadband.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/deploy-web-server-on-home-broadband.html&title=在家庭宽带部署Web服务器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E9%83%A8%E7%BD%B2Web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">在家庭宽带部署Web服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="toc-number">1.1.</span> <span class="toc-text">端口映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">动态域名解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87"><span class="toc-number">1.3.</span> <span class="toc-text">设备</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        在家庭宽带部署Web服务器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tyk</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-09-10T09:35:57.000Z" itemprop="datePublished">2018-09-10</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="在家庭宽带部署Web服务器"><a href="#在家庭宽带部署Web服务器" class="headerlink" title="在家庭宽带部署Web服务器"></a>在家庭宽带部署Web服务器</h2><h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p>局域网到公网要经过一层net地址转换，在路由器中有一张表记录着：</p>
+<table>
+<thead>
+<tr>
+<th>内网端口</th>
+<th>服务器IP</th>
+<th>服务器端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>80</td>
+<td>192.168.1.10</td>
+<td>80</td>
+</tr>
+</tbody>
+</table>
+<p>我们要搭建Web服务器就需要把80端口配置到这张表中，</p>
+<blockquote>
+<p>注意：北京地区家庭宽带80端口被封，可以使用HTTPS443端口。</p>
+</blockquote>
+<p>随着这些年宽带提速以及各种直播类的需求现在家庭宽带上行速度已经不是问题。</p>
+<h3 id="动态域名解析"><a href="#动态域名解析" class="headerlink" title="动态域名解析"></a>动态域名解析</h3><p>家庭宽带有个特点不是固定IP，每次重新拨号就会分配一个新的IP。这就要使用动态域名解析服务了，像花生壳之类的软件。我们也可以基于阿里云提供的<a href="https://help.aliyun.com/document_detail/29739.html" target="_blank" rel="noopener">DNS API</a>自己来实现这个功能：</p>
+<figure class="highlight js"><figcaption><span>ddns.js</span><a href="/downloads/code/ddns.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">'url'</span>);</span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">const</span> https = <span class="built_in">require</span>(<span class="string">'https'</span>);</span><br><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> stringCompare = <span class="built_in">String</span>.prototype.localeCompare;</span><br><span class="line"><span class="keyword">const</span> padStart = <span class="built_in">String</span>.prototype.padStart;</span><br><span class="line"><span class="keyword">const</span> padEnd = <span class="built_in">String</span>.prototype.padEnd;</span><br><span class="line"></span><br><span class="line"><span class="comment">// accesskeys 访问&lt;https://ram.console.aliyun.com/#/user/list&gt;申请</span></span><br><span class="line"><span class="keyword">const</span> ACCESS_KEY_ID = <span class="string">'YOUR_ACCESS_KEY_ID'</span>;</span><br><span class="line"><span class="keyword">const</span> ACCESS_KEY_SECRET = <span class="string">'YOUR_ACCESS_KEY_SECRET'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 比较字符串</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * String.prototype.localeCompare 算法有问题 AA &gt; Aa </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="variable">str1</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="variable">str2</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compareString</span>(<span class="params">str1, str2</span>) </span>{</span><br><span class="line">    <span class="keyword">const</span> len1 = str1.length;</span><br><span class="line">    <span class="keyword">const</span> len2 = str2.length;</span><br><span class="line">    <span class="keyword">const</span> lim = <span class="built_in">Math</span>.min(len1, len2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> str1codes = str1.split(<span class="string">''</span>).map(<span class="function"><span class="params">char</span> =&gt;</span> char.codePointAt(<span class="number">0</span>));</span><br><span class="line">    <span class="keyword">const</span> str2codes = str2.split(<span class="string">''</span>).map(<span class="function"><span class="params">char</span> =&gt;</span> char.codePointAt(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> k = <span class="number">0</span>, c1, c2;</span><br><span class="line">    <span class="keyword">while</span> (k &lt; lim) {</span><br><span class="line">        c1 = str1codes[k];</span><br><span class="line">        c2 = str2codes[k];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (c1 !== c2) {</span><br><span class="line">            <span class="keyword">return</span> c1 - c2;</span><br><span class="line">        }</span><br><span class="line">        k++;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> len1 - len2;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sha1</span>(<span class="params">str, key</span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> crypto.createHmac(<span class="string">'sha1'</span>, key)</span><br><span class="line">        .update(str)</span><br><span class="line">        .digest()</span><br><span class="line">        .toString(<span class="string">'base64'</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取时间字符串 YYYY-MM-DDTHH:mm:ssZ</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="variable">date</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">utcDateFormat</span>(<span class="params">time</span>) </span>{</span><br><span class="line">    <span class="comment">// YYYY-MM-DDTHH:mm:ss.sssZ include milliseconds</span></span><br><span class="line">    <span class="comment">// return time.toISOString().match(/^(\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2})/)[1] + 'Z';</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> year = time.getUTCFullYear();</span><br><span class="line">    <span class="keyword">const</span> month = padStart.call(time.getUTCMonth() + <span class="number">1</span>, <span class="number">2</span>, <span class="string">'0'</span>);</span><br><span class="line">    <span class="keyword">const</span> date = padStart.call(time.getUTCDate(), <span class="number">2</span>, <span class="string">'0'</span>);</span><br><span class="line">    <span class="keyword">const</span> hours = padStart.call(time.getUTCHours(), <span class="number">2</span>, <span class="string">'0'</span>);</span><br><span class="line">    <span class="keyword">const</span> minutes = padStart.call(time.getUTCMinutes(), <span class="number">2</span>, <span class="string">'0'</span>);</span><br><span class="line">    <span class="keyword">const</span> secounds = padStart.call(time.getUTCSeconds(), <span class="number">2</span>, <span class="string">'0'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">${year}</span>-<span class="subst">${month}</span>-<span class="subst">${date}</span>T<span class="subst">${hours}</span>:<span class="subst">${minutes}</span>:<span class="subst">${secounds}</span>Z`</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字符串编码（阿里规则）</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 规则：&lt;https://help.aliyun.com/document_detail/29747.html&gt; 1.b</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="variable">str</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">percentEncode</span>(<span class="params">str</span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">encodeURIComponent</span>(str).replace(<span class="string">'+'</span>, <span class="string">'%20'</span>).replace(<span class="string">'*'</span>, <span class="string">'%2A'</span>).replace(<span class="string">'%7E'</span>, <span class="string">'~'</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * HTTPs GET</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="type">{ url, timeout = 5000, json = true }</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>query 请求参数对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>json 如果为true并且content-type为application/json的情况下会反序列化</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns </span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws </span>如果响应码为4xx或者5xx响应会作为错误抛出</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">{ url: uri, query = {}, timeout = <span class="number">5000</span>, json = true }</span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        <span class="comment">// 合并query</span></span><br><span class="line">        <span class="keyword">const</span> urlObject = url.parse(uri, <span class="literal">true</span>);</span><br><span class="line">        <span class="built_in">Object</span>.assign(urlObject.query, query);</span><br><span class="line">        urlObject.search = <span class="literal">null</span>;</span><br><span class="line">        uri = url.format(urlObject);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// support HTTPs</span></span><br><span class="line">        <span class="keyword">let</span> protocol;</span><br><span class="line">        <span class="keyword">if</span> (urlObject.protocol === <span class="string">'https:'</span>) protocol = https;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (urlObject.protocol === <span class="string">'http:'</span>) protocol = http;</span><br><span class="line">        <span class="keyword">else</span> { <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`unsupported protocol [<span class="subst">${urlObject.protocol}</span>]`</span>) };</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> req = protocol.get(uri)</span><br><span class="line">        req.setTimeout(timeout);</span><br><span class="line">        req.on(<span class="string">'timeout'</span>, () =&gt; req.abort());</span><br><span class="line"></span><br><span class="line">        req.on(<span class="string">'response'</span>, (res) =&gt; {</span><br><span class="line">            res.setEncoding(<span class="string">'utf8'</span>);</span><br><span class="line">            <span class="keyword">const</span> { statusCode, headers } = res;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">let</span> rawData = <span class="string">''</span>;</span><br><span class="line">            res.on(<span class="string">'data'</span>, (chunk) =&gt; { rawData += chunk; });</span><br><span class="line">            res.on(<span class="string">'end'</span>, () =&gt; {</span><br><span class="line">                <span class="keyword">let</span> data = rawData;</span><br><span class="line">                <span class="keyword">if</span> (json &amp;&amp; <span class="number">-1</span> !== headers[<span class="string">'content-type'</span>].indexOf(<span class="string">'application/json'</span>)) {</span><br><span class="line">                    data = <span class="built_in">JSON</span>.parse(rawData);</span><br><span class="line">                }</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (statusCode &gt;= <span class="number">400</span>) {</span><br><span class="line">                    reject(data);</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    resolve(data);</span><br><span class="line">                }</span><br><span class="line">            });</span><br><span class="line">        });</span><br><span class="line"></span><br><span class="line">        req.on(<span class="string">'error'</span>, reject);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params">time</span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'operation timed out'</span>));</span><br><span class="line">        }, time);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询本机公网IP</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">findMyIP</span>(<span class="params"></span>) </span>{</span><br><span class="line">    <span class="keyword">const</span> rawData = <span class="keyword">await</span> <span class="built_in">Promise</span>.race([</span><br><span class="line">        request({ <span class="attr">url</span>: <span class="string">'http://myip.ipip.net'</span>, <span class="attr">json</span>: <span class="literal">false</span> }),</span><br><span class="line">        <span class="comment">// request({ url: 'http://ipinfo.io', json: false }),</span></span><br><span class="line">        request({ <span class="attr">url</span>: <span class="string">'https://api.ipify.org'</span>, <span class="attr">json</span>: <span class="literal">false</span> })</span><br><span class="line">    ]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> match = rawData.match(<span class="regexp">/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/</span>);</span><br><span class="line">    <span class="keyword">if</span> (!match) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`无法解析IP。<span class="subst">${rawData}</span>`</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> match[<span class="number">1</span>];</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 生成公共参数</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 参考：&lt;https://help.aliyun.com/document_detail/29745.html&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="type">{ accessKeyId, format = 'JSON', signatureNonce = Math.random(), timestamp = utcDateFormat(new Date()) }</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generatePublicParams</span>(<span class="params">{ accessKeyId, format = <span class="string">'JSON'</span>, signatureNonce = Math.random(</span>), <span class="title">timestamp</span> = <span class="title">utcDateFormat</span>(<span class="params">new Date(</span>)) }) </span>{</span><br><span class="line">    <span class="keyword">return</span> {</span><br><span class="line">        <span class="string">'AccessKeyId'</span>: accessKeyId,</span><br><span class="line">        <span class="string">'Format'</span>: format,</span><br><span class="line">        <span class="string">'Version'</span>: <span class="string">'2015-01-09'</span>,</span><br><span class="line">        <span class="string">'SignatureMethod'</span>: <span class="string">'HMAC-SHA1'</span>,</span><br><span class="line">        <span class="string">'SignatureNonce'</span>: signatureNonce,</span><br><span class="line">        <span class="string">'SignatureVersion'</span>: <span class="string">'1.0'</span>,</span><br><span class="line">        <span class="string">'Timestamp'</span>: timestamp</span><br><span class="line">    };</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 签名</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 规则：&lt;https://help.aliyun.com/document_detail/29747.html&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="type">{ params, accesskeySecret }</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sign</span>(<span class="params">{ params, accesskeySecret }</span>) </span>{</span><br><span class="line">    <span class="keyword">const</span> query = <span class="built_in">Object</span>.entries(params)</span><br><span class="line">        .sort(<span class="function">(<span class="params">param1, param2</span>) =&gt;</span> compareString(param1[<span class="number">0</span>], param2[<span class="number">0</span>]))</span><br><span class="line">        .map(<span class="function">(<span class="params">[key, val]</span>) =&gt;</span> [percentEncode(key), percentEncode(val)])</span><br><span class="line">        .map(<span class="function"><span class="params">param</span> =&gt;</span> param.join(<span class="string">'='</span>))</span><br><span class="line">        .join(<span class="string">'&amp;'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> stringToSign = <span class="string">'GET&amp;'</span> + percentEncode(<span class="string">'/'</span>) + <span class="string">'&amp;'</span> + percentEncode(query);</span><br><span class="line">    <span class="keyword">const</span> signStr = sha1(stringToSign, <span class="string">`<span class="subst">${accesskeySecret}</span>&amp;`</span>);</span><br><span class="line">    <span class="keyword">return</span> signStr;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 请求接口</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="type">{ params, accessKeyId, accesskeySecret }</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">callApi</span>(<span class="params">{ params, accessKeyId, accesskeySecret }</span>) </span>{</span><br><span class="line">    <span class="comment">// 签名</span></span><br><span class="line">    <span class="keyword">const</span> signStr = sign({ params, accesskeySecret });</span><br><span class="line">    params[<span class="string">'Signature'</span>] = signStr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> data = <span class="keyword">await</span> request({ <span class="attr">url</span>: <span class="string">'https://alidns.aliyuncs.com/'</span>, <span class="attr">query</span>: params });</span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取解析记录列表</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 参考：&lt;https://help.aliyun.com/document_detail/29776.html&gt;</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="type">{ domainName, rrKeyWord, pageNumber = 1, pageSize = 20, typeKeyWord = 'A', accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">describeDomainRecords</span>(<span class="params">{ domainName, rrKeyWord, pageNumber = <span class="number">1</span>, pageSize = <span class="number">20</span>, typeKeyWord = <span class="string">'A'</span>, accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }</span>) </span>{</span><br><span class="line">    <span class="keyword">const</span> params = {</span><br><span class="line">        <span class="string">'Action'</span>: <span class="string">'DescribeDomainRecords'</span>,</span><br><span class="line">        <span class="string">'DomainName'</span>: domainName,</span><br><span class="line">        <span class="string">'PageNumber'</span>: pageNumber,</span><br><span class="line">        <span class="string">'PageSize'</span>: pageSize,</span><br><span class="line">        <span class="string">'RRKeyWord'</span>: rrKeyWord,</span><br><span class="line">        <span class="string">'TypeKeyWord'</span>: typeKeyWord</span><br><span class="line">    };</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Object</span>.assign(params, generatePublicParams({ accessKeyId }));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> resp = <span class="keyword">await</span> callApi({ params, accessKeyId, accesskeySecret });</span><br><span class="line">    <span class="keyword">return</span> resp;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 修改解析记录</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 参考：&lt;https://help.aliyun.com/document_detail/29774.html&gt;</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">{*}</span> <span class="type">{ recordId, rr, value, type = 'A', ttl = 600, line = 'default', accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>ttl 基础版最小600秒</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">updateDomainRecord</span>(<span class="params">{ recordId, rr, value, type = <span class="string">'A'</span>, ttl = <span class="number">600</span>, line = <span class="string">'default'</span>, accessKeyId = ACCESS_KEY_ID, accesskeySecret = ACCESS_KEY_SECRET }</span>) </span>{</span><br><span class="line">    <span class="keyword">const</span> params = {</span><br><span class="line">        <span class="string">'Action'</span>: <span class="string">'UpdateDomainRecord'</span>,</span><br><span class="line">        <span class="string">'RecordId'</span>: recordId,</span><br><span class="line">        <span class="string">'RR'</span>: rr,</span><br><span class="line">        <span class="string">'Type'</span>: type,</span><br><span class="line">        <span class="string">'Value'</span>: value,</span><br><span class="line">        <span class="string">'TTL'</span>: ttl,</span><br><span class="line">        <span class="string">'Line'</span>: line</span><br><span class="line">    };</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Object</span>.assign(params, generatePublicParams({ accessKeyId }));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> resp = <span class="keyword">await</span> callApi({ params, accessKeyId, accesskeySecret });</span><br><span class="line">    <span class="keyword">return</span> resp;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// findMyIP().then(console.log).catch(console.error);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// describeDomainRecords({ domainName: 'kekek.cc', rrKeyWord: 'www' }).then((recoder) =&gt; {</span></span><br><span class="line"><span class="comment">//     console.log(JSON.stringify(recoder, null, 2))</span></span><br><span class="line"><span class="comment">// }).catch(console.error)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// updateDomainRecord({ recordId: '3535020439014400', rr: 'www', value: '202.106.0.21' }).then(console.log).catch(console.error)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ========================================&gt;</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; {</span><br><span class="line">    <span class="comment">// 要更新的域名</span></span><br><span class="line">    <span class="keyword">let</span> records = [];</span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        records = <span class="built_in">require</span>(<span class="string">'./domains.json'</span>);</span><br><span class="line">    } <span class="keyword">catch</span> (ignored) {</span><br><span class="line">        records = [</span><br><span class="line">            {</span><br><span class="line">                domainName: <span class="string">'kekek.cc'</span>,</span><br><span class="line">                rrKeyWord: <span class="string">'www'</span></span><br><span class="line">            },</span><br><span class="line">            {</span><br><span class="line">                domainName: <span class="string">'kekek.cc'</span>,</span><br><span class="line">                rrKeyWord: <span class="string">'@'</span></span><br><span class="line">            }</span><br><span class="line">        ];</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> myip = <span class="keyword">await</span> findMyIP();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> record <span class="keyword">of</span> records) {</span><br><span class="line">        <span class="keyword">const</span> recordDetails = <span class="keyword">await</span> describeDomainRecords(record);</span><br><span class="line">        <span class="keyword">const</span> recordDetail = recordDetails.DomainRecords.Record.filter(<span class="function"><span class="params">_record</span> =&gt;</span> _record.RR === record.rrKeyWord)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (recordDetail &amp;&amp; recordDetail[<span class="string">'Value'</span>] !== myip) {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'[update] domainName: %s, rr: %s, before: %s, after: %s'</span>, record.domainName, record.rrKeyWord, recordDetail[<span class="string">'Value'</span>], myip);</span><br><span class="line">            <span class="keyword">await</span> updateDomainRecord({ <span class="attr">recordId</span>: recordDetail[<span class="string">'RecordId'</span>], <span class="attr">rr</span>: record.rrKeyWord, <span class="attr">value</span>: myip, <span class="attr">ttl</span>: record.ttl });</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">})().then(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>())).catch(<span class="built_in">console</span>.error)</span><br></pre></td></tr></table></figure>
+<p>缺陷：DNS是有缓存的，更新了新的解析后不能立即生效。这样网站会在一段时间内不可用。</p>
+<blockquote>
+<p>缓存的问题可以通过购买DNSvip服务实现最低1秒的缓存。</p>
+</blockquote>
+<h3 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h3><p>旧电脑或者树莓派</p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E5%AE%B6%E5%BA%AD%E5%AE%BD%E5%B8%A6%E9%83%A8%E7%BD%B2Web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">在家庭宽带部署Web服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="toc-number">1.1.</span> <span class="toc-text">端口映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">动态域名解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87"><span class="toc-number">1.3.</span> <span class="toc-text">设备</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=在家庭宽带部署Web服务器&body=Check out this article: https://kekek.cc/post/deploy-web-server-on-home-broadband.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/deploy-web-server-on-home-broadband.html&title=在家庭宽带部署Web服务器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

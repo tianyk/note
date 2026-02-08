@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="mini-dubbodubbo、thrift、grpc http:&#x2F;&#x2F;colobu.com&#x2F;2016&#x2F;09&#x2F;05&#x2F;benchmarks-of-popular-rpc-frameworks&#x2F; 主要设计架构 服务管理中心  服务注册 zookeeper&#x2F;etcd    RPC服务  序列化协议 json&#x2F;JSON-RPC&#x2F;thrift&#x2F;protobuf 传输层 http netty&#x2F;sun-httpS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迷你RPC">
+<meta property="og:url" content="https://kekek.cc/post/mini-rpc.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="mini-dubbodubbo、thrift、grpc http:&#x2F;&#x2F;colobu.com&#x2F;2016&#x2F;09&#x2F;05&#x2F;benchmarks-of-popular-rpc-frameworks&#x2F; 主要设计架构 服务管理中心  服务注册 zookeeper&#x2F;etcd    RPC服务  序列化协议 json&#x2F;JSON-RPC&#x2F;thrift&#x2F;protobuf 传输层 http netty&#x2F;sun-httpS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/zk-dubbo2.jpg">
+<meta property="article:published_time" content="2017-11-30T07:38:19.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.485Z">
+<meta property="article:author" content="tyk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/zk-dubbo2.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>迷你RPC</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/traceroute.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/linux-user-group.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=迷你RPC&body=Check out this article: https://kekek.cc/post/mini-rpc.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/mini-rpc.html&title=迷你RPC"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mini-dubbo"><span class="toc-number">1.</span> <span class="toc-text">mini-dubbo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">主要设计架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E5%92%8Cthrift-protobuf%E6%AF%94%E8%BE%83"><span class="toc-number">1.2.</span> <span class="toc-text">json和thrift&#x2F;protobuf比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.</span> <span class="toc-text">注册服务协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-HTTP-%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.</span> <span class="toc-text">RPC(HTTP)协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">客户端伪代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">服务器端伪代码</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        迷你RPC
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-11-30T07:38:19.000Z" itemprop="datePublished">2017-11-30</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="mini-dubbo"><a href="#mini-dubbo" class="headerlink" title="mini-dubbo"></a>mini-dubbo</h2><p>dubbo、thrift、grpc <a href="http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-frameworks/" target="_blank" rel="noopener">http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-frameworks/</a></p>
+<h3 id="主要设计架构"><a href="#主要设计架构" class="headerlink" title="主要设计架构"></a>主要设计架构</h3><ol>
+<li><p>服务管理中心</p>
+<ol>
+<li>服务注册<br> zookeeper/etcd </li>
+</ol>
+</li>
+<li><p>RPC服务</p>
+<ol>
+<li>序列化协议<br> json/<a href="http://wiki.geekdream.com/Specification/json-rpc_2.0.html" target="_blank" rel="noopener">JSON-RPC</a>/thrift/protobuf</li>
+<li>传输层<br> http netty/sun-httpServer/vert.x(防止主循环阻塞)</li>
+</ol>
+</li>
+</ol>
+<h3 id="json和thrift-protobuf比较"><a href="#json和thrift-protobuf比较" class="headerlink" title="json和thrift/protobuf比较"></a>json和thrift/protobuf比较</h3><ol>
+<li><code>thrift/protobuf</code> 等协议序列化后字节更小、序列化速度更快。<code>json</code>存在冗余，序列化效率也没有前两者高。</li>
+<li><code>thrift/protobuf</code> 需要定义schema，重新生成实体类（VO）。<code>json</code>可以直接使用现有实体类，我们只需要将<code>实体</code>和<code>Interface</code>对外发布即可。</li>
+<li><code>thrift/protobuf</code> 序列化后无法阅读，对人类不友好。</li>
+<li><code>thrift/protobuf</code> 能非常方便的实现跨语言序列化反序列化，<code>json</code>在跨语言时较麻烦。</li>
+</ol>
+<h3 id="注册服务协议"><a href="#注册服务协议" class="headerlink" title="注册服务协议"></a>注册服务协议</h3><p>类似dubbo，服务器启动、停止时去注册、注销服务即可。为了防止出现<code>kill -9</code>等情况下服务不能注销，可以添加心跳检查或者无响应自动剔除等功能。<br><img src="/images/zk-dubbo2.jpg" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.0.1.3:20880/cc.kekek.dubbo.demo.DemoService?anyhost=true&amp;application=demo-provider&amp;dubbo=2.5.7&amp;generic=false&amp;interface=com.example.demo.DemoService&amp;methods=sayHello,sayName&amp;pid=54299&amp;side=provider&amp;timestamp=1511263842858</span><br></pre></td></tr></table></figure></p>
+<h3 id="RPC-HTTP-协议"><a href="#RPC-HTTP-协议" class="headerlink" title="RPC(HTTP)协议"></a>RPC(HTTP)协议</h3><p>请求体类似 <code>multipart/form-data</code>，在原有协议上添加了type字段，用来定义此参数的实际类型。原有<code>Content-Type</code>也可以用来定义序列化格式<code>application/json</code>、<code>application/x-protobuf</code>、<code>application/x-thrift</code>等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST http://www.example.com/invoke?interface=com.example.rpc.service.UserService&amp;method=hello&amp;parameters=java.lang.Integer,java.lang.String,com.example.rpc.model.User HTTP/1.1</span><br><span class="line">Content-Type:multipart/form-data; boundary=----RPCFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line"></span><br><span class="line">------RPCFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line">Content-Disposition: form-data; name=&quot;args[0]&quot;; type=&quot;java.lang.Integer&quot;</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">------RPCFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line">Content-Disposition: form-data; name=&quot;args[1]&quot;; type=&quot;java.lang.String&quot;</span><br><span class="line"></span><br><span class="line">小明</span><br><span class="line">------RPCFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line">Content-Disposition: form-data; name=&quot;args[2]&quot;; type=&quot;com.example.rpc.model.User&quot;</span><br><span class="line">Content-Type: application/json</span><br><span class="line"></span><br><span class="line">&#123;&quot;id&quot;:123,&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:18&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>GET /heartbeat 心跳接口</p>
+</blockquote>
+<h3 id="客户端伪代码"><a href="#客户端伪代码" class="headerlink" title="客户端伪代码"></a>客户端伪代码</h3><p>通过动态代理生成接口的实现类，通过动态代理在<code>invoke</code>方法里面发送网络请求到RPCServer。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">UserService userService = Proxy.newProxyInstance(<span class="keyword">this</span>.getClass().getClassLoader(), <span class="keyword">new</span> Class[]&#123;service&#125;, (proxy, method, objects) -&gt; &#123;</span><br><span class="line">        Class&lt;?&gt; returnType = method.getReturnType();</span><br><span class="line">        Parameter[] parameters = method.getParameters();</span><br><span class="line"></span><br><span class="line">        String user = httpClient.post(<span class="string">"http://localhost:1125/invoke"</span>)</span><br><span class="line">            .addQuery(<span class="string">"interface"</span>, <span class="string">"com.example.rpc.service.UserService"</span>) <span class="comment">// serviceName</span></span><br><span class="line">            .addQuery(<span class="string">"method"</span>, method.getName())</span><br><span class="line">            .addQuery(<span class="string">"parameters"</span>, <span class="string">"java.lang.Integer"</span>) <span class="comment">// parameters type</span></span><br><span class="line">            .addBody(<span class="string">'123\r\n'</span>); <span class="comment">// objects</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> JSON.parseObject(user, returnType);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="服务器端伪代码"><a href="#服务器端伪代码" class="headerlink" title="服务器端伪代码"></a>服务器端伪代码</h3><p>首先根据<code>serviceName</code>获取具体实现类，然后获取具体的方法。最后通过反射调用调用实现类的方法即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">(HttpRequest req, HttpResponse res)</span> </span>&#123;</span><br><span class="line">    String service = req.getQuery(<span class="string">'service'</span>);</span><br><span class="line">    String methodName = req.getQuery(<span class="string">'method'</span>);</span><br><span class="line">    String[] parameters = req.getQuery(<span class="string">'parameters'</span>);</span><br><span class="line">    String[] body = req.getBody();</span><br><span class="line"></span><br><span class="line">    Object bean = services.getBean(service);</span><br><span class="line">    Method method = bean.getMethod(methodName, <span class="keyword">new</span> Class[]&#123;...&#125;); <span class="comment">// parameters to Class </span></span><br><span class="line">    Object returnValue =  method.invoke(bean, <span class="keyword">new</span> Object[]&#123;...&#125;); <span class="comment">// body to Object</span></span><br><span class="line"></span><br><span class="line">    res.json(returnValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mini-dubbo"><span class="toc-number">1.</span> <span class="toc-text">mini-dubbo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">主要设计架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E5%92%8Cthrift-protobuf%E6%AF%94%E8%BE%83"><span class="toc-number">1.2.</span> <span class="toc-text">json和thrift&#x2F;protobuf比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.</span> <span class="toc-text">注册服务协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-HTTP-%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.</span> <span class="toc-text">RPC(HTTP)协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">客户端伪代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">服务器端伪代码</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=迷你RPC&body=Check out this article: https://kekek.cc/post/mini-rpc.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/mini-rpc.html&title=迷你RPC"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

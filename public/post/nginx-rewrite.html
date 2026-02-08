@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="rewrite指令使用rewrite指令我们可以改写URL，实现外部和内部重定向。          语法 rewrite regex replacement flag   默认值 none   使用环境 server, location, if    regex正则匹配规则，Nginx正则采用PCRE正则表达式语法，和Java、JavaScript等语言一样。 replacement这个部分可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx-rewrite">
+<meta property="og:url" content="https://kekek.cc/post/nginx-rewrite.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="rewrite指令使用rewrite指令我们可以改写URL，实现外部和内部重定向。          语法 rewrite regex replacement flag   默认值 none   使用环境 server, location, if    regex正则匹配规则，Nginx正则采用PCRE正则表达式语法，和Java、JavaScript等语言一样。 replacement这个部分可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-16T09:42:41.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>nginx-rewrite</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/gm.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/viewport.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=nginx-rewrite&body=Check out this article: https://kekek.cc/post/nginx-rewrite.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/nginx-rewrite.html&title=nginx-rewrite"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#rewrite%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">rewrite指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#regex"><span class="toc-number">1.1.</span> <span class="toc-text">regex</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#replacement"><span class="toc-number">1.2.</span> <span class="toc-text">replacement</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#flag"><span class="toc-number">1.3.</span> <span class="toc-text">flag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#last-%E4%B8%8E-break"><span class="toc-number">1.4.</span> <span class="toc-text">last 与 break</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        nginx-rewrite
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-10-16T09:42:41.000Z" itemprop="datePublished">2017-10-16</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/nginx/" rel="tag">nginx</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="rewrite指令"><a href="#rewrite指令" class="headerlink" title="rewrite指令"></a>rewrite指令</h3><p>使用rewrite指令我们可以改写URL，实现外部和内部重定向。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语法</td>
+<td>rewrite regex replacement flag</td>
+</tr>
+<tr>
+<td>默认值</td>
+<td>none</td>
+</tr>
+<tr>
+<td>使用环境</td>
+<td>server, location, if</td>
+</tr>
+</tbody>
+</table>
+<h4 id="regex"><a href="#regex" class="headerlink" title="regex"></a>regex</h4><p>正则匹配规则，Nginx正则采用PCRE正则表达式语法，和Java、JavaScript等语言一样。</p>
+<h4 id="replacement"><a href="#replacement" class="headerlink" title="replacement"></a>replacement</h4><p>这个部分可以使用字符串、Nginx变量、以及正则匹配到的元组（从<code>$1</code>到<code>$9</code>）</p>
+<h4 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h4><p>flag 一共四种，用来说明匹配到后内部如何处理。</p>
+<table>
+<thead>
+<tr>
+<th>flag</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>permanent</td>
+<td>301 永久重定向</td>
+</tr>
+<tr>
+<td>redirect</td>
+<td>302 临时重定向</td>
+</tr>
+<tr>
+<td>last</td>
+<td>内部重定向，会在内部重新发起请求。</td>
+</tr>
+<tr>
+<td>break</td>
+<td>不会像last一样重新发起请求，终止匹配。直接使用新URL在当前location中请求。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="last-与-break"><a href="#last-与-break" class="headerlink" title="last 与 break"></a>last 与 break</h4><p>last标记在本条rewrite规则执行完毕后，会对其所在的<code>server{...}</code>标签重新发起请求，而<code>break</code>标记则在本条规则匹配完成后，终止匹配，不再匹配后面的规则。<br>使用<code>alias</code>指令时必须用<code>last</code>标记，使用<code>proxy_pass</code>指令时要使用<code>break</code>标记。</p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#rewrite%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">rewrite指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#regex"><span class="toc-number">1.1.</span> <span class="toc-text">regex</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#replacement"><span class="toc-number">1.2.</span> <span class="toc-text">replacement</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#flag"><span class="toc-number">1.3.</span> <span class="toc-text">flag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#last-%E4%B8%8E-break"><span class="toc-number">1.4.</span> <span class="toc-text">last 与 break</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=nginx-rewrite&body=Check out this article: https://kekek.cc/post/nginx-rewrite.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/nginx-rewrite.html&title=nginx-rewrite"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

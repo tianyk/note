@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="NGX_HTTP_AUTH_BASIC_MODULE这个模块用来做Basic Auth认证的，默认就已经安装过了。 生成密码1printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf&#x2F;htpasswd 修改配置文件12345678910server &#123;    listen 80;    se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx常用模块">
+<meta property="og:url" content="https://kekek.cc/post/nginx-modules.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="NGX_HTTP_AUTH_BASIC_MODULE这个模块用来做Basic Auth认证的，默认就已经安装过了。 生成密码1printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf&#x2F;htpasswd 修改配置文件12345678910server &#123;    listen 80;    se">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-08-22T06:45:24.000Z">
+<meta property="article:modified_time" content="2026-02-07T22:25:06.486Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>nginx常用模块</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/install-nginx.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/tar.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=nginx常用模块&body=Check out this article: https://kekek.cc/post/nginx-modules.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/nginx-modules.html&title=nginx常用模块"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-HTTP-AUTH-BASIC-MODULE"><span class="toc-number">1.</span> <span class="toc-text">NGX_HTTP_AUTH_BASIC_MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-HTTP-SUB-MODULE"><span class="toc-number">2.</span> <span class="toc-text">NGX_HTTP_SUB_MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE"><span class="toc-number">3.</span> <span class="toc-text">NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGINX-HTTP-CONCAT"><span class="toc-number">4.</span> <span class="toc-text">NGINX-HTTP-CONCAT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-IMAGE-FILTER-MODULE"><span class="toc-number">5.</span> <span class="toc-text">HTTP_IMAGE_FILTER_MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGINX-HTTP-FOOTER-FILTER"><span class="toc-number">6.</span> <span class="toc-text">NGINX-HTTP-FOOTER-FILTER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LIMIT-UPLOAD-RATE"><span class="toc-number">7.</span> <span class="toc-text">LIMIT_UPLOAD_RATE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGINX-HTTP-GEO-IP-MODULE"><span class="toc-number">8.</span> <span class="toc-text">NGINX-HTTP-GEO-IP-MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-DYNAMIC-UPSTREAM"><span class="toc-number">9.</span> <span class="toc-text">NGX_DYNAMIC_UPSTREAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-UPSTREAM-CONSISTENT-HASH-MODULE"><span class="toc-number">10.</span> <span class="toc-text">HTTP_UPSTREAM_CONSISTENT_HASH_MODULE</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        nginx常用模块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-08-22T06:45:24.000Z" itemprop="datePublished">2016-08-22</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/nginx/" rel="tag">nginx</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="NGX-HTTP-AUTH-BASIC-MODULE"><a href="#NGX-HTTP-AUTH-BASIC-MODULE" class="headerlink" title="NGX_HTTP_AUTH_BASIC_MODULE"></a>NGX_HTTP_AUTH_BASIC_MODULE</h3><p>这个模块用来做Basic Auth认证的，默认就已经安装过了。</p>
+<p>生成密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf &quot;username:$(openssl passwd -crypt password)\n&quot; &gt;&gt; conf/htpasswd</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name elk.kekek.cc;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">         auth_basic            &quot;elk.my-guide.cc&quot;;</span><br><span class="line">         auth_basic_user_file  htpasswd;</span><br><span class="line">         proxy_pass            http://elk.my-guide.cc:5601;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>需要注意的是如果<code>auth_basic_user_file</code>使用相对路径来指定，那么它相对的是conf文件。</p>
+</blockquote>
+<p>重新加载配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<h3 id="NGX-HTTP-SUB-MODULE"><a href="#NGX-HTTP-SUB-MODULE" class="headerlink" title="NGX_HTTP_SUB_MODULE"></a>NGX_HTTP_SUB_MODULE</h3><p>这个模块可以让我们来修改网站响应内容中。</p>
+<p>默认这个模块是没编译到Nginx中的，在配置的时候我们加上<code>--with-http_sub_module</code>就可以了。</p>
+<p>它主要有三个指令</p>
+<ul>
+<li><p>sub_filter</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这里会将网页里的`dog`替换成`pig`</span><br><span class="line">sub_filter dog pig;</span><br><span class="line"></span><br><span class="line"># 在头部引入一段js。注意，我们只能使用一次sub_filter，如果有多个地方或者更复杂的替换使用下面的`NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE`模块</span><br><span class="line">sub_filter &lt;/head&gt; &apos;&lt;/head&gt;&lt;script language=&quot;javascript&quot; src=&quot;https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js&quot;&gt;&lt;/script&gt;&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sub_filter_types</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定需要被替换的MIME类型,默认为&apos;text/html&apos;，如果制定为*，那么所有的</span><br><span class="line">sub_filter_types text/javascript text/css;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sub_filter_once</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字符串替换一次还是多次替换，默认替换一个。如果网页中有多个`dog`字符串，如果开启once只会替换第一个。</span><br><span class="line">sub_filter_once on;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE"><a href="#NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE" class="headerlink" title="NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE"></a>NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</h3><p><a href="https://github.com/yaoweibin/ngx_http_substitutions_filter_module" target="_blank" rel="noopener">NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</a>和NGX_HTTP_SUB_MODULE类似，不过功能更强大，在这里我们可以使用正则去匹配。</p>
+<p>这是一个第三方模块，编译时需要加上<code>--add-module=/path/to/ngx_http_substitutions_filter_module</code>。</p>
+<p>它主用两个指令</p>
+<ul>
+<li><p>subs_filter</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 替换`&lt;script src=&quot;jquery.min.js?v=3.2.1&quot;&gt;&lt;/script&gt;`的版本为URL上v参数值。</span><br><span class="line"># 例如：我们请求`index.html?v=2.2.2`，处理后我们拿到的网页内容就是`&lt;script src=&quot;jquery.min.js?v=2.2.2&quot;&gt;&lt;/script&gt;`。</span><br><span class="line"># $arg_v取出query上的v的值。$arg代表query，$arg_&#123;x&#125;代表query上&#123;x&#125;的值。</span><br><span class="line">subs_filter jquery\.min\.js\?v=\d\.\d\.\d jquery.min.js?v=$arg_v or;</span><br><span class="line"># subs_filter 可以写多个</span><br><span class="line">subs_filter dog pig;</span><br></pre></td></tr></table></figure>
+<p>  subs_filter 第三个参数，替换模式。我们可以选择字符串替换或者正则替换</p>
+<ul>
+<li>g(default):替换所有匹配的字符串。</li>
+<li>i: 执行不区分大小写的匹配。</li>
+<li>o: 只需将第一个。</li>
+<li>r:该模式是作为一个正则表达式处理，默认是固定的字符串。</li>
+</ul>
+</li>
+<li><p>subs_filter_types</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定需要被替换的MIME类型,默认为&apos;text/html&apos;，如果制定为*，那么所有的</span><br><span class="line">sub_filter_types text/javascript text/css;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="http://rmingwang.com/install-nginx-third-modules-http_sub_module.html" target="_blank" rel="noopener">Nginx编译安装第三方模块http_substitutions_filter_module</a></p>
+<h3 id="NGINX-HTTP-CONCAT"><a href="#NGINX-HTTP-CONCAT" class="headerlink" title="NGINX-HTTP-CONCAT"></a><a href="https://github.com/alibaba/nginx-http-concat" target="_blank" rel="noopener">NGINX-HTTP-CONCAT</a></h3><p>用于 css、js 合并。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/static/??foo.css,bar/foobaz.js</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;??foo1.css,foo2.css,subdir/foo3.css?v=2345&quot; /&gt;</span><br><span class="line">&lt;script src=&quot;??bar1.js,bar22.css,subdir/bar3.js?v=3245&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="HTTP-IMAGE-FILTER-MODULE"><a href="#HTTP-IMAGE-FILTER-MODULE" class="headerlink" title="HTTP_IMAGE_FILTER_MODULE"></a>HTTP_IMAGE_FILTER_MODULE</h3><h3 id="NGINX-HTTP-FOOTER-FILTER"><a href="#NGINX-HTTP-FOOTER-FILTER" class="headerlink" title="NGINX-HTTP-FOOTER-FILTER"></a>NGINX-HTTP-FOOTER-FILTER</h3><p><a href="http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/" target="_blank" rel="noopener">http://www.ttlsa.com/nginx/nginx-modules-nginx-http-footer-filter/</a></p>
+<h3 id="LIMIT-UPLOAD-RATE"><a href="#LIMIT-UPLOAD-RATE" class="headerlink" title="LIMIT_UPLOAD_RATE"></a>LIMIT_UPLOAD_RATE</h3><p>限制客户端上传速率</p>
+<h3 id="NGINX-HTTP-GEO-IP-MODULE"><a href="#NGINX-HTTP-GEO-IP-MODULE" class="headerlink" title="NGINX-HTTP-GEO-IP-MODULE"></a>NGINX-HTTP-GEO-IP-MODULE</h3><h3 id="NGX-DYNAMIC-UPSTREAM"><a href="#NGX-DYNAMIC-UPSTREAM" class="headerlink" title="NGX_DYNAMIC_UPSTREAM"></a>NGX_DYNAMIC_UPSTREAM</h3><p>Dynamic upstream for nginx</p>
+<h3 id="HTTP-UPSTREAM-CONSISTENT-HASH-MODULE"><a href="#HTTP-UPSTREAM-CONSISTENT-HASH-MODULE" class="headerlink" title="HTTP_UPSTREAM_CONSISTENT_HASH_MODULE"></a>HTTP_UPSTREAM_CONSISTENT_HASH_MODULE</h3>
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-HTTP-AUTH-BASIC-MODULE"><span class="toc-number">1.</span> <span class="toc-text">NGX_HTTP_AUTH_BASIC_MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-HTTP-SUB-MODULE"><span class="toc-number">2.</span> <span class="toc-text">NGX_HTTP_SUB_MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-HTTP-SUBSTITUTIONS-FILTER-MODULE"><span class="toc-number">3.</span> <span class="toc-text">NGX_HTTP_SUBSTITUTIONS_FILTER_MODULE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.1.</span> <span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGINX-HTTP-CONCAT"><span class="toc-number">4.</span> <span class="toc-text">NGINX-HTTP-CONCAT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-IMAGE-FILTER-MODULE"><span class="toc-number">5.</span> <span class="toc-text">HTTP_IMAGE_FILTER_MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGINX-HTTP-FOOTER-FILTER"><span class="toc-number">6.</span> <span class="toc-text">NGINX-HTTP-FOOTER-FILTER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LIMIT-UPLOAD-RATE"><span class="toc-number">7.</span> <span class="toc-text">LIMIT_UPLOAD_RATE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGINX-HTTP-GEO-IP-MODULE"><span class="toc-number">8.</span> <span class="toc-text">NGINX-HTTP-GEO-IP-MODULE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NGX-DYNAMIC-UPSTREAM"><span class="toc-number">9.</span> <span class="toc-text">NGX_DYNAMIC_UPSTREAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-UPSTREAM-CONSISTENT-HASH-MODULE"><span class="toc-number">10.</span> <span class="toc-text">HTTP_UPSTREAM_CONSISTENT_HASH_MODULE</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=nginx常用模块&body=Check out this article: https://kekek.cc/post/nginx-modules.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/nginx-modules.html&title=nginx常用模块"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

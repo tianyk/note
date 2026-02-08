@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="Java虚拟机Java内存区域 程序计数器   程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里（仅是概念模型，各种虚拟机可能会通过一些更高效的方式去实现），字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java虚拟机">
+<meta property="og:url" content="https://kekek.cc/post/jvm.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="Java虚拟机Java内存区域 程序计数器   程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里（仅是概念模型，各种虚拟机可能会通过一些更高效的方式去实现），字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/java-memory-model.png">
+<meta property="og:image" content="https://kekek.cc/images/garbage-collector.png">
+<meta property="article:published_time" content="2017-01-12T09:02:23.000Z">
+<meta property="article:modified_time" content="2018-07-23T10:51:45.000Z">
+<meta property="article:author" content="tyk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/java-memory-model.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Java虚拟机</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/speedtest.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/tree.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Java虚拟机&body=Check out this article: https://kekek.cc/post/jvm.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/jvm.html&title=Java虚拟机"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">Java虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="toc-number">1.1.</span> <span class="toc-text">Java内存区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">Java内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-number">1.3.</span> <span class="toc-text">垃圾回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GC%E4%B8%BB%E8%A6%81%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.1.</span> <span class="toc-text">GC主要算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%B8%AD%E7%9A%84GC"><span class="toc-number">1.3.2.</span> <span class="toc-text">Java中的GC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90"><span class="toc-number">1.3.3.</span> <span class="toc-text">逃逸分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GC-roots"><span class="toc-number">1.3.4.</span> <span class="toc-text">GC roots</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8EGC%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.5.</span> <span class="toc-text">与GC相关的常用参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="toc-number">1.4.</span> <span class="toc-text">类加载阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ClassLoader"><span class="toc-number">1.5.</span> <span class="toc-text">ClassLoader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">1.6.</span> <span class="toc-text">命令行工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.7.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java虚拟机
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-12T09:02:23.000Z" itemprop="datePublished">2017-01-12</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Java虚拟机"><a href="#Java虚拟机" class="headerlink" title="Java虚拟机"></a>Java虚拟机</h2><h3 id="Java内存区域"><a href="#Java内存区域" class="headerlink" title="Java内存区域"></a>Java内存区域</h3><ul>
+<li><p>程序计数器</p>
+<p>  程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里（仅是概念模型，各种虚拟机可能会通过一些更高效的方式去实现），字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+</li>
+<li><p>Java虚拟机栈</p>
+<p>  与程序计数器一样，Java虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧（Stack Frame[1]）用于存储<strong>局部变量表</strong>、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+<p>  如果线程请求的栈深度大于虚拟机所允许的深度，将抛出<code>StackOverflowError</code>异常，这个在递归时可能会发生。如果栈空间支持动态扩展，当无法申请到足够内存是也会抛出<code>OutOfMemoryError</code>异常。</p>
+<p>  使用设置<code>-Xss</code>可以设置栈大小。虚拟机栈是线程独有的，每个线程分配到的栈容量越大，可以建立的线程数量自然就越少，建立线程时就越容易把剩下的内存耗尽。</p>
+</li>
+<li><p>本地方法栈</p>
+<p>  本地方法栈与虚拟机栈类似，只是这里虚拟机使用到的Native方法服务。这里同样可能会抛出<code>StackOverflowError</code>和<code>OutOfMemoryError</code>异常。</p>
+</li>
+<li><p>Java堆</p>
+<p>  Java堆是Java里面最大的一块内存。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例。垃圾回收也主要在堆去进行。</p>
+<p>  使用<code>-Xms</code>和<code>-Xmx</code>来设置堆的初始和最大大小，很多软件都建议将两者设置的一样大。</p>
+<p>  如果申请不到足够的内存这里会抛出<code>OutOfMemoryError</code>异常，后面会跟着进一步提示”Java heap space”。</p>
+<p>  <code>TLAB</code>全称ThreadLocalAllocBuffer，是线程的一块私有内存。如果设置了虚拟机参数 -XX:UseTLAB，在线程初始化时，同时也会申请一块指定大小的内存，只给当前线程使用，这样每个线程都单独拥有一个Buffer。如果需要分配内存，就在自己的Buffer上分配，这样就不存在竞争的情况，<strong>可以大大提升分配效率</strong>（均摊对GC堆（eden区）里共享的分配指针做更新而带来的同步开销。），当Buffer容量不够的时候，再重新从Eden区域申请一块继续使用，这个申请动作还是需要原子操作的。TLAB只是让每个线程有私有的分配指针，但底下存对象的内存空间还是给所有线程访问的，只是其它线程无法在这个区域分配而已。可以通过<code>-XX:+/-UseTLAB</code>参数来设定。</p>
+</li>
+<li><p>方法区</p>
+<p>  这里主要<strong>类信息</strong>、<em>常量</em>（不同版本的虚拟机常量存储地方可能不同）、静态变量、即时编译器编译后的代码等数据。</p>
+<p>  运行时常量池（Runtime Constant Pool）是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池（Constant Pool Table），用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<p>  对于需要大量动态生成类的框架（Spring）这里可能会发生内存溢出，后面会提示”PermGen space”。</p>
+<p>  使用<code>-XX:PermSize</code>设置初始大小，<code>-XX:MaxPermSize</code>设置方法区内存上限。</p>
+<blockquote>
+<p>从Java8开始使用<code>-XX:MetaspaceSize</code>和<code>-XX:MaxMetaspaceSize</code>设置。</p>
+</blockquote>
+</li>
+<li><p>直接内存</p>
+<p>  直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分。从Java1.4 NIO开始，我们可以直接使用堆外内存。<code>DirectByteBuffer</code>对象作为对这部分内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</p>
+<p>  堆内存不受Java虚拟机堆内存限制，但是它会受到本机总内存限制。当内存不足是会发生<code>OutOfMemoryError</code>异常。</p>
+<p>  使用<code>-XX:MaxDirectMemorySize</code>设置，如果不指定默认和<code>-Xmx</code>一样大。</p>
+</li>
+</ul>
+<h3 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h3><p>Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model,JMM）来屏蔽掉各种硬件和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。主流程序语言（如C/C++等）直接使用物理硬件和操作系统的内存模型，因此，会由于不同平台上内存模型的差异，有可能导致程序在一套平台上并发完全正常，而在另外一套平台上并发访问却经常出错，因此在某些场景就必须针对不同的平台来编写程序。</p>
+<p>Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。</p>
+<p>Java内存模型规定了所有的变量都存储在主内存（Main Memory）中。每条线程还有自己的工作内存（Working Memory），线程的工作内存中保存了被该线程使用到的变量的主内存副本拷贝，线程对变量的所有操作（读取、赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量。不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量值的传递均需要通过主内存来完成。</p>
+<blockquote>
+<p>Java内存模型和上面的Java内存区域不是一个级别的概念。</p>
+</blockquote>
+<p><img src="/images/java-memory-model.png" alt></p>
+<ul>
+<li><p>可见性</p>
+<p>  由于每条线程只能直接读取、修改工作内存，工作内存和主存数据机会存在不一致的情况。</p>
+</li>
+<li><p>指令重排</p>
+<p>  CPU和编译器为了提升程序执行的效率，会按照一定的规则允许进行指令优化。指令重排会保证单线程执行结果不会改变。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> r = <span class="number">4</span>;            <span class="comment">// 1.1 </span></span><br><span class="line"><span class="keyword">int</span> pi = <span class="number">3.14</span>;        <span class="comment">// 1.2</span></span><br><span class="line"><span class="keyword">int</span> c = pi * r * r;   <span class="comment">// 1.3</span></span><br></pre></td></tr></table></figure>
+<p>  这段代码实际执行时可能是 <code>1.1 -&gt; 1.2 -&gt; 1.3</code>，也可能会是 <code>1.2 -&gt; 1.1 -&gt; 1.3</code>。只要逻辑上没有依赖关系，不影响最终结果的都可能会重排。</p>
+</li>
+<li><p>内存屏障</p>
+<p>  在多线程环境里需要使用某种技术来使程序结果尽快可见。一旦内存数据被推送到缓存，就会有消息协议来确保所有的缓存会对所有的共享数据同步并保持一致。这个使内存数据对CPU核可见的技术被称为内存屏障或内存栅栏。内存屏障之前的所有写操作都要写入内存；内存屏障之后的读操作都可以获得同步屏障之前的写操作的结果。因此，对于敏感的程序块，写操作之后、读操作之前可以插入内存屏障。</p>
+</li>
+</ul>
+<h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><p>垃圾回收的优点是程序员不需要再手动去管理内存了，它的缺点是在回收过程中程序会出现短暂暂停，这在某些场景下是不能允许的。</p>
+<blockquote>
+<p>在标记阶段必须要暂停一定的时间来遍历<code>GC Roots</code>链，不可以出现分析过程中对象引用关系还在不断变化的情况，该点不满足的话分析结果准确性就无法得到保证。</p>
+</blockquote>
+<h4 id="GC主要算法"><a href="#GC主要算法" class="headerlink" title="GC主要算法"></a>GC主要算法</h4><ol>
+<li><p>引用计数算法</p>
+<p> 给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。</p>
+<p> 引用计数算法有可以立即回收、不用遍历整个堆等优点，但是它比较少使用，因为它有个很大的缺点是不能解决相互依赖问题。</p>
+</li>
+<li><p>标记-清除算法</p>
+<p> 标记清除算法分为两个阶段，标记和清除。第一阶段使用可达性分析算法从<code>GC Roots</code>作为起点开始搜索。当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可用的，它们将会被判定为是可回收的对象。</p>
+<p> 首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。这种算法有个缺点，清除后内存上会有大量空洞，存在大量不连续的空间。如果分配较大内存的对象时可能会出现内存问题。为了解决这个问题，在这个基础上人们又提出了下面的复制算法。</p>
+</li>
+<li><p>GC复制算法</p>
+<p> 复制算法将内存分为大小相同的两块，每次只是用其中一块。当其中一块满了以后将里面存活的对象全部复制到另一块去，然后将这块内存全部清理掉。这种算法的缺点就是每次只能使用一半内存，存在一些浪费的问题。</p>
+<p> 根据研究表名，大部分新对象经过一次GC就会被回收掉，所以不需要按照1:1的比例来划分两块内存，而是将内存分为一份较大的<code>Eden</code>空间和两份<code>Survivor</code>空间。每次只使用<code>Eden</code>和一份<code>Survivor</code>空间，当回收时将<code>Eden</code>和正在使用的<code>Survivor</code>空间里面存活的对象全都复制到另一个<code>Survivor</code>空间中。然后一次性清理掉原来的<code>Eden</code>和<code>Survivor</code>空间。这样每次只浪费一份<code>Survivor</code>的内存，HotSpot虚拟机默认Eden和Survivor的大小比例是8:1，也就是说每次只浪费10%的内存空间。</p>
+</li>
+<li><p>标记-整理算法</p>
+<p> 标记整理算法是在上述算法基础上发展而来的。它会使用整个内存，标记阶段完成后将存活的对象朝内存的一端移动，然后直接清理掉端边界以外的内存。</p>
+</li>
+</ol>
+<h4 id="Java中的GC"><a href="#Java中的GC" class="headerlink" title="Java中的GC"></a>Java中的GC</h4><p><code>HotSpot</code>（包括其它主流虚拟机）都采用<code>分代收集</code>的策略，这主要是因为新对象和老对象存活周期不同。一般的新对象普遍在一轮GC后就被回收了，如果对象经过两轮GC还活着那可能这个对象还会存活很久。对象存活周期不同，这就使我们在进行垃圾回收时选择不同的策略来回收两种对象。</p>
+<p><code>HotSpot</code>中有几种垃圾回收器，不同的垃圾回收器使用了不同的算法。</p>
+<p><img src="/images/garbage-collector.png" alt></p>
+<ul>
+<li><p>Serial收集器</p>
+<p>  Serial收集器是最古老的收集器，它的缺点是当Serial收集器想进行垃圾回收的时候，必须暂停用户的所有进程，即<code>stop the world</code>。到现在为止，它依然是虚拟机运行在client模式下的默认新生代收集器，与其他收集器相比，对于限定在单个CPU的运行环境来说，Serial收集器由于没有线程交互的开销，专心做垃圾回收自然可以获得最高的单线程收集效率。</p>
+<p>  Serial Old是Serial收集器的老年代版本，它同样是一个单线程收集器，使用<code>标记－整理</code>算法。这个收集器的主要意义也是被Client模式下的虚拟机使用。在Server模式下，它主要还有两大用途：一个是在JDK1.5及以前的版本中与Parallel Scanvenge收集器搭配使用，另外一个就是作为CMS收集器的后备预案，在并发收集发生Concurrent Mode Failure的时候使用。</p>
+<p>  通过指定<code>-XX:-UseSerialGC</code>参数，使用Serial + Serial Old的串行收集器组合进行内存回收。</p>
+</li>
+<li><p>ParNew收集器</p>
+<p>  ParNew收集器是Serial收集器新生代的多线程实现，注意在进行垃圾回收的时候依然会<code>stop the world</code>，只是相比较Serial收集器而言它会运行多条线程进行垃圾回收。</p>
+<p>  ParNew收集器在单CPU的环境中绝对不会有比Serial收集器更好的效果，甚至由于存在线程交互的开销，该收集器在通过超线程技术实现的两个CPU的环境中都不能百分之百的保证能超越Serial收集器。当然，随着可以使用的CPU的数量增加，它对于GC时系统资源的利用还是很有好处的。它默认开启的收集线程数与CPU的数量相同，在CPU非常多（譬如32个，现在CPU动辄4核加超线程，服务器超过32个逻辑CPU的情况越来越多了）的环境下，可以使用<code>-XX:ParallelGCThreads</code>参数来限制垃圾收集的线程数。</p>
+<p>  <code>-XX:-UseParNewGC</code>打开此开关后，使用ParNew + Serial Old的收集器组合进行内存回收，这样新生代使用并行收集器，老年代使用串行收集器。如果配置<code>-XX:+UseConcMarkSweepGC</code>选项后的默认新生代收集器也是ParNew收集器。</p>
+</li>
+<li><p>Parallel Scavenge收集器</p>
+<p>  Parallel是采用复制算法的多线程新生代垃圾回收器，似乎和ParNew收集器有很多的相似的地方。但是Parallel Scanvenge收集器的一个特点是它所关注的目标是<strong>吞吐量</strong>(Throughput)。所谓吞吐量就是CPU用于运行用户代码的时间与CPU总消耗时间的比值，即<code>吞吐量 = 运行用户代码时间 / (运行用户代码时间 + 垃圾收集时间)</code>，虚拟机总共运行了100分钟，其中垃圾收集花掉1分钟，那吞吐量就是99%。Parallel Old收集器是Parallel Scavenge收集器的老年代版本，采用多线程和<code>标记－整理</code>算法。这个收集器是在jdk1.6中才开始提供的，在此之前，新生代的Parallel Scavenge收集器一直处于比较尴尬的状态。原因是如果新生代Parallel Scavenge收集器，那么老年代除了Serial Old(PS MarkSweep)收集器外别无选择。由于单线程的老年代Serial Old收集器在服务端应用性能上的”拖累”，即使使用了Parallel Scavenge收集器也未必能在整体应用上获得吞吐量最大化的效果，又因为老年代收集中无法充分利用服务器多CPU的处理能力，在老年代很大而且硬件比较高级的环境中，这种组合的吞吐量甚至还不一定有ParNew加CMS的组合”给力”。直到Parallel Old收集器出现后，”吞吐量优先”收集器终于有了比较名副其实的应用，在注重吞吐量及CPU资源敏感的场合，都可以优先考虑Parallel Scavenge加Parallel Old收集器。</p>
+<p>  Parallel Scavenge收集器提供了两个参数用于精确控制吞吐量，分别是控制最大垃圾收集停顿时间的<code>-XX:MaxGCPauseMillis</code>参数以及直接设置吞吐量大小的<code>-XX:GCTimeRatio</code>参数。</p>
+<p>  <code>-XX:UseParallelGC</code>虚拟机运行在Server模式下的默认值，打开此开关后，使用Parallel Scavenge + Serial Old的收集器组合进行内存回收。<code>-XX:UseParallelOldGC</code>打开此开关后，使用Parallel Scavenge + Parallel Old的收集器组合进行垃圾回收。</p>
+</li>
+</ul>
+<ul>
+<li><p>CMS收集器</p>
+<p>  CMS(Concurrent Mark Swep)收集器是一个比较重要的回收器，现在应用非常广泛，我们重点来看一下，CMS一种获取最短回收停顿时间为目标的收集器，这使得它很适合用于和用户交互的业务。从名字(Mark Swep)就可以看出，CMS收集器是基于标记清除算法实现的。它的收集过程分为四个步骤：</p>
+<ol>
+<li>初始标记(initial mark)</li>
+<li>并发标记(concurrent mark)</li>
+<li>重新标记(remark)</li>
+<li><p>并发清除(concurrent sweep)</p>
+<p>注意初始标记和重新标记还是会stop the world，但是在耗费时间更长的并发标记和并发清除两个阶段都可以和用户进程同时工作。</p>
+<p>不过由于CMS收集器是基于标记清除算法实现的，会导致有大量的空间碎片产生，在为大对象分配内存的时候，往往会出现老年代还有很大的空间剩余，但是无法找到足够大的连续空间来分配当前对象，不得不提前开启一次Full GC。为了解决这个问题，CMS收集器默认提供了一个<code>-XX:+UseCMSCompactAtFullCollection</code>收集开关参数（默认就是开启的)，用于在CMS收集器进行FullGC完开启内存碎片的合并整理过程，内存整理的过程是无法并发的，这样内存碎片问题倒是没有了，不过停顿时间不得不变长。虚拟机设计者还提供了另外一个参数<code>-XX:CMSFullGCsBeforeCompaction</code>参数用于设置执行多少次不压缩的FULL GC后跟着来一次带压缩的（默认值为0，表示每次进入Full GC时都进行碎片整理）。</p>
+<p>不幸的是，它作为老年代的收集器，却无法与jdk1.4中已经存在的新生代收集器Parallel Scavenge配合工作，所以在jdk1.5中使用CMS来收集老年代的时候，新生代只能选择ParNew或Serial收集器中的一个。</p>
+<p><code>-XX:CMSInitiatingOccupancyFraction</code>配置可以设置老年代使用了多少空间后才进行GC。默认是68%，这是一个偏保守的设置，我们可以适当的调高这个参数。除了前面的配置外，我们还需要配置<code>-XX:+UseCMSInitiatingOccupancyOnly</code>这要求JVM不基于运行时的数据来进行GC，每次JVM都通过CMSInitiatingOccupancyFraction的值进行CMS收集。</p>
+</li>
+</ol>
+</li>
+<li><p>G1收集器</p>
+<p>  G1收集器是一款面向服务端应用的垃圾收集器。HotSpot团队赋予它的使命是在未来替换掉JDK1.5中发布的CMS收集器。与其他GC收集器相比，G1具备如下特点：</p>
+<ul>
+<li><p>并行与并发</p>
+<p>  G1能更充分的利用CPU，多核环境下的硬件优势来缩短stop the world的停顿时间。</p>
+</li>
+<li><p>分代收集</p>
+<p>  和其他收集器一样，分代的概念在G1中依然存在，不过G1不需要其他的垃圾回收器的配合就可以独自管理整个GC堆。</p>
+</li>
+<li><p>空间整合</p>
+<p>  G1收集器有利于程序长时间运行，分配大对象时不会无法得到连续的空间而提前触发一次GC。</p>
+</li>
+<li><p>可预测的非停顿</p>
+<p>  这是G1相对于CMS的另一大优势，降低停顿时间是G1和CMS共同的关注点，能让使用者明确指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒。</p>
+<p>在使用G1收集器时，Java堆的内存布局和其他收集器有很大的差别，它将这个Java堆分为多个大小相等的独立区域，虽然还保留新生代和老年代的概念，但是新生代和老年代不再是物理隔离的了，它们都是一部分Region（不需要连续）的集合。<br>虽然G1看起来有很多优点，实际上CMS还是主流。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="逃逸分析"><a href="#逃逸分析" class="headerlink" title="逃逸分析"></a>逃逸分析</h4><p>分析程序中指针的动态作用域，看某个指针是否指向某个固定的对象并且没有“逃逸”出某个函数/方法或者线程的范围。如果没有逃逸则可知该指针只在某个局部范围内可见，外部（别的函数/方法或线程）无法看到它。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> StringBuffer <span class="title">craeteStringBuffer</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    sb.append(s1);</span><br><span class="line">    sb.append(s2);</span><br><span class="line">    <span class="keyword">return</span> sb;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此时方法内部的局部变量有可能被其他方法所改变，这样它的作用域就不只是在方法内部。虽然它是一个局部变量，称其逃逸到了方法外部。</p>
+<h4 id="GC-roots"><a href="#GC-roots" class="headerlink" title="GC roots"></a>GC roots</h4><ul>
+<li>所有Java线程当前活跃的栈帧里指向GC堆里的对象的引用；换句话说，当前所有正在被调用的方法的引用类型的参数/局部变量/临时值。</li>
+<li>VM的一些静态数据结构里指向GC堆里的对象的引用，例如说HotSpot VM里的Universe里有很多这样的引用。</li>
+<li>JNI handles，包括global handles和local handles</li>
+<li>（看情况）所有当前被加载的Java类</li>
+<li>（看情况）Java类的引用类型静态变量</li>
+<li>（看情况）Java类的运行时常量池里的引用类型常量（String或Class类型）</li>
+<li>（看情况）String常量池（StringTable）里的引用</li>
+</ul>
+<blockquote>
+<p>作者：RednaxelaFX<br>链接：<a href="https://www.zhihu.com/question/53613423/answer/135743258" target="_blank" rel="noopener">https://www.zhihu.com/question/53613423/answer/135743258</a></p>
+</blockquote>
+<h4 id="与GC相关的常用参数"><a href="#与GC相关的常用参数" class="headerlink" title="与GC相关的常用参数"></a>与GC相关的常用参数</h4><blockquote>
+<p>以 -X 开头的选项是非标准选项。不过，有些选项也开始变成标准了（尤其是 -Xms 和 -Xmx）。与此同时，不同的 Java 版本不断引入 -XX: 选项。这些选项是实验性质的，不要在生产中使用。</p>
+</blockquote>
+<ul>
+<li><p>Xmx</p>
+<p>  设置堆内存的最大值。</p>
+</li>
+<li><p>Xms</p>
+<p>  设置堆内存的初始值。</p>
+</li>
+<li><p>Xmn</p>
+<p>  设置新生代的大小。</p>
+</li>
+<li><p>Xss</p>
+<p>  设置栈的大小。</p>
+</li>
+<li><p>-XX:PermSize=10M</p>
+<p>  表示JVM初始分配的永久代的容量，必须以M为单位。从Java8开始使用<code>-XX:MetaspaceSize</code>参数。</p>
+</li>
+<li><p>-XX:MaxPermSize=10M</p>
+<p>  表示JVM允许分配的永久代的最大容量，必须以M为单位，大部分情况下这个参数默认为64M。从Java8开始使用<code>-XX:MaxMetaspaceSize</code>参数。</p>
+</li>
+<li><p>-XX:+PrintTLAB</p>
+<p>  表示可以看到TLAB的使用情况。</p>
+</li>
+<li><p>-XX:PretenureSizeThreshold=3M</p>
+<p>  直接晋升到老年代的对象大小，设置这个参数后，大于这个参数（3M）的对象将直接在老年代分配。</p>
+</li>
+<li><p>-XX:MaxTenuringThrehold=1</p>
+<p>  晋升到老年代的对象年龄。每个对象在坚持过一次Minor GC之后，年龄就会加1，当超过这个参数值时就进入老年代。</p>
+</li>
+<li><p>-XX:CompileThreshold=1000</p>
+<p>  表示一个方法被调用1000次之后，会被认为是热点代码，并触发即时编译(JIT)。</p>
+</li>
+<li><p>-XX:UseAdaptiveSizePolicy</p>
+<p>  在这种模式下，新生代的大小、eden 和 survivor 的比例、晋升老年代的对象年龄等参数会被自动调整，以达到在堆大小、吞吐量和停顿时间之间的平衡点。在手工调优比较困难的场合，可以直接使用这种自适应的方式，仅指定虚拟机的最大堆、目标的吞吐量 (GCTimeRatio) 和停顿时间 (MaxGCPauseMills)，让虚拟机自己完成调优工作。</p>
+</li>
+<li><p>-XX:NewRatio=4</p>
+<p>  表示设置年轻代:老年代的大小比值为1:4，这意味着年轻代占整个堆的1/5。</p>
+</li>
+<li><p>-XX:SurvivorRatio=8</p>
+<p>  新生代<code>Eden</code>区域与<code>Survivor</code>区域的容量比值，默认为8，代表Eden: Suvivor= 8: 1。</p>
+</li>
+<li><p>–XX:TargetSurvivorRatio=90</p>
+<p>  设置 Survivor 区的可使用率。这里设置为 90%，则允许 90%的 Survivor 空间被使用。默认值是 50%。故该设置提高了 Survivor 区的使用率。当存放的对象超过这个百分比，则对象会向年老代压缩。因此，这个选项更有助于将对象留在年轻代。</p>
+</li>
+<li><p>-XX:ParallelGCThreads</p>
+<p>  设置用于垃圾回收的线程数。通常情况下可以和 CPU 数量相等。但在 CPU 数量比较多的情况下，设置相对较小的数值也是合理的。</p>
+</li>
+<li><p>XX:MaxGCPauseMills</p>
+<p>  设置最大垃圾收集停顿时间。它的值是一个大于 0 的整数。收集器在工作时，会调整 Java 堆大小或者其他一些参数，尽可能地把停顿时间控制在 MaxGCPauseMills 以内。</p>
+</li>
+<li><p>-XX:GCTimeRatio</p>
+<p>  设置吞吐量大小，它的值是一个 0-100 之间的整数。假设 GCTimeRatio 的值为 n，那么系统将花费不超过 1/(1+n) 的时间用于垃圾收集。</p>
+</li>
+<li><p>-XX:ReservedCodeCacheSize</p>
+<p>  代码缓存区。如果代码缓存被占满，JIT编译器被停用，字节码将不再会被编译成机器码。<code>-XX:InitialCodeCacheSize</code>用来设置初始大小。</p>
+</li>
+<li><p>-Xnoclassgc</p>
+<p>  表示关闭JVM对类的垃圾回收。</p>
+</li>
+<li><p>-XX:+TraceClassLoading</p>
+<p>  表示查看类的加载信息。</p>
+</li>
+<li><p>-XX:+TraceClassUnLoading</p>
+<p>  表示查看类的卸载信息。</p>
+</li>
+<li><p>-XX:+PrintHeapAtGC</p>
+<p>  表示可以看到每次GC前后堆内存布局。</p>
+</li>
+<li><p>-XX:+HeapDumpOnOutOfMemoryError</p>
+<p>  表示可以让虚拟机在出现内存溢出异常时Dump出当前的堆内存转储快照。</p>
+</li>
+<li><p>-XX:+PrintGC</p>
+<p>  表示在控制台上打印出GC信息，等同于<code>-verbose:gc</code>。</p>
+</li>
+<li><p>-XX:+PrintGCDetails</p>
+<p>  打印GC日志。</p>
+</li>
+</ul>
+<p>下面是ElasticSearch的一份初始化配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">## JVM configuration</span><br><span class="line"></span><br><span class="line">################################################################</span><br><span class="line">## IMPORTANT: JVM heap size</span><br><span class="line">################################################################</span><br><span class="line">## ElasticSearch 要求堆最小内存等于堆最大内存，初始化时就一次性初始化好整个堆，避免频繁重新扩展堆内存。</span><br><span class="line">## You should always set the min and max JVM heap</span><br><span class="line">## size to the same value. For example, to set</span><br><span class="line">## the heap to 4 GB, set:</span><br><span class="line">##</span><br><span class="line">## -Xms4g</span><br><span class="line">## -Xmx4g</span><br><span class="line">##</span><br><span class="line">## See https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html</span><br><span class="line">## for more information</span><br><span class="line">##</span><br><span class="line">################################################################</span><br><span class="line"></span><br><span class="line"># Xms represents the initial size of total heap space</span><br><span class="line"># Xmx represents the maximum size of total heap space</span><br><span class="line"></span><br><span class="line">-Xms2G</span><br><span class="line">-Xmx2G</span><br><span class="line"></span><br><span class="line">################################################################</span><br><span class="line">## Expert settings</span><br><span class="line">################################################################</span><br><span class="line">##</span><br><span class="line">## All settings below this section are considered</span><br><span class="line">## expert settings. Don&apos;t tamper with them unless</span><br><span class="line">## you understand what you are doing</span><br><span class="line">##</span><br><span class="line">################################################################</span><br><span class="line"></span><br><span class="line">## GC configuration</span><br><span class="line"># 使用CMS收集器（新生代默认的收集器为ParNew）</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line"># 老年代容量到大75开始进行垃圾回收</span><br><span class="line">-XX:CMSInitiatingOccupancyFraction=75</span><br><span class="line"># 不基于运行时收集的数据来启动CMS垃圾收集周期，强制每次都使用CMSInitiatingOccupancyFraction的配置。</span><br><span class="line">-XX:+UseCMSInitiatingOccupancyOnly</span><br><span class="line"># 垃圾回收线程数（本机只有一个核心）</span><br><span class="line">-XX:ParallelGCThreads=1</span><br><span class="line"></span><br><span class="line">## optimizations</span><br><span class="line"></span><br><span class="line"># disable calls to System#gc</span><br><span class="line"># 屏蔽掉System.gc()</span><br><span class="line">-XX:+DisableExplicitGC</span><br><span class="line"></span><br><span class="line"># pre-touch memory pages used by the JVM during initialization</span><br><span class="line">-XX:+AlwaysPreTouch</span><br><span class="line"></span><br><span class="line">## basic</span><br><span class="line"></span><br><span class="line"># force the server VM</span><br><span class="line"># 以Server模式启动</span><br><span class="line">-server</span><br><span class="line"></span><br><span class="line"># set to headless, just in case</span><br><span class="line">-Djava.awt.headless=true</span><br><span class="line"></span><br><span class="line"># ensure UTF-8 encoding by default (e.g. filenames)</span><br><span class="line">-Dfile.encoding=UTF-8</span><br><span class="line"></span><br><span class="line"># use our provided JNA always versus the system one</span><br><span class="line">-Djna.nosys=true</span><br><span class="line"></span><br><span class="line"># flag to explicitly tell Netty to not use unsafe</span><br><span class="line">-Dio.netty.noUnsafe=true</span><br><span class="line"></span><br><span class="line">## heap dumps</span><br><span class="line"></span><br><span class="line"># generate a heap dump when an allocation from the Java heap fails</span><br><span class="line"># heap dumps are created in the working directory of the JVM</span><br><span class="line"># 虚拟机在出现内存溢出异常时Dump出当前的内存堆转储快照</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line"></span><br><span class="line"># specify an alternative path for heap dumps</span><br><span class="line"># ensure the directory exists and has sufficient space</span><br><span class="line">#-XX:HeapDumpPath=$&#123;heap.dump.path&#125;</span><br><span class="line"></span><br><span class="line">## GC logging</span><br><span class="line"># GC 日志</span><br><span class="line"></span><br><span class="line"># 输出GC的详细日志</span><br><span class="line">#-XX:+PrintGCDetails</span><br><span class="line"># 输出GC的时间戳（以基准时间的形式）</span><br><span class="line">#-XX:+PrintGCTimeStamps</span><br><span class="line"># 输出GC的时间戳（以日期的形式，如 2013-05-04T21:53:59.234+0800）</span><br><span class="line">#-XX:+PrintGCDateStamps</span><br><span class="line">#-XX:+PrintClassHistogram</span><br><span class="line">#-XX:+PrintTenuringDistribution</span><br><span class="line">#-XX:+PrintGCApplicationStoppedTime</span><br><span class="line"></span><br><span class="line"># log GC status to a file with time stamps</span><br><span class="line"># ensure the directory exists</span><br><span class="line">#-Xloggc:$&#123;loggc&#125;</span><br><span class="line"></span><br><span class="line"># Elasticsearch 5.0.0 will throw an exception on unquoted field names in JSON.</span><br><span class="line"># If documents were already indexed with unquoted fields in a previous version</span><br><span class="line"># of Elasticsearch, some operations may throw errors.</span><br><span class="line">#</span><br><span class="line"># WARNING: This option will be removed in Elasticsearch 6.0.0 and is provided</span><br><span class="line"># only for migration purposes.</span><br><span class="line">#-Delasticsearch.json.allow_unquoted_field_names=true</span><br></pre></td></tr></table></figure></p>
+<h3 id="类加载阶段"><a href="#类加载阶段" class="headerlink" title="类加载阶段"></a>类加载阶段</h3><ol>
+<li><p>加载和验证</p>
+<p> 从磁盘或者网络中读取class文件，检查class文件是否符合规范。</p>
+</li>
+<li><p>准备和解析</p>
+<p> 分配内存（静态变量初始化），找出类的依赖关系。</p>
+</li>
+<li><p>初始化</p>
+<p> 初始化静态变量，还会运行静态初始化代码块。</p>
+</li>
+</ol>
+<h3 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h3><p>类加载采用<code>双亲委派模型</code>，<code>双亲委派模型</code>要求除了顶层的启动类加载器外，其余的类加载器都应当有自己的父类（不是继承关系，使用组合实现）加载器。<code>双亲委派模型</code>要求类加载器收到了类加载的请求要先委派给父类加载器去完成，只有当父加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</p>
+<p>这保证了虚拟机的安全性，正是有这种机制我们才不能自定义一个类加载器去加载我们自己写的<code>java.lang.Object</code>类。</p>
+<ol>
+<li><p>Bootstrap ClassLoader</p>
+<p> 负责加载<code>＜JAVA_HOME＞\lib</code>中的类。</p>
+</li>
+<li><p>Extension ClassLoader</p>
+<p> 负责加载<code>＜JAVA_HOME＞\lib\ext</code>目录中的类。</p>
+</li>
+<li><p>Application ClassLoader</p>
+<p> 负责加载用户类路径（ClassPath）上所指定的类库，开发者可以直接使用这个类加载器。如果应用程序中没有自定义过自己的类加载器，一般情况下这个就是程序中默认的类加载器。</p>
+<blockquote>
+<p>ClassPath用来告诉解释器从哪里寻找类，可以使用<code>-classpath</code>选项，或者设定<code>CLASSPATH</code>环境变量。一般我们会配置全局<code>CLASSPATH</code>，多个文件夹用分隔符分隔。注意：一般都以<code>.</code>开头，这代表当前文件夹。没有这个配置，我们直接在文件夹中运行<code>java [ClassName]</code>是找不到类的，因为它不会再当前文件夹查找。</p>
+</blockquote>
+</li>
+</ol>
+<p>自定义类加载器<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义类加载器一般继承于 &#123;<span class="doctag">@link</span> java.lang.ClassLoader&#125;。&lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 用户需要实现&#123;<span class="doctag">@link</span> #findClass(String)&#125;方法加载class文件，</span></span><br><span class="line"><span class="comment"> * 然后调用&#123;<span class="doctag">@link</span> #defineClass(String, byte[], int, int)&#125;将类文件（表示为字节数据）转换成类对象。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecureClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String classpath;</span><br><span class="line">    <span class="keyword">private</span> String privateKey;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> classpath</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> secret RSA私钥</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SecureClassLoader</span><span class="params">(String classpath, String secret)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.classpath = classpath;</span><br><span class="line">        <span class="keyword">this</span>.privateKey = secret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> loadSecureClass(name);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception ignored) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Class&lt;?&gt; loadSecureClass(String name) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        String[] className = name.split(<span class="string">"\\."</span>);</span><br><span class="line">        className[className.length - <span class="number">1</span>] += <span class="string">".class"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] classData = Files.readAllBytes(Paths.get(classpath, className));</span><br><span class="line">        <span class="comment">// 解密数据</span></span><br><span class="line">        <span class="comment">// classData = RSA.decrypt(classData, privateKey);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> defineClass(name, classData, <span class="number">0</span>, classData.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        SecureClassLoader classLoader = <span class="keyword">new</span> SecureClassLoader(args[<span class="number">0</span>], args[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        Class&lt;?&gt; personClass = classLoader.loadClass(<span class="string">"cc.kekek.java.Person"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 构造实例</span></span><br><span class="line">        Constructor&lt;?&gt; personConstructor = personClass.getConstructor(String<span class="class">.<span class="keyword">class</span>, <span class="title">Byte</span>.<span class="title">TYPE</span>)</span>;</span><br><span class="line">        Object ming = personConstructor.newInstance(<span class="string">"小明"</span>, (<span class="keyword">byte</span>) <span class="number">10</span>);</span><br><span class="line">        System.out.println(<span class="string">"ming = "</span> + ming);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"one year later..."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 反射方式</span></span><br><span class="line">        Method setAge = personClass.getMethod(<span class="string">"setAge"</span>, Byte.TYPE);</span><br><span class="line">        setAge.invoke(ming, (<span class="keyword">byte</span>) <span class="number">11</span>);</span><br><span class="line">        <span class="comment">// 方法句柄方式</span></span><br><span class="line">        MethodType methodType = MethodType.methodType(Void.TYPE, String<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        MethodHandle handle = MethodHandles.lookup().findVirtual(personClass, <span class="string">"setName"</span>, methodType);</span><br><span class="line">        handle.invoke(ming, <span class="string">"ming"</span>);</span><br><span class="line">        System.out.println(<span class="string">"ming = "</span> + ming);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h3><ul>
+<li><p>javac</p>
+<p>  java 编译命令，将java源文件编译成字节码（.class）文件。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac cc/kekek/demo/Hello.java</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>-classpath</p>
+<p>  提供编译时需要（依赖）的类。</p>
+</li>
+<li><p>-d some/dir</p>
+<p>  告诉 javac 把编译得到的类文件放在哪儿。</p>
+<ul>
+<li><p>-source <version></version></p>
+<p>设定 javac 能接受的 Java 版本。</p>
+</li>
+<li><p>-target <version></version></p>
+<p>设定 javac 编译得到的类文件版本。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>java </p>
+<p>  java 是启动 Java 虚拟机的可执行文件。程序的首个入口点是指定类中的 main() 方法。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java &lt;options&gt; cc.kekek.demo.Hello &lt;args&gt;</span><br><span class="line">java -jar my-packaged.jar</span><br><span class="line">java -cp my-packaged.jar cc.kekek.demo.Hello &lt;args&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>-cp <classpath></classpath></p>
+<p>  定义从哪个路径读取类。默认配置的<code>CLASSPATH</code>环境变量，这个环境变量的一般以<code>.</code>开头，代表当前目录。</p>
+</li>
+<li><p>-D&lt;property=value&gt;</p>
+<p>  设定 Java 系统属性，在 Java 程序中能取回<code>System.getProperty(&quot;property&quot;)</code>设定的属性。使用这种方式可以设定任意个属性。</p>
+</li>
+</ul>
+</li>
+<li><p>jar </p>
+<p>  实用工具 jar 用于处理 Java 档案（.jar）文件。这是 ZIP 格式的文件，包含 Java 类、附加的资源和元数据（通常会有）。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jar cvf my.jar someDir/</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>e</p>
+<p>  把 JAR 文件变成可执行文件，而且使用指定的类作为入口点。</p>
+</li>
+</ul>
+</li>
+<li><p>jps</p>
+<p>  显示所有的jvm进程。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查看远程机器</span><br><span class="line">jsp &lt;ip&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jstat</p>
+<p>  查看的通常是本地进程，不过，如果远程设备中运行着合适的 jstatd 进程，也能查看这台远程设备中的进程。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 每10s打印一下垃圾回收信息</span><br><span class="line">jstat -gcutil &lt;vmid&gt; 10ms</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jstatd</p>
+<p>  jstatd 能让本地 JVM 的信息通过网络传出去。想传递信息，需要特殊的安全设置，这和 JVM 的默认设置有所不同。启动 jstatd 之前要先创建下述文件，并将其命名为 jstatd.policy。</p>
+<blockquote>
+<p><code>Could not contact registry</code>错误。一般所在环境DNS有问题，会有一个默认的指向。一般用户需要查看<code>hostname</code>，然后配置<code>/etc/hosts</code>配置IP。</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grant codebase &quot;file:$&#123;java.home&#125;/../lib/tools.jar&quot; &#123;</span><br><span class="line">    permission java.security.AllPermission;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstatd -J-Djava.security.policy=&lt;path to jstat.policy&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-p <port></port></li>
+</ul>
+</li>
+<li><p>jstack <process id></process></p>
+<p>  jstack 实用工具用于输出进程中每个 Java 线程的堆栈跟踪。</p>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li>深入理解Java虚拟机</li>
+<li>Java技术手册</li>
+<li>垃圾回收的算法与实现</li>
+<li><a href="https://blog.csdn.net/yangzl2008/article/details/43202969" target="_blank" rel="noopener">Java中的逃逸分析和TLAB以及Java对象分配</a></li>
+<li><a href="https://www.ziwenxie.site/2017/07/24/java-jvm-gc/" target="_blank" rel="noopener">JVM垃圾回收算法及回收器详解</a></li>
+<li><a href="http://www.infoq.com/cn/news/2017/03/garbage-collection-algorithm" target="_blank" rel="noopener">理解垃圾回收算法</a></li>
+<li><a href="https://www.jianshu.com/p/cd85098cca39" target="_blank" rel="noopener">JVM源码分析之线程局部缓存TLAB</a></li>
+<li><a href="http://ifeve.com/useful-jvm-flags-part-7-cms-collector/" target="_blank" rel="noopener">JVM实用参数（七）CMS收集器</a></li>
+</ul>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">Java虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="toc-number">1.1.</span> <span class="toc-text">Java内存区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">Java内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-number">1.3.</span> <span class="toc-text">垃圾回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GC%E4%B8%BB%E8%A6%81%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.1.</span> <span class="toc-text">GC主要算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%B8%AD%E7%9A%84GC"><span class="toc-number">1.3.2.</span> <span class="toc-text">Java中的GC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90"><span class="toc-number">1.3.3.</span> <span class="toc-text">逃逸分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GC-roots"><span class="toc-number">1.3.4.</span> <span class="toc-text">GC roots</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8EGC%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.5.</span> <span class="toc-text">与GC相关的常用参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="toc-number">1.4.</span> <span class="toc-text">类加载阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ClassLoader"><span class="toc-number">1.5.</span> <span class="toc-text">ClassLoader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">1.6.</span> <span class="toc-text">命令行工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.7.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Java虚拟机&body=Check out this article: https://kekek.cc/post/jvm.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/jvm.html&title=Java虚拟机"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
