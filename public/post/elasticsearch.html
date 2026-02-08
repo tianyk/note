@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="Java API 客户端 节点客户端（Node client）节点客户端作为一个非数据节点加入到本地集群中。换句话说，它本身不保存任何数据，但是它知道数据在集群中的哪个节点中，并且可以把请求转发到正确的节点。 传输客户端（Transport client）轻量级的传输客户端可以可以将请求发送到远程集群。它本身不加入集群，但是它可以将请求转发到集群中的一个节点上。  面向文档也许有一天你想把这些对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch">
+<meta property="og:url" content="https://kekek.cc/post/elasticsearch.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="Java API 客户端 节点客户端（Node client）节点客户端作为一个非数据节点加入到本地集群中。换句话说，它本身不保存任何数据，但是它知道数据在集群中的哪个节点中，并且可以把请求转发到正确的节点。 传输客户端（Transport client）轻量级的传输客户端可以可以将请求发送到远程集群。它本身不加入集群，但是它可以将请求转发到集群中的一个节点上。  面向文档也许有一天你想把这些对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/QQ20171023-152716@2x.jpg">
+<meta property="og:image" content="https://kekek.cc/images/QQ20171023-153637@2x.jpg">
+<meta property="og:image" content="https://kekek.cc/images/WechatIMG32.jpeg">
+<meta property="article:published_time" content="2016-08-03T05:51:30.000Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.674Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/QQ20171023-152716@2x.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>ElasticSearch</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/linux-ntpdate.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/npm.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=ElasticSearch&body=Check out this article: https://kekek.cc/post/elasticsearch.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/elasticsearch.html&title=ElasticSearch"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-API-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">1.</span> <span class="toc-text">Java API 客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E6%96%87%E6%A1%A3"><span class="toc-number">2.</span> <span class="toc-text">面向文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">简单命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.</span> <span class="toc-text">常用接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%86%85%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">集群内的原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%81%A5%E5%BA%B7"><span class="toc-number">6.</span> <span class="toc-text">集群健康</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%89%87"><span class="toc-number">7.</span> <span class="toc-text">分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">8.</span> <span class="toc-text">文档元数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.1.</span> <span class="toc-text">创建新文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.2.</span> <span class="toc-text">更新文档</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">9.</span> <span class="toc-text">乐观并发控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E6%A1%A3%E5%AD%98%E5%82%A8"><span class="toc-number">10.</span> <span class="toc-text">分布式文档存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2"><span class="toc-number">11.</span> <span class="toc-text">搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8"><span class="toc-number">12.</span> <span class="toc-text">分析与分析器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">12.1.</span> <span class="toc-text">测试分词器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84"><span class="toc-number">13.</span> <span class="toc-text">映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E6%A0%B8%E5%BF%83%E5%9F%9F%E7%B1%BB%E5%9E%8B"><span class="toc-number">14.</span> <span class="toc-text">复杂核心域类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E8%BF%87%E6%BB%A4"><span class="toc-number">15.</span> <span class="toc-text">查询与过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="toc-number">16.</span> <span class="toc-text">查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-number">17.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%80%A7"><span class="toc-number">18.</span> <span class="toc-text">相关性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-number">19.</span> <span class="toc-text">重建索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%AB%E5%90%8D"><span class="toc-number">20.</span> <span class="toc-text">索引别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#match%E7%B2%BE%E5%BA%A6"><span class="toc-number">21.</span> <span class="toc-text">match精度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E4%B9%89%E8%AF%8D"><span class="toc-number">22.</span> <span class="toc-text">同义词</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3"><span class="toc-number">23.</span> <span class="toc-text">拼音</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89index"><span class="toc-number">24.</span> <span class="toc-text">查看所有index</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">25.</span> <span class="toc-text">示例</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ElasticSearch
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-08-03T05:51:30.000Z" itemprop="datePublished">2016-08-03</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Java-API-客户端"><a href="#Java-API-客户端" class="headerlink" title="Java API 客户端"></a>Java API 客户端</h3><ul>
+<li>节点客户端（Node client）<br>节点客户端作为一个非数据节点加入到本地集群中。换句话说，它本身不保存任何数据，但是它知道数据在集群中的哪个节点中，并且可以把请求转发到正确的节点。</li>
+<li>传输客户端（Transport client）<br>轻量级的传输客户端可以可以将请求发送到远程集群。它本身不加入集群，但是它可以将请求转发到集群中的一个节点上。</li>
+</ul>
+<h3 id="面向文档"><a href="#面向文档" class="headerlink" title="面向文档"></a>面向文档</h3><p>也许有一天你想把这些对象存储在数据库中。使用关系型数据库的行和列存储，这相当于是把一个表现力丰富的对象挤压到一个非常大的电子表格中：你必须将这个对象扁平化来适应表结构–通常一个字段&gt;对应一列–而且又不得不在每次查询时重新构造对象。</p>
+<p>Elasticsearch 是 面向文档 的，意味着它存储整个对象或 文档_。Elasticsearch 不仅存储文档，而且 _索引 每个文档的内容使之可以被检索。在 Elasticsearch 中，你 对文档进行索引、检索、排序和过滤–而不是对行列数据。</p>
+<h3 id="简单命令"><a href="#简单命令" class="headerlink" title="简单命令"></a>简单命令</h3><ul>
+<li>将 HTTP 命令由 PUT 改为 GET 可以用来检索文档，同样的，可以使用 DELETE 命令来删除文档，以及使用 HEAD 指令来检查文档是否存在。如果想更新已存在的文档，只需再次 PUT 。</li>
+</ul>
+<h3 id="常用接口"><a href="#常用接口" class="headerlink" title="常用接口"></a>常用接口</h3><ol>
+<li>创建mapping</li>
+</ol>
+<h3 id="集群内的原理"><a href="#集群内的原理" class="headerlink" title="集群内的原理"></a>集群内的原理</h3><p>一个运行中的 Elasticsearch 实例称为一个 节点，而集群是由一个或者多个拥有相同 cluster.name 配置的节点组成，<strong>它们共同承担数据和负载的压力</strong>。当有节点加入集群中或者从集群中移除节点时，<strong>集群将会重新平均分布所有的数据</strong>。</p>
+<p>当一个节点被选举成为主节点时，<strong>它将负责管理集群范围内的所有变更</strong>，例如增加、删除索引，或者增加、删除节点等。而主节点并不需要涉及到文档级别的变更和搜索等操作。</p>
+<p><strong>我们可以将请求发送到集群中的任何节点</strong>，包括主节点。<strong>每个节点都知道任意文档所处的位置</strong>，并且能够将我们的请求直接转发到存储我们所需文档的节点。无论我们将请求发送到哪个节点，它都能负责从各个包含我们所需文档的节点收集回数据，并将最终结果返回給客户端。</p>
+<h3 id="集群健康"><a href="#集群健康" class="headerlink" title="集群健康"></a>集群健康</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GET /_cluster/health</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;cluster_name&quot;: &quot;library&quot;,</span><br><span class="line">   &quot;status&quot;: &quot;yellow&quot;,</span><br><span class="line">   &quot;timed_out&quot;: false,</span><br><span class="line">   &quot;number_of_nodes&quot;: 1,</span><br><span class="line">   &quot;number_of_data_nodes&quot;: 1,</span><br><span class="line">   &quot;active_primary_shards&quot;: 5,</span><br><span class="line">   &quot;active_shards&quot;: 5,</span><br><span class="line">   &quot;relocating_shards&quot;: 0,</span><br><span class="line">   &quot;initializing_shards&quot;: 0,</span><br><span class="line">   &quot;unassigned_shards&quot;: 5,</span><br><span class="line">   &quot;delayed_unassigned_shards&quot;: 0,</span><br><span class="line">   &quot;number_of_pending_tasks&quot;: 0,</span><br><span class="line">   &quot;number_of_in_flight_fetch&quot;: 0,</span><br><span class="line">   &quot;task_max_waiting_in_queue_millis&quot;: 0,</span><br><span class="line">   &quot;active_shards_percent_as_number&quot;: 50</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>status 字段是我们最关心的。status 字段指示着当前集群在总体上是否工作正常。它的三种颜色含义如下：</p>
+<ul>
+<li>green<br>  所有的<strong>主分片</strong>和<strong>副本分片</strong>都正常运行。</li>
+<li>yellow<br>  所有的主分片都正常运行，但不是所有的副本分片都正常运行。</li>
+<li>red<br>  有主分片没能正常运行。</li>
+</ul>
+<h3 id="分片"><a href="#分片" class="headerlink" title="分片"></a>分片</h3><p>我们往 Elasticsearch 添加数据时需要用到 索引 —— 保存相关数据的地方。 索引实际上是指向一个或者多个物理分片的逻辑命名空间 。</p>
+<p>一个分片是一个底层的工作单元 ，它仅保存了全部数据中的一部分。 在分片内部机制中，我们将详细介绍分片是如何工作的，而现在我们只需知道<strong>一个分片是一个 Lucene 的实例</strong>，以及它本身就是一个完整的搜索引擎。 我们的文档被存储和索引到分片内，但是应用程序是直接与索引而不是与分片进行交互。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 分配3个主分片和一份副本（每个主分片拥有一个副本分片） --&gt;</span><br><span class="line">PUT /blogs</span><br><span class="line">&#123;</span><br><span class="line">   &quot;settings&quot; : &#123;</span><br><span class="line">      &quot;number_of_shards&quot; : 3, </span><br><span class="line">      &quot;number_of_replicas&quot; : 1</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>技术上来说，一个主分片最大能够存储 Integer.MAX_VALUE - 128 个文档</p>
+</blockquote>
+<p>一个副本分片只是一个主分片的拷贝。 副本分片作为硬件故障时保护数据不丢失的冗余备份，并为搜索和返回文档等读操作提供服务。</p>
+<p>主分片的数目在索引创建时 就已经确定了下来。 但是，读操作——搜索和返回数据——可以同时被主分片或副本分片所处理，<strong>所以当你拥有越多的副本分片时，也将拥有越高的吞吐量</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT /blogs/_settings</span><br><span class="line">&#123;</span><br><span class="line">   &quot;number_of_replicas&quot; : 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文档元数据"><a href="#文档元数据" class="headerlink" title="文档元数据"></a>文档元数据</h3><ul>
+<li><p>_index<br>  一个索引应该是因共同的特性被分组到一起的文档集合。</p>
+</li>
+<li><p>_type<br>  数据可能在索引中只是松散的组合在一起，但是通常明确定义一些数据中的子分区是很有用的。</p>
+<blockquote>
+<p>这里我们用数据库的database去类比_index，table类比_type是不合适的，一个数据库里面每个表往往有很大差异。如果在es这样对应，那么一个_index下面的文档可能根本就没有同工特性。这是不合适的，建议尽可能一个table就是一个_index。<code>index.mapping.single_type</code></p>
+</blockquote>
+</li>
+<li><p>_id<br>  ID 是一个字符串， 当它和 _index 以及 _type 组合就可以唯一确定 Elasticsearch 中的一个文档。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT /library</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">        &quot;number_of_shards&quot; :   4,</span><br><span class="line">        &quot;number_of_replicas&quot; : 1,</span><br><span class="line">        &quot;index.mapping.single_type&quot;: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/mapping.html">https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/mapping.html</a></p>
+<h4 id="创建新文档"><a href="#创建新文档" class="headerlink" title="创建新文档"></a>创建新文档</h4><p>两种方式 POST 、PUT。POST 不能指定ID，PUT方式可以自定义ID（不同于新增，我们需要在后面加?op_type&#x3D;create或者&#x2F;_create说明这个操作是新增不是更新）。</p>
+<ul>
+<li><p>POST</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /website/blog/</span><br><span class="line">&#123;</span><br><span class="line">&quot;title&quot;: &quot;My first blog entry&quot;,</span><br><span class="line">&quot;text&quot;:  &quot;Just trying this out...&quot;,</span><br><span class="line">&quot;date&quot;:  &quot;2017/10/21&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PUT </p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /website/blog/123/_create</span><br><span class="line">&#123;</span><br><span class="line">&quot;title&quot;: &quot;My first blog entry&quot;,</span><br><span class="line">&quot;text&quot;:  &quot;Just trying this out...&quot;,</span><br><span class="line">&quot;date&quot;:  &quot;2017/10/21&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h4><p>PUT 整体更新（直接替换），POST &#x2F;_update 局部更新。<br><strong>文档不能被修改，只能被替换。</strong></p>
+<ol>
+<li>从旧文档构建 JSON</li>
+<li>更改该 JSON</li>
+<li>删除旧文档</li>
+<li>索引一个新文档</li>
+</ol>
+<h3 id="乐观并发控制"><a href="#乐观并发控制" class="headerlink" title="乐观并发控制"></a>乐观并发控制</h3><ul>
+<li><p>悲观并发控制<br>这种方法被关系型数据库广泛使用，它假定有变更冲突可能发生，因此阻塞访问资源以防止冲突。 一个典型的例子是读取一行数据之前先将其锁住，确保只有放置锁的线程能够对这行数据进行修改。</p>
+</li>
+<li><p>乐观并发控制<br>Elasticsearch 中使用的这种方法假定冲突是不可能发生的，并且不会阻塞正在尝试的操作。 然而，如果源数据在读写当中被修改，更新将会失败。应用程序接下来将决定该如何解决冲突。 例如，可以重试更新、使用新的数据、或者将相关情况报告给用户。</p>
+</li>
+</ul>
+<p>Elasticsearch 是分布式的。当文档创建、更新或删除时，新版本的文档必须复制到集群中的其他节点。Elasticsearch 也是异步和并发的，这意味着这些复制请求被并行发送，并且到达目的地时也许顺序是乱的 。Elasticsearch 使用 _version 号来确保变更以正确顺序得到执行。如果旧版本的文档在新版本之后到达，它可以被简单的忽略。</p>
+<h3 id="分布式文档存储"><a href="#分布式文档存储" class="headerlink" title="分布式文档存储"></a>分布式文档存储</h3><p>当索引一个文档的时候，文档会被存储到一个主分片中。 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shard = hash(routing) % number_of_primary_shards</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们要在创建索引的时候就确定好主分片的数量并且永远不会改变这个数量：因为如果数量变化了，那么所有之前路由的值都会无效，文档也再也找不到了。</p>
+</blockquote>
+<p>我们可以发送请求到集群中的任一节点。<strong>每个节点都有能力处理任意请求</strong>。 每个节点都知道集群中任一文档位置，所以可以直接将请求转发到需要的节点上。   </p>
+<p>新建、索引和删除请求都是<strong>写</strong>操作，必须在主分片上面完成之后才能被复制到相关的副本分片。</p>
+<p><img src="/images/QQ20171023-152716@2x.jpg"></p>
+<ol>
+<li>客户端向 Node 1 发送新建、索引或者删除请求。</li>
+<li>节点使用文档的 _id 确定文档属于分片 0<code>。请求会被转发到 </code>Node 3<code>，因为分片 0 的主分片目前被分配在 </code>Node 3 上。</li>
+<li>Node 3 在主分片上面执行请求。如果成功了，它将请求并行转发到 Node 1 和 Node 2 的副本分片上。一旦所有的副本分片都报告成功, Node 3 将向协调节点报告成功，协调节点向客户端报告成功。</li>
+</ol>
+<p><img src="/images/QQ20171023-153637@2x.jpg"></p>
+<h3 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h3><ul>
+<li>映射（Mapping）<br>  描述数据在每个字段内如何存储</li>
+<li>分析（Analysis）<br>  全文是如何处理使之可以被搜索的</li>
+<li>领域特定查询语言（Query DSL）<br>  Elasticsearch 中强大灵活的查询语言</li>
+</ul>
+<h3 id="分析与分析器"><a href="#分析与分析器" class="headerlink" title="分析与分析器"></a>分析与分析器</h3><p>分析器实际上是将三个功能封装到了一个包里：</p>
+<ul>
+<li>字符过滤器<br>  首先，字符串按顺序通过每个字符过滤器 。他们的任务是在分词前整理字符串。一个字符过滤器可以用来去掉HTML，或者将 &amp; 转化成 <code>and</code>。</li>
+<li>分词器<br>  其次，字符串被 分词器 分为单个的词条。一个简单的分词器遇到空格和标点的时候，可能会将文本拆分成词条。</li>
+<li>Token 过滤器<br>  最后，词条按顺序通过每个 token 过滤器 。这个过程可能会改变词条（例如，小写化 Quick ），删除词条（例如， 像 a<code>， </code>and<code>， </code>the 等无用词），或者增加词条（例如，像 jump 和 leap 这种同义词）。</li>
+</ul>
+<h4 id="测试分词器"><a href="#测试分词器" class="headerlink" title="测试分词器"></a>测试分词器</h4><blockquote>
+<p>&#x2F;_analyze?analyzer&#x3D;ik_smart&amp;pretty&#x3D;true&amp;text&#x3D;word</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;analyzer&quot;: &quot;standard&quot;, // 分词器名称</span><br><span class="line">  &quot;text&quot;: &quot;Text to analyze&quot; // 被分词的文本</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h3><p>Elasticsearch 支持 如下简单域类型：</p>
+<ul>
+<li>字符串: string</li>
+<li>整数 : byte, short, integer, long</li>
+<li>浮点数: float, double</li>
+<li>布尔型: boolean</li>
+<li>日期: date</li>
+</ul>
+<p>获取某个类型的mapping</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /website/_mapping/blog</span><br></pre></td></tr></table></figure>
+<p><a href="https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/mapping-intro.html">https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/mapping-intro.html</a><br><img src="/images/WechatIMG32.jpeg"></p>
+<blockquote>
+<p>当 <code>index</code> 设置为 <code>no</code> 时意味着 <code>elasticsearch</code> 不对这个自动索引，仅仅是存储（具体还要看索引配置是否存储 <code>_source</code> ）。我们不能再此字段应用任何形式（模糊、精确、范围）的查询。</p>
+</blockquote>
+<h3 id="复杂核心域类型"><a href="#复杂核心域类型" class="headerlink" title="复杂核心域类型"></a>复杂核心域类型</h3><p>除了简单标量数据类型，JSON 还有 null 值，数组，和对象。这些 Elasticsearch 都是支持的。</p>
+<h3 id="查询与过滤"><a href="#查询与过滤" class="headerlink" title="查询与过滤"></a>查询与过滤</h3><p>Elasticsearch 使用的查询语言（DSL） 拥有一套查询组件，这些组件可以以无限组合的方式进行搭配。这套组件可以在以下两种情况下使用：过滤情况（filtering context）和查询情况（query context）。</p>
+<p>当使用于 过滤情况 时，查询被设置成一个“不评分”或者“过滤”查询。即，这个查询只是简单的问一个问题：“这篇文档是否匹配？”。回答也是非常的简单，yes 或者 no ，二者必居其一。</p>
+<ul>
+<li>created 时间是否在 2013 与 2014 这个区间？</li>
+<li>status 字段是否包含 published 这个单词？</li>
+<li>lat_lon 字段表示的位置是否在指定点的 10km 范围内？</li>
+</ul>
+<p>当使用于 查询情况 时，查询就变成了一个“评分”的查询。和不评分的查询类似，也要去判断这个文档是否匹配，同时它还需要判断这个文档匹配的有 <em>多好</em>（匹配程度如何）。 此查询的典型用法是用于查找以下文档：</p>
+<ul>
+<li>查找与 full text search 这个词语最佳匹配的文档</li>
+<li>包含 run 这个词，也能匹配 runs 、 running 、 jog 或者 sprint</li>
+<li>包含 quick 、 brown 和 fox 这几个词 — 词之间离的越近，文档相关性越高</li>
+<li>标有 lucene 、 search 或者 java 标签 — 标签越多，相关性越高</li>
+</ul>
+<p>一个评分查询计算每一个文档与此查询的 <em>相关程度</em>，同时将这个相关程度分配给表示相关性的字段 <code>_score</code>，并且按照相关性对匹配到的文档进行排序。这种相关性的概念是非常适合全文搜索的情况，因为全文搜索几乎没有完全 “正确” 的答案。</p>
+<p>过滤查询（Filtering queries）只是简单的检查包含或者排除，这就使得计算起来非常快。通常的使用查询（query）语句来进行全文搜索或者其它任何需要影响相关性得分的搜索。除此以外的情况都使用过滤（filters)。</p>
+<p>组合查询<br>    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;bool&quot;: &#123;</span><br><span class="line">            &quot;must&quot;:     [&#123; &quot;match&quot;: &#123; &quot;tweet&quot;: &quot;elasticsearch&quot; &#125;&#125;],</span><br><span class="line">            &quot;must_not&quot;: [&#123; &quot;match&quot;: &#123; &quot;name&quot;:  &quot;mary&quot; &#125;&#125;],</span><br><span class="line">            &quot;should&quot;:   [&#123; &quot;match&quot;: &#123; &quot;tweet&quot;: &quot;full text&quot; &#125;&#125;], // 等价于 or </span><br><span class="line">            &quot;filter&quot;:   [&#123; &quot;range&quot;: &#123; &quot;age&quot; : &#123; &quot;gt&quot; : 30 &#125;&#125; &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>must<br>  文档 必须 匹配这些条件才能被包含进来。</li>
+<li>must_not<br>  文档 必须不 匹配这些条件才能被包含进来。</li>
+<li>should<br>  如果满足这些语句中的任意语句，将增加 _score (通过boost参数设置加几分，默认1分)，否则，无任何影响。它们主要用于修正每个文档的相关性得分。</li>
+<li>filter<br>  必须匹配，但它以不评分、过滤模式来进行。这些语句对评分没有贡献，只是根据过滤标准来排除或包含文档。</li>
+</ul>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ul>
+<li>match_all 匹配所有文档  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /library/_search/</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>match 查询（模糊）  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /library/_search/</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">            &quot;title&quot;: &quot;陈忠实&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>multi_match 多个字段查询应用一个查询条件  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /library/_search/</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;multi_match&quot;: &#123;</span><br><span class="line">            &quot;query&quot;: &quot;陈忠实&quot;,</span><br><span class="line">            &quot;fields&quot;: [&quot;title&quot;, &quot;author&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>range 查询找出那些落在指定区间内的数字或者时间  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;range&quot;: &#123;</span><br><span class="line">        &quot;age&quot;: &#123;</span><br><span class="line">            &quot;gte&quot;:  20,</span><br><span class="line">            &quot;lt&quot;:   30</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>term 查询被用于精确值 匹配，这些精确值可能是数字、时间、布尔或者那些<code>not_analyzed</code>的字符串  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;term&quot;: &#123; &quot;age&quot;:    26           &#125;&#125;</span><br><span class="line">&#123; &quot;term&quot;: &#123; &quot;date&quot;:   &quot;2014-09-01&quot; &#125;&#125;</span><br><span class="line">&#123; &quot;term&quot;: &#123; &quot;public&quot;: true         &#125;&#125;</span><br><span class="line">&#123; &quot;term&quot;: &#123; &quot;tag&quot;:    &quot;full_text&quot;  &#125;&#125;</span><br></pre></td></tr></table></figure></li>
+<li>terms 查询和 term 查询一样，但它允许你指定多值进行匹配。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;terms&quot;: &#123; &quot;tag&quot;: [ &quot;search&quot;, &quot;full_text&quot;, &quot;nosql&quot; ] &#125;&#125;</span><br></pre></td></tr></table></figure></li>
+<li>exists 查询和 missing 查询被用于查找那些指定字段中有值 (exists) 或无值 (missing) 的文档。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;exists&quot;:   &#123;</span><br><span class="line">        &quot;field&quot;:    &quot;title&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>filter</li>
+</ul>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>ElasticSearch 默认排序是<code>_score</code>降序。</p>
+<blockquote>
+<p>如果我们不需要评分，可以使用 <code>constant_score</code> 查询进行替代，这将让所有文档应用一个恒定分数（默认为 1 ）。如果我们不使用默认的<code>_score</code>排序，那么 <code>_score</code> 和 <code>max_score</code> 字段都是 null 。 计算 <code>_score</code> 的花销巨大，通常仅用于排序； 我们并不根据相关性排序，所以记录 <code>_score</code> 是没有意义的。如果无论如何你都要计算<code> _score</code> ， 你可以将 <code>track_scores</code> 参数设置为 true</p>
+</blockquote>
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>每个文档都有相关性评分，用一个正浮点数字段 _score 来表示 。 _score 的评分越高，相关性越高。</p>
+<ul>
+<li><p>检索词频率<br>  检索词在该字段出现的频率？出现频率越高，相关性也越高。 字段中出现过 5 次要比只出现过 1 次的相关性高。</p>
+</li>
+<li><p>反向文档频率<br>  每个检索词在索引中出现的频率？频率越高，相关性越低。检索词出现在多数文档中会比出现在少数文档中的权重更低。</p>
+</li>
+<li><p>字段长度准则<br>  字段的长度是多少？长度越长，相关性越低。 检索词出现在一个短的 title 要比同样的词出现在一个长的 content 字段权重更大。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">查看相关性是如何计算的</span><br><span class="line"></span><br><span class="line">GET /_search?explain </span><br><span class="line">&#123;</span><br><span class="line">   &quot;query&quot;: &#123; &quot;match&quot; : &#123; &quot;tweet&quot; : &quot;honeymoon&quot; &#125; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="重建索引"><a href="#重建索引" class="headerlink" title="重建索引"></a>重建索引</h3><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST _reindex</span><br><span class="line">&#123;</span><br><span class="line">  &quot;source&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &quot;twitter&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dest&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &quot;new_twitter&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="索引别名"><a href="#索引别名" class="headerlink" title="索引别名"></a>索引别名</h3><p><code>my_index</code> 指向 <code>my_index_v1</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT /my_index_v1 </span><br><span class="line">PUT /my_index_v1/_alias/my_index</span><br></pre></td></tr></table></figure>
+
+<h3 id="match精度"><a href="#match精度" class="headerlink" title="match精度"></a>match精度</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;match&quot;: &#123;</span><br><span class="line">    &quot;title&quot;: &#123;</span><br><span class="line">        &quot;query&quot;: &quot;css 权威指南&quot;,</span><br><span class="line">        &quot;operator&quot;: &quot;and&quot;, // 操作符 关键词匹配是or还是and </span><br><span class="line">        &quot;minimum_should_match&quot;: &quot;70%&quot; // 至少匹配多少个关键词</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="同义词"><a href="#同义词" class="headerlink" title="同义词"></a>同义词</h3><blockquote>
+<p><code>synonyms_path</code>相对于<code>elasticsearch</code>的<code>config</code>文件目录，一般位于<code>/etc/elasticsearch</code>。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PUT /[index_name]</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">        &quot;analysis&quot;: &#123;</span><br><span class="line">            &quot;filter&quot;:      &#123; </span><br><span class="line">                &quot;synonym_filter&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;synonym&quot;, </span><br><span class="line">                    &quot;synonyms_path&quot;: &quot;analysis/synonyms.txt&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="拼音"><a href="#拼音" class="headerlink" title="拼音"></a>拼音</h3><blockquote>
+<p>汉字转拼音是不可逆的过程。<code>汉字</code>，<code>汗渍</code> 两者的拼音都是<code>hanzi</code>。当用户输入<code>汉字</code>是我们明确知道用户想搜什么，但是如果是拼音<code>hanzi</code>，这时无法准确推断用户的真实想法。这时搜索结果中可能<code>汉字</code>、<code>汗渍</code>都会出现。<br><a href="https://github.com/medcl/elasticsearch-analysis-pinyin">https://github.com/medcl/elasticsearch-analysis-pinyin</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">PUT /[index_name]</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">        &quot;number_of_shards&quot; :   4,</span><br><span class="line">        &quot;number_of_replicas&quot; : 1,</span><br><span class="line">        &quot;index.mapping.single_type&quot;: true,</span><br><span class="line">        &quot;analysis&quot;: &#123;</span><br><span class="line">            &quot;filter&quot;:      &#123; </span><br><span class="line">                &quot;synonym_filter&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;synonym&quot;, </span><br><span class="line">                    &quot;synonyms_path&quot;: &quot;analysis/synonyms.txt&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;pinyin_filter&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;pinyin&quot;,</span><br><span class="line">                    &quot;keep_first_letter&quot;: false,</span><br><span class="line">                    &quot;keep_full_pinyin&quot;: false,</span><br><span class="line">                    &quot;keep_joined_full_pinyin&quot;: true,</span><br><span class="line">                    &quot;keep_separate_first_letter&quot;: false,</span><br><span class="line">                    &quot;keep_original&quot;: true</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;analyzer&quot;:    &#123;</span><br><span class="line">                &quot;ik_smart_pinyin&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;custom&quot;,</span><br><span class="line">                    &quot;tokenizer&quot;: &quot;ik_smart&quot;,</span><br><span class="line">                    &quot;filter&quot;: [&quot;synonym_filter&quot;, &quot;pinyin_filter&quot;]</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;ik_max_word_pinyin&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;custom&quot;,</span><br><span class="line">                    &quot;tokenizer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">                    &quot;filter&quot;: [&quot;synonym_filter&quot;, &quot;pinyin_filter&quot;]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看所有index"><a href="#查看所有index" class="headerlink" title="查看所有index"></a>查看所有index</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/_cat/indices</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><ol>
+<li>创建索引</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &#x27;http://es.kekek.cc/library_20171204?pretty=true&#x27; -d &#x27;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">        &quot;number_of_shards&quot; :   4,</span><br><span class="line">        &quot;number_of_replicas&quot; : 1,</span><br><span class="line">        &quot;index.mapping.single_type&quot;: true,</span><br><span class="line">        &quot;analysis&quot;: &#123;</span><br><span class="line">            &quot;filter&quot;:      &#123; </span><br><span class="line">                &quot;synonym_filter&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;synonym&quot;, </span><br><span class="line">                    &quot;synonyms_path&quot;: &quot;analysis/synonyms.txt&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;pinyin_filter&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;chinese-pinyin&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;length_filter&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;length&quot;,</span><br><span class="line">                    &quot;min&quot;: 2</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;analyzer&quot;:    &#123;</span><br><span class="line">                &quot;ik_smart_pinyin&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;custom&quot;,</span><br><span class="line">                    &quot;tokenizer&quot;: &quot;ik_smart&quot;,</span><br><span class="line">                    &quot;filter&quot;: [&quot;length_filter&quot;, &quot;synonym_filter&quot;, &quot;pinyin_filter&quot;]</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;ik_max_word_pinyin&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;custom&quot;,</span><br><span class="line">                    &quot;tokenizer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">                    &quot;filter&quot;: [&quot;length_filter&quot;, &quot;synonym_filter&quot;, &quot;pinyin_filter&quot;]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; &#x27;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建 mapping</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &#x27;http://es.kekek.cc/library_20171204/_mapping/book?pretty=true&#x27; -d &#x27;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;dynamic&quot;: false,</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;title&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_smart_pinyin&quot;,</span><br><span class="line">            &quot;search_analyzer&quot;: &quot;ik_max_word_pinyin&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;subtitle&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_smart_pinyin&quot;,</span><br><span class="line">            &quot;search_analyzer&quot;: &quot;ik_max_word_pinyin&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;author&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_smart_pinyin&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;translator&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_smart_pinyin&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;rating&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;object&quot;,</span><br><span class="line">            &quot;properties&quot;: &#123;</span><br><span class="line">                &quot;max&quot;: &#123; &quot;type&quot;: &quot;integer&quot;, &quot;index&quot;: &quot;no&quot; &#125;,</span><br><span class="line">                &quot;num_raters&quot;: &#123;&quot;type&quot;: &quot;integer&quot; &#125;,</span><br><span class="line">                &quot;average&quot;: &#123;&quot;type&quot;: &quot;float&quot; &#125;,</span><br><span class="line">                &quot;min&quot;: &#123;&quot;type&quot;: &quot;integer&quot;, &quot;index&quot;: &quot;no&quot;  &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;pubdate&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;date&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;tags&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;not_analyzed&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;isbn&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;not_analyzed&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;isbn10&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;isbn13&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;origin_title&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;image&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;binding&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;pages&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;integer&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;images&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;object&quot;,</span><br><span class="line">            &quot;properties&quot;: &#123;</span><br><span class="line">                &quot;small&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">                    &quot;index&quot;: &quot;no&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;large&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">                    &quot;index&quot;: &quot;no&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;medium&quot;: &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">                    &quot;index&quot;: &quot;no&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;alt&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;origin_id&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;integer&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;publisher&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;url&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;alt_title&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;series_id&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;integer&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;, </span><br><span class="line">        &quot;series_title&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;price&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">            &quot;index&quot;: &quot;no&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;created_at&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;date&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;updated_at&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;date&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125; &#x27;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>重建索引</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -POST &#x27;http://es.kekek.cc/_reindex&#x27; -d &#x27;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;source&quot;: &#123;</span><br><span class="line">        &quot;index&quot;: &quot;books&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;dest&quot;: &#123;</span><br><span class="line">        &quot;index&quot;: &quot;library_20171204&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x27;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>索引别名</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT /library_20171204/_alias/library</span><br><span class="line">curl -XDELETE /library_20171129/_alias/library</span><br><span class="line"></span><br><span class="line">curl -POST &#x27;http://es.kekek.cc/_aliases&#x27; -d &#x27;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;actions&quot; : [</span><br><span class="line">        &#123; &quot;remove&quot; : &#123; &quot;index&quot; : &quot;library_20171129&quot;, &quot;alias&quot; : &quot;library&quot; &#125; &#125;,</span><br><span class="line">        &#123; &quot;add&quot; : &#123; &quot;index&quot; : &quot;library_20171204&quot;, &quot;alias&quot; : &quot;library&quot; &#125; &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125; &#x27; </span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>测试分词器</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET &#x27;http:/es.kekek.cc/library/_analyze?pretty=true&#x27; -d &#x27; </span><br><span class="line">&#123;</span><br><span class="line">  &quot;analyzer&quot;: &quot;ik_max_word_pinyin&quot;,  </span><br><span class="line">  &quot;text&quot;: &quot;白鹿原&quot;  </span><br><span class="line">&#125; &#x27;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>查看查询计划</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET &#x27;http:/es.kekek.cc/library/_search?pretty=true&#x27; -d &#x27; </span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;bool&quot;: &#123;</span><br><span class="line">            &quot;must&quot;: &#123;</span><br><span class="line">                &quot;match&quot;: &#123;</span><br><span class="line">                    &quot;title&quot;: &#123;</span><br><span class="line">                        &quot;query&quot;: &quot;白鹿原&quot;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; &#x27;</span><br></pre></td></tr></table></figure>
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-API-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">1.</span> <span class="toc-text">Java API 客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E6%96%87%E6%A1%A3"><span class="toc-number">2.</span> <span class="toc-text">面向文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">简单命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.</span> <span class="toc-text">常用接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%86%85%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">集群内的原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%81%A5%E5%BA%B7"><span class="toc-number">6.</span> <span class="toc-text">集群健康</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%89%87"><span class="toc-number">7.</span> <span class="toc-text">分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">8.</span> <span class="toc-text">文档元数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.1.</span> <span class="toc-text">创建新文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.2.</span> <span class="toc-text">更新文档</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">9.</span> <span class="toc-text">乐观并发控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E6%A1%A3%E5%AD%98%E5%82%A8"><span class="toc-number">10.</span> <span class="toc-text">分布式文档存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2"><span class="toc-number">11.</span> <span class="toc-text">搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8"><span class="toc-number">12.</span> <span class="toc-text">分析与分析器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">12.1.</span> <span class="toc-text">测试分词器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84"><span class="toc-number">13.</span> <span class="toc-text">映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E6%A0%B8%E5%BF%83%E5%9F%9F%E7%B1%BB%E5%9E%8B"><span class="toc-number">14.</span> <span class="toc-text">复杂核心域类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E8%BF%87%E6%BB%A4"><span class="toc-number">15.</span> <span class="toc-text">查询与过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="toc-number">16.</span> <span class="toc-text">查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-number">17.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%80%A7"><span class="toc-number">18.</span> <span class="toc-text">相关性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-number">19.</span> <span class="toc-text">重建索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%AB%E5%90%8D"><span class="toc-number">20.</span> <span class="toc-text">索引别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#match%E7%B2%BE%E5%BA%A6"><span class="toc-number">21.</span> <span class="toc-text">match精度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E4%B9%89%E8%AF%8D"><span class="toc-number">22.</span> <span class="toc-text">同义词</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3"><span class="toc-number">23.</span> <span class="toc-text">拼音</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89index"><span class="toc-number">24.</span> <span class="toc-text">查看所有index</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">25.</span> <span class="toc-text">示例</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=ElasticSearch&body=Check out this article: https://kekek.cc/post/elasticsearch.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/elasticsearch.html&title=ElasticSearch"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

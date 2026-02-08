@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Performance</title>
+</head>
+
+<body>
+
+	<div id="performance-info" style="width: 1000px; height: 400px;"></div>
+
+	<script crossorigin="anonymous" integrity="sha384-gb8mitZ44MWVFB3GKzmtx1OCjOh3Cj4mgusyTvNzl1Nu31l0em1FrApJindwVAe0"
+		src="https://lib.baomitu.com/echarts/4.2.1/echarts.min.js"></script>
+	<script>
+		// https://echarts.baidu.com/examples/editor.html?c=bar-waterfall2
+		window.onload = function () {
+			setTimeout(() => {
+				const timing = window.performance.timing;
+				const events = ["navigationStart", "redirectStart", "redirectEnd", "fetchStart", "domainLookupStart", "domainLookupEnd", "connectStart", "secureConnectionStart", "connectEnd", "requestStart", "responseStart", "responseEnd", "domLoading", "domInteractive", "domContentLoadedEventStart", "domContentLoadedEventEnd", "domComplete", "loadEventStart", "loadEventEnd"]
+				const times = events.map(event => timing[event] || '-');
+
+				console.log([times[0], ...times], times)
+				const myChart = echarts.init(document.getElementById('performance-info'));
+
+				// 指定图表的配置项和数据
+				const option = {
+					title: {
+						text: 'Performance'
+					},
+					tooltip: {},
+					legend: {
+						show: false
+					},
+					xAxis: {
+						data: events
+					},
+					yAxis: {
+						min: times[0],
+					},
+					series: [{
+						type: 'bar',
+						stack: '总时间',
+						data: [times[0], ...times].slice(0, times.length)
+					},
+					{
+						type: 'bar',
+						stack: '总时间',
+						data: times
+					}]
+				};
+
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}, 0);
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="配置1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586# Kibana is served by a back end se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kibana.md">
+<meta property="og:url" content="https://kekek.cc/post/kibana.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="配置1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586# Kibana is served by a back end se">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-08-08T07:36:52.000Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.691Z">
+<meta property="article:author" content="tyk">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>kibana.md</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/brew.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/linux-ntpdate.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=kibana.md&body=Check out this article: https://kekek.cc/post/kibana.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/kibana.html&title=kibana.md"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">配置</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        kibana.md
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-08-08T07:36:52.000Z" itemprop="datePublished">2016-08-08</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Kibana is served by a back end server. This controls which port to use.</span></span><br><span class="line"><span class="comment"># server.port: 5601</span></span><br><span class="line"><span class="attr">server.port:</span> <span class="number">5601</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The host to bind the server to.</span></span><br><span class="line"><span class="comment"># server.host: &quot;0.0.0.0&quot;</span></span><br><span class="line"><span class="attr">server.host:</span> <span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># If you are running kibana behind a proxy, and want to mount it at a path,</span></span><br><span class="line"><span class="comment"># specify that path here. The basePath can&#x27;t end in a slash.</span></span><br><span class="line"><span class="comment"># server.basePath: &quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The maximum payload size in bytes on incoming server requests.</span></span><br><span class="line"><span class="comment"># server.maxPayloadBytes: 1048576</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The Elasticsearch instance to use for all your queries.</span></span><br><span class="line"><span class="comment"># elasticsearch.url: &quot;http://localhost:9200&quot;</span></span><br><span class="line"><span class="attr">elasticsearch.url:</span> <span class="string">&quot;http://elk.my-guide.cc:9200&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># preserve_elasticsearch_host true will send the hostname specified in `elasticsearch`. If you set it to false,</span></span><br><span class="line"><span class="comment"># then the host you use to connect to *this* Kibana instance will be sent.</span></span><br><span class="line"><span class="comment"># elasticsearch.preserveHost: true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Kibana uses an index in Elasticsearch to store saved searches, visualizations</span></span><br><span class="line"><span class="comment"># and dashboards. It will create a new index if it doesn&#x27;t already exist.</span></span><br><span class="line"><span class="comment"># kibana.index: &quot;.kibana&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The default application to load.</span></span><br><span class="line"><span class="comment"># kibana.defaultAppId: &quot;discover&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># If your Elasticsearch is protected with basic auth, these are the user credentials</span></span><br><span class="line"><span class="comment"># used by the Kibana server to perform maintenance on the kibana_index at startup. Your Kibana</span></span><br><span class="line"><span class="comment"># users will still need to authenticate with Elasticsearch (which is proxied through</span></span><br><span class="line"><span class="comment"># the Kibana server)</span></span><br><span class="line"><span class="comment"># elasticsearch.username: &quot;user&quot;</span></span><br><span class="line"><span class="comment"># elasticsearch.password: &quot;pass&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># SSL for outgoing requests from the Kibana Server to the browser (PEM formatted)</span></span><br><span class="line"><span class="comment"># server.ssl.cert: /path/to/your/server.crt</span></span><br><span class="line"><span class="comment"># server.ssl.key: /path/to/your/server.key</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Optional setting to validate that your Elasticsearch backend uses the same key files (PEM formatted)</span></span><br><span class="line"><span class="comment"># elasticsearch.ssl.cert: /path/to/your/client.crt</span></span><br><span class="line"><span class="comment"># elasticsearch.ssl.key: /path/to/your/client.key</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># If you need to provide a CA certificate for your Elasticsearch instance, put</span></span><br><span class="line"><span class="comment"># the path of the pem file here.</span></span><br><span class="line"><span class="comment"># elasticsearch.ssl.ca: /path/to/your/CA.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set to false to have a complete disregard for the validity of the SSL</span></span><br><span class="line"><span class="comment"># certificate.</span></span><br><span class="line"><span class="comment"># elasticsearch.ssl.verify: true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds to wait for elasticsearch to respond to pings, defaults to</span></span><br><span class="line"><span class="comment"># request_timeout setting</span></span><br><span class="line"><span class="comment"># elasticsearch.pingTimeout: 1500</span></span><br><span class="line"><span class="attr">elasticsearch.pingTimeout:</span> <span class="number">1500</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds to wait for responses from the back end or elasticsearch.</span></span><br><span class="line"><span class="comment"># This must be &gt; 0</span></span><br><span class="line"><span class="comment"># elasticsearch.requestTimeout: 30000</span></span><br><span class="line"><span class="attr">elasticsearch.requestTimeout:</span> <span class="number">30000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds for Elasticsearch to wait for responses from shards.</span></span><br><span class="line"><span class="comment"># Set to 0 to disable.</span></span><br><span class="line"><span class="comment"># elasticsearch.shardTimeout: 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time in milliseconds to wait for Elasticsearch at Kibana startup before retrying</span></span><br><span class="line"><span class="comment"># elasticsearch.startupTimeout: 5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the path to where you would like the process id file to be created.</span></span><br><span class="line"><span class="comment"># pid.file: /var/run/kibana.pid</span></span><br><span class="line"><span class="attr">pid.file:</span> <span class="string">/var/run/kibana.pid</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># If you would like to send the log output to a file you can set the path below.</span></span><br><span class="line"><span class="comment"># logging.dest: stdout</span></span><br><span class="line"><span class="attr">logging.dest:</span> <span class="string">/opt/kibana/logs/kibana.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set this to true to suppress all logging output.</span></span><br><span class="line"><span class="comment"># logging.silent: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set this to true to suppress all logging output except for error messages.</span></span><br><span class="line"><span class="comment"># logging.quiet: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set this to true to log all events, including system usage information and all requests.</span></span><br><span class="line"><span class="comment"># logging.verbose: false</span></span><br></pre></td></tr></table></figure>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">配置</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=kibana.md&body=Check out this article: https://kekek.cc/post/kibana.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/kibana.html&title=kibana.md"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

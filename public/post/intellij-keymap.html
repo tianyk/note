@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="快捷键 用途      esc 从工具窗口进入代码文件窗口     cmd + alt + l 格式化 ⭐️    cmd + alt + b 进入方法实现处 ⭐️ ⭐️    cmd + alt + ← 后退     cmd + alt + → 前进     cmd + alt + m 重构方法、将选中的代码提取为方法 ⭐️    cmd + alt + v 提取变量     cmd +">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Intellij快捷键">
+<meta property="og:url" content="https://kekek.cc/post/intellij-keymap.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="快捷键 用途      esc 从工具窗口进入代码文件窗口     cmd + alt + l 格式化 ⭐️    cmd + alt + b 进入方法实现处 ⭐️ ⭐️    cmd + alt + ← 后退     cmd + alt + → 前进     cmd + alt + m 重构方法、将选中的代码提取为方法 ⭐️    cmd + alt + v 提取变量     cmd +">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-04-18T14:48:51.000Z">
+<meta property="article:modified_time" content="2021-11-20T00:17:47.683Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="intellij">
+<meta property="article:tag" content="keymap">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Intellij快捷键</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/2fa.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/java-logging.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Intellij快捷键&body=Check out this article: https://kekek.cc/post/intellij-keymap.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/intellij-keymap.html&title=Intellij快捷键"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Intellij快捷键
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-04-18T14:48:51.000Z" itemprop="datePublished">2017-04-18</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/intellij/" rel="tag">intellij</a>, <a class="tag-link-link" href="/tags/keymap/" rel="tag">keymap</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>用途</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>esc</td>
+<td>从工具窗口进入代码文件窗口</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + l</td>
+<td>格式化</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + b</td>
+<td>进入方法实现处</td>
+<td>⭐️ ⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + ←</td>
+<td>后退</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + →</td>
+<td>前进</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + m</td>
+<td>重构方法、将选中的代码提取为方法</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + v</td>
+<td>提取变量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + f</td>
+<td>提取字段</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + c</td>
+<td>提取常量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + p</td>
+<td>提取参数</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + o</td>
+<td>优化导入的包</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + t</td>
+<td>包裹(if&#x2F;try-catch&#x2F;for)代码</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + alt + j</td>
+<td>弹出模板选择窗口，将选定的代码使用动态模板包住</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + shift + enter</td>
+<td>自动完成</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + shift + u</td>
+<td>大小写转换</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + shift + ]&#x2F;[</td>
+<td>选择直到代码块结束&#x2F;开始</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + shift + h</td>
+<td>显示方法层次结构</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + n</td>
+<td>查找类</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + y\</td>
+<td>x</td>
+<td>删除当前行</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + d</td>
+<td>复制当前行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + &#x2F;</td>
+<td>注释行 &#x2F;&#x2F;</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + f</td>
+<td>搜索</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + r</td>
+<td>替换</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + w</td>
+<td>按照语法选中代码</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + p</td>
+<td>显示方法的参数信息</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + del</td>
+<td>安全删除文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + o</td>
+<td>重写父类方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + i</td>
+<td>实现接口的方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + e</td>
+<td>显示最近打开的文件记录列表</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + b&#x2F;鼠标点击</td>
+<td>进入光标所在的方法&#x2F;变量的接口或是定义处</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + j</td>
+<td>插入自定义动态代码模板</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + f12&#x2F;7</td>
+<td>显示类结构（属性、方法）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + u</td>
+<td>前往当前光标所在方法的父类的方法 &#x2F; 接口定义</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + j</td>
+<td>显示帮助文档</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + h</td>
+<td>显示当前类&#x2F;接口的子类或者实现</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + enter</td>
+<td>自动生成(get&#x2F;set)</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>cmd + shift + n</td>
+<td>查找文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>alt + shfit + ↑</td>
+<td>上移一行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>alt + shift + ↓</td>
+<td>下移一行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>alt + enter</td>
+<td>导入包</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shift + f6</td>
+<td>重命名类、变量</td>
+<td>⭐️</td>
+<td></td>
+</tr>
+<tr>
+<td>shift + cmd</td>
+<td>开始新的一行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + shift + j</td>
+<td>将代码拼接成一行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + shift + f</td>
+<td>全局查找</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + shift + r</td>
+<td>全局替换</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ctrl + alt + h</td>
+<td>显示调用层次结构</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://wiki.jikexueyuan.com/project/intellij-idea-tutorial/keymap-mac-introduce.html">【1】</a></p>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Intellij快捷键&body=Check out this article: https://kekek.cc/post/intellij-keymap.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/intellij-keymap.html&title=Intellij快捷键"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

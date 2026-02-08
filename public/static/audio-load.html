@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Audio Event</title>
+</head>
+
+<body>
+
+	<div id="log"></div>
+	<script>
+		(function () {
+			var old = console.log;
+			var logger = document.getElementById('log');
+			console.log = function (message) {
+				if (typeof message == 'object') {
+					logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+				} else {
+					logger.innerHTML += message + '<br />';
+				}
+			}
+		})();
+
+		function once(fn) {
+			let called = false;
+			return function (...args) {
+				if (called) return;
+				called = true;
+				return fn.apply(this, args);
+			};
+		};
+
+		for (let i = 0; i < 10; i++) {
+			const load = ((i) => {
+				return () => console.log('loaded' + '-' + i);
+			})(i);
+
+			const _onload = once(load);
+			const audio = new Audio('music.mp3?_=' + i + '&t=' + Date.now());
+			audio.preload = 'auto';
+
+			audio.addEventListener('error', (err) => console.error(err));
+			// ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'mozaudioavailable', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
+			['canplay', 'canplaythrough']
+				.forEach(event => {
+					audio.addEventListener(event, _onload);
+				});
+			audio.load();
+		}
+	</script>
+</body>
+
+</html>

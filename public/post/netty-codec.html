@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="Netty编解码器编码和解码，或者数据从一种特定协议的格式到另一种格式的转换。这些任务将由通常称为编解码器的组件来处理。每个网络应用程序都必须定义如何解析在两个节点之间来回传输的原始字节，以及如何将其和目标应用程序的数据格式做相互转换。 例如WebSocket服务，WebSocket服务器收到是字节流，我们收到字节流后要将其解码成WebSocket消息。 123456789101112131415">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty编解码器">
+<meta property="og:url" content="https://kekek.cc/post/netty-codec.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="Netty编解码器编码和解码，或者数据从一种特定协议的格式到另一种格式的转换。这些任务将由通常称为编解码器的组件来处理。每个网络应用程序都必须定义如何解析在两个节点之间来回传输的原始字节，以及如何将其和目标应用程序的数据格式做相互转换。 例如WebSocket服务，WebSocket服务器收到是字节流，我们收到字节流后要将其解码成WebSocket消息。 123456789101112131415">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kekek.cc/images/channelhandler.png">
+<meta property="article:published_time" content="2018-06-03T08:26:22.000Z">
+<meta property="article:modified_time" content="2018-06-22T09:55:27.000Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="netty">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kekek.cc/images/channelhandler.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Netty编解码器</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/post/tcp-protocol.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/post/netstat.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Netty编解码器&body=Check out this article: https://kekek.cc/post/netty-codec.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/netty-codec.html&title=Netty编解码器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Netty%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">Netty编解码器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">解码器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TooLongFrameException"><span class="toc-number">1.1.1.</span> <span class="toc-text">TooLongFrameException</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WebSocketFrameDecoder"><span class="toc-number">1.1.2.</span> <span class="toc-text">WebSocketFrameDecoder</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">编码器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ByteToMessageCodec-%E5%92%8C-MessageToMessageCodec"><span class="toc-number">1.3.</span> <span class="toc-text">ByteToMessageCodec 和 MessageToMessageCodec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CombinedChannelDuplexHandler"><span class="toc-number">1.4.</span> <span class="toc-text">CombinedChannelDuplexHandler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Netty编解码器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">tyk</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-06-03T08:26:22.000Z" itemprop="datePublished">2018-06-03</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/netty/" rel="tag">netty</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Netty编解码器"><a href="#Netty编解码器" class="headerlink" title="Netty编解码器"></a>Netty编解码器</h2><p>编码和解码，或者数据从一种特定协议的格式到另一种格式的转换。这些任务将由通常称为编解码器的组件来处理。每个网络应用程序都必须定义如何解析在两个节点之间来回传输的原始字节，以及如何将其和目标应用程序的数据格式做相互转换。</p>
+<p>例如<a href="websocket.html">WebSocket</a>服务，WebSocket服务器收到是字节流，我们收到字节流后要将其解码成WebSocket消息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> 0                   1                   2                   3</span><br><span class="line"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1</span><br><span class="line">+-+-+-+-+-------+-+-------------+-------------------------------+</span><br><span class="line">|F|R|R|R| opcode|M| Payload len |    Extended payload length    |</span><br><span class="line">|I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |</span><br><span class="line">|N|V|V|V|       |S|             |   (if payload len==126/127)   |</span><br><span class="line">| |1|2|3|       |K|             |                               |</span><br><span class="line">+-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +</span><br><span class="line">|     Extended payload length continued, if payload len == 127  |</span><br><span class="line">+ - - - - - - - - - - - - - - - +-------------------------------+</span><br><span class="line">|                               |Masking-key, if MASK set to 1  |</span><br><span class="line">+-------------------------------+-------------------------------+</span><br><span class="line">| Masking-key (continued)       |          Payload Data         |</span><br><span class="line">+-------------------------------- - - - - - - - - - - - - - - - +</span><br><span class="line">:                     Payload Data continued ...                :</span><br><span class="line">+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +</span><br><span class="line">|                     Payload Data continued ...                |</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>编码器是将消息转换为适合于传输的格式（最有可能的就是字节流）；而对应的解码器则是将网络字节流转换回应用程序的消息格式。编码器操作出站数据，而解码器处理入站数据。</p>
+<p><img src="/images/channelhandler.png" alt="ChannelHandler"></p>
+<h3 id="解码器"><a href="#解码器" class="headerlink" title="解码器"></a>解码器</h3><p>因为解码器是负责将入站数据从一种格式转换到另一种格式的，所以Netty的解码器都实现了<code>ChannelInboundHandler</code>。</p>
+<p>Netty提供下面两个不同用处的解码器：</p>
+<ul>
+<li><p>将字节转解码为消息 – ByteToMessageDecoder 和 ReplayingDecoder</p>
+<p>  <code>ByteToMessageDecoder</code>是一个抽象类，我们需要实现其<code>decode</code>方法。</p>
+<p>  由于你不可能知道远程节点是否会一次性地发送一个完整的消息，所以这个类会对入站数据进行缓冲，直到有足够的数据准备好处理。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ToIntegerDecoder</span> <span class="keyword">extends</span> <span class="title class_">ByteToMessageDecoder</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">if</span> (in.readableBytes() &gt;= <span class="number">4</span>) out.add(in.readInt());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  上面的例子中，我们要手动判断输入的ByteBuf是否具有足够的数据有点繁琐。下面我们使用<code>ReplayingDecode</code>，它可以让我们不必重复做这个事情。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ToIntegerDecoder</span> <span class="keyword">extends</span> <span class="title class_">ReplayingDecoder</span>&lt;Integer&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        out.add(in.readInt());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  使用ReplayingDecoder时会稍慢于ByteToMessageDecoder。</p>
+</li>
+<li><p>将一种消息解码为另一种消息 – MessageToMessageDecoder</p>
+<p>  下面例子中讲Integer类型的消息转换成String类型，然后传递给下一个handler。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IntegerToStringDecoder</span> <span class="keyword">extends</span> <span class="title class_">MessageToMessageDecoder</span>&lt;Integer&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">decode</span><span class="params">(ChannelHandlerContext ctx, Integer msg, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        out.add(String.valueOf(msg));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>注意：每次调用<code>decode</code>方法后即没新message产生缓冲区也无变化，缓存区数据将在下一轮<code>channelRead</code>事件触发后处理。原因也很好理解，如果一次<code>decoder</code>后没新message产生也没缓存消耗，再执行一次<code>decoder</code>将还是同样的结果（所有条件都没变化），处理不好这会造成死循环。<a href="https://github.com/netty/netty/blob/4.1/codec/src/main/java/io/netty/handler/codec/ByteToMessageDecoder.java#L438">代码32行</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">callDecode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (in.isReadable()) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">outSize</span> <span class="operator">=</span> out.size();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (outSize &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                fireChannelRead(ctx, out, outSize);</span><br><span class="line">                out.clear();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Check if this handler was removed before continuing with decoding.</span></span><br><span class="line">                <span class="comment">// If it was removed, it is not safe to continue to operate on the buffer.</span></span><br><span class="line">                <span class="comment">//</span></span><br><span class="line">                <span class="comment">// See:</span></span><br><span class="line">                <span class="comment">// - https://github.com/netty/netty/issues/4635</span></span><br><span class="line">                <span class="keyword">if</span> (ctx.isRemoved()) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                outSize = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">oldInputLength</span> <span class="operator">=</span> in.readableBytes();</span><br><span class="line">            decodeRemovalReentryProtection(ctx, in, out);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Check if this handler was removed before continuing the loop.</span></span><br><span class="line">            <span class="comment">// If it was removed, it is not safe to continue to operate on the buffer.</span></span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            <span class="comment">// See https://github.com/netty/netty/issues/1664</span></span><br><span class="line">            <span class="keyword">if</span> (ctx.isRemoved()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (outSize == out.size()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (oldInputLength == in.readableBytes()) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (oldInputLength == in.readableBytes()) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">DecoderException</span>(</span><br><span class="line">                        StringUtil.simpleClassName(getClass()) +</span><br><span class="line">                                <span class="string">&quot;.decode() did not read anything but decoded a message.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (isSingleDecode()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (DecoderException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception cause) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">DecoderException</span>(cause);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="TooLongFrameException"><a href="#TooLongFrameException" class="headerlink" title="TooLongFrameException"></a>TooLongFrameException</h4><p>我们需要在字节可以解码之前在内存中缓冲它们。因此，不能让解码器缓冲大量的数据以至于耗尽可用的内存。为了解除这个常见的顾虑，Netty提供了<code>TooLongFrameException</code>类，如果缓冲区超出指定大小限制时（手动）抛出。如果你正在使用一个可变帧大小的协议，那么这种保护措施将是尤为重要的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SafeByteToMessageDecoder</span> <span class="keyword">extends</span> <span class="title class_">ByteToMessageDecoder</span> &#123;</span><br><span class="line">　　<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAX_FRAME_SIZE</span> <span class="operator">=</span> <span class="number">1024</span>;</span><br><span class="line">　　<span class="meta">@Override</span></span><br><span class="line">　　<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">readable</span> <span class="operator">=</span> in.readableBytes();</span><br><span class="line">        <span class="keyword">if</span> (readable &gt; MAX_FRAME_SIZE) &#123;　<span class="comment">// 检查缓冲区中是否有超过MAX_FRAME_SIZE个字节</span></span><br><span class="line">        　　in.skipBytes(readable);　 <span class="comment">// 跳过所有的可读字节，抛出TooLongFrame-Exception 并通知ChannelHandler</span></span><br><span class="line">        　　<span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TooLongFrameException</span>(<span class="string">&quot;Frame too big!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">        ...</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="WebSocketFrameDecoder"><a href="#WebSocketFrameDecoder" class="headerlink" title="WebSocketFrameDecoder"></a>WebSocketFrameDecoder</h4><p>解析WebSocket消息协议示例</p>
+<figure class="highlight java"><figcaption><span>WebSocketFrameDecoder.java</span><a href="/downloads/code/WebSocketFrameDecoder.java">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebSocketFrameDecoder</span> <span class="keyword">extends</span> <span class="title class_">ByteToMessageDecoder</span> {</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">short</span> <span class="variable">MAX_FRAME_SIZE</span> <span class="operator">=</span> <span class="number">1024</span> * <span class="number">10</span>; <span class="comment">// 10kb</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">READ_HEADER</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">READ_EXT_PAYLOAD_LEN_16</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">READ_EXT_PAYLOAD_LEN_64</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">READ_MASK_KEY</span> <span class="operator">=</span> <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">READ_PAYLOAD</span> <span class="operator">=</span> <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span> <span class="variable">STATE</span> <span class="operator">=</span> READ_HEADER;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// frame</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span> fin;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span> opcode;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span> mask;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> payloadLen;</span><br><span class="line">    <span class="comment">// 无符号byte</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">short</span>[] maskKey = <span class="keyword">new</span> <span class="title class_">short</span>[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span>[] payload;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">reset</span><span class="params">()</span> {</span><br><span class="line">        STATE = READ_HEADER;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">        <span class="keyword">if</span> (STATE == READ_HEADER) {</span><br><span class="line">            <span class="keyword">if</span> (in.readableBytes() &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">header</span> <span class="operator">=</span> in.readUnsignedShort();</span><br><span class="line">            fin = (<span class="type">byte</span>) (header &gt;&gt; <span class="number">15</span>);</span><br><span class="line">            opcode = (<span class="type">byte</span>) (header &amp; <span class="number">0b0000111100000000</span> &gt;&gt; <span class="number">8</span>);</span><br><span class="line">            mask = (<span class="type">byte</span>) ((header &amp; <span class="number">0b0000000010000000</span>) &gt;&gt; <span class="number">7</span>);</span><br><span class="line">            payloadLen = header &amp; <span class="number">0b0000000001111111</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (payloadLen == <span class="number">127</span>) STATE = READ_EXT_PAYLOAD_LEN_64;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (payloadLen == <span class="number">126</span>) STATE = READ_EXT_PAYLOAD_LEN_16;</span><br><span class="line">            <span class="keyword">else</span> STATE = READ_MASK_KEY;</span><br><span class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (STATE == READ_EXT_PAYLOAD_LEN_16) {</span><br><span class="line">            <span class="keyword">if</span> (in.readableBytes() &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">            payloadLen = in.readUnsignedShort();</span><br><span class="line"></span><br><span class="line">            STATE = READ_MASK_KEY;</span><br><span class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (STATE == READ_EXT_PAYLOAD_LEN_64) {</span><br><span class="line">            <span class="keyword">if</span> (in.readableBytes() &lt; <span class="number">8</span>) <span class="keyword">return</span>;</span><br><span class="line">            <span class="comment">// 协议规定64位时最高有效位必须是0</span></span><br><span class="line">            payloadLen = in.readLong();</span><br><span class="line"></span><br><span class="line">            STATE = READ_MASK_KEY;</span><br><span class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (STATE == READ_MASK_KEY) {</span><br><span class="line">            <span class="keyword">if</span> (mask == <span class="number">1</span>) {</span><br><span class="line">                <span class="keyword">if</span> (in.readableBytes() &lt; <span class="number">4</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">                maskKey[<span class="number">0</span>] = in.readUnsignedByte();</span><br><span class="line">                maskKey[<span class="number">1</span>] = in.readUnsignedByte();</span><br><span class="line">                maskKey[<span class="number">2</span>] = in.readUnsignedByte();</span><br><span class="line">                maskKey[<span class="number">3</span>] = in.readUnsignedByte();</span><br><span class="line">            }</span><br><span class="line">            STATE = READ_PAYLOAD;</span><br><span class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (STATE == READ_PAYLOAD) {</span><br><span class="line">            <span class="keyword">if</span> (payloadLen &gt; MAX_FRAME_SIZE) {</span><br><span class="line">                <span class="comment">//bad frame. you should close the channel.</span></span><br><span class="line">                in.skipBytes(in.readableBytes());</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TooLongFrameException</span>(<span class="string">&quot;Frame too big!&quot;</span>);</span><br><span class="line">            }</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (in.readableBytes() &lt; payloadLen) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">            payload = <span class="keyword">new</span> <span class="title class_">byte</span>[(<span class="type">int</span>) payloadLen];</span><br><span class="line">            <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (in.isReadable() &amp;&amp; payloadLen &gt; <span class="number">0</span>) {</span><br><span class="line">                payload[pos] = (<span class="type">byte</span>) (in.readByte() ^ maskKey[pos % <span class="number">4</span>]);</span><br><span class="line">                pos++;</span><br><span class="line">                payloadLen--;</span><br><span class="line">            }</span><br><span class="line"></span><br><span class="line">            out.add(<span class="keyword">new</span> <span class="title class_">WebSocketFrame</span>(fin, opcode, mask, payload.length, maskKey, payload));</span><br><span class="line">            reset(); <span class="comment">// next frame</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="编码器"><a href="#编码器" class="headerlink" title="编码器"></a>编码器</h3><ul>
+<li><p>将消息编码为字节 – MessageToByteEncoder</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IntegerToByteEncoder</span> <span class="keyword">extends</span> <span class="title class_">MessageToByteEncoder</span>&lt;Integer&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">encode</span><span class="params">(ChannelHandlerContext ctx, Integer msg, ByteBuf out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        out.writeInt(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将消息编码为消息 – MessageToMessageEncoder</p>
+</li>
+</ul>
+<h3 id="ByteToMessageCodec-和-MessageToMessageCodec"><a href="#ByteToMessageCodec-和-MessageToMessageCodec" class="headerlink" title="ByteToMessageCodec 和 MessageToMessageCodec"></a>ByteToMessageCodec 和 MessageToMessageCodec</h3><p><code>ByteToMessageCodec</code>将字节编解码为消息，它结合了<code>ByteToMessageDecoder</code>以及它的逆向——<code>MessageToByteEncoder</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IntegerStringCodec</span> <span class="keyword">extends</span> <span class="title class_">ByteToMessageCodec</span>&lt;Integer&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">encode</span><span class="params">(ChannelHandlerContext ctx, Integer msg, ByteBuf out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">       out.writeInt(msg); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">if</span> (in.readableBytes() &gt;= <span class="number">4</span>) out.add(in.readInt());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CombinedChannelDuplexHandler"><a href="#CombinedChannelDuplexHandler" class="headerlink" title="CombinedChannelDuplexHandler"></a>CombinedChannelDuplexHandler</h3><p><code>ByteToMessageCodec</code> 和 <code>MessageToMessageCodec</code> 将编解码逻辑在一个类中实现，有时候我们编解码可能在不同的类中，能不能提供一个组合的将编解码组合到一个类中呢？<code>CombinedChannelDuplexHandler</code>提供了这个解决方案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IntegerByteCodec</span> <span class="keyword">extends</span> <span class="title class_">CombinedChannelDuplexHandler</span>&lt;ToIntegerDecoder, IntegerToByteEncoder&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">IntegerByteCodec</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="keyword">new</span> <span class="title class_">ToIntegerDecoder</span>(), <span class="keyword">new</span> <span class="title class_">IntegerToByteEncoder</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://book.douban.com/subject/27038538/">Netty实战</a></li>
+</ul>
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Netty%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">Netty编解码器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">解码器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TooLongFrameException"><span class="toc-number">1.1.1.</span> <span class="toc-text">TooLongFrameException</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WebSocketFrameDecoder"><span class="toc-number">1.1.2.</span> <span class="toc-text">WebSocketFrameDecoder</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">编码器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ByteToMessageCodec-%E5%92%8C-MessageToMessageCodec"><span class="toc-number">1.3.</span> <span class="toc-text">ByteToMessageCodec 和 MessageToMessageCodec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CombinedChannelDuplexHandler"><span class="toc-number">1.4.</span> <span class="toc-text">CombinedChannelDuplexHandler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Netty编解码器&body=Check out this article: https://kekek.cc/post/netty-codec.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/netty-codec.html&title=Netty编解码器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="https://css.kekek.cc/">CSS</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
