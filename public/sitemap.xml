@@ -4,7 +4,15 @@
   <url>
     <loc>https://kekek.cc/post/openclaw-ai-my-first-blog.html</loc>
     
-    <lastmod>2026-02-08T00:44:34.684Z</lastmod>
+    <lastmod>2026-02-12T03:49:18.974Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://kekek.cc/post/deploy-headscale.html</loc>
+    
+    <lastmod>2026-02-12T03:48:27.341Z</lastmod>
     
     
   </url>
@@ -12,7 +20,7 @@
   <url>
     <loc>https://kekek.cc/post/use-llama-cpp.html</loc>
     
-    <lastmod>2026-02-07T23:45:20.943Z</lastmod>
+    <lastmod>2025-01-15T07:48:24.290Z</lastmod>
     
     
   </url>
@@ -66,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/yum.html</loc>
+    <loc>https://kekek.cc/post/zookeeper.html</loc>
     
     <lastmod>2021-11-20T00:17:47.726Z</lastmod>
     
@@ -74,7 +82,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/zookeeper.html</loc>
+    <loc>https://kekek.cc/post/yum.html</loc>
     
     <lastmod>2021-11-20T00:17:47.726Z</lastmod>
     
@@ -90,7 +98,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/window.open.html</loc>
+    <loc>https://kekek.cc/post/web-messaging.html</loc>
     
     <lastmod>2021-11-20T00:17:47.725Z</lastmod>
     
@@ -98,7 +106,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/web-messaging.html</loc>
+    <loc>https://kekek.cc/post/window.open.html</loc>
     
     <lastmod>2021-11-20T00:17:47.725Z</lastmod>
     
@@ -122,7 +130,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/virtualbox-contos7.html</loc>
+    <loc>https://kekek.cc/post/vscode-keymap.html</loc>
     
     <lastmod>2021-11-20T00:17:47.724Z</lastmod>
     
@@ -138,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/vscode-keymap.html</loc>
+    <loc>https://kekek.cc/post/virtualbox-contos7.html</loc>
     
     <lastmod>2021-11-20T00:17:47.724Z</lastmod>
     
@@ -154,7 +162,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/vim.html</loc>
+    <loc>https://kekek.cc/post/viewport.html</loc>
     
     <lastmod>2021-11-20T00:17:47.723Z</lastmod>
     
@@ -162,7 +170,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/viewport.html</loc>
+    <loc>https://kekek.cc/post/vim.html</loc>
     
     <lastmod>2021-11-20T00:17:47.723Z</lastmod>
     
@@ -186,7 +194,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/transaction-isolation.html</loc>
+    <loc>https://kekek.cc/post/tree.html</loc>
     
     <lastmod>2021-11-20T00:17:47.721Z</lastmod>
     
@@ -194,7 +202,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/tree.html</loc>
+    <loc>https://kekek.cc/post/transaction-isolation.html</loc>
     
     <lastmod>2021-11-20T00:17:47.721Z</lastmod>
     
@@ -234,7 +242,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/systemd.html</loc>
+    <loc>https://kekek.cc/post/tar.html</loc>
     
     <lastmod>2021-11-20T00:17:47.719Z</lastmod>
     
@@ -242,7 +250,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/tar.html</loc>
+    <loc>https://kekek.cc/post/systemd.html</loc>
     
     <lastmod>2021-11-20T00:17:47.719Z</lastmod>
     
@@ -290,7 +298,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/seo.html</loc>
+    <loc>https://kekek.cc/post/sock5.html</loc>
     
     <lastmod>2021-11-20T00:17:47.716Z</lastmod>
     
@@ -298,7 +306,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/sock5.html</loc>
+    <loc>https://kekek.cc/post/seo.html</loc>
     
     <lastmod>2021-11-20T00:17:47.716Z</lastmod>
     
@@ -386,7 +394,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/openresty.html</loc>
+    <loc>https://kekek.cc/post/page-auto-refresh.html</loc>
     
     <lastmod>2021-11-20T00:17:47.712Z</lastmod>
     
@@ -394,7 +402,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/page-auto-refresh.html</loc>
+    <loc>https://kekek.cc/post/openresty.html</loc>
     
     <lastmod>2021-11-20T00:17:47.712Z</lastmod>
     
@@ -410,7 +418,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/notebook.html</loc>
+    <loc>https://kekek.cc/post/nohup.html</loc>
     
     <lastmod>2021-11-20T00:17:47.711Z</lastmod>
     
@@ -418,7 +426,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nohup.html</loc>
+    <loc>https://kekek.cc/post/notebook.html</loc>
     
     <lastmod>2021-11-20T00:17:47.711Z</lastmod>
     
@@ -434,7 +442,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nodejs-dns-cache.html</loc>
+    <loc>https://kekek.cc/post/nodejs-best-practice.html</loc>
     
     <lastmod>2021-11-20T00:17:47.710Z</lastmod>
     
@@ -442,7 +450,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nodejs-best-practice.html</loc>
+    <loc>https://kekek.cc/post/nodejs-dns-cache.html</loc>
     
     <lastmod>2021-11-20T00:17:47.710Z</lastmod>
     
@@ -453,14 +461,6 @@
     <loc>https://kekek.cc/post/nodejs-module-loader.html</loc>
     
     <lastmod>2021-11-20T00:17:47.710Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
-    <loc>https://kekek.cc/post/node-debugger.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.709Z</lastmod>
     
     
   </url>
@@ -482,7 +482,15 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nginx-proxy-cache.html</loc>
+    <loc>https://kekek.cc/post/node-debugger.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.709Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://kekek.cc/post/nginx-modules.html</loc>
     
     <lastmod>2021-11-20T00:17:47.708Z</lastmod>
     
@@ -490,7 +498,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nginx-rewrite.html</loc>
+    <loc>https://kekek.cc/post/nginx-proxy-cache.html</loc>
     
     <lastmod>2021-11-20T00:17:47.708Z</lastmod>
     
@@ -506,7 +514,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nginx-modules.html</loc>
+    <loc>https://kekek.cc/post/nginx-rewrite.html</loc>
     
     <lastmod>2021-11-20T00:17:47.708Z</lastmod>
     
@@ -522,7 +530,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nginx-http-limit.html</loc>
+    <loc>https://kekek.cc/post/nginx-location.html</loc>
     
     <lastmod>2021-11-20T00:17:47.707Z</lastmod>
     
@@ -530,7 +538,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/nginx-location.html</loc>
+    <loc>https://kekek.cc/post/nginx-http-limit.html</loc>
     
     <lastmod>2021-11-20T00:17:47.707Z</lastmod>
     
@@ -578,7 +586,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/mysql-master-slave.html</loc>
+    <loc>https://kekek.cc/post/mysql-login-path.html</loc>
     
     <lastmod>2021-11-20T00:17:47.704Z</lastmod>
     
@@ -594,7 +602,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/mysql-login-path.html</loc>
+    <loc>https://kekek.cc/post/mysql-master-slave.html</loc>
     
     <lastmod>2021-11-20T00:17:47.704Z</lastmod>
     
@@ -618,14 +626,6 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/mongoose-validation.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.703Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
     <loc>https://kekek.cc/post/mysql-binlog.html</loc>
     
     <lastmod>2021-11-20T00:17:47.703Z</lastmod>
@@ -634,7 +634,15 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/mac-protocol.html</loc>
+    <loc>https://kekek.cc/post/mongoose-validation.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.703Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://kekek.cc/post/make-makefile-cmake.html</loc>
     
     <lastmod>2021-11-20T00:17:47.702Z</lastmod>
     
@@ -650,7 +658,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/make-makefile-cmake.html</loc>
+    <loc>https://kekek.cc/post/mac-protocol.html</loc>
     
     <lastmod>2021-11-20T00:17:47.702Z</lastmod>
     
@@ -674,7 +682,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/lrc-player.html</loc>
+    <loc>https://kekek.cc/post/logstash.html</loc>
     
     <lastmod>2021-11-20T00:17:47.701Z</lastmod>
     
@@ -682,7 +690,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/logstash.html</loc>
+    <loc>https://kekek.cc/post/lrc-player.html</loc>
     
     <lastmod>2021-11-20T00:17:47.701Z</lastmod>
     
@@ -714,7 +722,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/linux-redirect-standard-error.html</loc>
+    <loc>https://kekek.cc/post/linux-port-command.html</loc>
     
     <lastmod>2021-11-20T00:17:47.693Z</lastmod>
     
@@ -722,7 +730,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/linux-port-command.html</loc>
+    <loc>https://kekek.cc/post/linux-redirect-standard-error.html</loc>
     
     <lastmod>2021-11-20T00:17:47.693Z</lastmod>
     
@@ -842,14 +850,6 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/intellij-keymap.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.683Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
     <loc>https://kekek.cc/post/iotop.html</loc>
     
     <lastmod>2021-11-20T00:17:47.683Z</lastmod>
@@ -858,7 +858,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/ip-mask.html</loc>
+    <loc>https://kekek.cc/post/intellij-keymap.html</loc>
     
     <lastmod>2021-11-20T00:17:47.683Z</lastmod>
     
@@ -874,9 +874,25 @@
   </url>
   
   <url>
+    <loc>https://kekek.cc/post/ip-mask.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.683Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
     <loc>https://kekek.cc/post/install-openresty.html</loc>
     
     <lastmod>2021-11-20T00:17:47.682Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://kekek.cc/post/install-elasticsearch.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.681Z</lastmod>
     
     
   </url>
@@ -891,14 +907,6 @@
   
   <url>
     <loc>https://kekek.cc/post/install-kibana.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.681Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
-    <loc>https://kekek.cc/post/install-elasticsearch.html</loc>
     
     <lastmod>2021-11-20T00:17:47.681Z</lastmod>
     
@@ -946,7 +954,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/gm.html</loc>
+    <loc>https://kekek.cc/post/gnu-paralell.html</loc>
     
     <lastmod>2021-11-20T00:17:47.678Z</lastmod>
     
@@ -954,7 +962,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/gnu-paralell.html</loc>
+    <loc>https://kekek.cc/post/gm.html</loc>
     
     <lastmod>2021-11-20T00:17:47.678Z</lastmod>
     
@@ -986,7 +994,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/forever.html</loc>
+    <loc>https://kekek.cc/post/fish-shell.html</loc>
     
     <lastmod>2021-11-20T00:17:47.676Z</lastmod>
     
@@ -1002,9 +1010,17 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/fish-shell.html</loc>
+    <loc>https://kekek.cc/post/forever.html</loc>
     
     <lastmod>2021-11-20T00:17:47.676Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://kekek.cc/post/exception.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.675Z</lastmod>
     
     
   </url>
@@ -1026,15 +1042,15 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/exception.html</loc>
+    <loc>https://kekek.cc/post/docker-image-store.html</loc>
     
-    <lastmod>2021-11-20T00:17:47.675Z</lastmod>
+    <lastmod>2021-11-20T00:17:47.674Z</lastmod>
     
     
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/docker-image-store.html</loc>
+    <loc>https://kekek.cc/post/environment-variable.html</loc>
     
     <lastmod>2021-11-20T00:17:47.674Z</lastmod>
     
@@ -1058,14 +1074,6 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/environment-variable.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.674Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
     <loc>https://kekek.cc/post/docker-aliyun-registrymirror.html</loc>
     
     <lastmod>2021-11-20T00:17:47.673Z</lastmod>
@@ -1082,7 +1090,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/distributed-websocket.html</loc>
+    <loc>https://kekek.cc/post/dig.html</loc>
     
     <lastmod>2021-11-20T00:17:47.672Z</lastmod>
     
@@ -1090,7 +1098,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/dig.html</loc>
+    <loc>https://kekek.cc/post/distributed-websocket.html</loc>
     
     <lastmod>2021-11-20T00:17:47.672Z</lastmod>
     
@@ -1114,6 +1122,14 @@
   </url>
   
   <url>
+    <loc>https://kekek.cc/post/compact-sparse-bundle-image.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.670Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
     <loc>https://kekek.cc/post/consistent-hashing.html</loc>
     
     <lastmod>2021-11-20T00:17:47.670Z</lastmod>
@@ -1122,9 +1138,9 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/compact-sparse-bundle-image.html</loc>
+    <loc>https://kekek.cc/post/chrome.html</loc>
     
-    <lastmod>2021-11-20T00:17:47.670Z</lastmod>
+    <lastmod>2021-11-20T00:17:47.669Z</lastmod>
     
     
   </url>
@@ -1146,14 +1162,6 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/chrome.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.669Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
     <loc>https://kekek.cc/post/bitwise-permission.html</loc>
     
     <lastmod>2021-11-20T00:17:47.668Z</lastmod>
@@ -1162,7 +1170,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/browserify.html</loc>
+    <loc>https://kekek.cc/post/brew.html</loc>
     
     <lastmod>2021-11-20T00:17:47.668Z</lastmod>
     
@@ -1170,7 +1178,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/brew.html</loc>
+    <loc>https://kekek.cc/post/browserify.html</loc>
     
     <lastmod>2021-11-20T00:17:47.668Z</lastmod>
     
@@ -1194,14 +1202,6 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/atom-keymap.html</loc>
-    
-    <lastmod>2021-11-20T00:17:47.666Z</lastmod>
-    
-    
-  </url>
-  
-  <url>
     <loc>https://kekek.cc/post/arrow-this.html</loc>
     
     <lastmod>2021-11-20T00:17:47.666Z</lastmod>
@@ -1218,6 +1218,14 @@
   </url>
   
   <url>
+    <loc>https://kekek.cc/post/atom-keymap.html</loc>
+    
+    <lastmod>2021-11-20T00:17:47.666Z</lastmod>
+    
+    
+  </url>
+  
+  <url>
     <loc>https://kekek.cc/post/algorithmic-analysis.html</loc>
     
     <lastmod>2021-11-20T00:17:47.665Z</lastmod>
@@ -1226,7 +1234,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/apt.html</loc>
+    <loc>https://kekek.cc/post/ab.html</loc>
     
     <lastmod>2021-11-20T00:17:47.665Z</lastmod>
     
@@ -1234,7 +1242,7 @@
   </url>
   
   <url>
-    <loc>https://kekek.cc/post/ab.html</loc>
+    <loc>https://kekek.cc/post/apt.html</loc>
     
     <lastmod>2021-11-20T00:17:47.665Z</lastmod>
     

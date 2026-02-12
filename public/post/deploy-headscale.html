@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang=zh>
+<!-- zh-cmn-Hans -->
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="360-site-verification" content="8902ef2b161a9e0f358117b6fe156521" />
+    
+    <meta name="description" content="0. 架构与端口规划（先把端口定死）   服务 协议&#x2F;端口 说明 谁访问谁    HTTPS TCP&#x2F;443 Headscale 控制面 + DERP（经反代，含 Upgrade） 公网 → Nginx&#x2F;OpenResty   STUN UDP&#x2F;3478 内置 STUN（打洞关键） 公网 → Headscale（直连到服务器）   Local TCP&#x2F;3477 Headscal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Headscale 极简部署指南">
+<meta property="og:url" content="https://kekek.cc/post/deploy-headscale.html">
+<meta property="og:site_name" content="Keke的个人网站">
+<meta property="og:description" content="0. 架构与端口规划（先把端口定死）   服务 协议&#x2F;端口 说明 谁访问谁    HTTPS TCP&#x2F;443 Headscale 控制面 + DERP（经反代，含 Upgrade） 公网 → Nginx&#x2F;OpenResty   STUN UDP&#x2F;3478 内置 STUN（打洞关键） 公网 → Headscale（直连到服务器）   Local TCP&#x2F;3477 Headscal">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-12T03:48:27.341Z">
+<meta property="article:author" content="tyk">
+<meta property="article:tag" content="headscale">
+<meta property="article:tag" content="tailscale">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Headscale 极简部署指南</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Keke的个人网站" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/post/openclaw-ai-my-first-blog.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Headscale 极简部署指南&body=Check out this article: https://kekek.cc/post/deploy-headscale.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/deploy-headscale.html&title=Headscale 极简部署指南"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E6%9E%B6%E6%9E%84%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%A7%84%E5%88%92%EF%BC%88%E5%85%88%E6%8A%8A%E7%AB%AF%E5%8F%A3%E5%AE%9A%E6%AD%BB%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">0. 架构与端口规划（先把端口定死）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87%EF%BC%88%E6%9B%BF%E6%8D%A2%E5%8D%A0%E4%BD%8D%E7%AC%A6%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">1. 前置准备（替换占位符）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Headscale%EF%BC%88%E4%BA%8C%E8%BF%9B%E5%88%B6%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">2. 安装 Headscale（二进制）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%94%9F%E6%88%90%E5%BF%85%E9%A1%BB%E5%AF%86%E9%92%A5%EF%BC%88v0-28-%E5%B8%B8%E8%A7%81%E5%BC%BA%E5%88%B6%E9%A1%B9%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">3. 生成必须密钥（v0.28+ 常见强制项）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%86%99%E5%85%A5-Headscale-%E9%85%8D%E7%BD%AE%EF%BC%88%E6%9C%80%E5%B0%8F%E5%8F%AF%E7%94%A8%E6%A8%A1%E6%9D%BF%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">4. 写入 Headscale 配置（最小可用模板）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-systemd-%E5%90%AF%E5%8A%A8-Headscale"><span class="toc-number">6.</span> <span class="toc-text">5. systemd 启动 Headscale</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Nginx-OpenResty-%E5%8F%8D%E4%BB%A3%EF%BC%88%E5%85%B3%E9%94%AE%E6%98%AF-Upgrade-%E9%95%BF%E8%BF%9E%E6%8E%A5%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">6. Nginx&#x2F;OpenResty 反代（关键是 Upgrade + 长连接）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%85%A5"><span class="toc-number">8.</span> <span class="toc-text">7. 创建用户 + 客户端接入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95%EF%BC%88%E6%89%80%E6%9C%89%E6%A3%80%E6%9F%A5%E7%BB%9F%E4%B8%80%E5%9C%A8%E8%BF%99%E9%87%8C%E5%81%9A%EF%BC%89"><span class="toc-number">9.</span> <span class="toc-text">8. 验收清单（所有检查统一在这里做）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BE%A7"><span class="toc-number">9.1.</span> <span class="toc-text">8.1 服务器侧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BE%A7%EF%BC%88%E6%9C%80%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">9.2.</span> <span class="toc-text">8.2 客户端侧（最重要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%B8%B8%E8%A7%81%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87%EF%BC%88%E5%8F%AA%E4%BF%9D%E7%95%99%E2%80%9C%E7%8E%B0%E8%B1%A1%E7%BA%A7%E2%80%9D%E9%97%AE%E9%A2%98%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">9. 常见疑难杂症（只保留“现象级”问题）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Q1%EF%BC%9A%E4%B8%80%E7%9B%B4%E8%B5%B0%E5%BE%88%E8%BF%9C%E7%9A%84-DERP%EF%BC%88%E4%BE%8B%E5%A6%82-DERP-nue-%EF%BC%89%EF%BC%8C%E4%B8%8D%E8%B5%B0%E8%87%AA%E5%B7%B1%E7%9A%84-REGION-CODE"><span class="toc-number">10.1.</span> <span class="toc-text">Q1：一直走很远的 DERP（例如 DERP(nue)），不走自己的 REGION_CODE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q2%EF%BC%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%97%A5%E5%BF%97%E5%87%BA%E7%8E%B0-dial-tcp4-SERVER-PUBLIC-IP-3477-i-o-timeout"><span class="toc-number">10.2.</span> <span class="toc-text">Q2：客户端日志出现 dial tcp4 SERVER_PUBLIC_IP:3477: i&#x2F;o timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q3%EF%BC%9AmacOS-%E8%8A%82%E7%82%B9%E5%90%8D%E5%8F%98%E6%88%90-invalid-xxxxx"><span class="toc-number">10.3.</span> <span class="toc-text">Q3：macOS 节点名变成 invalid-xxxxx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q4%EF%BC%9Atailscale-debug-derp-REGION-CODE-%E9%87%8C-IPv6-%E6%8A%A5%E9%94%99%EF%BC%8C%E4%BD%86-IPv4-OK"><span class="toc-number">10.4.</span> <span class="toc-text">Q4：tailscale debug derp REGION_CODE 里 IPv6 报错，但 IPv4 OK</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E8%BF%9B%E9%98%B6%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%EF%BC%9AMagicDNS-Split-DNS-Subnet-Router"><span class="toc-number">11.</span> <span class="toc-text">10. 进阶（可选）：MagicDNS &#x2F; Split DNS &#x2F; Subnet Router</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-MagicDNS%EF%BC%9A%E7%94%A8%E6%9C%BA%E5%99%A8%E5%90%8D%E4%BA%92%E8%AE%BF"><span class="toc-number">11.1.</span> <span class="toc-text">10.1 MagicDNS：用机器名互访</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-Split-DNS%EF%BC%9A%E5%8F%AA%E5%88%86%E6%B5%81%E7%89%B9%E5%AE%9A%E5%90%8E%E7%BC%80%E5%88%B0%E5%85%AC%E5%8F%B8-DNS"><span class="toc-number">11.2.</span> <span class="toc-text">10.2 Split DNS：只分流特定后缀到公司 DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-Subnet-Router%EF%BC%9A%E6%8A%8A%E5%85%AC%E5%8F%B8%E5%86%85%E7%BD%91%E7%BD%91%E6%AE%B5%E2%80%9C%E6%A1%A5%E6%8E%A5%E8%BF%9B-Tailnet%E2%80%9D"><span class="toc-number">11.3.</span> <span class="toc-text">10.3 Subnet Router：把公司内网网段“桥接进 Tailnet”</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Headscale 极简部署指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Keke的个人网站</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2026-02-11T16:00:00.000Z" itemprop="datePublished">2026-02-12</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/headscale/" rel="tag">headscale</a>, <a class="tag-link-link" href="/tags/tailscale/" rel="tag">tailscale</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0-架构与端口规划（先把端口定死）"><a href="#0-架构与端口规划（先把端口定死）" class="headerlink" title="0. 架构与端口规划（先把端口定死）"></a>0. 架构与端口规划（先把端口定死）</h2><table>
+<thead>
+<tr>
+<th align="left">服务</th>
+<th align="left">协议&#x2F;端口</th>
+<th align="left">说明</th>
+<th align="left">谁访问谁</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>HTTPS</strong></td>
+<td align="left"><code>TCP/443</code></td>
+<td align="left">Headscale 控制面 + DERP（经反代，含 Upgrade）</td>
+<td align="left">公网 → Nginx&#x2F;OpenResty</td>
+</tr>
+<tr>
+<td align="left"><strong>STUN</strong></td>
+<td align="left"><code>UDP/3478</code></td>
+<td align="left">内置 STUN（打洞关键）</td>
+<td align="left">公网 → Headscale（直连到服务器）</td>
+</tr>
+<tr>
+<td align="left"><strong>Local</strong></td>
+<td align="left"><code>TCP/3477</code></td>
+<td align="left">Headscale 本体（仅本机监听）</td>
+<td align="left">Nginx&#x2F;OpenResty → Headscale</td>
+</tr>
+</tbody></table>
+<p>关键点：</p>
+<ul>
+<li><strong><code>3478</code> 必须放行 UDP（不是 TCP）</strong>：很多云安全组 TCP&#x2F;UDP 分开选，别选错。</li>
+<li><strong>不要对公网暴露 <code>3477</code></strong>：只监听 <code>127.0.0.1</code>，由反代统一出入口。</li>
+</ul>
+<hr>
+<h2 id="1-前置准备（替换占位符）"><a href="#1-前置准备（替换占位符）" class="headerlink" title="1. 前置准备（替换占位符）"></a>1. 前置准备（替换占位符）</h2><p>把下面占位符替换成你的值：</p>
+<ul>
+<li><code>hs.example.com</code>：你的控制面域名（必须 HTTPS 可访问）</li>
+<li><code>SERVER_PUBLIC_IP</code>：服务器公网 IPv4</li>
+<li><code>REGION_CODE</code>：自建 DERP code（建议小写，例如 <code>myderp</code>）</li>
+</ul>
+<p>准备项：</p>
+<ul>
+<li>一台 Linux 服务器（有公网 IPv4）</li>
+<li>一个域名 A 记录指向 <code>SERVER_PUBLIC_IP</code></li>
+<li>已有证书（或你能自己搞定 ACME 申请；本文不展开）</li>
+<li>Nginx 或 OpenResty 已安装</li>
+</ul>
+<hr>
+<h2 id="2-安装-Headscale（二进制）"><a href="#2-安装-Headscale（二进制）" class="headerlink" title="2. 安装 Headscale（二进制）"></a>2. 安装 Headscale（二进制）</h2><p>从 <code>juanfont/headscale</code> 的 Releases 下载与你机器架构匹配的二进制：</p>
+<ul>
+<li><a href="https://github.com/juanfont/headscale/releases"><code>juanfont/headscale</code> Releases</a></li>
+</ul>
+<p>安装到 <code>/usr/local/bin/headscale</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> ./headscale /usr/local/bin/headscale</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 0755 /usr/local/bin/headscale</span><br><span class="line">/usr/local/bin/headscale version</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>小坑：如果遇到 <code>sudo headscale: command not found</code>，多半是 <code>sudo</code> 的 <code>secure_path</code> 不含 <code>/usr/local/bin</code>。本文后续统一用绝对路径：<code>sudo /usr/local/bin/headscale ...</code></p>
+</blockquote>
+<hr>
+<h2 id="3-生成必须密钥（v0-28-常见强制项）"><a href="#3-生成必须密钥（v0-28-常见强制项）" class="headerlink" title="3. 生成必须密钥（v0.28+ 常见强制项）"></a>3. 生成必须密钥（v0.28+ 常见强制项）</h2><p>创建目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/headscale /var/lib/headscale</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 700 /var/lib/headscale</span><br></pre></td></tr></table></figure>
+
+<p>生成 Noise 私钥：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale generate private-key \</span><br><span class="line">  | <span class="built_in">sudo</span> <span class="built_in">tee</span> /var/lib/headscale/noise_private.key &gt;/dev/null</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 600 /var/lib/headscale/noise_private.key</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>说明：这里用 <code>tee</code> 是为了解决“<code>sudo</code> + 重定向”权限问题（<code>sudo cmd &gt; file</code> 的重定向不在 sudo 权限里执行）。<br>另外，内容通常带 <code>privkey:</code> 前缀，别手动删，否则可能报 “expected type prefix privkey:”。</p>
+</blockquote>
+<hr>
+<h2 id="4-写入-Headscale-配置（最小可用模板）"><a href="#4-写入-Headscale-配置（最小可用模板）" class="headerlink" title="4. 写入 Headscale 配置（最小可用模板）"></a>4. 写入 Headscale 配置（最小可用模板）</h2><p>保存为：<code>/etc/headscale/config.yaml</code></p>
+<blockquote>
+<p>说明：先<strong>关闭 DNS&#x2F;MagicDNS</strong>，减少必填项耦合；跑通后再按「进阶」章节开启。</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /etc/headscale/config.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 必须替换：你的控制面公网 HTTPS 地址（反代场景也一样）</span></span><br><span class="line"><span class="attr">server_url:</span> <span class="string">&quot;https://hs.example.com&quot;</span> <span class="comment"># ← 替换为你的域名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只在本机监听，由 Nginx/OpenResty 对外提供 443</span></span><br><span class="line"><span class="attr">listen_addr:</span> <span class="string">&quot;127.0.0.1:3477&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">tls_cert_path:</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="attr">tls_key_path:</span> <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">prefixes:</span></span><br><span class="line">  <span class="attr">v4:</span> <span class="string">&quot;100.64.0.0/10&quot;</span></span><br><span class="line">  <span class="attr">v6:</span> <span class="string">&quot;fd7a:115c:a1e0::/48&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">database:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">sqlite</span></span><br><span class="line">  <span class="attr">sqlite:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">&quot;/var/lib/headscale/db.sqlite&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># v0.28+ 常见强制项：Noise 私钥</span></span><br><span class="line"><span class="attr">noise:</span></span><br><span class="line">  <span class="attr">private_key_path:</span> <span class="string">&quot;/var/lib/headscale/noise_private.key&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 先关闭 DNS 功能，避免引入 base_domain/nameservers 等额外必填项</span></span><br><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="attr">magic_dns:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">override_local_dns:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">derp:</span></span><br><span class="line">  <span class="attr">server:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># 可替换：自建 DERP 的 region 信息（便于识别/排查；避免与官方冲突即可）</span></span><br><span class="line">    <span class="attr">region_id:</span> <span class="number">901</span>                 <span class="comment"># ← 可改；只要不和官方/其他自建重复即可</span></span><br><span class="line">    <span class="attr">region_code:</span> <span class="string">&quot;REGION_CODE&quot;</span>     <span class="comment"># ← 必须替换：建议小写，例如 &quot;myderp&quot;</span></span><br><span class="line">    <span class="attr">region_name:</span> <span class="string">&quot;REGION_NAME&quot;</span>     <span class="comment"># ← 必须替换：随便取一个可读名字即可</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">private_key_path:</span> <span class="string">&quot;/var/lib/headscale/derp_server_private.key&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># STUN（UDP/3478）</span></span><br><span class="line">    <span class="attr">stun_listen_addr:</span> <span class="string">&quot;0.0.0.0:3478&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 告诉客户端 DERP 的公网入口（域名 + 公网 IPv4）</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">&quot;hs.example.com&quot;</span>     <span class="comment"># ← 必须替换：你的域名（与 server_url 一致）</span></span><br><span class="line">    <span class="attr">ipv4:</span> <span class="string">&quot;SERVER_PUBLIC_IP&quot;</span>       <span class="comment"># ← 必须替换：服务器公网 IPv4</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更安全：只允许你 tailnet 的节点使用这个 DERP</span></span><br><span class="line">    <span class="attr">verify_clients:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">automatically_add_embedded_derp_region:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 建议保留官方 DERP 兜底（否则单点）</span></span><br><span class="line">  <span class="attr">urls:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;https://controlplane.tailscale.com/derpmap/default&quot;</span></span><br><span class="line">  <span class="attr">paths:</span> []</span><br><span class="line"></span><br><span class="line"><span class="attr">log:</span></span><br><span class="line">  <span class="attr">level:</span> <span class="string">&quot;info&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置校验（必须过）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale configtest -c /etc/headscale/config.yaml</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-systemd-启动-Headscale"><a href="#5-systemd-启动-Headscale" class="headerlink" title="5. systemd 启动 Headscale"></a>5. systemd 启动 Headscale</h2><p>创建：<code>/etc/systemd/system/headscale.service</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Headscale</span><br><span class="line"><span class="attr">After</span>=network-<span class="literal">on</span>line.target</span><br><span class="line"><span class="attr">Wants</span>=network-<span class="literal">on</span>line.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/local/bin/headscale serve -c /etc/headscale/config.yaml</span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">3</span></span><br><span class="line"><span class="attr">LimitNOFILE</span>=<span class="number">1048576</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>启动并自启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now headscale</span><br><span class="line"><span class="built_in">sudo</span> systemctl status headscale --no-pager</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>生产提示：为简单起见，上面未指定 <code>User=</code>&#x2F;<code>Group=</code>，默认 root 运行。生产环境建议创建专用用户（如 <code>headscale</code>）并收紧 <code>/var/lib/headscale</code> 权限后再以非 root 运行。</p>
+</blockquote>
+<hr>
+<h2 id="6-Nginx-OpenResty-反代（关键是-Upgrade-长连接）"><a href="#6-Nginx-OpenResty-反代（关键是-Upgrade-长连接）" class="headerlink" title="6. Nginx&#x2F;OpenResty 反代（关键是 Upgrade + 长连接）"></a>6. Nginx&#x2F;OpenResty 反代（关键是 Upgrade + 长连接）</h2><p>示例：<code>/etc/nginx/conf.d/headscale.conf</code></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">map</span> <span class="variable">$http_upgrade</span> <span class="variable">$connection_upgrade</span> &#123;</span><br><span class="line">  <span class="attribute">default</span> upgrade;</span><br><span class="line">  &#x27;&#x27;      close;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">  <span class="attribute">http2</span> <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">server_name</span> hs.example.com;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">ssl_certificate</span>     /path/to/fullchain.pem;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /path/to/privkey.pem;</span><br><span class="line"></span><br><span class="line">  <span class="section">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://127.0.0.1:3477;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host              <span class="variable">$host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP         <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For   <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-Proto https;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># DERP/控制面都可能需要 Upgrade（保险起见全站都保留）</span></span><br><span class="line">    <span class="attribute">proxy_set_header</span> Upgrade    <span class="variable">$http_upgrade</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">proxy_read_timeout</span>  <span class="number">3600s</span>;</span><br><span class="line">    <span class="attribute">proxy_send_timeout</span>  <span class="number">3600s</span>;</span><br><span class="line">    <span class="attribute">proxy_buffering</span> <span class="literal">off</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>检查并重载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nginx -t</span><br><span class="line"><span class="built_in">sudo</span> systemctl reload nginx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="7-创建用户-客户端接入"><a href="#7-创建用户-客户端接入" class="headerlink" title="7. 创建用户 + 客户端接入"></a>7. 创建用户 + 客户端接入</h2><p>先说明一下什么是“用户（user）”：</p>
+<ul>
+<li>Headscale 的 <strong>user</strong> 不是登录账号&#x2F;密码体系，而是一个<strong>命名空间&#x2F;分组</strong>：把一批设备（nodes）归到同一个用户下面，便于管理与发放入网 key。</li>
+<li><strong>个人&#x2F;小团队最常见</strong>：只建 1 个 user，然后所有设备都加入这个 user。</li>
+<li><code>tailnet-user</code> 只是示例名，你可以改成自己的（例如 <code>alice</code> &#x2F; <code>team-a</code>）。</li>
+</ul>
+<p>创建用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个 user（示例名：tailnet-user）</span></span><br><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale <span class="built_in">users</span> create tailnet-user</span><br><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale <span class="built_in">users</span> list</span><br></pre></td></tr></table></figure>
+
+<p>生成 preauth key（优先用用户名；旧版本不支持再用数字 ID）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 优先：直接用用户名</span></span><br><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale preauthkeys create -u tailnet-user --reusable --expiration 24h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 兜底：用 users list 里的 USER_ID</span></span><br><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale preauthkeys create -u USER_ID --reusable --expiration 24h</span><br></pre></td></tr></table></figure>
+
+<p>客户端加入（Linux 示例）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up \</span><br><span class="line">  --reset \</span><br><span class="line">  --login-server https://hs.example.com \</span><br><span class="line">  --authkey hskey-auth-xxxxxxxxxxxxxxxx \</span><br><span class="line">  --accept-dns=<span class="literal">false</span> \</span><br><span class="line">  --accept-routes</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>后续新增设备：重复本节“生成 key → 客户端 tailscale up”即可。</p>
+</blockquote>
+<hr>
+<h2 id="8-验收清单（所有检查统一在这里做）"><a href="#8-验收清单（所有检查统一在这里做）" class="headerlink" title="8. 验收清单（所有检查统一在这里做）"></a>8. 验收清单（所有检查统一在这里做）</h2><h3 id="8-1-服务器侧"><a href="#8-1-服务器侧" class="headerlink" title="8.1 服务器侧"></a>8.1 服务器侧</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale configtest -c /etc/headscale/config.yaml</span><br><span class="line">systemctl status headscale --no-pager</span><br><span class="line"><span class="built_in">sudo</span> ss -lntp | egrep <span class="string">&#x27;:443|:3477&#x27;</span></span><br><span class="line"><span class="built_in">sudo</span> ss -ulnp | egrep <span class="string">&#x27;:3478&#x27;</span></span><br><span class="line">curl -i https://hs.example.com/derp</span><br><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale nodes list</span><br></pre></td></tr></table></figure>
+
+<p>看到 <code>curl -i https://hs.example.com/derp</code> 返回 <code>426</code> 且包含 <code>DERP requires connection upgrade</code>：<strong>正常</strong>（代表路由打通）。</p>
+<h3 id="8-2-客户端侧（最重要）"><a href="#8-2-客户端侧（最重要）" class="headerlink" title="8.2 客户端侧（最重要）"></a>8.2 客户端侧（最重要）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tailscale status</span><br><span class="line">tailscale ping &lt;peer_100.64.x.x&gt;</span><br><span class="line">tailscale netcheck</span><br></pre></td></tr></table></figure>
+
+<p><code>tailscale status</code> 速记：</p>
+<ul>
+<li><code>relay</code> &#x2F; <code>via DERP(...)</code>：走 DERP 中继（慢一些，但能通）</li>
+<li><code>direct</code>：P2P 打洞成功（更快、更稳定）</li>
+</ul>
+<hr>
+<h2 id="9-常见疑难杂症（只保留“现象级”问题）"><a href="#9-常见疑难杂症（只保留“现象级”问题）" class="headerlink" title="9. 常见疑难杂症（只保留“现象级”问题）"></a>9. 常见疑难杂症（只保留“现象级”问题）</h2><h3 id="Q1：一直走很远的-DERP（例如-DERP-nue-），不走自己的-REGION-CODE"><a href="#Q1：一直走很远的-DERP（例如-DERP-nue-），不走自己的-REGION-CODE" class="headerlink" title="Q1：一直走很远的 DERP（例如 DERP(nue)），不走自己的 REGION_CODE"></a>Q1：一直走很远的 DERP（例如 <code>DERP(nue)</code>），不走自己的 <code>REGION_CODE</code></h3><p>优先用裁判命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tailscale netcheck</span><br></pre></td></tr></table></figure>
+
+<p>常见原因：</p>
+<ul>
+<li><code>derp.server.hostname/ipv4</code> 没配全或配错</li>
+<li>客户端被代理影响（<code>netcheck</code> 会出现 <code>tshttpproxy: using proxy ...</code>）</li>
+</ul>
+<h3 id="Q2：客户端日志出现-dial-tcp4-SERVER-PUBLIC-IP-3477-i-o-timeout"><a href="#Q2：客户端日志出现-dial-tcp4-SERVER-PUBLIC-IP-3477-i-o-timeout" class="headerlink" title="Q2：客户端日志出现 dial tcp4 SERVER_PUBLIC_IP:3477: i/o timeout"></a>Q2：客户端日志出现 <code>dial tcp4 SERVER_PUBLIC_IP:3477: i/o timeout</code></h3><p>典型“反代场景端口混淆”：</p>
+<ul>
+<li>客户端误以为 DERP 对外端口是 3477</li>
+<li>但 3477 只在本机回环监听，公网必超时</li>
+</ul>
+<p>根治：确保 <code>server_url</code> 是 <code>https://hs.example.com</code>，并在 <code>derp.server</code> 明确：</p>
+<ul>
+<li><code>hostname: hs.example.com</code></li>
+<li><code>ipv4: SERVER_PUBLIC_IP</code></li>
+</ul>
+<h3 id="Q3：macOS-节点名变成-invalid-xxxxx"><a href="#Q3：macOS-节点名变成-invalid-xxxxx" class="headerlink" title="Q3：macOS 节点名变成 invalid-xxxxx"></a>Q3：macOS 节点名变成 <code>invalid-xxxxx</code></h3><p>Headscale 对 hostname 限制严格（小写字母&#x2F;数字&#x2F;<code>-</code>&#x2F;<code>.</code>）。macOS 设备名带中文&#x2F;空格等会被拒绝。</p>
+<p>修复：在服务器端用 <code>headscale nodes rename</code> 改“显示名”（需要节点 ID；先用 <code>headscale nodes list</code> 查到 ID 即可）。示例（一步）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale nodes rename -i &lt;node-id&gt; mac-home</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q4：tailscale-debug-derp-REGION-CODE-里-IPv6-报错，但-IPv4-OK"><a href="#Q4：tailscale-debug-derp-REGION-CODE-里-IPv6-报错，但-IPv4-OK" class="headerlink" title="Q4：tailscale debug derp REGION_CODE 里 IPv6 报错，但 IPv4 OK"></a>Q4：<code>tailscale debug derp REGION_CODE</code> 里 IPv6 报错，但 IPv4 OK</h3><p>域名只有 A 记录、无 AAAA 且服务器无公网 IPv6 时属于正常探测失败；只要实际 <code>tailscale ping</code> 正常即可忽略。</p>
+<hr>
+<h2 id="10-进阶（可选）：MagicDNS-Split-DNS-Subnet-Router"><a href="#10-进阶（可选）：MagicDNS-Split-DNS-Subnet-Router" class="headerlink" title="10. 进阶（可选）：MagicDNS &#x2F; Split DNS &#x2F; Subnet Router"></a>10. 进阶（可选）：MagicDNS &#x2F; Split DNS &#x2F; Subnet Router</h2><h3 id="10-1-MagicDNS：用机器名互访"><a href="#10-1-MagicDNS：用机器名互访" class="headerlink" title="10.1 MagicDNS：用机器名互访"></a>10.1 MagicDNS：用机器名互访</h3><p>开启 MagicDNS 时 <strong>必须配置 <code>base_domain</code></strong>，并且建议显式设置 <code>nameservers.global</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="attr">magic_dns:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">base_domain:</span> <span class="string">tailnet.internal</span></span><br><span class="line">  <span class="attr">override_local_dns:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">nameservers:</span></span><br><span class="line">    <span class="attr">global:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">      <span class="comment"># 国内服务器如遇解析超时/阻断，可替换为：</span></span><br><span class="line">      <span class="comment"># - 223.5.5.5     # 阿里 DNS</span></span><br><span class="line">      <span class="comment"># - 119.29.29.29  # 腾讯 DNS</span></span><br></pre></td></tr></table></figure>
+
+<p>客户端侧需要接收 DNS 下发：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up --accept-dns=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="10-2-Split-DNS：只分流特定后缀到公司-DNS"><a href="#10-2-Split-DNS：只分流特定后缀到公司-DNS" class="headerlink" title="10.2 Split DNS：只分流特定后缀到公司 DNS"></a>10.2 Split DNS：只分流特定后缀到公司 DNS</h3><p>模板（示例）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="attr">magic_dns:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">base_domain:</span> <span class="string">tailnet.internal</span></span><br><span class="line">  <span class="attr">override_local_dns:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">nameservers:</span></span><br><span class="line">    <span class="attr">global:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">    <span class="attr">split:</span></span><br><span class="line">      <span class="attr">company.local:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">COMPANY_DNS_IP</span></span><br></pre></td></tr></table></figure>
+
+<p>关键前提：如果 <code>COMPANY_DNS_IP</code> 在公司内网网段里，你在家里必须先通过 Subnet Router 把这个网段路由进 Tailnet，否则会出现“DNS 服务器不可达”。</p>
+<h3 id="10-3-Subnet-Router：把公司内网网段“桥接进-Tailnet”"><a href="#10-3-Subnet-Router：把公司内网网段“桥接进-Tailnet”" class="headerlink" title="10.3 Subnet Router：把公司内网网段“桥接进 Tailnet”"></a>10.3 Subnet Router：把公司内网网段“桥接进 Tailnet”</h3><p>在公司内网找一台长期在线且已入网的机器，执行（示例网段）：</p>
+<blockquote>
+<p>关键步骤：开启内核 IP 转发（Subnet Router 必须）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.ip_forward = 1&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/sysctl.d/99-tailscale.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv6.conf.all.forwarding = 1&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/sysctl.d/99-tailscale.conf</span><br><span class="line"><span class="built_in">sudo</span> sysctl -p /etc/sysctl.d/99-tailscale.conf</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up \</span><br><span class="line">  --advertise-routes=192.168.10.0/24 \</span><br><span class="line">  --accept-dns=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>在 headscale 上批准路由：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale routes list</span><br><span class="line"><span class="built_in">sudo</span> /usr/local/bin/headscale routes <span class="built_in">enable</span> -r &lt;route-id&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在家里的机器上接收路由：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tailscale up --accept-routes</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div class="article-license">
+    <!-- 
+    <a rel="license" style="text-decoration: none;" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    <br/> 
+    -->
+    本站采用「<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">署名 4.0 国际</a>」进行许可。
+</div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E6%9E%B6%E6%9E%84%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%A7%84%E5%88%92%EF%BC%88%E5%85%88%E6%8A%8A%E7%AB%AF%E5%8F%A3%E5%AE%9A%E6%AD%BB%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">0. 架构与端口规划（先把端口定死）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87%EF%BC%88%E6%9B%BF%E6%8D%A2%E5%8D%A0%E4%BD%8D%E7%AC%A6%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">1. 前置准备（替换占位符）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Headscale%EF%BC%88%E4%BA%8C%E8%BF%9B%E5%88%B6%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">2. 安装 Headscale（二进制）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%94%9F%E6%88%90%E5%BF%85%E9%A1%BB%E5%AF%86%E9%92%A5%EF%BC%88v0-28-%E5%B8%B8%E8%A7%81%E5%BC%BA%E5%88%B6%E9%A1%B9%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">3. 生成必须密钥（v0.28+ 常见强制项）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%86%99%E5%85%A5-Headscale-%E9%85%8D%E7%BD%AE%EF%BC%88%E6%9C%80%E5%B0%8F%E5%8F%AF%E7%94%A8%E6%A8%A1%E6%9D%BF%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">4. 写入 Headscale 配置（最小可用模板）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-systemd-%E5%90%AF%E5%8A%A8-Headscale"><span class="toc-number">6.</span> <span class="toc-text">5. systemd 启动 Headscale</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Nginx-OpenResty-%E5%8F%8D%E4%BB%A3%EF%BC%88%E5%85%B3%E9%94%AE%E6%98%AF-Upgrade-%E9%95%BF%E8%BF%9E%E6%8E%A5%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">6. Nginx&#x2F;OpenResty 反代（关键是 Upgrade + 长连接）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E5%85%A5"><span class="toc-number">8.</span> <span class="toc-text">7. 创建用户 + 客户端接入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95%EF%BC%88%E6%89%80%E6%9C%89%E6%A3%80%E6%9F%A5%E7%BB%9F%E4%B8%80%E5%9C%A8%E8%BF%99%E9%87%8C%E5%81%9A%EF%BC%89"><span class="toc-number">9.</span> <span class="toc-text">8. 验收清单（所有检查统一在这里做）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BE%A7"><span class="toc-number">9.1.</span> <span class="toc-text">8.1 服务器侧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BE%A7%EF%BC%88%E6%9C%80%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">9.2.</span> <span class="toc-text">8.2 客户端侧（最重要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%B8%B8%E8%A7%81%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87%EF%BC%88%E5%8F%AA%E4%BF%9D%E7%95%99%E2%80%9C%E7%8E%B0%E8%B1%A1%E7%BA%A7%E2%80%9D%E9%97%AE%E9%A2%98%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">9. 常见疑难杂症（只保留“现象级”问题）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Q1%EF%BC%9A%E4%B8%80%E7%9B%B4%E8%B5%B0%E5%BE%88%E8%BF%9C%E7%9A%84-DERP%EF%BC%88%E4%BE%8B%E5%A6%82-DERP-nue-%EF%BC%89%EF%BC%8C%E4%B8%8D%E8%B5%B0%E8%87%AA%E5%B7%B1%E7%9A%84-REGION-CODE"><span class="toc-number">10.1.</span> <span class="toc-text">Q1：一直走很远的 DERP（例如 DERP(nue)），不走自己的 REGION_CODE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q2%EF%BC%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%97%A5%E5%BF%97%E5%87%BA%E7%8E%B0-dial-tcp4-SERVER-PUBLIC-IP-3477-i-o-timeout"><span class="toc-number">10.2.</span> <span class="toc-text">Q2：客户端日志出现 dial tcp4 SERVER_PUBLIC_IP:3477: i&#x2F;o timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q3%EF%BC%9AmacOS-%E8%8A%82%E7%82%B9%E5%90%8D%E5%8F%98%E6%88%90-invalid-xxxxx"><span class="toc-number">10.3.</span> <span class="toc-text">Q3：macOS 节点名变成 invalid-xxxxx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q4%EF%BC%9Atailscale-debug-derp-REGION-CODE-%E9%87%8C-IPv6-%E6%8A%A5%E9%94%99%EF%BC%8C%E4%BD%86-IPv4-OK"><span class="toc-number">10.4.</span> <span class="toc-text">Q4：tailscale debug derp REGION_CODE 里 IPv6 报错，但 IPv4 OK</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E8%BF%9B%E9%98%B6%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%EF%BC%9AMagicDNS-Split-DNS-Subnet-Router"><span class="toc-number">11.</span> <span class="toc-text">10. 进阶（可选）：MagicDNS &#x2F; Split DNS &#x2F; Subnet Router</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-MagicDNS%EF%BC%9A%E7%94%A8%E6%9C%BA%E5%99%A8%E5%90%8D%E4%BA%92%E8%AE%BF"><span class="toc-number">11.1.</span> <span class="toc-text">10.1 MagicDNS：用机器名互访</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-Split-DNS%EF%BC%9A%E5%8F%AA%E5%88%86%E6%B5%81%E7%89%B9%E5%AE%9A%E5%90%8E%E7%BC%80%E5%88%B0%E5%85%AC%E5%8F%B8-DNS"><span class="toc-number">11.2.</span> <span class="toc-text">10.2 Split DNS：只分流特定后缀到公司 DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-Subnet-Router%EF%BC%9A%E6%8A%8A%E5%85%AC%E5%8F%B8%E5%86%85%E7%BD%91%E7%BD%91%E6%AE%B5%E2%80%9C%E6%A1%A5%E6%8E%A5%E8%BF%9B-Tailnet%E2%80%9D"><span class="toc-number">11.3.</span> <span class="toc-text">10.3 Subnet Router：把公司内网网段“桥接进 Tailnet”</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="mailto:?subject=Headscale 极简部署指南&body=Check out this article: https://kekek.cc/post/deploy-headscale.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://kekek.cc/post/deploy-headscale.html&title=Headscale 极简部署指南"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 <span class="heart"></span> tyk <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17056993号-1</a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<!-- 
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+ -->
+<!-- 
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+ -->
+<link href="//lib.baomitu.com/font-awesome/5.0.8/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+<link href="//lib.baomitu.com/justifiedGallery/3.6.5/css/justifiedGallery.min.css" rel="stylesheet">
+
+<!-- jquery -->
+<!-- 
+<script src="/lib/jquery/jquery.min.js"></script>
+ -->
+<!-- 
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+ -->
+<script src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//lib.baomitu.com/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-110681544-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?eb3776b1457fd82ea128e578d4ca32a7";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'keke-site';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
